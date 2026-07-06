@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { ElectraCoreLogoMark } from "./components/Logo";
 
 const NAV_LINKS = [
   { label: "Calculate", href: "/calculate" },
@@ -47,6 +48,12 @@ const FEATURES = [
   },
 ];
 
+const TESTIMONIALS_EC = [
+  { text:"I used to calculate voltage drop on a scrap of paper on the van dashboard. Now I do it in 10 seconds before I even cut the cable. That's the difference between a professional tool and a guess.", name:"Liam Okeke", role:"Domestic electrician, 9 years", init:"LO" },
+  { text:"The wiring guides are written by someone who's actually done the job — not a textbook author. The colour code references alone saved me two call-backs in my first month using it.", name:"Ruth Anderssen", role:"Second-year electrical apprentice", init:"RA" },
+  { text:"Our students use ElectraCore for every calculation exercise now. It shows the working, which is exactly what an exam marker wants to see. I don't know why we didn't have this sooner.", name:"James Mwangi", role:"Electrical instructor, TVET", init:"JM" },
+];
+
 const WHO = [
   { role: "Students", desc: "Learn circuit theory, pass exams, and build real understanding with worked examples and calculators that show their working." },
   { role: "Apprentices", desc: "Solve real on-site problems, look up colour codes and termination methods, and build skills between sign-offs." },
@@ -77,7 +84,7 @@ export default function HomePage() {
       {/* NAV */}
       <nav className="nav">
         <Link href="/" className="nav-logo">
-          <div className="nav-logo-mark">E</div>
+          <ElectraCoreLogoMark size={32} />
           <span className="nav-logo-text">ElectraCore</span>
         </Link>
         <div className="nav-links">
@@ -196,6 +203,29 @@ export default function HomePage() {
             >
               Explore →
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section style={{ background: "var(--bg)", padding: "5rem 1.5rem", borderTop: "1px solid var(--border)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <p className="section-label reveal" ref={addReveal}>From the trade</p>
+          <h2 className="section-title reveal" ref={addReveal}>People who use it on the job.</h2>
+          <div className="ec-testi-grid">
+            {TESTIMONIALS_EC.map((t, i) => (
+              <div key={i} className="ec-testi-card reveal" ref={addReveal} style={{ transitionDelay: `${i * 0.08}s` }}>
+                <div className="ec-testi-top" />
+                <p className="ec-testi-text">&ldquo;{t.text}&rdquo;</p>
+                <div className="ec-testi-author">
+                  <div className="ec-testi-avatar">{t.init}</div>
+                  <div>
+                    <div className="ec-testi-name">{t.name}</div>
+                    <div className="ec-testi-role">{t.role}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
