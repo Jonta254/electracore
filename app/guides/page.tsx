@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { ElectraCoreLogoMark } from "../components/Logo";
 
 const CATEGORIES = ["All", "Wiring", "Safety", "Testing", "Calculations", "Standards"];
 
@@ -95,7 +96,7 @@ export default function GuidesPage() {
     <>
       <nav className="nav">
         <Link href="/" className="nav-logo">
-          <div className="nav-logo-mark">E</div>
+          <ElectraCoreLogoMark size={32} />
           <span className="nav-logo-text">ElectraCore</span>
         </Link>
         <div className="nav-links">

@@ -1,6 +1,7 @@
 "use client";
 import { useState, useCallback } from "react";
 import Link from "next/link";
+import { ElectraCoreLogoMark } from "../components/Logo";
 
 type CalcResult = { value: string; unit: string; note?: string } | null;
 
@@ -229,7 +230,7 @@ export default function CalculatePage() {
     <>
       <nav className="nav">
         <Link href="/" className="nav-logo">
-          <div className="nav-logo-mark">E</div>
+          <ElectraCoreLogoMark size={32} />
           <span className="nav-logo-text">ElectraCore</span>
         </Link>
         <div className="nav-links">
