@@ -99,7 +99,7 @@ export default function HomePage() {
       <section className="hero">
         <div className="hero-glow" />
         <div className="hero-badge">
-          <span>⚡</span> Built by an Electrician · 8 Years on the Tools
+          <span>⚡</span> Built by an Electrician · 1 Year on Site
         </div>
         <h1 className="hero-title">
           Every <span className="accent">electrical</span> tool<br />
