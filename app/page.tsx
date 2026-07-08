@@ -65,6 +65,7 @@ const WHO = [
 export default function HomePage() {
   const revealRefs = useRef<HTMLElement[]>([]);
   const [activeWho, setActiveWho] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -81,6 +82,11 @@ export default function HomePage() {
 
   return (
     <>
+      {/* FLOATING CTA */}
+      <a href="/calculate" className="float-cta" aria-label="Open calculators">
+        ⚡ Open Calculators
+      </a>
+
       {/* NAV */}
       <nav className="nav">
         <Link href="/" className="nav-logo">
@@ -93,7 +99,27 @@ export default function HomePage() {
           ))}
         </div>
         <Link href="/calculate" className="nav-cta">Open Calculator</Link>
+        <button
+          className="nav-hamburger"
+          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+          onClick={() => setMenuOpen(m => !m)}
+          aria-label="Menu"
+        >
+          <span style={{ display: "block", width: 22, height: 2, background: "#F2F0FC", borderRadius: 2 }} />
+          <span style={{ display: "block", width: 22, height: 2, background: "#F2F0FC", borderRadius: 2 }} />
+          <span style={{ display: "block", width: 22, height: 2, background: "#F2F0FC", borderRadius: 2 }} />
+        </button>
       </nav>
+
+      {/* MOBILE NAV OVERLAY */}
+      {menuOpen && (
+        <div style={{ position: "fixed", inset: 0, top: 64, zIndex: 800, background: "rgba(7,8,16,0.97)", backdropFilter: "blur(20px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "2rem", padding: "2rem" }}>
+          {NAV_LINKS.map((l) => (
+            <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{ fontFamily: "inherit", fontSize: "2rem", fontWeight: 800, letterSpacing: "0.08em", color: "#F2F0FC", textDecoration: "none" }}>{l.label}</a>
+          ))}
+          <a href="/calculate" onClick={() => setMenuOpen(false)} style={{ background: "linear-gradient(135deg,#D4A843,#FFD700)", color: "#07080F", fontFamily: "inherit", fontWeight: 800, fontSize: "1rem", letterSpacing: "0.12em", textTransform: "uppercase", padding: "1rem 2.5rem", borderRadius: 12, textDecoration: "none", marginTop: "0.5rem" }}>Open Calculators →</a>
+        </div>
+      )}
 
       {/* HERO */}
       <section className="hero">
