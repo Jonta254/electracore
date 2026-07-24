@@ -48,10 +48,19 @@ const FEATURES = [
   },
 ];
 
-const TESTIMONIALS_EC = [
-  { text:"I used to calculate voltage drop on a scrap of paper on the van dashboard. Now I do it in 10 seconds before I even cut the cable. That's the difference between a professional tool and a guess.", name:"Liam Okeke", role:"Domestic electrician, 9 years", init:"LO" },
-  { text:"The wiring guides are written by someone who's actually done the job — not a textbook author. The colour code references alone saved me two call-backs in my first month using it.", name:"Ruth Anderssen", role:"Second-year electrical apprentice", init:"RA" },
-  { text:"Our students use ElectraCore for every calculation exercise now. It shows the working, which is exactly what an exam marker wants to see. I don't know why we didn't have this sooner.", name:"James Mwangi", role:"Electrical instructor, TVET", init:"JM" },
+const METHOD = [
+  {
+    title: "Standard formulas, shown",
+    desc: "Ohm's law, P = V·I, resistive networks, and cross-sectional sizing from conductor resistivity. Every calculator displays the equation it used — nothing is hidden or silently approximated.",
+  },
+  {
+    title: "Limits flagged, not assumed",
+    desc: "Voltage-drop results highlight the common 3% guideline. Always confirm the exact limit for your circuit type and standard — BS 7671, NEC, or the regulations that apply where you work.",
+  },
+  {
+    title: "An aid, not a substitute",
+    desc: "ElectraCore supports your working; it doesn't replace a qualified design or inspection. Verify every result against the wiring regulations for your installation before you rely on it.",
+  },
 ];
 
 const WHO = [
@@ -140,16 +149,16 @@ export default function HomePage() {
         </div>
         <div className="hero-stats">
           <div className="hero-stat">
-            <span className="hero-stat-num">12+</span>
+            <span className="hero-stat-num">8</span>
             <span className="hero-stat-label">Calculators</span>
           </div>
           <div className="hero-stat">
-            <span className="hero-stat-num">80+</span>
+            <span className="hero-stat-num">15</span>
             <span className="hero-stat-label">Wiring Guides</span>
           </div>
           <div className="hero-stat">
-            <span className="hero-stat-num">5</span>
-            <span className="hero-stat-label">Learning Paths</span>
+            <span className="hero-stat-num">9</span>
+            <span className="hero-stat-label">Courses</span>
           </div>
           <div className="hero-stat">
             <span className="hero-stat-num">Free</span>
@@ -164,7 +173,7 @@ export default function HomePage() {
           <p className="section-label" ref={addReveal}>Platform</p>
           <h2 className="section-title reveal" ref={addReveal}>Everything the job demands.</h2>
           <p className="section-sub reveal" ref={addReveal}>
-            Not a textbook. Not a single-purpose app. A full platform built from eight years of real on-site work.
+            Not a textbook. Not a single-purpose app. A full platform built from real, on-site work.
           </p>
           <div className="feature-grid">
             {FEATURES.map((f, i) => (
@@ -233,23 +242,20 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
+      {/* ACCURACY & METHOD */}
       <section style={{ background: "var(--bg)", padding: "5rem 1.5rem", borderTop: "1px solid var(--border)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <p className="section-label reveal" ref={addReveal}>From the trade</p>
-          <h2 className="section-title reveal" ref={addReveal}>People who use it on the job.</h2>
-          <div className="ec-testi-grid">
-            {TESTIMONIALS_EC.map((t, i) => (
-              <div key={i} className="ec-testi-card reveal" ref={addReveal} style={{ transitionDelay: `${i * 0.08}s` }}>
+          <p className="section-label reveal" ref={addReveal}>Accuracy &amp; method</p>
+          <h2 className="section-title reveal" ref={addReveal}>Calculations you can check.</h2>
+          <p className="section-sub reveal" ref={addReveal}>
+            A professional tool earns trust by showing its working — not by hiding it. Here is exactly how ElectraCore treats every result.
+          </p>
+          <div className="feature-grid">
+            {METHOD.map((m, i) => (
+              <div key={i} className="feature-card reveal" ref={addReveal} style={{ transitionDelay: `${i * 0.08}s` }}>
                 <div className="ec-testi-top" />
-                <p className="ec-testi-text">&ldquo;{t.text}&rdquo;</p>
-                <div className="ec-testi-author">
-                  <div className="ec-testi-avatar">{t.init}</div>
-                  <div>
-                    <div className="ec-testi-name">{t.name}</div>
-                    <div className="ec-testi-role">{t.role}</div>
-                  </div>
-                </div>
+                <div className="feature-title" style={{ marginBottom: "0.5rem" }}>{m.title}</div>
+                <div className="feature-desc">{m.desc}</div>
               </div>
             ))}
           </div>
@@ -287,7 +293,7 @@ export default function HomePage() {
             },
             {
               tier: "Pro", amount: "$15", period: "/mo", desc: "For serious students and working electricians.",
-              features: ["All 12+ calculators", "Full guide library (80+ guides)", "Structured learning paths", "Calculation history & save", "PDF export"],
+              features: ["All 8 calculators", "Full guide library (15 guides)", "9 structured courses", "Calculation history & save", "PDF export"],
               cta: "Start Pro", href: "/calculate", featured: true,
             },
             {

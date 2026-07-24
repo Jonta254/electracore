@@ -445,8 +445,6 @@ const COURSES = [
     category: "Theory",
     modules: 8,
     hours: 6,
-    students: 4820,
-    rating: 4.9,
     desc: "Voltage, current, resistance, Ohm's Law, power, energy, and circuit theory from first principles. The foundation everything else is built on.",
     topics: ["Atoms & electrons", "Ohm's Law", "Series & parallel", "Kirchhoff's laws", "AC vs DC", "Power & energy", "Capacitors & inductors", "Measurements"],
   },
@@ -459,8 +457,6 @@ const COURSES = [
     category: "Installation",
     modules: 10,
     hours: 8,
-    students: 3610,
-    rating: 4.8,
     desc: "Fixed wiring for houses and apartments. Ring circuits, radials, lighting, earthing, and consumer unit design — with real installation diagrams.",
     topics: ["Consumer units", "Ring circuits", "Radial circuits", "Lighting circuits", "Earthing", "Bonding", "Switch & socket wiring", "Fault finding"],
   },
@@ -473,8 +469,6 @@ const COURSES = [
     category: "Protection",
     modules: 7,
     hours: 5,
-    students: 2240,
-    rating: 4.7,
     desc: "Overcurrent protection, RCDs, fault loop impedance, and discrimination between devices. Understand why a circuit trips — before it does.",
     topics: ["Fuses vs MCBs vs RCBOs", "Fault loop impedance", "Prospective fault current", "RCD tripping times", "Selectivity", "AFDD", "Testing methods"],
   },
@@ -487,8 +481,6 @@ const COURSES = [
     category: "Power Systems",
     modules: 9,
     hours: 7,
-    students: 1870,
-    rating: 4.8,
     desc: "Star and delta connections, balanced and unbalanced loads, motors, power factor, and three-phase distribution from substation to load.",
     topics: ["Star & delta", "Line vs phase V/I", "Balanced loads", "Three-phase motors", "Star-delta starters", "Power factor", "Metering"],
   },
@@ -501,8 +493,6 @@ const COURSES = [
     category: "Design",
     modules: 6,
     hours: 5,
-    students: 1550,
-    rating: 4.9,
     desc: "Current-carrying capacity, derating factors, voltage drop calculations, and installation methods for every cable type from twin-and-earth to SWA.",
     topics: ["CCC tables", "Thermal derating", "Grouping factors", "Voltage drop", "Installation methods", "Armoured cables", "Busbar sizing"],
   },
@@ -515,8 +505,6 @@ const COURSES = [
     category: "Renewables",
     modules: 8,
     hours: 6,
-    students: 2100,
-    rating: 4.8,
     desc: "PV system design, inverter selection, grid connection, battery storage, and export tariffs. The complete picture for solar installation work.",
     topics: ["PV cell theory", "Panel orientation", "Inverter types", "String sizing", "Battery storage", "Grid connection", "Export & metering", "G98/G99"],
   },
@@ -529,8 +517,6 @@ const COURSES = [
     category: "Industrial",
     modules: 10,
     hours: 9,
-    students: 980,
-    rating: 4.7,
     desc: "Motor starters, contactors, overloads, PLC ladder logic, and industrial panel design. For electricians moving into commercial and industrial work.",
     topics: ["DOL & star-delta", "Contactors & overloads", "Control circuits", "PLC basics", "Ladder logic", "SCADA intro", "Panel layout", "Safe isolation"],
   },
@@ -543,8 +529,6 @@ const COURSES = [
     category: "Testing",
     modules: 8,
     hours: 7,
-    students: 1340,
-    rating: 4.9,
     desc: "Initial verification and periodic inspection procedures. Every test, every limit, every form — from insulation resistance to RCD tripping time.",
     topics: ["Continuity", "Insulation resistance", "Polarity", "Earth fault loop Zs", "RCD testing", "PFC testing", "EICRs", "Schedule of items"],
   },
@@ -557,8 +541,6 @@ const COURSES = [
     category: "Technology",
     modules: 5,
     hours: 3,
-    students: 2680,
-    rating: 4.6,
     desc: "LED technology, driver circuits, emergency lighting, lux calculations, and controls from simple switching to DALI and smart systems.",
     topics: ["LED physics", "Driver types", "Emergency lighting", "Lux calculations", "Dimming controls", "DALI basics", "Smart systems", "Colour rendering"],
   },
@@ -566,17 +548,6 @@ const COURSES = [
 
 const LEVELS = ["All", "Beginner", "Intermediate", "Advanced"] as const;
 const CATS = ["All", "Theory", "Installation", "Protection", "Power Systems", "Design", "Renewables", "Industrial", "Testing", "Technology"];
-
-function StarRating({ r }: { r: number }) {
-  return (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 3 }}>
-      {"★★★★★".split("").map((s, i) => (
-        <span key={i} style={{ color: i < Math.floor(r) ? "#F0A500" : "rgba(255,255,255,0.18)", fontSize: "0.7rem" }}>★</span>
-      ))}
-      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.7rem", color: "#F0A500", marginLeft: 2 }}>{r.toFixed(1)}</span>
-    </span>
-  );
-}
 
 export default function LearnPage() {
   const [levelFilter, setLevelFilter] = useState<typeof LEVELS[number]>("All");
@@ -598,8 +569,8 @@ export default function LearnPage() {
     return matchLevel && matchCat && matchSearch;
   });
 
-  const totalStudents = COURSES.reduce((a, c) => a + c.students, 0);
   const totalHours = COURSES.reduce((a, c) => a + c.hours, 0);
+  const totalTopics = COURSES.reduce((a, c) => a + c.topics.length, 0);
 
   return (
     <>
@@ -636,9 +607,9 @@ export default function LearnPage() {
             <div className="learn-hero-stats">
               {[
                 { n: COURSES.length, label: "Courses" },
-                { n: COURSES.reduce((a,c)=>a+c.modules,0)+"+", label: "Modules" },
+                { n: COURSES.reduce((a,c)=>a+c.modules,0), label: "Modules" },
                 { n: `${totalHours}h`, label: "Content" },
-                { n: `${(totalStudents/1000).toFixed(1)}k`, label: "Students" },
+                { n: totalTopics, label: "Topics" },
               ].map(s => (
                 <div key={s.label} className="learn-stat">
                   <div className="learn-stat-num">{s.n}</div>
@@ -714,10 +685,10 @@ export default function LearnPage() {
                       <div className="course-meta">
                         <span>📚 {course.modules} modules</span>
                         <span>⏱ {course.hours}h</span>
-                        <span>👥 {course.students.toLocaleString()}</span>
+                        <span>📑 {course.topics.length} topics</span>
                       </div>
                       <div className="course-footer">
-                        <StarRating r={course.rating} />
+                        <span className="course-selfpaced">Self-paced · {course.level}</span>
                         <span className="course-free-badge">FREE</span>
                       </div>
                     </div>
@@ -731,7 +702,7 @@ export default function LearnPage() {
 
       <footer style={{ borderTop: "1px solid var(--border)", padding: "3rem 1.5rem", background: "var(--bg2)" }}>
         <div className="footer">
-          <div className="footer-copy">ElectraCore · Built by Brian Josiah (JontAWorld)</div>
+          <div className="footer-copy">ElectraCore · Built by Brian Josiah · Electrician &amp; Developer</div>
           <a href="https://josiah.rawsignal.dev" target="_blank" rel="noopener" className="footer-link">← Back to Portfolio</a>
         </div>
       </footer>
@@ -778,6 +749,7 @@ export default function LearnPage() {
         .course-meta span { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-mute); }
         .course-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 0.25rem; }
         .course-free-badge { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 700; color: #34D399; background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.3); padding: 2px 8px; border-radius: 100px; letter-spacing: 0.1em; }
+        .course-selfpaced { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--text-mute); letter-spacing: 0.04em; }
         @media (max-width: 640px) {
           .course-grid { grid-template-columns: 1fr; }
           .learn-filter-row { gap: 0.375rem; }
