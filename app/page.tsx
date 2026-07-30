@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ElectraCoreLogoMark } from "./components/Logo";
 
 const NAV_LINKS = [
+  { label: "Design", href: "/design" },
   { label: "Calculate", href: "/calculate" },
   { label: "Guides", href: "/guides" },
   { label: "Learn", href: "/learn" },

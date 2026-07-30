@@ -581,6 +581,7 @@ export default function LearnPage() {
           <span className="nav-logo-text">ElectraCore</span>
         </Link>
         <div className="nav-links">
+          <Link href="/design" className="nav-link">Design</Link>
           <Link href="/calculate" className="nav-link">Calculate</Link>
           <Link href="/guides" className="nav-link">Guides</Link>
           <Link href="/learn" className="nav-link" style={{ color: "var(--core)" }}>Learn</Link>

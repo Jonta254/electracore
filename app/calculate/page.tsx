@@ -470,6 +470,7 @@ export default function CalculatePage() {
           <span className="nav-logo-text">ElectraCore</span>
         </Link>
         <div className="nav-links">
+          <Link href="/design" className="nav-link">Design</Link>
           <Link href="/calculate" className="nav-link" style={{ color: "var(--core)" }}>Calculate</Link>
           <Link href="/guides" className="nav-link">Guides</Link>
           <Link href="/learn" className="nav-link">Learn</Link>
@@ -485,6 +486,15 @@ export default function CalculatePage() {
             The calculations you run every day, with the formula shown and results you can save. Every answer is voltage-drop or first-principles
             math — always verify against the wiring regulations for your installation before you rely on it.
           </p>
+
+          <Link href="/design" className="calc-designer-banner">
+            <div className="calc-designer-icon" aria-hidden>⚙</div>
+            <div className="calc-designer-copy">
+              <div className="calc-designer-title">Need the whole circuit, not one number?</div>
+              <div className="calc-designer-sub">Open the Circuit Designer — load → device → cable size → voltage drop → pass/fail, with a printable summary.</div>
+            </div>
+            <span className="calc-designer-go">Open Designer →</span>
+          </Link>
 
           <div className="tabs" style={{ marginBottom: "0.5rem" }}>
             <button className={`tab ${!activeId ? "active" : ""}`} onClick={() => setActiveId(null)}>All ({CALCS.length})</button>
@@ -511,6 +521,20 @@ export default function CalculatePage() {
       </main>
 
       <style>{`
+        .calc-designer-banner {
+          display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+          padding: 1.1rem 1.4rem; border-radius: var(--radius); text-decoration: none;
+          background: linear-gradient(135deg, rgba(var(--core-rgb),0.12), rgba(var(--volt-rgb),0.07));
+          border: 1px solid rgba(var(--core-rgb),0.3); transition: border-color 0.2s, transform 0.2s;
+        }
+        .calc-designer-banner:hover { border-color: rgba(var(--core-rgb),0.6); transform: translateY(-2px); }
+        .calc-designer-icon { font-size: 1.6rem; flex-shrink: 0; }
+        .calc-designer-copy { flex: 1; min-width: 0; }
+        .calc-designer-title { font-size: 1rem; font-weight: 800; color: var(--text); }
+        .calc-designer-sub { font-size: 0.84rem; color: var(--text-dim); margin-top: 2px; line-height: 1.5; }
+        .calc-designer-go { flex-shrink: 0; font-size: 0.85rem; font-weight: 800; color: var(--core); white-space: nowrap; }
+        @media (max-width: 640px) { .calc-designer-banner { flex-wrap: wrap; } .calc-designer-go { width: 100%; } }
+
         .calc-layout {
           max-width: 1180px; margin: 0 auto; padding: 1.5rem 1.5rem 5rem;
           display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 1.75rem; align-items: start;
