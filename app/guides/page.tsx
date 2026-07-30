@@ -2,86 +2,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ElectraCoreLogoMark } from "../components/Logo";
+import { GUIDES } from "./content";
 
 const CATEGORIES = ["All", "Wiring", "Safety", "Testing", "Calculations", "Standards"];
-
-const GUIDES = [
-  {
-    title: "Single-Phase Socket Outlet Wiring",
-    sub: "Step-by-step termination guide with colour codes for AU/NZ, UK, and EU standards.",
-    level: "Beginner", cat: "Wiring", readMins: 7,
-  },
-  {
-    title: "Earthing Systems — TN-C-S, TN-S, TT Explained",
-    sub: "Understand the difference between earthing arrangements and when each applies.",
-    level: "Intermediate", cat: "Standards", readMins: 12,
-  },
-  {
-    title: "Testing Insulation Resistance (IR Test)",
-    sub: "How to perform and interpret a 500V megger test on a completed installation.",
-    level: "Intermediate", cat: "Testing", readMins: 10,
-  },
-  {
-    title: "3-Phase Motor Starter — DOL Wiring",
-    sub: "Direct online starter wiring diagram with contactor, overload relay, and control circuit.",
-    level: "Intermediate", cat: "Wiring", readMins: 14,
-  },
-  {
-    title: "RCD Types — AC, A, F, B Explained",
-    sub: "When to use each type of RCD and why it matters for EV chargers and VFDs.",
-    level: "Intermediate", cat: "Safety", readMins: 8,
-  },
-  {
-    title: "Cable Colour Codes — All Regions",
-    sub: "Side-by-side comparison: AU/NZ AS3000, UK BS7671, EU CENELEC, US NEC, and IEC.",
-    level: "Beginner", cat: "Standards", readMins: 5,
-  },
-  {
-    title: "Loop Impedance Testing — Step by Step",
-    sub: "Perform Ze and Zs measurements, record results, and verify against protective device tables.",
-    level: "Intermediate", cat: "Testing", readMins: 15,
-  },
-  {
-    title: "Safe Isolation Procedure",
-    sub: "The correct sequence for safely isolating a circuit before working on it. Non-negotiable.",
-    level: "Beginner", cat: "Safety", readMins: 6,
-  },
-  {
-    title: "Calculating Maximum Demand for a House",
-    sub: "Use AS3000 diversity factors to size the main switchboard and supply conductors.",
-    level: "Intermediate", cat: "Calculations", readMins: 11,
-  },
-  {
-    title: "LED Downlight Circuit — Driver Types and Wiring",
-    sub: "Constant voltage vs constant current drivers, dimming compatibility, and safe installation.",
-    level: "Beginner", cat: "Wiring", readMins: 9,
-  },
-  {
-    title: "Switchboard Label Requirements",
-    sub: "What labelling is required by AS3000 and IEC 60439 for distribution boards and MCBs.",
-    level: "Beginner", cat: "Standards", readMins: 5,
-  },
-  {
-    title: "Power Factor Correction — Capacitor Banks",
-    sub: "How to specify, size, and install power factor correction equipment for commercial loads.",
-    level: "Advanced", cat: "Calculations", readMins: 18,
-  },
-  {
-    title: "Conduit Sizing for Cable Bundles",
-    sub: "Calculate conduit fill, select conduit size, and reference installation rules for PVC and metal conduit.",
-    level: "Intermediate", cat: "Calculations", readMins: 9,
-  },
-  {
-    title: "Fire Alarm Wiring — Class A vs Class B",
-    sub: "Supervised loops, end-of-line resistors, and open-circuit fault detection explained.",
-    level: "Advanced", cat: "Wiring", readMins: 13,
-  },
-  {
-    title: "Thermographic Inspection — Interpreting Results",
-    sub: "How to read thermal camera images on switchboards and identify hotspot severity.",
-    level: "Advanced", cat: "Testing", readMins: 11,
-  },
-];
 
 export default function GuidesPage() {
   const [cat, setCat] = useState("All");
@@ -139,21 +62,24 @@ export default function GuidesPage() {
 
           {/* GUIDE GRID */}
           <div className="guide-grid">
-            {filtered.map((g, i) => (
-              <div key={i} className="guide-card" style={{ cursor: "pointer" }}>
+            {filtered.map((g) => (
+              <Link key={g.slug} href={`/guides/${g.slug}`} className="guide-card">
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.875rem" }}>
                   <span className={`guide-tag tag-${g.level.toLowerCase()}`}>{g.level}</span>
                   <span style={{ fontSize: "0.75rem", color: "var(--text-mute)" }}>{g.readMins} min read</span>
                 </div>
                 <div className="guide-card-title">{g.title}</div>
                 <div className="guide-card-sub">{g.sub}</div>
-                <div style={{
-                  display: "inline-block", marginTop: "1rem",
-                  padding: "3px 10px", borderRadius: 100,
-                  fontSize: "0.7rem", background: "var(--bg3)",
-                  color: "var(--text-mute)", border: "1px solid var(--border)",
-                }}>{g.cat}</div>
-              </div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "1rem" }}>
+                  <span style={{
+                    display: "inline-block",
+                    padding: "3px 10px", borderRadius: 100,
+                    fontSize: "0.7rem", background: "var(--bg3)",
+                    color: "var(--text-mute)", border: "1px solid var(--border)",
+                  }}>{g.cat}</span>
+                  <span style={{ fontSize: "0.8rem", color: "var(--core)", fontWeight: 700 }}>Read →</span>
+                </div>
+              </Link>
             ))}
           </div>
 

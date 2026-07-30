@@ -340,7 +340,7 @@ function CalcBlock({ calc, onSave }: { calc: CalcDef; onSave: (e: Omit<HistEntry
 }
 
 /* ── History panel ──────────────────────────────────── */
-function HistoryPanel({ history, onRemove, onClear }: { history: HistEntry[]; onRemove: (id: string) => void; onClear: () => void }) {
+function HistoryPanel({ history, onRemove, onClear, onExport }: { history: HistEntry[]; onRemove: (id: string) => void; onClear: () => void; onExport: () => void }) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const copyEntry = async (e: HistEntry) => {
@@ -359,7 +359,10 @@ function HistoryPanel({ history, onRemove, onClear }: { history: HistEntry[]; on
           <div className="hist-sub">{history.length === 0 ? "Stored on this device" : `${history.length} saved · this device only`}</div>
         </div>
         {history.length > 0 && (
-          <button type="button" className="hist-clear" onClick={onClear}>Clear all</button>
+          <div className="hist-head-actions">
+            <button type="button" className="hist-export" onClick={onExport} title="Print or save your saved calculations as a PDF">⎙ PDF</button>
+            <button type="button" className="hist-clear" onClick={onClear}>Clear all</button>
+          </div>
         )}
       </div>
 
@@ -424,8 +427,43 @@ export default function CalculatePage() {
 
   const shown = activeId ? CALCS.filter((c) => c.id === activeId) : CALCS;
 
+  const exportReport = () => {
+    if (typeof window !== "undefined") window.print();
+  };
+
+  const reportDate = new Date().toLocaleString([], { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
+
   return (
     <>
+      {/* Print-only report — hidden on screen, rendered when the user prints / saves as PDF */}
+      <div className="calc-report" aria-hidden>
+        <div className="calc-report-head">
+          <div className="calc-report-brand">ElectraCore</div>
+          <div className="calc-report-title">Calculation Report</div>
+          <div className="calc-report-date">Generated {reportDate} · {history.length} calculation{history.length !== 1 ? "s" : ""}</div>
+        </div>
+        <table className="calc-report-table">
+          <thead>
+            <tr><th>Calculation</th><th>Inputs</th><th>Result</th><th>Notes</th><th>Saved</th></tr>
+          </thead>
+          <tbody>
+            {history.map((e) => (
+              <tr key={e.id}>
+                <td>{e.calc}</td>
+                <td>{e.inputs}</td>
+                <td className="calc-report-val">{e.value} {e.unit}</td>
+                <td>{e.note}</td>
+                <td>{new Date(e.ts).toLocaleString([], { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="calc-report-foot">
+          Results are first-principles / voltage-drop calculations. Always verify against the wiring regulations for your
+          installation before relying on any figure. ElectraCore · electracore reference tool.
+        </div>
+      </div>
+
       <nav className="nav">
         <Link href="/" className="nav-logo">
           <ElectraCoreLogoMark size={32} />
@@ -467,7 +505,7 @@ export default function CalculatePage() {
             {shown.map((calc) => <CalcBlock key={calc.id} calc={calc} onSave={addEntry} />)}
           </div>
           <div className="calc-side">
-            {mounted && <HistoryPanel history={history} onRemove={removeEntry} onClear={clearAll} />}
+            {mounted && <HistoryPanel history={history} onRemove={removeEntry} onClear={clearAll} onExport={exportReport} />}
           </div>
         </div>
       </main>
@@ -498,8 +536,30 @@ export default function CalculatePage() {
         .hist-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; padding: 1.1rem 1.1rem 0.85rem; border-bottom: 1px solid var(--border); }
         .hist-title { font-size: 0.95rem; font-weight: 800; }
         .hist-sub { font-size: 0.72rem; color: var(--text-mute); margin-top: 2px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+        .hist-head-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+        .hist-export { font-family: inherit; font-size: 0.72rem; font-weight: 700; color: var(--core); background: rgba(var(--core-rgb),0.1); border: 1px solid rgba(var(--core-rgb),0.3); border-radius: 6px; cursor: pointer; padding: 3px 9px; transition: background 0.16s; }
+        .hist-export:hover { background: rgba(var(--core-rgb),0.2); }
         .hist-clear { font-family: inherit; font-size: 0.72rem; font-weight: 600; color: var(--text-dim); background: none; border: none; cursor: pointer; padding: 2px 4px; }
         .hist-clear:hover { color: var(--hot); }
+
+        /* ── Print report (screen: hidden; print: the only thing shown) ── */
+        .calc-report { display: none; }
+        @media print {
+          .nav, main { display: none !important; }
+          .calc-report { display: block !important; padding: 0; color: #111; }
+          @page { margin: 16mm; }
+          body { background: #fff !important; }
+          .calc-report-head { border-bottom: 2px solid #F0A500; padding-bottom: 10px; margin-bottom: 18px; }
+          .calc-report-brand { font-size: 20px; font-weight: 900; letter-spacing: -0.02em; color: #111; }
+          .calc-report-title { font-size: 13px; font-weight: 600; color: #333; margin-top: 2px; }
+          .calc-report-date { font-size: 11px; color: #666; margin-top: 4px; }
+          .calc-report-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+          .calc-report-table th { text-align: left; background: #f3f3f3; color: #333; padding: 6px 8px; border: 1px solid #ddd; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+          .calc-report-table td { padding: 6px 8px; border: 1px solid #ddd; color: #222; vertical-align: top; line-height: 1.4; }
+          .calc-report-val { font-weight: 700; color: #000; white-space: nowrap; }
+          .calc-report-table tr { break-inside: avoid; }
+          .calc-report-foot { margin-top: 16px; font-size: 10px; color: #666; line-height: 1.5; border-top: 1px solid #ddd; padding-top: 8px; }
+        }
         .hist-empty { padding: 2rem 1.25rem; text-align: center; }
         .hist-list { list-style: none; max-height: 70vh; overflow-y: auto; }
         .hist-item { display: flex; align-items: flex-start; gap: 0.5rem; padding: 0.85rem 1.1rem; border-bottom: 1px solid var(--border); }
