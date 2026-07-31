@@ -1,7 +1,241 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ElectraCoreLogoMark } from "./components/Logo";
+
+/* ─────────────────────────────────────────────────────────────
+   "Who it's for" — real electrical illustrations, one per audience.
+   Conductor colours follow the harmonised UK/EU scheme:
+   brown = line, blue = neutral, green/yellow = earth, grey/black =
+   further line conductors.
+────────────────────────────────────────────────────────────── */
+const COL = { core: "#F0A500", volt: "#00D4FF", gnd: "#34D399", hot: "#FF4444", L: "#7A4A2B", N: "#1E62D0", E: "#3FA34D", grey: "#8A8A8A", dim: "#888899", txt: "#F0F0F0" };
+const svgWrap = { display: "block", width: "100%", borderRadius: 10, background: "#0B0D11" } as const;
+
+/* Students — Ohm's law with a series resistor into a parallel pair, live meters */
+function IlloStudents() {
+  return (
+    <svg viewBox="0 0 360 210" style={svgWrap} role="img" aria-label="Ohm's law circuit: battery, ammeter, resistors in series and parallel, voltmeter">
+      <text x="14" y="20" fontFamily="monospace" fontSize="9" fill={COL.core} opacity="0.55" letterSpacing="1">OHM&apos;S LAW · SERIES + PARALLEL</text>
+      {/* Battery */}
+      <line x1="34" y1="70" x2="34" y2="150" stroke={COL.core} strokeWidth="2" opacity="0.9" />
+      <line x1="26" y1="92" x2="42" y2="92" stroke={COL.core} strokeWidth="4" />
+      <line x1="30" y1="100" x2="38" y2="100" stroke={COL.core} strokeWidth="1.6" />
+      <line x1="26" y1="118" x2="42" y2="118" stroke={COL.core} strokeWidth="4" />
+      <line x1="30" y1="126" x2="38" y2="126" stroke={COL.core} strokeWidth="1.6" />
+      <text x="16" y="112" fontFamily="monospace" fontSize="11" fill={COL.core} textAnchor="middle">12V</text>
+      {/* Top rail */}
+      <line x1="34" y1="60" x2="150" y2="60" stroke={COL.volt} strokeWidth="2" />
+      {/* Ammeter */}
+      <circle cx="80" cy="60" r="12" fill="rgba(168,85,247,0.12)" stroke="#A855F7" strokeWidth="1.5" />
+      <text x="80" y="64" fontFamily="monospace" fontSize="10" fill="#A855F7" textAnchor="middle">A</text>
+      {/* current arrow */}
+      <polygon points="120,57 128,60 120,63" fill={COL.volt} opacity="0.8" />
+      {/* R1 series */}
+      <rect x="150" y="52" width="46" height="16" rx="3" fill="none" stroke={COL.volt} strokeWidth="1.6" />
+      <text x="173" y="45" fontFamily="monospace" fontSize="8" fill={COL.volt} textAnchor="middle">R1 220Ω</text>
+      <line x1="196" y1="60" x2="250" y2="60" stroke={COL.volt} strokeWidth="2" />
+      {/* Parallel node bars */}
+      <line x1="250" y1="60" x2="320" y2="60" stroke={COL.volt} strokeWidth="2" />
+      <line x1="250" y1="150" x2="320" y2="150" stroke={COL.gnd} strokeWidth="2" />
+      {/* R2 */}
+      <rect x="242" y="82" width="16" height="46" rx="3" fill="none" stroke={COL.gnd} strokeWidth="1.6" />
+      <line x1="250" y1="60" x2="250" y2="82" stroke={COL.volt} strokeWidth="2" />
+      <line x1="250" y1="128" x2="250" y2="150" stroke={COL.gnd} strokeWidth="2" />
+      <text x="230" y="108" fontFamily="monospace" fontSize="8" fill={COL.gnd}>R2</text>
+      {/* R3 */}
+      <rect x="312" y="82" width="16" height="46" rx="3" fill="none" stroke={COL.gnd} strokeWidth="1.6" />
+      <line x1="320" y1="60" x2="320" y2="82" stroke={COL.volt} strokeWidth="2" />
+      <line x1="320" y1="128" x2="320" y2="150" stroke={COL.gnd} strokeWidth="2" />
+      <text x="332" y="108" fontFamily="monospace" fontSize="8" fill={COL.gnd}>R3</text>
+      {/* Voltmeter across parallel */}
+      <circle cx="285" cy="105" r="12" fill="rgba(0,212,255,0.1)" stroke={COL.volt} strokeWidth="1.4" />
+      <text x="285" y="109" fontFamily="monospace" fontSize="10" fill={COL.volt} textAnchor="middle">V</text>
+      <line x1="285" y1="60" x2="285" y2="93" stroke={COL.volt} strokeWidth="0.8" strokeDasharray="2 2" opacity="0.5" />
+      <line x1="285" y1="117" x2="285" y2="150" stroke={COL.volt} strokeWidth="0.8" strokeDasharray="2 2" opacity="0.5" />
+      {/* Return */}
+      <line x1="250" y1="150" x2="34" y2="150" stroke={COL.core} strokeWidth="2" />
+      {/* Formula panel */}
+      <rect x="18" y="164" width="324" height="34" rx="6" fill="rgba(240,165,0,0.06)" stroke="rgba(240,165,0,0.25)" strokeWidth="0.8" />
+      <text x="60" y="185" fontFamily="monospace" fontSize="11" fill={COL.core} textAnchor="middle">V = I × R</text>
+      <text x="150" y="185" fontFamily="monospace" fontSize="11" fill={COL.volt} textAnchor="middle">P = V × I</text>
+      <text x="270" y="185" fontFamily="monospace" fontSize="10" fill={COL.gnd} textAnchor="middle">1/Rₚ = 1/R2 + 1/R3</text>
+    </svg>
+  );
+}
+
+/* Apprentices — double socket termination on a ring final */
+function IlloApprentices() {
+  return (
+    <svg viewBox="0 0 360 210" style={svgWrap} role="img" aria-label="Double socket outlet terminated on a ring final circuit, showing line, neutral and earth conductors">
+      <text x="14" y="20" fontFamily="monospace" fontSize="9" fill={COL.core} opacity="0.55" letterSpacing="1">SOCKET TERMINATION · 2.5mm² T&amp;E · 32A RING</text>
+      {/* Back box */}
+      <rect x="26" y="34" width="150" height="150" rx="4" fill="#101318" stroke={COL.grey} strokeWidth="1.4" />
+      {/* Faceplate */}
+      <rect x="36" y="44" width="130" height="130" rx="6" fill="#161A20" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+      {/* Two socket outlets */}
+      {[70, 132].map((cx, i) => (
+        <g key={i}>
+          <rect x={cx - 24} y="66" width="48" height="86" rx="6" fill="#0D1014" stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
+          <rect x={cx - 3.5} y="78" width="7" height="14" rx="2" fill={COL.E} opacity="0.8" />
+          <rect x={cx - 18} y="112" width="7" height="16" rx="2" fill={COL.L} opacity="0.85" />
+          <rect x={cx + 11} y="112" width="7" height="16" rx="2" fill={COL.N} opacity="0.85" />
+        </g>
+      ))}
+      {/* Terminal blocks (right) */}
+      {[{ y: 60, c: COL.L, t: "L" }, { y: 100, c: COL.N, t: "N" }, { y: 140, c: COL.E, t: "E" }].map((tb, i) => (
+        <g key={i}>
+          <rect x="236" y={tb.y - 10} width="34" height="20" rx="3" fill="#12151A" stroke={tb.c} strokeWidth="1.4" />
+          <text x="253" y={tb.y + 4} fontFamily="monospace" fontSize="10" fill={tb.c} textAnchor="middle">{tb.t}</text>
+          {/* two ring conductors into each terminal */}
+          <path d={`M270 ${tb.y - 4} H320`} stroke={tb.c} strokeWidth="2.4" fill="none" />
+          <path d={`M270 ${tb.y + 4} H320`} stroke={tb.c} strokeWidth="2.4" fill="none" />
+          {/* link from faceplate to terminal */}
+          <path d={`M176 ${tb.y} H236`} stroke={tb.c} strokeWidth="1.6" fill="none" opacity="0.7" strokeDasharray="4 3" />
+        </g>
+      ))}
+      {/* Earth fly-lead to metal box */}
+      <path d="M236 140 Q205 200 40 178" stroke={COL.E} strokeWidth="1.6" fill="none" opacity="0.7" />
+      <circle cx="40" cy="178" r="3" fill={COL.E} />
+      <text x="300" y="46" fontFamily="monospace" fontSize="8" fill={COL.dim} textAnchor="middle">RING IN</text>
+      <text x="300" y="176" fontFamily="monospace" fontSize="8" fill={COL.dim} textAnchor="middle">RING OUT</text>
+      <text x="120" y="200" fontFamily="monospace" fontSize="8" fill={COL.dim} textAnchor="middle">cpc sleeved · earthed to metal box</text>
+    </svg>
+  );
+}
+
+/* Electricians — consumer unit (distribution board) */
+function IlloElectricians() {
+  const ways = [
+    { t: "6A", l: "Lighting", c: COL.core }, { t: "32A", l: "Ring 1", c: COL.core },
+    { t: "32A", l: "Ring 2", c: COL.core }, { t: "16A", l: "Immersion", c: COL.core },
+    { t: "40A", l: "Cooker", c: COL.core }, { t: "32A", l: "EV", c: COL.volt },
+  ];
+  return (
+    <svg viewBox="0 0 360 210" style={svgWrap} role="img" aria-label="Consumer unit with main switch, RCD and MCBs feeding final circuits">
+      <text x="14" y="20" fontFamily="monospace" fontSize="9" fill={COL.core} opacity="0.55" letterSpacing="1">CONSUMER UNIT · MAIN SWITCH → RCD → MCBs</text>
+      {/* Enclosure */}
+      <rect x="20" y="30" width="320" height="130" rx="6" fill="#101318" stroke="rgba(255,255,255,0.15)" strokeWidth="1.2" />
+      {/* Incoming tails */}
+      <line x1="4" y1="52" x2="40" y2="52" stroke={COL.L} strokeWidth="3" />
+      <line x1="4" y1="64" x2="40" y2="64" stroke={COL.N} strokeWidth="3" />
+      <text x="2" y="46" fontFamily="monospace" fontSize="7" fill={COL.dim}>100A tails</text>
+      {/* Main switch */}
+      <rect x="40" y="44" width="40" height="70" rx="3" fill="#161A20" stroke={COL.grey} strokeWidth="1.2" />
+      <text x="60" y="82" fontFamily="monospace" fontSize="7" fill={COL.txt} textAnchor="middle">MAIN</text>
+      <text x="60" y="93" fontFamily="monospace" fontSize="7" fill={COL.dim} textAnchor="middle">100A</text>
+      {/* RCD */}
+      <rect x="86" y="44" width="46" height="70" rx="3" fill="rgba(52,211,153,0.08)" stroke={COL.gnd} strokeWidth="1.3" />
+      <text x="109" y="76" fontFamily="monospace" fontSize="8" fill={COL.gnd} textAnchor="middle">RCD</text>
+      <text x="109" y="88" fontFamily="monospace" fontSize="7" fill={COL.dim} textAnchor="middle">30mA</text>
+      {/* Busbar */}
+      <line x1="132" y1="52" x2="330" y2="52" stroke={COL.core} strokeWidth="2" opacity="0.7" />
+      {/* MCBs */}
+      {ways.map((w, i) => {
+        const x = 142 + i * 33;
+        return (
+          <g key={i}>
+            <rect x={x} y="58" width="26" height="52" rx="2" fill="#161A20" stroke={w.c} strokeWidth="1.1" />
+            <line x1={x + 4} y1="52" x2={x + 4} y2="58" stroke={COL.core} strokeWidth="1.4" />
+            <rect x={x + 4} y="64" width="18" height="10" rx="1.5" fill={w.c} opacity="0.75" />
+            <text x={x + 13} y="72" fontFamily="monospace" fontSize="6" fill="#0A0A0C" textAnchor="middle">{w.t}</text>
+            <text x={x + 13} y="90" fontFamily="monospace" fontSize="6" fill={COL.dim} textAnchor="middle">{w.l}</text>
+            {/* outgoing circuit */}
+            <line x1={x + 13} y1="110" x2={x + 13} y2="150" stroke={COL.core} strokeWidth="1.3" opacity="0.6" strokeDasharray="3 2" />
+          </g>
+        );
+      })}
+      <text x="180" y="176" fontFamily="monospace" fontSize="8" fill={COL.dim} textAnchor="middle">Ib ≤ In ≤ Iz  ·  verify Zs and 30mA disconnection</text>
+    </svg>
+  );
+}
+
+/* Engineers — three-phase distribution with derating to a motor */
+function IlloEngineers() {
+  const phases = [{ c: COL.L, t: "L1" }, { c: "#1a1a1a", t: "L2" }, { c: COL.grey, t: "L3" }, { c: COL.N, t: "N" }];
+  return (
+    <svg viewBox="0 0 360 210" style={svgWrap} role="img" aria-label="Three-phase distribution board feeding a motor, with cable derating factors">
+      <text x="14" y="20" fontFamily="monospace" fontSize="9" fill={COL.core} opacity="0.55" letterSpacing="1">THREE-PHASE · DERATED CABLE → MOTOR</text>
+      {/* Phase lines in */}
+      {phases.map((p, i) => (
+        <g key={i}>
+          <line x1="6" y1={40 + i * 16} x2="70" y2={40 + i * 16} stroke={p.c === "#1a1a1a" ? "#2a2a2a" : p.c} strokeWidth="3" />
+          <text x="2" y={44 + i * 16} fontFamily="monospace" fontSize="8" fill={p.c === "#1a1a1a" ? COL.txt : p.c}>{p.t}</text>
+        </g>
+      ))}
+      {/* TPN breaker */}
+      <rect x="70" y="30" width="52" height="76" rx="4" fill="#161A20" stroke={COL.core} strokeWidth="1.3" />
+      <text x="96" y="62" fontFamily="monospace" fontSize="8" fill={COL.core} textAnchor="middle">TPN</text>
+      <text x="96" y="74" fontFamily="monospace" fontSize="7" fill={COL.dim} textAnchor="middle">MCCB</text>
+      <text x="96" y="86" fontFamily="monospace" fontSize="7" fill={COL.txt} textAnchor="middle">63A</text>
+      {/* Cable run */}
+      <line x1="122" y1="68" x2="250" y2="68" stroke={COL.core} strokeWidth="3" opacity="0.8" />
+      <text x="186" y="60" fontFamily="monospace" fontSize="8" fill={COL.txt} textAnchor="middle">16mm² · Iz 76A</text>
+      {/* Motor */}
+      <circle cx="285" cy="68" r="30" fill="rgba(168,85,247,0.1)" stroke="#A855F7" strokeWidth="1.6" />
+      <text x="285" y="66" fontFamily="monospace" fontSize="14" fill="#A855F7" textAnchor="middle">M</text>
+      <text x="285" y="80" fontFamily="monospace" fontSize="9" fill="#A855F7" textAnchor="middle">3~</text>
+      <text x="285" y="112" fontFamily="monospace" fontSize="7" fill={COL.dim} textAnchor="middle">400V · star-delta</text>
+      {/* Derating panel */}
+      <rect x="18" y="128" width="324" height="66" rx="6" fill="rgba(0,212,255,0.05)" stroke="rgba(0,212,255,0.22)" strokeWidth="0.8" />
+      <text x="30" y="146" fontFamily="monospace" fontSize="8" fill={COL.volt}>DERATING</text>
+      {[{ k: "Ca ambient", v: "0.87" }, { k: "Cg grouping", v: "0.70" }, { k: "Ci insulation", v: "1.00" }].map((d, i) => (
+        <g key={i}>
+          <text x={40 + i * 105} y="166" fontFamily="monospace" fontSize="8" fill={COL.dim}>{d.k}</text>
+          <text x={40 + i * 105} y="182" fontFamily="monospace" fontSize="12" fill={COL.txt}>{d.v}</text>
+        </g>
+      ))}
+      <text x="300" y="182" fontFamily="monospace" fontSize="9" fill={COL.gnd} textAnchor="end">It = In ÷ (Ca·Cg·Ci)</text>
+    </svg>
+  );
+}
+
+/* Teachers — two-way (staircase) lighting circuit */
+function IlloTeachers() {
+  return (
+    <svg viewBox="0 0 360 210" style={svgWrap} role="img" aria-label="Two-way lighting circuit with two changeover switches, strappers and a lamp">
+      <text x="14" y="20" fontFamily="monospace" fontSize="9" fill={COL.core} opacity="0.55" letterSpacing="1">TWO-WAY SWITCHING · STAIRCASE LIGHTING</text>
+      {/* Line in */}
+      <line x1="10" y1="70" x2="60" y2="70" stroke={COL.L} strokeWidth="2.4" />
+      <text x="10" y="62" fontFamily="monospace" fontSize="8" fill={COL.L}>L</text>
+      {/* Switch 1 (changeover) */}
+      <circle cx="66" cy="70" r="3" fill={COL.L} />
+      <line x1="66" y1="70" x2="98" y2="56" stroke={COL.L} strokeWidth="2" />
+      <circle cx="102" cy="52" r="3" fill={COL.core} />
+      <circle cx="102" cy="88" r="3" fill={COL.core} />
+      <text x="60" y="104" fontFamily="monospace" fontSize="7" fill={COL.dim}>SW1 · COM</text>
+      {/* Strappers */}
+      <line x1="102" y1="52" x2="250" y2="52" stroke={COL.core} strokeWidth="2" />
+      <line x1="102" y1="88" x2="250" y2="88" stroke={COL.core} strokeWidth="2" />
+      <text x="176" y="45" fontFamily="monospace" fontSize="7" fill={COL.core} textAnchor="middle">strapper L1</text>
+      <text x="176" y="102" fontFamily="monospace" fontSize="7" fill={COL.core} textAnchor="middle">strapper L2</text>
+      {/* Switch 2 */}
+      <circle cx="250" cy="52" r="3" fill={COL.core} />
+      <circle cx="250" cy="88" r="3" fill={COL.core} />
+      <line x1="286" y1="70" x2="250" y2="88" stroke={COL.L} strokeWidth="2" />
+      <circle cx="286" cy="70" r="3" fill={COL.L} />
+      <text x="256" y="104" fontFamily="monospace" fontSize="7" fill={COL.dim}>SW2 · COM</text>
+      {/* Lamp */}
+      <line x1="286" y1="70" x2="286" y2="120" stroke={COL.L} strokeWidth="2.4" />
+      <circle cx="286" cy="140" r="18" fill="rgba(240,165,0,0.15)" stroke={COL.core} strokeWidth="1.6" />
+      <line x1="274" y1="128" x2="298" y2="152" stroke={COL.core} strokeWidth="1.2" />
+      <line x1="298" y1="128" x2="274" y2="152" stroke={COL.core} strokeWidth="1.2" />
+      {/* Neutral return */}
+      <line x1="286" y1="158" x2="286" y2="178" stroke={COL.N} strokeWidth="2.4" />
+      <line x1="286" y1="178" x2="10" y2="178" stroke={COL.N} strokeWidth="2.4" />
+      <text x="14" y="172" fontFamily="monospace" fontSize="8" fill={COL.N}>N</text>
+      <text x="150" y="196" fontFamily="monospace" fontSize="8" fill={COL.dim} textAnchor="middle">one lamp, controlled from two positions</text>
+    </svg>
+  );
+}
+
+const ILLO: Record<string, () => React.JSX.Element> = {
+  students: IlloStudents,
+  apprentices: IlloApprentices,
+  electricians: IlloElectricians,
+  engineers: IlloEngineers,
+  teachers: IlloTeachers,
+};
 
 const NAV_LINKS = [
   { label: "Design", href: "/design" },
@@ -65,11 +299,81 @@ const METHOD = [
 ];
 
 const WHO = [
-  { role: "Students", desc: "Learn circuit theory, pass exams, and build real understanding with worked examples and calculators that show their working." },
-  { role: "Apprentices", desc: "Solve real on-site problems, look up colour codes and termination methods, and build skills between sign-offs." },
-  { role: "Electricians", desc: "Calculate fast, quote accurately, and reference guides that speak the language of the tools — not the textbook." },
-  { role: "Engineers", desc: "Load analysis, protection coordination, cable derating, and power factor correction for design and commissioning work." },
-  { role: "Teachers", desc: "Reference material, worked examples, and calculation tools to demonstrate electrical principles in the classroom." },
+  {
+    role: "Students",
+    tagline: "Understand it — then prove it in the exam.",
+    illo: "students",
+    points: [
+      "Work Ohm's law, power, series/parallel and Kirchhoff from first principles — every calculator shows the formula it used, so you learn the method, not just the answer.",
+      "Follow structured courses from fundamentals to three-phase and cable sizing, each with worked examples and self-marking quizzes.",
+      "Check your homework instantly: enter your values and compare against the step-by-step working.",
+      "Practise with the same figures and limits used on real installations, so exam answers match site reality.",
+    ],
+    links: [
+      { label: "Start with fundamentals →", href: "/learn/electrical-fundamentals" },
+      { label: "Open the calculators", href: "/calculate" },
+    ],
+  },
+  {
+    role: "Apprentices",
+    tagline: "Answers between sign-offs, right on the tools.",
+    illo: "apprentices",
+    points: [
+      "Look up conductor colour codes for the UK/EU, US and AU/NZ — including the legacy colours you'll still meet in older installations.",
+      "Follow the safe-isolation sequence step by step before you touch a circuit — prove, test, prove again.",
+      "Get terminations right: ring vs radial, fused spurs, and the earth sleeving and back-box bonding that pass inspection.",
+      "Size a cable or check a voltage drop on your phone while you're standing at the board.",
+    ],
+    links: [
+      { label: "Cable colour codes →", href: "/guides/cable-colour-codes" },
+      { label: "Safe isolation procedure", href: "/guides/safe-isolation" },
+    ],
+  },
+  {
+    role: "Electricians",
+    tagline: "Design a circuit and quote it — fast.",
+    illo: "electricians",
+    points: [
+      "Run the whole chain in the Circuit Designer: load → protective device → cable size with derating → voltage drop → a clear pass/fail.",
+      "Export a printable design summary straight into the job file or hand it to the customer.",
+      "Reference guides written the way the job is done — earthing systems, RCD types, loop-impedance testing.",
+      "Save and reuse calculations across a job, then export the lot as a PDF.",
+    ],
+    links: [
+      { label: "Open the Circuit Designer →", href: "/design" },
+      { label: "Browse the guides", href: "/guides" },
+    ],
+  },
+  {
+    role: "Engineers",
+    tagline: "Design and commissioning, checked and documented.",
+    illo: "engineers",
+    points: [
+      "Size conductors across four installation methods with ambient, grouping and thermal-insulation derating applied automatically.",
+      "Verify voltage drop against the limit for the circuit — single- or three-phase, editable to your requirement.",
+      "Correct power factor and check protection coverage with the individual calculators.",
+      "Produce a documented design summary you can verify against your local wiring regulations before commissioning.",
+    ],
+    links: [
+      { label: "Open the Circuit Designer →", href: "/design" },
+      { label: "Power factor & more", href: "/calculate" },
+    ],
+  },
+  {
+    role: "Teachers",
+    tagline: "Show the working, not just the result.",
+    illo: "teachers",
+    points: [
+      "Demonstrate principles live — every calculator prints the formula and each step of the arithmetic.",
+      "Use accurate, standards-referenced guides as ready-made classroom reference material.",
+      "Set problems and mark them against the built-in worked examples and quizzes.",
+      "Cover the whole syllabus in one place: theory, wiring, protection, testing and three-phase.",
+    ],
+    links: [
+      { label: "Explore the course library →", href: "/learn" },
+      { label: "Reference guides", href: "/guides" },
+    ],
+  },
 ];
 
 export default function HomePage() {
@@ -199,48 +503,81 @@ export default function HomePage() {
         <h2 className="section-title reveal" ref={addReveal}>
           From classroom to<br />construction site.
         </h2>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "start" }}>
-          <div>
+        <p className="section-sub reveal" ref={addReveal}>
+          One tool that grows with you — from your first circuit diagram to a documented job design. Pick where you are.
+        </p>
+        <div className="who-wrap">
+          <div className="who-tabs" role="tablist" aria-label="Who ElectraCore is for">
             {WHO.map((w, i) => (
               <button
                 key={i}
+                role="tab"
+                aria-selected={activeWho === i}
                 onClick={() => setActiveWho(i)}
-                style={{
-                  display: "block", width: "100%", textAlign: "left",
-                  padding: "1rem 1.25rem", borderRadius: "var(--radius-sm)",
-                  background: activeWho === i ? "rgba(var(--core-rgb),0.1)" : "transparent",
-                  border: `1px solid ${activeWho === i ? "rgba(var(--core-rgb),0.4)" : "transparent"}`,
-                  color: activeWho === i ? "var(--text)" : "var(--text-dim)",
-                  fontFamily: "inherit", fontSize: "1rem", fontWeight: activeWho === i ? 700 : 500,
-                  cursor: "pointer", transition: "all 0.2s", marginBottom: "0.375rem",
-                }}
+                className={`who-tab${activeWho === i ? " active" : ""}`}
               >
-                {w.role}
+                <span className="who-tab-role">{w.role}</span>
+                <span className="who-tab-line">{w.tagline}</span>
               </button>
             ))}
           </div>
-          <div
-            style={{
-              background: "var(--surface)", border: "1px solid var(--border)",
-              borderRadius: "var(--radius)", padding: "2rem",
-              minHeight: 140,
-            }}
-          >
-            <div style={{ fontSize: "1.15rem", fontWeight: 800, marginBottom: "0.75rem" }}>
-              {WHO[activeWho].role}
-            </div>
-            <p style={{ color: "var(--text-dim)", lineHeight: 1.7, fontSize: "0.95rem" }}>
-              {WHO[activeWho].desc}
-            </p>
-            <Link
-              href={activeWho >= 3 ? "/calculate" : activeWho === 1 ? "/guides" : "/learn"}
-              className="btn-primary"
-              style={{ marginTop: "1.5rem", padding: "0.625rem 1.25rem", fontSize: "0.875rem" }}
-            >
-              Explore →
-            </Link>
+
+          <div className="who-panel" role="tabpanel">
+            {(() => {
+              const w = WHO[activeWho];
+              const Illo = ILLO[w.illo];
+              return (
+                <>
+                  <div className="who-panel-illo">{Illo && <Illo />}</div>
+                  <div className="who-panel-body">
+                    <div className="who-panel-role">{w.role}</div>
+                    <div className="who-panel-tagline">{w.tagline}</div>
+                    <ul className="who-points">
+                      {w.points.map((p, j) => (
+                        <li key={j}><span className="who-point-mark">→</span>{p}</li>
+                      ))}
+                    </ul>
+                    <div className="who-panel-cta">
+                      {w.links.map((l, j) => (
+                        <Link key={j} href={l.href} className={j === 0 ? "btn-primary who-cta-btn" : "btn-ghost who-cta-btn"}>
+                          {l.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              );
+            })()}
           </div>
         </div>
+
+        <style>{`
+          .who-wrap { display: grid; grid-template-columns: 300px minmax(0,1fr); gap: 2rem; align-items: start; margin-top: 2.5rem; }
+          .who-tabs { display: flex; flex-direction: column; gap: 0.5rem; }
+          .who-tab { display: flex; flex-direction: column; gap: 3px; text-align: left; width: 100%; padding: 0.9rem 1.1rem; border-radius: var(--radius-sm); background: transparent; border: 1px solid transparent; color: var(--text-dim); font-family: inherit; cursor: pointer; transition: all 0.2s; }
+          .who-tab:hover { border-color: var(--border); background: rgba(255,255,255,0.02); }
+          .who-tab.active { background: rgba(var(--core-rgb),0.1); border-color: rgba(var(--core-rgb),0.4); }
+          .who-tab-role { font-size: 1.05rem; font-weight: 800; color: var(--text-dim); }
+          .who-tab.active .who-tab-role { color: var(--text); }
+          .who-tab-line { font-size: 0.78rem; color: var(--text-mute); line-height: 1.4; }
+          .who-tab.active .who-tab-line { color: var(--core); }
+          .who-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+          .who-panel-illo { padding: 1.25rem 1.25rem 0; }
+          .who-panel-body { padding: 1.25rem 1.5rem 1.5rem; }
+          .who-panel-role { font-size: 1.3rem; font-weight: 900; letter-spacing: -0.02em; }
+          .who-panel-tagline { font-size: 0.9rem; color: var(--core); font-weight: 600; margin: 2px 0 1.1rem; }
+          .who-points { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1.5rem; }
+          .who-points li { display: flex; gap: 0.6rem; font-size: 0.9rem; color: var(--text-dim); line-height: 1.65; }
+          .who-point-mark { color: var(--core); font-weight: 700; flex-shrink: 0; }
+          .who-panel-cta { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+          .who-cta-btn { padding: 0.6rem 1.15rem; font-size: 0.85rem; }
+          @media (max-width: 860px) {
+            .who-wrap { grid-template-columns: 1fr; }
+            .who-tabs { flex-direction: row; overflow-x: auto; scrollbar-width: none; }
+            .who-tabs::-webkit-scrollbar { display: none; }
+            .who-tab { min-width: 180px; }
+          }
+        `}</style>
       </section>
 
       {/* ACCURACY & METHOD */}
