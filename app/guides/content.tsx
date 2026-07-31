@@ -125,6 +125,243 @@ function RCDCoreBalanceDiagram() {
   );
 }
 
+/* Ring final topology — both legs return to the same protective device */
+function RingFinalDiagram() {
+  const sockets = [[120, 60], [220, 55], [320, 60], [370, 120], [320, 168], [220, 172], [120, 168], [80, 120]];
+  return (
+    <svg viewBox="0 0 520 210" width="100%" style={{ display: "block", background: "#0B0D11", borderRadius: 8 }}>
+      <text x="16" y="20" fontFamily="monospace" fontSize="10" fill="#F0A500" opacity="0.55" letterSpacing="1">RING FINAL · 2.5mm² T&amp;E · 32A MCB</text>
+      {/* Consumer unit */}
+      <rect x="18" y="86" width="44" height="66" rx="4" fill="#12151A" stroke="#00D4FF" strokeWidth="1.3" />
+      <text x="40" y="78" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#00D4FF" opacity="0.7">CU</text>
+      <rect x="26" y="98" width="28" height="14" rx="2" fill="#F0A500" opacity="0.8" />
+      <text x="40" y="108" textAnchor="middle" fontFamily="monospace" fontSize="7" fill="#0A0A0C">32A</text>
+      {/* Ring path — two legs out and back to the same MCB */}
+      <path d="M62 104 C 90 40, 400 40, 400 104 C 400 176, 90 176, 62 118"
+        fill="none" stroke="#F0A500" strokeWidth="1.8" opacity="0.7" />
+      {/* Both legs land on the MCB */}
+      <line x1="54" y1="105" x2="62" y2="104" stroke="#F0A500" strokeWidth="2" />
+      <line x1="54" y1="117" x2="62" y2="118" stroke="#F0A500" strokeWidth="2" />
+      {/* Sockets around the ring */}
+      {sockets.map(([x, y], i) => (
+        <g key={i}>
+          <rect x={x - 13} y={y - 11} width="26" height="22" rx="3" fill="#0D1014" stroke="#34D399" strokeWidth="1.1" />
+          <circle cx={x - 5} cy={y} r="2.4" fill="none" stroke="#34D399" strokeWidth="0.8" />
+          <circle cx={x + 5} cy={y} r="2.4" fill="none" stroke="#34D399" strokeWidth="0.8" />
+          <line x1={x} y1={y - 6} x2={x} y2={y - 3} stroke="#34D399" strokeWidth="0.8" />
+        </g>
+      ))}
+      {/* Fused spur example */}
+      <line x1="320" y1="168" x2="320" y2="196" stroke="#F0A500" strokeWidth="1.4" opacity="0.6" strokeDasharray="4 2" />
+      <rect x="306" y="196" width="28" height="12" rx="2" fill="#12151A" stroke="#F0A500" strokeWidth="1" />
+      <text x="320" y="205" textAnchor="middle" fontFamily="monospace" fontSize="6.5" fill="#F0A500">FCU 13A</text>
+      {/* annotations */}
+      <text x="430" y="70" fontFamily="monospace" fontSize="8" fill="#888899">Both ends →</text>
+      <text x="430" y="82" fontFamily="monospace" fontSize="8" fill="#888899">one 32A MCB</text>
+      <text x="430" y="150" fontFamily="monospace" fontSize="8" fill="#34D399" opacity="0.8">Break the ring</text>
+      <text x="430" y="162" fontFamily="monospace" fontSize="8" fill="#888899">= long radial,</text>
+      <text x="430" y="174" fontFamily="monospace" fontSize="8" fill="#888899">under-protected</text>
+    </svg>
+  );
+}
+
+/* Earth-fault loop path — Zs = Ze + (R1 + R2) */
+function LoopPathDiagram() {
+  return (
+    <svg viewBox="0 0 520 210" width="100%" style={{ display: "block", background: "#0B0D11", borderRadius: 8 }}>
+      <text x="16" y="20" fontFamily="monospace" fontSize="10" fill="#00D4FF" opacity="0.55" letterSpacing="1">EARTH-FAULT LOOP · Zs = Ze + (R1 + R2)</text>
+      {/* Source transformer */}
+      <circle cx="52" cy="70" r="14" fill="none" stroke="#F0A500" strokeWidth="1.4" opacity="0.8" />
+      <circle cx="52" cy="92" r="14" fill="none" stroke="#F0A500" strokeWidth="1.4" opacity="0.8" />
+      <text x="52" y="130" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#F0A500" opacity="0.7">SOURCE</text>
+      {/* Ze external region */}
+      <rect x="80" y="40" width="150" height="120" rx="6" fill="rgba(0,212,255,0.04)" stroke="rgba(0,212,255,0.2)" strokeWidth="0.8" strokeDasharray="4 3" />
+      <text x="155" y="54" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#00D4FF" opacity="0.7">Ze (external)</text>
+      {/* Line out to the fault */}
+      <line x1="66" y1="70" x2="360" y2="70" stroke="#FF4444" strokeWidth="2" opacity="0.85" />
+      <text x="300" y="63" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#FF4444" opacity="0.8">R1 (line)</text>
+      {/* Consumer unit / origin */}
+      <rect x="230" y="52" width="26" height="60" rx="3" fill="#12151A" stroke="#F0A500" strokeWidth="1.2" />
+      <text x="243" y="124" textAnchor="middle" fontFamily="monospace" fontSize="7" fill="#F0A500" opacity="0.7">origin</text>
+      {/* Fault point */}
+      <circle cx="360" cy="70" r="6" fill="rgba(255,68,68,0.2)" stroke="#FF4444" strokeWidth="1.4" />
+      <path d="M360 76 l -6 14 l 8 -4 l -4 12" fill="none" stroke="#FF4444" strokeWidth="1.4" />
+      <text x="378" y="70" fontFamily="monospace" fontSize="8" fill="#FF4444" opacity="0.85">fault</text>
+      {/* cpc return */}
+      <line x1="360" y1="92" x2="66" y2="92" stroke="#34D399" strokeWidth="2" opacity="0.85" />
+      <polygon points="72,89 64,92 72,95" fill="#34D399" opacity="0.8" />
+      <text x="300" y="106" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#34D399" opacity="0.8">R2 (cpc)</text>
+      {/* formula box */}
+      <rect x="18" y="164" width="484" height="34" rx="6" fill="rgba(0,212,255,0.05)" stroke="rgba(0,212,255,0.2)" strokeWidth="0.8" />
+      <text x="260" y="185" textAnchor="middle" fontFamily="monospace" fontSize="11" fill="#F0F0F0" opacity="0.85">
+        Lower Zs → higher fault current → faster disconnection
+      </text>
+    </svg>
+  );
+}
+
+/* Which residual waveform each RCD type detects */
+function RCDWaveformDiagram() {
+  const panels = [
+    { x: 8, type: "AC", detect: "sine only", who: "AC A F B", color: "#34D399", kind: "sine" },
+    { x: 178, type: "A / F", detect: "+ pulsating d.c.", who: "A F B", color: "#F0A500", kind: "pulse" },
+    { x: 348, type: "B", detect: "+ smooth d.c.", who: "B only", color: "#FF6B35", kind: "flat" },
+  ];
+  const wave = (kind: string, ox: number) => {
+    const pts: string[] = [];
+    for (let x = 0; x <= 150; x += 3) {
+      const a = (x / 150) * 4 * Math.PI;
+      let y = 60;
+      if (kind === "sine") y = 60 - Math.sin(a) * 26;
+      else if (kind === "pulse") y = 60 - Math.abs(Math.sin(a)) * 30 * (Math.sin(a) > 0 ? 1 : 0.15);
+      else y = 60 - 22 - Math.sin(a) * 5;
+      pts.push(`${ox + 10 + x},${y + 34}`);
+    }
+    return pts.join(" ");
+  };
+  return (
+    <svg viewBox="0 0 520 168" width="100%" style={{ display: "block", background: "#0B0D11", borderRadius: 8 }}>
+      <text x="16" y="20" fontFamily="monospace" fontSize="10" fill="#F0A500" opacity="0.55" letterSpacing="1">RCD TYPES · RESIDUAL WAVEFORM DETECTED</text>
+      {panels.map((p, i) => (
+        <g key={i}>
+          <rect x={p.x} y="34" width="164" height="120" rx="6" fill="rgba(255,255,255,0.02)" stroke={`${p.color}55`} strokeWidth="1" />
+          <text x={p.x + 12} y="52" fontFamily="monospace" fontSize="10" fill={p.color} fontWeight="700">Type {p.type}</text>
+          <line x1={p.x + 10} y1="94" x2={p.x + 154} y2="94" stroke="rgba(255,255,255,0.12)" strokeWidth="0.6" />
+          <polyline points={wave(p.kind, p.x)} fill="none" stroke={p.color} strokeWidth="1.8" opacity="0.9" />
+          <text x={p.x + 12} y="128" fontFamily="monospace" fontSize="7.5" fill="#888899">{p.detect}</text>
+          <text x={p.x + 12} y="144" fontFamily="monospace" fontSize="7.5" fill={p.color} opacity="0.85">detected by: {p.who}</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+/* Insulation-resistance test connection (initial verification) */
+function IRTestDiagram() {
+  return (
+    <svg viewBox="0 0 520 190" width="100%" style={{ display: "block", background: "#0B0D11", borderRadius: 8 }}>
+      <text x="16" y="20" fontFamily="monospace" fontSize="10" fill="#34D399" opacity="0.55" letterSpacing="1">INSULATION RESISTANCE · 500V d.c. TEST</text>
+      {/* Tester */}
+      <rect x="24" y="44" width="120" height="120" rx="10" fill="#12161C" stroke="#00D4FF" strokeWidth="1.3" />
+      <rect x="34" y="54" width="100" height="40" rx="5" fill="#060810" />
+      <text x="84" y="80" textAnchor="middle" fontFamily="monospace" fontSize="15" fill="#34D399">&gt;299 MΩ</text>
+      <text x="84" y="112" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#F0A500" opacity="0.7">500V RANGE</text>
+      <circle cx="60" cy="140" r="9" fill="rgba(255,68,68,0.15)" stroke="#FF4444" strokeWidth="1" />
+      <text x="60" y="143" textAnchor="middle" fontFamily="monospace" fontSize="7" fill="#FF4444">L+</text>
+      <circle cx="108" cy="140" r="9" fill="rgba(52,211,153,0.15)" stroke="#34D399" strokeWidth="1" />
+      <text x="108" y="143" textAnchor="middle" fontFamily="monospace" fontSize="7" fill="#34D399">E</text>
+      {/* Leads to circuit */}
+      <path d="M60 149 C 60 175, 250 175, 300 120" stroke="#FF4444" strokeWidth="1.6" fill="none" opacity="0.8" />
+      <path d="M108 149 C 140 172, 340 172, 380 150" stroke="#34D399" strokeWidth="1.6" fill="none" opacity="0.8" />
+      {/* Circuit under test */}
+      <line x1="300" y1="70" x2="470" y2="70" stroke="#7A4A2B" strokeWidth="2.4" />
+      <line x1="300" y1="90" x2="470" y2="90" stroke="#1E62D0" strokeWidth="2.4" />
+      <line x1="300" y1="120" x2="470" y2="120" stroke="#3FA34D" strokeWidth="2.4" />
+      {/* L + N linked */}
+      <line x1="300" y1="70" x2="300" y2="90" stroke="#F0A500" strokeWidth="1.6" />
+      <text x="322" y="64" fontFamily="monospace" fontSize="8" fill="#7A4A2B">L</text>
+      <text x="322" y="104" fontFamily="monospace" fontSize="8" fill="#1E62D0">N</text>
+      <text x="322" y="134" fontFamily="monospace" fontSize="8" fill="#3FA34D">E (cpc)</text>
+      <text x="410" y="56" fontFamily="monospace" fontSize="7.5" fill="#888899">L &amp; N linked</text>
+      {/* Pass note */}
+      <rect x="150" y="150" width="360" height="30" rx="5" fill="rgba(52,211,153,0.06)" stroke="rgba(52,211,153,0.25)" strokeWidth="0.7" />
+      <text x="330" y="169" textAnchor="middle" fontFamily="monospace" fontSize="9" fill="#34D399" opacity="0.85">Pass ≥ 1 MΩ — investigate anything below ~2 MΩ</text>
+    </svg>
+  );
+}
+
+/* Conduit cross-section — fill capacity */
+function ConduitFillDiagram() {
+  const cables = [[92, 74], [116, 74], [140, 74], [92, 98], [116, 98], [140, 98], [104, 122], [128, 122]];
+  return (
+    <svg viewBox="0 0 520 190" width="100%" style={{ display: "block", background: "#0B0D11", borderRadius: 8 }}>
+      <text x="16" y="20" fontFamily="monospace" fontSize="10" fill="#F0A500" opacity="0.55" letterSpacing="1">CONDUIT FILL · Σ CABLE FACTORS ≤ CONDUIT FACTOR</text>
+      {/* Conduit */}
+      <circle cx="116" cy="100" r="66" fill="#0D1014" stroke="#8A8A8A" strokeWidth="2.5" opacity="0.6" />
+      <circle cx="116" cy="100" r="58" fill="none" stroke="#F0A500" strokeWidth="0.8" strokeDasharray="4 3" opacity="0.4" />
+      {cables.map(([x, y], i) => (
+        <g key={i}>
+          <circle cx={x} cy={y} r="12" fill="rgba(0,212,255,0.15)" stroke="#00D4FF" strokeWidth="1" opacity="0.7" />
+          <circle cx={x} cy={y} r="5" fill="#C8792E" opacity="0.7" />
+        </g>
+      ))}
+      <text x="116" y="182" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#888899">8 × 2.5mm² singles</text>
+      {/* Notes */}
+      <rect x="220" y="52" width="286" height="100" rx="6" fill="rgba(240,165,0,0.05)" stroke="rgba(240,165,0,0.22)" strokeWidth="0.8" />
+      {[
+        ["Fill target", "≈ 40% max c.s.a."],
+        ["Sum of cable factors", "≤ conduit factor"],
+        ["More cables", "→ grouping derating Cg"],
+        ["Long runs / bends", "→ conservative factors"],
+      ].map(([k, v], i) => (
+        <g key={i}>
+          <text x="234" y={74 + i * 20} fontFamily="monospace" fontSize="8" fill="#888899">{k}</text>
+          <text x="492" y={74 + i * 20} textAnchor="end" fontFamily="monospace" fontSize="8" fill="#F0A500" opacity="0.85">{v}</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+/* Diversity — connected load vs assessed maximum demand */
+function DiversityBars() {
+  const rows = [
+    { label: "Lighting", conn: 5.2, div: 3.4 },
+    { label: "Cooker", conn: 43.5, div: 25 },
+    { label: "Sockets ×2", conn: 64, div: 44.8 },
+    { label: "Immersion", conn: 13, div: 13 },
+    { label: "EV charger", conn: 32, div: 32 },
+  ];
+  const max = 64, scale = 300;
+  return (
+    <svg viewBox="0 0 520 220" width="100%" style={{ display: "block", background: "#0B0D11", borderRadius: 8 }}>
+      <text x="16" y="20" fontFamily="monospace" fontSize="10" fill="#F0A500" opacity="0.55" letterSpacing="1">DIVERSITY · CONNECTED (grey) vs ASSESSED (amber)</text>
+      {rows.map((r, i) => {
+        const y = 40 + i * 30;
+        return (
+          <g key={i}>
+            <text x="14" y={y + 12} fontFamily="monospace" fontSize="8" fill="#888899">{r.label}</text>
+            <rect x="110" y={y} width={(r.conn / max) * scale} height="9" rx="2" fill="#8A8A8A" opacity="0.35" />
+            <rect x="110" y={y + 11} width={(r.div / max) * scale} height="9" rx="2" fill="#F0A500" opacity="0.8" />
+            <text x={110 + (r.conn / max) * scale + 6} y={y + 8} fontFamily="monospace" fontSize="7.5" fill="#888899">{r.conn}A</text>
+            <text x={110 + (r.div / max) * scale + 6} y={y + 19} fontFamily="monospace" fontSize="7.5" fill="#F0A500">{r.div}A</text>
+          </g>
+        );
+      })}
+      <line x1="110" y1="196" x2="470" y2="196" stroke="rgba(255,255,255,0.12)" strokeWidth="0.6" />
+      <text x="110" y="212" fontFamily="monospace" fontSize="9" fill="#34D399" opacity="0.85">Assessed maximum demand ≈ 118 A (vs 158 A connected)</text>
+    </svg>
+  );
+}
+
+/* Safe isolation — prove, test, prove */
+function SafeIsolationFlow() {
+  const steps = [
+    { t: "Identify", c: "#00D4FF" }, { t: "Isolate", c: "#00D4FF" }, { t: "Lock off\n+ notice", c: "#F0A500" },
+    { t: "Prove\ntester", c: "#34D399" }, { t: "Test\ndead", c: "#34D399" }, { t: "Re-prove\ntester", c: "#34D399" },
+  ];
+  return (
+    <svg viewBox="0 0 520 150" width="100%" style={{ display: "block", background: "#0B0D11", borderRadius: 8 }}>
+      <text x="16" y="20" fontFamily="monospace" fontSize="10" fill="#34D399" opacity="0.55" letterSpacing="1">SAFE ISOLATION · PROVE — TEST — PROVE</text>
+      {steps.map((s, i) => {
+        const x = 20 + i * 83;
+        return (
+          <g key={i}>
+            <rect x={x} y="48" width="66" height="52" rx="8" fill={`${s.c}12`} stroke={`${s.c}66`} strokeWidth="1.2" />
+            <circle cx={x + 12} cy="60" r="8" fill={`${s.c}22`} stroke={s.c} strokeWidth="1" />
+            <text x={x + 12} y="63" textAnchor="middle" fontFamily="monospace" fontSize="8" fill={s.c}>{i + 1}</text>
+            {s.t.split("\n").map((ln, j) => (
+              <text key={j} x={x + 33} y={j === 0 && s.t.includes("\n") ? 80 : 86 + j * 11} textAnchor="middle" fontFamily="monospace" fontSize="8.5" fill="#F0F0F0" opacity="0.85">{ln}</text>
+            ))}
+            {i < steps.length - 1 && <polygon points={`${x + 70},74 ${x + 82},74 ${x + 76},80 ${x + 82},74 ${x + 76},68`} fill="#888899" opacity="0.7" />}
+          </g>
+        );
+      })}
+      <text x="260" y="128" textAnchor="middle" fontFamily="monospace" fontSize="8.5" fill="#888899">If the tester fails the final check, every dead reading is void — start again.</text>
+    </svg>
+  );
+}
+
 /* ── The guides ── */
 
 export const GUIDES: Guide[] = [
@@ -161,6 +398,7 @@ export const GUIDES: Guide[] = [
         id: "steps",
         heading: "The procedure, step by step",
         blocks: [
+          { kind: "node", node: <SafeIsolationFlow /> },
           {
             kind: "steps",
             items: [
@@ -333,6 +571,7 @@ export const GUIDES: Guide[] = [
         id: "types",
         heading: "Choosing the type by waveform",
         blocks: [
+          { kind: "node", node: <RCDWaveformDiagram /> },
           {
             kind: "table",
             head: ["Type", "Detects", "Typical use"],
@@ -456,6 +695,7 @@ export const GUIDES: Guide[] = [
         id: "procedure",
         heading: "Doing the test",
         blocks: [
+          { kind: "node", node: <IRTestDiagram /> },
           {
             kind: "steps",
             items: [
@@ -505,6 +745,7 @@ export const GUIDES: Guide[] = [
         id: "loop",
         heading: "What's in the loop",
         blocks: [
+          { kind: "node", node: <LoopPathDiagram /> },
           { kind: "formula", expr: "Zs = Ze + (R1 + R2)", where: "Ze = external loop impedance at the origin; R1 = line conductor resistance; R2 = protective conductor resistance of the circuit." },
           { kind: "p", text: "Ze is everything outside the installation (the supply and the earth return). (R1 + R2) is the go-and-return resistance of the final circuit conductors. Add them and you have Zs — the loop impedance at the furthest point of the circuit, which is where it is highest and disconnection is hardest." },
         ],
@@ -579,6 +820,7 @@ export const GUIDES: Guide[] = [
         id: "method",
         heading: "The factor method",
         blocks: [
+          { kind: "node", node: <ConduitFillDiagram /> },
           { kind: "p", text: "Every cable size has a 'cable factor' (a number proportional to its space demand) and every conduit size/length has a 'conduit factor' (its usable capacity). The rule is simple:" },
           { kind: "formula", expr: "Σ (cable factors) ≤ conduit factor", where: "Sum the factors of all cables in the run; choose a conduit whose factor is equal or greater." },
           { kind: "callout", tone: "note", title: "Two sets of tables", text: "Short straight runs (≤ 3 m, no bends) use one set of factors; longer runs and runs with bends use a second, more conservative set that accounts for the extra pulling force and reduced usable area. Always use the table that matches your run." },
@@ -669,6 +911,7 @@ export const GUIDES: Guide[] = [
         heading: "Worked example",
         blocks: [
           { kind: "p", text: "A typical three-bed house at 230 V:" },
+          { kind: "node", node: <DiversityBars /> },
           {
             kind: "table",
             head: ["Load", "Connected", "After diversity"],
@@ -705,6 +948,7 @@ export const GUIDES: Guide[] = [
         id: "types",
         heading: "Ring final vs radial",
         blocks: [
+          { kind: "node", node: <RingFinalDiagram /> },
           {
             kind: "table",
             head: ["Circuit", "Cable", "Protective device", "Notes"],
