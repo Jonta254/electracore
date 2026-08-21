@@ -844,6 +844,14 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
 
 function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
+  if (slug === "protection-fault-analysis" && t.includes("rcd selection quiz")) {
+    return {
+      question: "Which statement correctly distinguishes a Type B RCD from a B-curve MCB?",
+      options: ["Type B describes residual-current waveform capability; B curve describes an overcurrent instantaneous operating band", "They are two names for the same device", "Type B RCD means 30 mA and B curve means 30 A", "Both markings only describe breaking capacity"],
+      correct: 0,
+      explanation: "RCD type letters describe residual-current waveform response, while MCB curve letters describe overcurrent operating characteristics. The exact product may combine functions, but each marking keeps its own meaning.",
+    };
+  }
   if (slug === "protection-fault-analysis" && t.includes("device selection quiz")) {
     return {
       question: "A verified transformer inrush trips a Type B MCB. What must happen before substituting a Type C device?",
@@ -984,6 +992,18 @@ function getQuizForLesson(title: string, slug: string): { question: string; opti
 
 function getExerciseForLesson(title: string, _slug: string): { problem: string; steps: string[]; answer: string } | null {
   const t = title.toLowerCase();
+  if (_slug === "protection-fault-analysis" && t.includes("pfc worked problems")) {
+    return {
+      problem: "At 230 V, verified origin PSCC is 4.6 kA. A downstream feeder adds 0.10 Ω line-neutral impedance. Estimate downstream PSCC using a simple resistive model and identify the approval gates.",
+      steps: [
+        "Convert the origin fault level to source impedance: Zsource = 230/4600 = 0.050 Ω.",
+        "Add compatible feeder impedance: Ztotal = 0.050 + 0.100 = 0.150 Ω.",
+        "Estimate downstream PSCC: 230/0.150 ≈ 1533 A = 1.53 kA.",
+        "Verify impedance/voltage/fault-type bases, uncertainty, temperature/reactance, every local source, and the declared breaking/withstand or conditional rating of the complete downstream assembly.",
+      ],
+      answer: "Estimated downstream PSCC ≈ 1.53 kA; final approval requires validated inputs, all source contributions, and proven device/assembly capability",
+    };
+  }
   if (_slug === "protection-fault-analysis" && t.includes("zs calculation exercises")) {
     return {
       problem: "A TN circuit design uses Ze = 0.28 Ω and a corrected design-temperature R1+R2 = 0.64 Ω. Calculate conceptual design Zs, then state what still must be verified before approval.",

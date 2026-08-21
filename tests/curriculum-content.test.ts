@@ -134,11 +134,21 @@ test("domestic fault-finding and regulation group completes the course specifica
 });
 test("first protection group has specific devices, loop content, and assessments", () => {
   for (let id = 1; id <= 10; id += 1) assert.ok(LESSON_REVIEWS[`protection-fault-analysis:l${id}`]);
-  assert.equal(Object.keys(ENHANCED_LESSONS).length, 71);
+  assert.ok(Object.keys(ENHANCED_LESSONS).length >= 71);
   const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /slug === "protection-fault-analysis" && t\.includes\("device selection quiz"\)/);
   assert.match(courseSource, /_slug === "protection-fault-analysis" && t\.includes\("zs calculation exercises"\)/);
   assert.match(viewSource, /PROTECTIVE DEVICE OPERATING PATHS/);
   assert.match(viewSource, /EARTH-FAULT LOOP AND ADS/);
+});
+test("protection RCD and PFC group has specific content and assessment coverage", () => {
+  for (let id = 11; id <= 20; id += 1) assert.ok(LESSON_REVIEWS[`protection-fault-analysis:l${id}`]);
+  assert.equal(Object.keys(ENHANCED_LESSONS).length, 79);
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
+  assert.match(courseSource, /t\.includes\("rcd selection quiz"\)/);
+  assert.match(courseSource, /t\.includes\("pfc worked problems"\)/);
+  assert.match(viewSource, /RESIDUAL-CURRENT SENSING/);
+  assert.match(viewSource, /PROSPECTIVE FAULT CURRENT/);
 });

@@ -34,8 +34,8 @@ function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonI
 }
   if (courseSlug === "protection-fault-analysis") {
     const lessonNumber = Number(lessonId.slice(1));
-    const label = lessonNumber <= 5 ? "PROTECTIVE DEVICE OPERATING PATHS" : "EARTH-FAULT LOOP AND ADS";
-    const relationship = lessonNumber <= 5 ? "current · time · energy" : "Zs → fault current → operating time";
+    const label = lessonNumber <= 5 ? "PROTECTIVE DEVICE OPERATING PATHS" : lessonNumber <= 10 ? "EARTH-FAULT LOOP AND ADS" : lessonNumber <= 15 ? "RESIDUAL-CURRENT SENSING" : "PROSPECTIVE FAULT CURRENT";
+    const relationship = lessonNumber <= 5 ? "current · time · energy" : lessonNumber <= 10 ? "Zs → fault current → operating time" : lessonNumber <= 15 ? "ΣI → residual flux → trip" : "source Z → PFC → device capability";
     return (
       <svg className="enhanced-diagram" viewBox="0 0 640 190" role="img" aria-labelledby={`diagram-${courseSlug}-${lessonId}`}>
         <title id={`diagram-${courseSlug}-${lessonId}`}>{label}</title>
