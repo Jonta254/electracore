@@ -51,6 +51,19 @@ function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonI
       </svg>
     );
   }
+  if (courseSlug === "cable-sizing") {
+    const lessonNumber = Number(lessonId.slice(1));
+    const label = lessonNumber <= 5 ? "CURRENT-CARRYING CAPACITY WORKFLOW" : "CORRECTION-FACTOR THERMAL MODEL";
+    return (
+      <svg className="enhanced-diagram" viewBox="0 0 640 190" role="img" aria-labelledby={`diagram-${courseSlug}-${lessonId}`}>
+        <title id={`diagram-${courseSlug}-${lessonId}`}>{label}</title><text x="22" y="26" className="diagram-kicker">{label}</text>
+        <rect x="48" y="67" width="105" height="66" rx="8" className="diagram-source" /><text x="100" y="94" className="diagram-value">Ib</text><text x="100" y="116" className="diagram-note">load</text>
+        <line x1="153" y1="100" x2="238" y2="100" className="diagram-wire" /><rect x="238" y="67" width="105" height="66" rx="8" className="diagram-load" /><text x="290" y="94" className="diagram-value">In</text><text x="290" y="116" className="diagram-note">device</text>
+        <line x1="343" y1="100" x2="428" y2="100" className="diagram-wire" /><rect x="428" y="67" width="150" height="66" rx="8" className="diagram-source" /><text x="503" y="94" className="diagram-value">Iz</text><text x="503" y="116" className="diagram-note">It × applicable factors</text>
+        <text x="320" y="162" className="diagram-note">physical method · exact table · declared conditions · all design gates</text>
+      </svg>
+    );
+  }
   if (courseSlug === "three-phase-systems") {
     const lessonNumber = Number(lessonId.slice(1));
     const label = lessonNumber <= 5 ? "THREE-PHASE PHASOR SET" : lessonNumber <= 9 ? "STAR VOLTAGE AND CURRENT PATHS" : lessonNumber <= 13 ? "DELTA VOLTAGE AND CURRENT PATHS" : lessonNumber <= 18 ? "THREE-PHASE POWER TRIANGLE" : lessonNumber <= 23 ? "MOTOR FIELD AND CONTROL PATH" : "TRANSFORMER FLUX AND VECTOR GROUP";

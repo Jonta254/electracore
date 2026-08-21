@@ -47,6 +47,7 @@ import { PROTECTION_COORDINATION_TESTING_LESSONS } from "./protectionCoordinatio
 import { THREE_PHASE_FUNDAMENTALS_LESSONS } from "./threePhaseFundamentalsLessons.ts";
 import { THREE_PHASE_DELTA_POWER_LESSONS } from "./threePhaseDeltaPowerLessons.ts";
 import { THREE_PHASE_MACHINES_LESSONS } from "./threePhaseMachinesLessons.ts";
+import { CABLE_CCC_DERATING_LESSONS } from "./cableCccDeratingLessons.ts";
 
 export const ENHANCED_LESSONS: Record<string, EnhancedLesson> = {
   ...FUNDAMENTALS_GROUP_ONE,
@@ -66,6 +67,7 @@ export const ENHANCED_LESSONS: Record<string, EnhancedLesson> = {
   ...THREE_PHASE_FUNDAMENTALS_LESSONS,
   ...THREE_PHASE_DELTA_POWER_LESSONS,
   ...THREE_PHASE_MACHINES_LESSONS,
+  ...CABLE_CCC_DERATING_LESSONS,
   "electrical-fundamentals:l6": {
     purpose: "Distinguish voltage from current and use potential difference correctly when describing a circuit.",
     difficulty: "Beginner",

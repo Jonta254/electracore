@@ -1032,6 +1032,30 @@ function getQuizForLesson(title: string, slug: string): { question: string; opti
 
 function getExerciseForLesson(title: string, _slug: string): { problem: string; steps: string[]; answer: string } | null {
   const t = title.toLowerCase();
+  if (_slug === "cable-sizing" && t.includes("ccc selection problems")) {
+    return {
+      problem: "Using only this supplied fictional table row: 4 mm² It = 37 A and 6 mm² It = 47 A for the declared cable and method. Ib = 32 A, In = 32 A, Ca = 0.94 and Cg = 0.80. Screen both candidates thermally, then state what the result does not prove.",
+      steps: [
+        "Calculate the combined supplied factor: 0.94 × 0.80 = 0.752.",
+        "For 4 mm², illustrative Iz = 37 × 0.752 = 27.8 A, so In ≤ Iz fails.",
+        "For 6 mm², illustrative Iz = 47 × 0.752 = 35.3 A, so the basic Ib ≤ In ≤ Iz thermal screen passes.",
+        "Do not approve from this screen: verify the current standard's exact overload formula, table and factors, plus voltage drop, fault/disconnection, short-circuit withstand, terminals, harmonics, neutral, environment and installation requirements.",
+      ],
+      answer: "4 mm² fails the supplied thermal screen; 6 mm² passes that screen at Iz ≈ 35.3 A, but is not a completed or approved cable design",
+    };
+  }
+  if (_slug === "cable-sizing" && t.includes("applying multiple correction factors")) {
+    return {
+      problem: "For a fictional declared case, Ib = 36 A, In = 40 A and supplied factors are Ca = 0.94, Cg = 0.80 and Ci = 0.89. On the stated design basis It must be at least In/(Ca×Cg×Ci). Find the minimum It and screen a supplied 63 A table candidate.",
+      steps: [
+        "Confirm these factors apply to the same base table and are not already embodied in it; factors must not be multiplied blindly.",
+        "Combined factor = 0.94 × 0.80 × 0.89 = 0.66928.",
+        "Required tabulated capacity = 40/0.66928 = 59.77 A, so do not round this requirement downward.",
+        "For the supplied 63 A candidate, illustrative Iz = 63 × 0.66928 = 42.16 A; the basic 36 ≤ 40 ≤ 42.16 A thermal relation passes. Complete every other design and verification gate using current authoritative data.",
+      ],
+      answer: "Required It ≈ 59.8 A; the supplied 63 A candidate gives Iz ≈ 42.2 A and passes only the stated thermal screen",
+    };
+  }
   if (_slug === "three-phase-systems" && t.includes("delta circuit analysis problems")) {
     return {
       problem: "A balanced 400 V three-phase delta load has 40 ohms resistance per branch. Calculate phase current, line current, and total active power.",
