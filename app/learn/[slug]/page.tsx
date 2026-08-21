@@ -842,8 +842,16 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
   };
 }
 
-function getQuizForLesson(title: string, _slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
+function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
+  if (slug === "electrical-fundamentals" && t.includes("module quiz")) {
+    return {
+      question: "Which statement correctly compares conventional current with electron drift in a copper conductor?",
+      options: ["They always move in the same direction", "Conventional current follows positive-charge direction; electrons drift oppositely", "Only electron direction may be used in circuit analysis", "Neither direction can be assigned"],
+      correct: 1,
+      explanation: "Conventional current is the positive-charge reference direction. Copper conduction uses negative electrons, so their net drift is opposite; consistent circuit equations remain valid.",
+    };
+  }
 
   if (t.includes("ohm") || t.includes("potential difference") || t.includes("resistance and resistivity")) {
     return {
@@ -922,6 +930,18 @@ function getExerciseForLesson(title: string, _slug: string): { problem: string; 
         "Part (c) Energy: E = P × t = 1200W × 2h = 2400Wh = 2.4kWh. On a standard tariff at 28p/kWh, cost = 2.4 × 28p = 67.2p",
       ],
       answer: "(a) 5A  (b) 1200W  (c) 2.4 kWh",
+    };
+  }
+  if (t.includes("circuit analysis practice")) {
+    return {
+      problem: "A 4 Ω resistor is in series with a parallel network of 6 Ω and 3 Ω across a 12 V DC source. Calculate equivalent resistance, source current, voltage across the parallel network, and both branch currents.",
+      steps: [
+        "Parallel equivalent: Rp = (1/6 + 1/3)⁻¹ = 2 Ω.",
+        "Total resistance: Rt = 4 + 2 = 6 Ω; source current It = 12/6 = 2 A.",
+        "Series-resistor drop is 2 × 4 = 8 V, leaving 4 V across each parallel branch.",
+        "Branch currents are 4/6 = 0.667 A and 4/3 = 1.333 A; their sum is 2 A.",
+      ],
+      answer: "Rt = 6 Ω; It = 2 A; Vparallel = 4 V; branches = 0.667 A and 1.333 A",
     };
   }
   if (t.includes("voltage drop")) {

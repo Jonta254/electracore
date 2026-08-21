@@ -1,46 +1,20 @@
-﻿import fs from "node:fs";
-
-const source = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
-const lines = source.split(/\r?\n/);
-const rows = [];
-let course = "";
-let moduleTitle = "";
-const richTerms = /ohm|voltage|current|resistance|kirchhoff|power|series|parallel|rcd|cable|three.phase|mcb|solar|pv|motor|atom|electron|earthing|ac vs dc|frequency|inspection|testing|led|lighting/i;
-
-for (const line of lines) {
-  const courseMatch = line.match(/^  "([^"]+)": \{$/);
-  if (courseMatch) course = courseMatch[1];
-  const moduleMatch = line.match(/(?:^\s*\{|^\s*)id: "m\d+", title: "([^"]+)"/);
-  if (moduleMatch) moduleTitle = moduleMatch[1];
-  const lesson = line.match(/\{ id: "(l\d+)", title: "([^"]+)", duration: "([^"]+)", type: "(video|quiz|exercise)" \}/);
-  if (!lesson || !course) continue;
-  const [, id, title, duration, type] = lesson;
-  const rich = richTerms.test(title);
-  rows.push({
-    course, moduleTitle, id, title, duration, type,
-    url: `/learn/${course} (lesson id: ${id})`,
-    depth: rich ? "Topic-specific summary" : "Generic fallback summary",
-    diagram: rich && type === "video" ? "Topic diagram where matched" : "None recorded",
-    assessment: type === "quiz" ? "Multiple choice" : type === "exercise" ? "Worked exercise" : "None",
-    review: "Professional review pending",
-    plan: course === "electrical-fundamentals" && ["l6", "l7", "l8", "l9"].includes(id)
-      ? "Deepen in current implementation group"
-      : "Preserve; review in a later small group",
-    risk: type === "quiz" || type === "exercise" ? "Medium — progress/answer behavior" : "Low — content-only",
-  });
+import fs from "node:fs";
+const read = (path) => fs.readFileSync(new URL(path, import.meta.url), "utf8");
+const source = read("../app/learn/[slug]/page.tsx");
+const enhancementSource = read("../app/learn/enhancedLessons.ts") + read("../app/learn/fundamentalsGroupOne.ts");
+const reviewSource = read("../app/learn/reviewStates.ts");
+const enhanced = new Set([...enhancementSource.matchAll(/"([a-z0-9-]+:l\d+)":\s*(?:lesson\()?\{/g)].map(match => match[1]));
+const reviews = new Map([...reviewSource.matchAll(/"([a-z0-9-]+:l\d+)": \{ state: "([^"]+)", reviewedOn: "([^"]+)", evidence: "([^"]+)" \}/g)].map(match => [match[1], { state: match[2], date: match[3], evidence: match[4] }]));
+const rows=[]; let course=""; let moduleTitle="";
+for (const line of source.split(/\r?\n/)) {
+  const c=line.match(/^  "([^"]+)": \{$/); if(c) course=c[1];
+  const m=line.match(/(?:^\s*\{|^\s*)id: "m\d+", title: "([^"]+)"/); if(m) moduleTitle=m[1];
+  const l=line.match(/\{ id: "(l\d+)", title: "([^"]+)", duration: "([^"]+)", type: "(video|quiz|exercise)" \}/); if(!l||!course) continue;
+  const key=`${course}:${l[1]}`; const review=reviews.get(key);
+  rows.push({course,moduleTitle,id:l[1],title:l[2],duration:l[3],type:l[4],key,enhanced:enhanced.has(key),review});
 }
-
-const header = [
-  "# Curriculum matrix",
-  "",
-  `Generated from the preserved course database on 2026-08-14. Courses: ${new Set(rows.map(r => r.course)).size}; lessons: ${rows.length}.`,
-  "",
-  "Lesson IDs are internal state identifiers on the course route. There are no separate per-lesson URL paths; changing an ID would risk stored completion compatibility.",
-  "",
-  "| Course | Module | Lesson | Existing URL / ID | Duration | Type | Present depth | Diagram | Assessment | Accuracy review | Planned improvement | Migration risk |",
-  "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
-];
-const escape = (value) => String(value).replaceAll("|", "\\|").replaceAll("\n", " ");
-const body = rows.map(r => `| ${[r.course, r.moduleTitle, r.title, r.url, r.duration, r.type, r.depth, r.diagram, r.assessment, r.review, r.plan, r.risk].map(escape).join(" | ")} |`);
-fs.writeFileSync(new URL("../docs/CURRICULUM-MATRIX.md", import.meta.url), [...header, ...body, ""].join("\n"));
-console.log(`Wrote ${rows.length} lesson rows across ${new Set(rows.map(r => r.course)).size} courses.`);
+const counts={ enhanced:rows.filter(r=>r.enhanced).length, reviewed:rows.filter(r=>r.review).length, pending:rows.filter(r=>!r.review).length };
+const header=["# Curriculum matrix","",`Generated from the preserved course database on 2026-08-21. Courses: ${new Set(rows.map(r=>r.course)).size}; lessons: ${rows.length}; structured enhancements: ${counts.enhanced}; individually reviewed: ${counts.reviewed}; awaiting review: ${counts.pending}.`,"","Lesson IDs are compatibility-sensitive internal identifiers. Review states come only from `app/learn/reviewStates.ts`; absent entries are explicitly incomplete.","","| Course | Module | Lesson | Existing URL / ID | Duration | Type | Content record | Review state | Evidence |","| --- | --- | --- | --- | --- | --- | --- | --- | --- |"]; const esc=v=>String(v).replaceAll("|","\\|").replaceAll("\n"," ");
+const body=rows.map(r=>`| ${[r.course,r.moduleTitle,r.title,`/learn/${r.course} (lesson id: ${r.id})`,r.duration,r.type,r.enhanced?"Structured enhanced lesson":"Existing route content",r.review?.state??"Not yet reviewed",r.review?.evidence??"Pending individual inspection"].map(esc).join(" | ")} |`);
+fs.writeFileSync(new URL("../docs/CURRICULUM-MATRIX.md",import.meta.url),[...header,...body,""].join("\n"));
+console.log(`Wrote ${rows.length} rows: ${counts.enhanced} enhanced, ${counts.reviewed} reviewed, ${counts.pending} pending.`);

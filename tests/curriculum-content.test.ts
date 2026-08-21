@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 import { ENHANCED_LESSONS } from "../app/learn/enhancedLessons.ts";
+import { LESSON_REVIEWS } from "../app/learn/reviewStates.ts";
 
 test("enhanced fundamentals preserve the verified checkpoint lesson IDs", () => {
   for (const id of ["l6", "l7", "l8", "l9"]) {
@@ -61,4 +62,21 @@ test("all inline quiz correct-answer indexes are within their option arrays", ()
     const correct = Number(block[2]);
     assert.ok(correct >= 0 && correct < options.length, `Invalid quiz mapping: index ${correct}, options ${options.length}`);
   }
+});
+test("first fundamentals group has truthful review evidence", () => {
+  const group = Array.from({ length: 15 }, (_, index) => `electrical-fundamentals:l${index + 1}`);
+  for (const key of group) {
+    const review = LESSON_REVIEWS[key];
+    assert.ok(review, `missing review state for ${key}`);
+    assert.match(review.reviewedOn, /^\d{4}-\d{2}-\d{2}$/);
+    assert.ok(review.evidence.length >= 40);
+  }
+  assert.equal(Object.keys(ENHANCED_LESSONS).length, 12);
+});
+
+test("fundamentals module quiz and circuit practice do not use generic fallbacks", () => {
+  const source = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  assert.match(source, /slug === "electrical-fundamentals" && t\.includes\("module quiz"\)/);
+  assert.match(source, /t\.includes\("circuit analysis practice"\)/);
+  assert.match(source, /Branch currents are 4\/6 = 0\.667 A and 4\/3 = 1\.333 A/);
 });

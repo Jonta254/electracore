@@ -1,14 +1,28 @@
-﻿import type { EnhancedLesson } from "./enhancedLessons";
+import type { EnhancedLesson } from "./enhancedLessons";
 
 function QuantityDiagram({ lessonId }: { lessonId: string }) {
-  const label = lessonId === "l6" ? "VOLTAGE — ENERGY PER CHARGE"
-    : lessonId === "l7" ? "CURRENT — CHARGE PER SECOND"
-    : lessonId === "l8" ? "RESISTANCE — MATERIAL + GEOMETRY"
-    : "OHM'S LAW — ONE RELATIONSHIP, THREE FORMS";
+  const labels: Record<string, string> = {
+    l1: "ATOMIC CHARGE MODEL", l2: "CHARGE — COULOMBS AND CARRIERS", l3: "MATERIAL RESPONSE", l4: "CURRENT DIRECTION CONVENTIONS",
+    l6: "VOLTAGE — ENERGY PER CHARGE", l7: "CURRENT — CHARGE PER SECOND", l8: "RESISTANCE — MATERIAL + GEOMETRY", l9: "OHM'S LAW — ONE RELATIONSHIP, THREE FORMS",
+    l11: "SERIES — ONE CURRENT PATH", l12: "PARALLEL — COMMON VOLTAGE", l13: "SERIES-PARALLEL REDUCTION", l14: "DIVIDER RELATIONSHIPS",
+  };
+  const label = labels[lessonId] ?? "ELECTRICAL RELATIONSHIP";
   return (
     <svg className="enhanced-diagram" viewBox="0 0 640 190" role="img" aria-labelledby={`diagram-${lessonId}`}>
       <title id={`diagram-${lessonId}`}>{label}</title>
       <text x="22" y="26" className="diagram-kicker">{label}</text>
+      {["l1","l2","l3","l4"].includes(lessonId) && <>
+        <circle cx="180" cy="100" r="54" className="diagram-source" /><circle cx="180" cy="100" r="12" className="diagram-charge" />
+        <circle cx="180" cy="100" r="36" fill="none" className="diagram-wire" /><circle cx="216" cy="100" r="7" className="diagram-charge" />
+        <text x="180" y="105" className="diagram-value">+</text><text x="400" y="82" className="diagram-value">{lessonId === "l3" ? "carrier availability" : lessonId === "l4" ? "I →   ← e⁻" : "Q = n·e"}</text>
+        <text x="400" y="112" className="diagram-note">{lessonId === "l3" ? "material and conditions matter" : "sign and direction are explicit"}</text>
+      </>}
+      {["l11","l12","l13","l14"].includes(lessonId) && <>
+        <line x1="60" y1="70" x2="580" y2="70" className="diagram-wire" /><line x1="60" y1="140" x2="580" y2="140" className="diagram-wire" />
+        <rect x="205" y="58" width="70" height="24" className="diagram-load" /><rect x="365" y="58" width="70" height="24" className="diagram-load" />
+        <text x="240" y="52" className="diagram-note">R₁</text><text x="400" y="52" className="diagram-note">R₂</text>
+        <text x="320" y="120" className="diagram-value">{lessonId === "l11" ? "Req = ΣR" : lessonId === "l12" ? "1/Req = Σ1/R" : lessonId === "l13" ? "reduce → check → expand" : "Vout = Vin·R₂/(R₁+R₂)"}</text>
+      </>}
       {lessonId === "l6" && <>
         <circle cx="95" cy="96" r="43" className="diagram-source" />
         <text x="95" y="91" className="diagram-value">12 V</text><text x="95" y="111" className="diagram-note">source rise</text>
@@ -87,7 +101,7 @@ export function EnhancedLessonView({ lesson, lessonId }: { lesson: EnhancedLesso
 
       <section id={`sources-${lessonId}`} className="lesson-sources">
         <h3>Sources and review</h3>
-        <ul>{lesson.sources.map(source => <li key={source.title}>{source.title} — {source.publisher}; {source.edition}; {source.jurisdiction}</li>)}</ul>
+        <ul>{lesson.sources.map(source => <li key={source.title}>{source.url ? <a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a> : source.title} — {source.publisher}; {source.edition}; {source.jurisdiction}</li>)}</ul>
         <p>Content review date: {lesson.reviewDate}. Professional electrical review is pending.</p>
       </section>
     </div>

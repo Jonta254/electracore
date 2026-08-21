@@ -1,7 +1,7 @@
-﻿export interface LessonTerm { term: string; meaning: string; symbol?: string; unit?: string; }
+export interface LessonTerm { term: string; meaning: string; symbol?: string; unit?: string; }
 export interface WorkedStep { label: string; detail: string; }
 export interface KnowledgeCheck { question: string; answer: string; feedback: string; }
-export interface LessonSource { title: string; publisher: string; edition: string; jurisdiction: string; }
+export interface LessonSource { title: string; publisher: string; edition: string; jurisdiction: string; url?: string; }
 
 export interface EnhancedLesson {
   purpose: string;
@@ -30,7 +30,10 @@ const commonSources: LessonSource[] = [
   { title: "International Electrotechnical Vocabulary — Electromagnetism", publisher: "IEC", edition: "Current edition must be confirmed", jurisdiction: "International" },
 ];
 
+import { FUNDAMENTALS_GROUP_ONE } from "./fundamentalsGroupOne.ts";
+
 export const ENHANCED_LESSONS: Record<string, EnhancedLesson> = {
+  ...FUNDAMENTALS_GROUP_ONE,
   "electrical-fundamentals:l6": {
     purpose: "Distinguish voltage from current and use potential difference correctly when describing a circuit.",
     difficulty: "Beginner",
