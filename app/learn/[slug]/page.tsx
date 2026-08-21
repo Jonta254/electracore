@@ -844,6 +844,22 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
 
 function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
+  if (slug === "domestic-wiring" && t.includes("lighting circuit quiz")) {
+    return {
+      question: "In a conventional two-way lighting circuit, what does each end switch do?",
+      options: ["Connect its common terminal to one of two strapper terminals", "Switch neutral and CPC together", "Cross both strappers internally at all times", "Provide overcurrent protection for the lamp"],
+      correct: 0,
+      explanation: "Each end device is a single-pole changeover switch. Its common selects one of two strapper paths; an intermediate switch, if fitted, performs the crossover function.",
+    };
+  }
+  if (slug === "domestic-wiring" && t.includes("bonding quiz")) {
+    return {
+      question: "What makes a conductive service part an extraneous-conductive-part for bonding assessment?",
+      options: ["It is liable to introduce a potential, generally Earth potential", "It is made from any metal", "It is visible inside a bathroom", "It has no paint on its surface"],
+      correct: 0,
+      explanation: "Classification depends on whether the part can introduce a potential, not on material or location alone. The actual service construction and current requirements must be assessed.",
+    };
+  }
   if (slug === "domestic-wiring" && t.includes("module quiz")) {
     return {
       question: "Which statement correctly distinguishes an RCCB from an RCBO?",

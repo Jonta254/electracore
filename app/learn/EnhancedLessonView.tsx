@@ -2,13 +2,21 @@ import type { EnhancedLesson } from "./enhancedLessons";
 
 function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonId: string }) {
   if (courseSlug === "domestic-wiring") {
-    const label = Number(lessonId.slice(1)) <= 4 ? "CONSUMER UNIT PROTECTION PATHS" : "RING, SPUR, AND RADIAL TOPOLOGY";
+    const lessonNumber = Number(lessonId.slice(1));
+    const label = lessonNumber <= 4
+      ? "CONSUMER UNIT PROTECTION PATHS"
+      : lessonNumber <= 10
+        ? "RING, SPUR, AND RADIAL TOPOLOGY"
+        : lessonNumber <= 16
+          ? "LIGHTING CONTROL PATHS"
+          : "EARTHING AND BONDING PATHS";
+    const originLabel = lessonNumber <= 4 ? "CU" : lessonNumber <= 10 ? "ORIGIN" : lessonNumber <= 16 ? "SWITCH" : "MET";
     return (
       <svg className="enhanced-diagram" viewBox="0 0 640 190" role="img" aria-labelledby={`diagram-${courseSlug}-${lessonId}`}>
         <title id={`diagram-${courseSlug}-${lessonId}`}>{label}</title>
         <text x="22" y="26" className="diagram-kicker">{label}</text>
         <rect x="60" y="58" width="150" height="90" rx="8" className="diagram-source" />
-        <text x="135" y="90" className="diagram-value">{Number(lessonId.slice(1)) <= 4 ? "CU" : "ORIGIN"}</text>
+        <text x="135" y="90" className="diagram-value">{originLabel}</text>
         <text x="135" y="116" className="diagram-note">isolate · protect · identify</text>
         <line x1="210" y1="78" x2="570" y2="78" className="diagram-wire" /><line x1="210" y1="130" x2="570" y2="130" className="diagram-wire" />
         <rect x="315" y="66" width="70" height="24" className="diagram-load" /><rect x="470" y="118" width="70" height="24" className="diagram-load" />
