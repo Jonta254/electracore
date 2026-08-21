@@ -89,8 +89,17 @@ test("second fundamentals group has review evidence and no generic assessments",
 });
 test("remaining fundamentals group is fully recorded and assessment-specific", () => {
   for (let id = 24; id <= 37; id += 1) assert.ok(LESSON_REVIEWS[`electrical-fundamentals:l${id}`]);
-  assert.equal(Object.keys(ENHANCED_LESSONS).length, 31);
+  assert.ok(Object.keys(ENHANCED_LESSONS).length >= 31);
   const source = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
   assert.match(source, /slug === "electrical-fundamentals" && t\.includes\("final assessment"\)/);
   assert.match(source, /XC ≈ 31\.8 Ω; current leads voltage by 90°/);
+});
+test("first domestic wiring group has course-specific content and review evidence", () => {
+  for (let id = 1; id <= 10; id += 1) assert.ok(LESSON_REVIEWS[`domestic-wiring:l${id}`]);
+  assert.equal(Object.keys(ENHANCED_LESSONS).length, 39);
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
+  assert.match(courseSource, /slug === "domestic-wiring" && t\.includes\("module quiz"\)/);
+  assert.match(courseSource, /_slug === "domestic-wiring" && t\.includes\("wiring practice problems"\)/);
+  assert.match(viewSource, /courseSlug === "domestic-wiring"/);
 });

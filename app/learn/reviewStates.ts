@@ -37,4 +37,15 @@ export const LESSON_REVIEWS: Record<string, LessonReview> = {
   "electrical-fundamentals:l34": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Multimeter connection, true-RMS, and CAT-system guidance individually reviewed." },
   "electrical-fundamentals:l35": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Clamp placement, cancellation, sensor type, and live-work cautions individually reviewed." },
   "electrical-fundamentals:l36": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Oscilloscope scale, probe-factor, sampling, and grounding guidance individually reviewed." },
-  "electrical-fundamentals:l37": { state: "preserved-verified", reviewedOn: "2026-08-21", evidence: "Final assessment replaced with a course-specific RMS/reactance question and stable answer mapping." },};
+  "electrical-fundamentals:l37": { state: "preserved-verified", reviewedOn: "2026-08-21", evidence: "Final assessment replaced with a course-specific RMS/reactance question and stable answer mapping." },
+  "domestic-wiring:l1": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Consumer-unit functional layout and neutral/CPC routing individually reviewed." },
+  "domestic-wiring:l2": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "MCB overload, instantaneous characteristic, breaking-capacity, and Zs workflow individually reviewed." },
+  "domestic-wiring:l3": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "RCCB/RCBO functional distinctions and circuit-division consequences individually reviewed." },
+  "domestic-wiring:l4": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Split-load, shared-RCD, and all-RCBO architecture trade-offs individually reviewed." },
+  "domestic-wiring:l5": { state: "preserved-verified", reviewedOn: "2026-08-21", evidence: "Module quiz replaced with a consumer-unit-specific RCCB/RCBO question and stable answer mapping." },
+  "domestic-wiring:l6": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Ring topology, current-sharing assumptions, and broken-ring risk individually reviewed." },
+  "domestic-wiring:l7": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Ring-final cable-selection workflow and limitations individually reviewed." },
+  "domestic-wiring:l8": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Fused/unfused spur topology and downstream protection individually reviewed." },
+  "domestic-wiring:l9": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Radial topology and section-current example individually verified." },
+  "domestic-wiring:l10": { state: "preserved-verified", reviewedOn: "2026-08-21", evidence: "Generic exercise replaced with a domestic ring/radial topology analysis and explicit non-approval limitation." },
+};

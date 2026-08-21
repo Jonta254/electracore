@@ -1,6 +1,21 @@
 import type { EnhancedLesson } from "./enhancedLessons";
 
-function QuantityDiagram({ lessonId }: { lessonId: string }) {
+function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonId: string }) {
+  if (courseSlug === "domestic-wiring") {
+    const label = Number(lessonId.slice(1)) <= 4 ? "CONSUMER UNIT PROTECTION PATHS" : "RING, SPUR, AND RADIAL TOPOLOGY";
+    return (
+      <svg className="enhanced-diagram" viewBox="0 0 640 190" role="img" aria-labelledby={`diagram-${courseSlug}-${lessonId}`}>
+        <title id={`diagram-${courseSlug}-${lessonId}`}>{label}</title>
+        <text x="22" y="26" className="diagram-kicker">{label}</text>
+        <rect x="60" y="58" width="150" height="90" rx="8" className="diagram-source" />
+        <text x="135" y="90" className="diagram-value">{Number(lessonId.slice(1)) <= 4 ? "CU" : "ORIGIN"}</text>
+        <text x="135" y="116" className="diagram-note">isolate · protect · identify</text>
+        <line x1="210" y1="78" x2="570" y2="78" className="diagram-wire" /><line x1="210" y1="130" x2="570" y2="130" className="diagram-wire" />
+        <rect x="315" y="66" width="70" height="24" className="diagram-load" /><rect x="470" y="118" width="70" height="24" className="diagram-load" />
+        <text x="350" y="58" className="diagram-note">device / point</text><text x="505" y="164" className="diagram-note">trace every conductor path</text>
+      </svg>
+    );
+  }
   const labels: Record<string, string> = {
     l1: "ATOMIC CHARGE MODEL", l2: "CHARGE — COULOMBS AND CARRIERS", l3: "MATERIAL RESPONSE", l4: "CURRENT DIRECTION CONVENTIONS",
     l6: "VOLTAGE — ENERGY PER CHARGE", l7: "CURRENT — CHARGE PER SECOND", l8: "RESISTANCE — MATERIAL + GEOMETRY", l9: "OHM'S LAW — ONE RELATIONSHIP, THREE FORMS",
@@ -84,7 +99,7 @@ function QuantityDiagram({ lessonId }: { lessonId: string }) {
   );
 }
 
-export function EnhancedLessonView({ lesson, lessonId }: { lesson: EnhancedLesson; lessonId: string }) {
+export function EnhancedLessonView({ lesson, courseSlug, lessonId }: { lesson: EnhancedLesson; courseSlug: string; lessonId: string }) {
   return (
     <div className="enhanced-lesson">
       <nav className="lesson-toc" aria-label="Lesson contents">
@@ -101,7 +116,7 @@ export function EnhancedLessonView({ lesson, lessonId }: { lesson: EnhancedLesso
         <p className="lesson-introduction">{lesson.introduction}</p>
       </section>
 
-      <QuantityDiagram lessonId={lessonId} />
+      <QuantityDiagram courseSlug={courseSlug} lessonId={lessonId} />
 
       <section id={`theory-${lessonId}`}>
         <h3>Core theory</h3>{lesson.theory.map(item => <p key={item}>{item}</p>)}

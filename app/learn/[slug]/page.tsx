@@ -844,6 +844,14 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
 
 function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
+  if (slug === "domestic-wiring" && t.includes("module quiz")) {
+    return {
+      question: "Which statement correctly distinguishes an RCCB from an RCBO?",
+      options: ["An RCCB provides residual-current protection but needs coordinated overcurrent protection; an RCBO combines both", "An RCCB always protects one circuit and an RCBO always protects several", "An RCCB is an isolation switch only", "They are different names for the same device"],
+      correct: 0,
+      explanation: "An RCCB detects residual-current imbalance but does not itself provide overload/short-circuit protection. An RCBO combines residual-current and overcurrent protection for its circuit.",
+    };
+  }
   if (slug === "electrical-fundamentals" && t.includes("final assessment")) {
     return {
       question: "A 100 µF ideal capacitor is connected to a 50 Hz sinusoidal source. Which result and phase statement are correct?",
@@ -936,6 +944,18 @@ function getQuizForLesson(title: string, slug: string): { question: string; opti
 
 function getExerciseForLesson(title: string, _slug: string): { problem: string; steps: string[]; answer: string } | null {
   const t = title.toLowerCase();
+  if (_slug === "domestic-wiring" && t.includes("wiring practice problems")) {
+    return {
+      problem: "A paper design shows a 32 A ring final with one existing unfused spur. A proposal extends that spur to three additional socket outlets and routes part of the branch through thermal insulation. Identify the topology and design issues; do not select a final cable size.",
+      steps: [
+        "Trace topology: the added outlets form a multi-outlet branch outside the ring return path, not new points on the ring.",
+        "Protection: without a suitable local protective arrangement, aggregate branch loading is not bounded as an ordinary single unfused spur.",
+        "Thermal route: insulation can reduce current-carrying capacity, so the actual reference method and correction factors are required.",
+        "Resolution: redesign a compliant ring/radial/fused arrangement, then verify capacity, voltage drop, fault protection, RCD requirements, connections, inspection, and tests against current guidance.",
+      ],
+      answer: "Do not approve the proposed branch; redesign and complete the full BS 7671 design and verification workflow",
+    };
+  }
   if (t.includes("kirchhoff's law problems")) {
     return {
       problem: "A 12 V source supplies a 2 Ω resistor in series with a node that splits into 6 Ω and 3 Ω parallel branches. Use Kirchhoff's laws to find source current, node voltage, and branch currents.",
@@ -1508,7 +1528,7 @@ function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, previousL
             </div>
           )}
           {enhancedLesson ? (
-            <EnhancedLessonView lesson={enhancedLesson} lessonId={lesson.id} />
+            <EnhancedLessonView lesson={enhancedLesson} courseSlug={courseSlug} lessonId={lesson.id} />
           ) : (
             <>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
