@@ -844,6 +844,14 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
 
 function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
+  if (slug === "protection-fault-analysis" && t.includes("device selection quiz")) {
+    return {
+      question: "A verified transformer inrush trips a Type B MCB. What must happen before substituting a Type C device?",
+      options: ["Check inrush against the exact curve and re-verify Zs, disconnection, conductor protection, breaking capacity, and coordination", "Change to Type C because transformers always require it", "Increase the current rating until trips stop", "Keep Type B and bypass it during starting"],
+      correct: 0,
+      explanation: "A Type C device generally tolerates more inrush but requires more fault current for rapid operation. The exact device curve and the complete protection design must be rechecked.",
+    };
+  }
   if (slug === "domestic-wiring" && t.includes("final assessment")) {
     return {
       question: "A new final circuit is installed in an English dwelling. Which statement is correct?",
@@ -976,6 +984,18 @@ function getQuizForLesson(title: string, slug: string): { question: string; opti
 
 function getExerciseForLesson(title: string, _slug: string): { problem: string; steps: string[]; answer: string } | null {
   const t = title.toLowerCase();
+  if (_slug === "protection-fault-analysis" && t.includes("zs calculation exercises")) {
+    return {
+      problem: "A TN circuit design uses Ze = 0.28 Ω and a corrected design-temperature R1+R2 = 0.64 Ω. Calculate conceptual design Zs, then state what still must be verified before approval.",
+      steps: [
+        "Combine compatible design components: Zs = 0.28 + 0.64 = 0.92 Ω.",
+        "Identify the exact protective device, product standard, rating/curve, earthing system, circuit class, and required disconnection time.",
+        "Compare 0.92 Ω with the current-edition or manufacturer maximum using the correct voltage/temperature basis; check breaking capacity, conductor fault withstand, RCD provisions, and coordination.",
+        "Reconcile the design with inspection, protective-conductor continuity, polarity, safe measured evidence, instrument uncertainty, and any parallel-path effects.",
+      ],
+      answer: "Conceptual design Zs = 0.92 Ω; this is not approval until the exact device/time limit and the complete ADS verification pass",
+    };
+  }
   if (_slug === "domestic-wiring" && t.includes("fault finding case studies")) {
     return {
       problem: "After work in a two-gang switch box, an RCBO for Circuit A trips only when Circuit B is also energised. Both circuits serve loads in the box. Plan a safe diagnosis without repeatedly resetting either device.",

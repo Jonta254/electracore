@@ -31,6 +31,25 @@ function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonI
         <text x="350" y="58" className="diagram-note">device / point</text><text x="505" y="164" className="diagram-note">trace every conductor path</text>
       </svg>
     );
+}
+  if (courseSlug === "protection-fault-analysis") {
+    const lessonNumber = Number(lessonId.slice(1));
+    const label = lessonNumber <= 5 ? "PROTECTIVE DEVICE OPERATING PATHS" : "EARTH-FAULT LOOP AND ADS";
+    const relationship = lessonNumber <= 5 ? "current · time · energy" : "Zs → fault current → operating time";
+    return (
+      <svg className="enhanced-diagram" viewBox="0 0 640 190" role="img" aria-labelledby={`diagram-${courseSlug}-${lessonId}`}>
+        <title id={`diagram-${courseSlug}-${lessonId}`}>{label}</title>
+        <text x="22" y="26" className="diagram-kicker">{label}</text>
+        <rect x="55" y="62" width="130" height="78" rx="8" className="diagram-source" />
+        <text x="120" y="106" className="diagram-value">SOURCE</text>
+        <line x1="185" y1="101" x2="290" y2="101" className="diagram-wire" />
+        <rect x="290" y="78" width="90" height="46" className="diagram-load" />
+        <text x="335" y="106" className="diagram-value">TRIP</text>
+        <line x1="380" y1="101" x2="565" y2="101" className="diagram-wire" />
+        <text x="475" y="78" className="diagram-note">fault / load</text>
+        <text x="320" y="164" className="diagram-note">{relationship}</text>
+      </svg>
+    );
   }
   const labels: Record<string, string> = {
     l1: "ATOMIC CHARGE MODEL", l2: "CHARGE — COULOMBS AND CARRIERS", l3: "MATERIAL RESPONSE", l4: "CURRENT DIRECTION CONVENTIONS",
