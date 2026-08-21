@@ -3,11 +3,34 @@ import fs from "node:fs";
 import test from "node:test";
 import { ENHANCED_LESSONS } from "../app/learn/enhancedLessons.ts";
 
-test("enhanced fundamentals preserve the existing lesson IDs", () => {
-  assert.deepEqual(Object.keys(ENHANCED_LESSONS).sort(), [
-    "electrical-fundamentals:l6", "electrical-fundamentals:l7",
-    "electrical-fundamentals:l8", "electrical-fundamentals:l9",
-  ]);
+test("enhanced fundamentals preserve the verified checkpoint lesson IDs", () => {
+  for (const id of ["l6", "l7", "l8", "l9"]) {
+    assert.ok(ENHANCED_LESSONS[`electrical-fundamentals:${id}`]);
+  }
+});
+
+test("course inventory contains 9 courses and 280 uniquely addressable lessons", () => {
+  const source = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseBlocks = [...source.matchAll(/^  "([^"]+)": \{([\s\S]*?)(?=^  "[^"]+": \{|^\};)/gm)];
+  assert.equal(courseBlocks.length, 9);
+  let total = 0;
+  const inventory = new Set<string>();
+  for (const [, slug, block] of courseBlocks) {
+    const ids = [...block.matchAll(/\{ id: "(l\d+)", title: "([^"]+)", duration: "([^"]+)", type: "(video|quiz|exercise)" \}/g)];
+    assert.ok(ids.length > 0, `${slug} has no lessons`);
+    const local = new Set<string>();
+    for (const [, id, title, duration] of ids) {
+      assert.ok(title.trim().length > 3, `${slug}:${id} has an invalid title`);
+      assert.match(duration, /^\d+min$/, `${slug}:${id} has an invalid duration`);
+      assert.equal(local.has(id), false, `${slug} duplicates ${id}`);
+      local.add(id);
+      inventory.add(`${slug}:${id}`);
+      total += 1;
+    }
+  }
+  assert.equal(total, 280);
+  assert.equal(inventory.size, 280);
+  for (const key of Object.keys(ENHANCED_LESSONS)) assert.ok(inventory.has(key), `orphan enhancement: ${key}`);
 });
 
 test("worked numerical answers are reproducible without false precision", () => {
