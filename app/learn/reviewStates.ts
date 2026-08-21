@@ -106,4 +106,13 @@ export const LESSON_REVIEWS: Record<string, LessonReview> = {
   "protection-fault-analysis:l27": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Board PFC fault bases, low-impedance uncertainty, source contributions, and equipment capability individually reviewed." },
   "protection-fault-analysis:l28": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Current RCD trip-time sequence, waveform settings, leakage, records, and restoration individually reviewed." },
   "protection-fault-analysis:l29": { state: "preserved-verified", reviewedOn: "2026-08-21", evidence: "Final assessment replaced with a selectivity-versus-backup distinction and stable answer mapping." },
+  "three-phase-systems:l1": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Three-phase symmetry, aggregate power, conductor-use qualification, and unbalance caveats individually reviewed." },
+  "three-phase-systems:l2": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Winding displacement, induced emf, pole-count frequency, and 4-pole 1500 rpm example individually verified." },
+  "three-phase-systems:l3": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Phase sequence, cyclic-order equivalence, pair-swap reversal, and live-test controls individually reviewed." },
+  "three-phase-systems:l4": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Balanced phasors, reference convention, rectangular conversion, and zero vector sum individually verified." },
+  "three-phase-systems:l5": { state: "preserved-verified", reviewedOn: "2026-08-22", evidence: "Generic quiz replaced with a phase-sequence pair-swap question and stable answer mapping." },
+  "three-phase-systems:l6": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Star topology, line/phase current equality, neutral role, and floating-star risk individually reviewed." },
+  "three-phase-systems:l7": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Root-three line-voltage derivation, 30-degree displacement, and 230-to-398 V calculation individually verified." },
+  "three-phase-systems:l8": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Neutral phasor sum, unbalance example, triplen harmonics, and neutral safety individually reviewed." },
+  "three-phase-systems:l9": { state: "preserved-verified", reviewedOn: "2026-08-22", evidence: "Generic exercise replaced with a balanced-star voltage, current, neutral, and power analysis with explicit assumptions." },
 };

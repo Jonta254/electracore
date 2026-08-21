@@ -51,6 +51,23 @@ function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonI
       </svg>
     );
   }
+  if (courseSlug === "three-phase-systems") {
+    const lessonNumber = Number(lessonId.slice(1));
+    const label = lessonNumber <= 5 ? "THREE-PHASE PHASOR SET" : "STAR VOLTAGE AND CURRENT PATHS";
+    return (
+      <svg className="enhanced-diagram" viewBox="0 0 640 190" role="img" aria-labelledby={`diagram-${courseSlug}-${lessonId}`}>
+        <title id={`diagram-${courseSlug}-${lessonId}`}>{label}</title>
+        <text x="22" y="26" className="diagram-kicker">{label}</text>
+        <circle cx="250" cy="105" r="10" className="diagram-charge" />
+        <line x1="250" y1="105" x2="250" y2="48" className="diagram-thick" />
+        <line x1="250" y1="105" x2="201" y2="134" className="diagram-thick" />
+        <line x1="250" y1="105" x2="299" y2="134" className="diagram-thick" />
+        <text x="250" y="42" className="diagram-note">L1 · 0°</text><text x="175" y="151" className="diagram-note">L2 · −120°</text><text x="325" y="151" className="diagram-note">L3 · +120°</text>
+        <text x="465" y="86" className="diagram-value">{lessonNumber <= 5 ? "ΣV = 0" : "VL = √3 Vph"}</text>
+        <text x="465" y="116" className="diagram-note">{lessonNumber <= 5 ? "equal magnitude · 120° apart" : "IL = Iph · IN = phasor sum"}</text>
+      </svg>
+    );
+  }
   const labels: Record<string, string> = {
     l1: "ATOMIC CHARGE MODEL", l2: "CHARGE — COULOMBS AND CARRIERS", l3: "MATERIAL RESPONSE", l4: "CURRENT DIRECTION CONVENTIONS",
     l6: "VOLTAGE — ENERGY PER CHARGE", l7: "CURRENT — CHARGE PER SECOND", l8: "RESISTANCE — MATERIAL + GEOMETRY", l9: "OHM'S LAW — ONE RELATIONSHIP, THREE FORMS",

@@ -844,6 +844,14 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
 
 function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
+  if (slug === "three-phase-systems" && t.includes("phase fundamentals quiz")) {
+    return {
+      question: "A verified L1-L2-L3 supply has L2 and L3 interchanged. What happens downstream?",
+      options: ["The phase sequence reverses", "The sequence is unchanged because labels do not matter", "Frequency doubles", "Only line voltage changes"],
+      correct: 0,
+      explanation: "Interchanging any one pair reverses the phase sequence. Cyclic relabelling would preserve the order, but a pair swap changes it.",
+    };
+  }
   if (slug === "protection-fault-analysis" && t.includes("final assessment")) {
     return {
       question: "Which statement correctly distinguishes selectivity from backup protection?",
@@ -1000,6 +1008,18 @@ function getQuizForLesson(title: string, slug: string): { question: string; opti
 
 function getExerciseForLesson(title: string, _slug: string): { problem: string; steps: string[]; answer: string } | null {
   const t = title.toLowerCase();
+  if (_slug === "three-phase-systems" && t.includes("star circuit analysis problems")) {
+    return {
+      problem: "A balanced 400 V line-to-line, three-phase star load has 20 ohms resistance per phase. Calculate phase voltage, line current, neutral current, and total active power.",
+      steps: [
+        "Phase voltage: Vph = VL/root(3) = 400/1.732 = 230.9 V.",
+        "Phase and line current in star: IL = Iph = 230.9/20 = 11.55 A.",
+        "For equal sinusoidal phase currents separated by 120 degrees, the fundamental neutral-current phasor sum is 0 A.",
+        "For a resistive balanced load, P = root(3) × VL × IL × power factor = 1.732 × 400 × 11.55 × 1 = approximately 8.00 kW.",
+      ],
+      answer: "Vph approximately 230.9 V; IL = Iph approximately 11.55 A; fundamental IN = 0 A; total active power approximately 8.00 kW",
+    };
+  }
   if (_slug === "protection-fault-analysis" && t.includes("discrimination case study")) {
     return {
       problem: "A 16 A downstream MCB is supplied by a 63 A upstream MCB. The prospective fault current at the downstream board is 2.4 kA. Decide what evidence is needed before claiming selectivity.",

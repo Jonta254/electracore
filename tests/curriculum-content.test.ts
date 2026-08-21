@@ -154,11 +154,21 @@ test("protection RCD and PFC group has specific content and assessment coverage"
 });
 test("protection coordination and testing group completes the course specifically", () => {
   for (let id = 21; id <= 29; id += 1) assert.ok(LESSON_REVIEWS[`protection-fault-analysis:l${id}`]);
-  assert.equal(Object.keys(ENHANCED_LESSONS).length, 86);
+  assert.ok(Object.keys(ENHANCED_LESSONS).length >= 86);
   const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /t\.includes\("discrimination case study"\)/);
   assert.match(courseSource, /slug === "protection-fault-analysis" && t\.includes\("final assessment"\)/);
   assert.match(viewSource, /SELECTIVITY AND COORDINATION/);
   assert.match(viewSource, /PROTECTION TEST EVIDENCE/);
+});
+test("three-phase fundamentals and star group is specific and reviewed", () => {
+  for (let id = 1; id <= 9; id += 1) assert.ok(LESSON_REVIEWS[`three-phase-systems:l${id}`]);
+  assert.equal(Object.keys(ENHANCED_LESSONS).length, 93);
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
+  assert.match(courseSource, /slug === "three-phase-systems" && t\.includes\("phase fundamentals quiz"\)/);
+  assert.match(courseSource, /_slug === "three-phase-systems" && t\.includes\("star circuit analysis problems"\)/);
+  assert.match(viewSource, /THREE-PHASE PHASOR SET/);
+  assert.match(viewSource, /STAR VOLTAGE AND CURRENT PATHS/);
 });

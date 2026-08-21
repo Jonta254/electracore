@@ -44,6 +44,7 @@ import { PROTECTION_DEVICE_LESSONS } from "./protectionDeviceLessons.ts";
 import { PROTECTION_LOOP_LESSONS } from "./protectionLoopLessons.ts";
 import { PROTECTION_RCD_PFC_LESSONS } from "./protectionRcdPfcLessons.ts";
 import { PROTECTION_COORDINATION_TESTING_LESSONS } from "./protectionCoordinationTestingLessons.ts";
+import { THREE_PHASE_FUNDAMENTALS_LESSONS } from "./threePhaseFundamentalsLessons.ts";
 
 export const ENHANCED_LESSONS: Record<string, EnhancedLesson> = {
   ...FUNDAMENTALS_GROUP_ONE,
@@ -60,6 +61,7 @@ export const ENHANCED_LESSONS: Record<string, EnhancedLesson> = {
   ...PROTECTION_LOOP_LESSONS,
   ...PROTECTION_RCD_PFC_LESSONS,
   ...PROTECTION_COORDINATION_TESTING_LESSONS,
+  ...THREE_PHASE_FUNDAMENTALS_LESSONS,
   "electrical-fundamentals:l6": {
     purpose: "Distinguish voltage from current and use potential difference correctly when describing a circuit.",
     difficulty: "Beginner",
