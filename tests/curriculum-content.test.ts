@@ -71,7 +71,7 @@ test("first fundamentals group has truthful review evidence", () => {
     assert.match(review.reviewedOn, /^\d{4}-\d{2}-\d{2}$/);
     assert.ok(review.evidence.length >= 40);
   }
-  assert.equal(Object.keys(ENHANCED_LESSONS).length, 12);
+  assert.ok(Object.keys(ENHANCED_LESSONS).length >= 12);
 });
 
 test("fundamentals module quiz and circuit practice do not use generic fallbacks", () => {
@@ -79,4 +79,11 @@ test("fundamentals module quiz and circuit practice do not use generic fallbacks
   assert.match(source, /slug === "electrical-fundamentals" && t\.includes\("module quiz"\)/);
   assert.match(source, /t\.includes\("circuit analysis practice"\)/);
   assert.match(source, /Branch currents are 4\/6 = 0\.667 A and 4\/3 = 1\.333 A/);
+});
+test("second fundamentals group has review evidence and no generic assessments", () => {
+  for (let id = 16; id <= 23; id += 1) assert.ok(LESSON_REVIEWS[`electrical-fundamentals:l${id}`]);
+  assert.equal(Object.keys(ENHANCED_LESSONS).length, 18);
+  const source = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  assert.match(source, /slug === "electrical-fundamentals" && t\.includes\("power quiz"\)/);
+  assert.match(source, /t\.includes\("kirchhoff's law problems"\)/);
 });

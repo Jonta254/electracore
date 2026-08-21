@@ -5,6 +5,7 @@ function QuantityDiagram({ lessonId }: { lessonId: string }) {
     l1: "ATOMIC CHARGE MODEL", l2: "CHARGE — COULOMBS AND CARRIERS", l3: "MATERIAL RESPONSE", l4: "CURRENT DIRECTION CONVENTIONS",
     l6: "VOLTAGE — ENERGY PER CHARGE", l7: "CURRENT — CHARGE PER SECOND", l8: "RESISTANCE — MATERIAL + GEOMETRY", l9: "OHM'S LAW — ONE RELATIONSHIP, THREE FORMS",
     l11: "SERIES — ONE CURRENT PATH", l12: "PARALLEL — COMMON VOLTAGE", l13: "SERIES-PARALLEL REDUCTION", l14: "DIVIDER RELATIONSHIPS",
+    l16: "KCL — CURRENT BALANCE", l17: "KVL — LOOP BALANCE", l18: "MESH AND NODAL VARIABLES", l20: "POWER — ENERGY RATE", l21: "ENERGY OVER TIME", l22: "CABLE LOSS AND EFFICIENCY",
   };
   const label = labels[lessonId] ?? "ELECTRICAL RELATIONSHIP";
   return (
@@ -23,7 +24,19 @@ function QuantityDiagram({ lessonId }: { lessonId: string }) {
         <text x="240" y="52" className="diagram-note">R₁</text><text x="400" y="52" className="diagram-note">R₂</text>
         <text x="320" y="120" className="diagram-value">{lessonId === "l11" ? "Req = ΣR" : lessonId === "l12" ? "1/Req = Σ1/R" : lessonId === "l13" ? "reduce → check → expand" : "Vout = Vin·R₂/(R₁+R₂)"}</text>
       </>}
-      {lessonId === "l6" && <>
+      {["l16","l17","l18"].includes(lessonId) && <>
+        <circle cx="320" cy="103" r="9" className="diagram-charge" />
+        <line x1="75" y1="103" x2="311" y2="103" className="diagram-wire" /><line x1="329" y1="103" x2="565" y2="55" className="diagram-wire" /><line x1="329" y1="103" x2="565" y2="151" className="diagram-wire" />
+        <text x="190" y="88" className="diagram-note">incoming</text><text x="470" y="48" className="diagram-note">branch 1</text><text x="470" y="168" className="diagram-note">branch 2</text>
+        <text x="320" y="58" className="diagram-value">{lessonId === "l16" ? "ΣI = 0" : lessonId === "l17" ? "ΣV = 0" : "choose node V or mesh I"}</text>
+      </>}
+      {["l20","l21","l22"].includes(lessonId) && <>
+        <rect x="90" y="65" width="150" height="76" rx="6" className="diagram-source" /><rect x="400" y="65" width="150" height="76" rx="6" className="diagram-load" />
+        <line x1="240" y1="103" x2="400" y2="103" className="diagram-wire" />
+        <text x="165" y="108" className="diagram-value">input</text><text x="475" y="108" className="diagram-value">output</text>
+        <text x="320" y="82" className="diagram-note">{lessonId === "l20" ? "P = VI" : lessonId === "l21" ? "E = Pt" : "Ploss = I²R"}</text>
+        <text x="320" y="133" className="diagram-note">{lessonId === "l22" ? "η = Pout / Pin" : "units carry meaning"}</text>
+      </>}      {lessonId === "l6" && <>
         <circle cx="95" cy="96" r="43" className="diagram-source" />
         <text x="95" y="91" className="diagram-value">12 V</text><text x="95" y="111" className="diagram-note">source rise</text>
         <line x1="138" y1="96" x2="486" y2="96" className="diagram-wire" />

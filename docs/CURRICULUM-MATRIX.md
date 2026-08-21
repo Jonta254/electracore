@@ -1,6 +1,6 @@
 # Curriculum matrix
 
-Generated from the preserved course database on 2026-08-21. Courses: 9; lessons: 280; structured enhancements: 12; individually reviewed: 15; awaiting review: 265.
+Generated from the preserved course database on 2026-08-21. Courses: 9; lessons: 280; structured enhancements: 18; individually reviewed: 23; awaiting review: 257.
 
 Lesson IDs are compatibility-sensitive internal identifiers. Review states come only from `app/learn/reviewStates.ts`; absent entries are explicitly incomplete.
 
@@ -21,14 +21,14 @@ Lesson IDs are compatibility-sensitive internal identifiers. Review states come 
 | electrical-fundamentals | Series & Parallel Circuits | Combined series-parallel networks | /learn/electrical-fundamentals (lesson id: l13) | 12min | video | Structured enhanced lesson | enhanced-review-pending | Node-based series-parallel reduction and conservation checks verified. |
 | electrical-fundamentals | Series & Parallel Circuits | Voltage dividers and current dividers | /learn/electrical-fundamentals (lesson id: l14) | 10min | video | Structured enhanced lesson | enhanced-review-pending | Unloaded divider formulas and loading caveat verified. |
 | electrical-fundamentals | Series & Parallel Circuits | Circuit analysis practice | /learn/electrical-fundamentals (lesson id: l15) | 10min | exercise | Existing route content | preserved-verified | Topic-specific combined-network exercise checked: 6 Ω total, 2 A source current, and branch-current conservation. |
-| electrical-fundamentals | Kirchhoff's Laws | KCL — Kirchhoff's Current Law | /learn/electrical-fundamentals (lesson id: l16) | 9min | video | Existing route content | Not yet reviewed | Pending individual inspection |
-| electrical-fundamentals | Kirchhoff's Laws | KVL — Kirchhoff's Voltage Law | /learn/electrical-fundamentals (lesson id: l17) | 9min | video | Existing route content | Not yet reviewed | Pending individual inspection |
-| electrical-fundamentals | Kirchhoff's Laws | Mesh and nodal analysis | /learn/electrical-fundamentals (lesson id: l18) | 12min | video | Existing route content | Not yet reviewed | Pending individual inspection |
-| electrical-fundamentals | Kirchhoff's Laws | Kirchhoff's law problems set | /learn/electrical-fundamentals (lesson id: l19) | 10min | exercise | Existing route content | Not yet reviewed | Pending individual inspection |
-| electrical-fundamentals | Power & Energy | Electrical power — watts and horsepower | /learn/electrical-fundamentals (lesson id: l20) | 8min | video | Existing route content | Not yet reviewed | Pending individual inspection |
-| electrical-fundamentals | Power & Energy | Energy — kilowatt-hours and joules | /learn/electrical-fundamentals (lesson id: l21) | 7min | video | Existing route content | Not yet reviewed | Pending individual inspection |
-| electrical-fundamentals | Power & Energy | Efficiency and power loss in cables | /learn/electrical-fundamentals (lesson id: l22) | 8min | video | Existing route content | Not yet reviewed | Pending individual inspection |
-| electrical-fundamentals | Power & Energy | Power quiz | /learn/electrical-fundamentals (lesson id: l23) | 12min | quiz | Existing route content | Not yet reviewed | Pending individual inspection |
+| electrical-fundamentals | Kirchhoff's Laws | KCL — Kirchhoff's Current Law | /learn/electrical-fundamentals (lesson id: l16) | 9min | video | Structured enhanced lesson | enhanced-review-pending | KCL signs, node balance, and 1.5 A worked result verified. |
+| electrical-fundamentals | Kirchhoff's Laws | KVL — Kirchhoff's Voltage Law | /learn/electrical-fundamentals (lesson id: l17) | 9min | video | Structured enhanced lesson | enhanced-review-pending | KVL polarity treatment and 15 V loop balance verified. |
+| electrical-fundamentals | Kirchhoff's Laws | Mesh and nodal analysis | /learn/electrical-fundamentals (lesson id: l18) | 12min | video | Structured enhanced lesson | enhanced-review-pending | Mesh/nodal distinctions and 5 V node example verified. |
+| electrical-fundamentals | Kirchhoff's Laws | Kirchhoff's law problems set | /learn/electrical-fundamentals (lesson id: l19) | 10min | exercise | Existing route content | preserved-verified | Topic-specific Kirchhoff problem set added with current and voltage conservation checks. |
+| electrical-fundamentals | Power & Energy | Electrical power — watts and horsepower | /learn/electrical-fundamentals (lesson id: l20) | 8min | video | Structured enhanced lesson | enhanced-review-pending | Power forms and 72 W / 43.2 kJ example verified. |
+| electrical-fundamentals | Power & Energy | Energy — kilowatt-hours and joules | /learn/electrical-fundamentals (lesson id: l21) | 7min | video | Structured enhanced lesson | enhanced-review-pending | Energy unit conversions checked against SI relationships. |
+| electrical-fundamentals | Power & Energy | Efficiency and power loss in cables | /learn/electrical-fundamentals (lesson id: l22) | 8min | video | Structured enhanced lesson | enhanced-review-pending | Cable loss, voltage drop, and efficiency example verified. |
+| electrical-fundamentals | Power & Energy | Power quiz | /learn/electrical-fundamentals (lesson id: l23) | 12min | quiz | Existing route content | preserved-verified | Topic-specific power and energy quiz added with stable answer mapping. |
 | electrical-fundamentals | Alternating Current Fundamentals | AC vs DC — why AC won | /learn/electrical-fundamentals (lesson id: l24) | 8min | video | Existing route content | Not yet reviewed | Pending individual inspection |
 | electrical-fundamentals | Alternating Current Fundamentals | Sinusoidal waveforms — peak, RMS, average | /learn/electrical-fundamentals (lesson id: l25) | 10min | video | Existing route content | Not yet reviewed | Pending individual inspection |
 | electrical-fundamentals | Alternating Current Fundamentals | Frequency and period | /learn/electrical-fundamentals (lesson id: l26) | 7min | video | Existing route content | Not yet reviewed | Pending individual inspection |

@@ -31,9 +31,11 @@ const commonSources: LessonSource[] = [
 ];
 
 import { FUNDAMENTALS_GROUP_ONE } from "./fundamentalsGroupOne.ts";
+import { FUNDAMENTALS_GROUP_TWO } from "./fundamentalsGroupTwo.ts";
 
 export const ENHANCED_LESSONS: Record<string, EnhancedLesson> = {
   ...FUNDAMENTALS_GROUP_ONE,
+  ...FUNDAMENTALS_GROUP_TWO,
   "electrical-fundamentals:l6": {
     purpose: "Distinguish voltage from current and use potential difference correctly when describing a circuit.",
     difficulty: "Beginner",

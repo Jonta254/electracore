@@ -844,6 +844,14 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
 
 function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
+  if (slug === "electrical-fundamentals" && t.includes("power quiz")) {
+    return {
+      question: "A 2 kW heater runs for 30 minutes. How much electrical energy does it use?",
+      options: ["1 kWh", "4 kWh", "60 kWh", "1 kW"],
+      correct: 0,
+      explanation: "Thirty minutes is 0.5 h, so E = Pt = 2 kW × 0.5 h = 1 kWh. Kilowatts measure power; kilowatt-hours measure energy.",
+    };
+  }
   if (slug === "electrical-fundamentals" && t.includes("module quiz")) {
     return {
       question: "Which statement correctly compares conventional current with electron drift in a copper conductor?",
@@ -920,6 +928,18 @@ function getQuizForLesson(title: string, slug: string): { question: string; opti
 
 function getExerciseForLesson(title: string, _slug: string): { problem: string; steps: string[]; answer: string } | null {
   const t = title.toLowerCase();
+  if (t.includes("kirchhoff's law problems")) {
+    return {
+      problem: "A 12 V source supplies a 2 Ω resistor in series with a node that splits into 6 Ω and 3 Ω parallel branches. Use Kirchhoff's laws to find source current, node voltage, and branch currents.",
+      steps: [
+        "Reduce only as a check: 6 Ω || 3 Ω = 2 Ω, so total resistance is 4 Ω and source current is 3 A.",
+        "KVL: 12 − (3 A)(2 Ω) − Vnode = 0, giving Vnode = 6 V.",
+        "Branch currents: I6 = 6/6 = 1 A and I3 = 6/3 = 2 A.",
+        "KCL check: 3 A entering the node = 1 A + 2 A leaving; KVL check: 12 V = 6 V + 6 V.",
+      ],
+      answer: "Source current 3 A; node voltage 6 V; branch currents 1 A and 2 A",
+    };
+  }
 
   if (t.includes("ohm") || t.includes("worked example")) {
     return {
