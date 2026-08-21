@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { ElectraCoreLogoMark } from "../components/Logo";
+import { OPEN_PREVIEW_NOTICE, evaluateLearningAccess } from "./accessPolicy";
 
 /* ─── Course SVG Thumbnails ─── */
 function ThumbFundamentals() {
@@ -595,7 +596,7 @@ export default function LearnPage() {
           <div className="learn-hero-glow" />
           <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 1.5rem", position: "relative", zIndex: 1 }}>
             <div className="hero-badge" style={{ marginBottom: "1.5rem", display: "inline-flex" }}>
-              🎓 Free · No account required · All levels
+              🎓 Open preview · No account required · All levels
             </div>
             <h1 className="section-title" style={{ textAlign: "left", fontSize: "clamp(2.2rem,6vw,4rem)", marginBottom: "1rem" }}>
               Learn electrical engineering<br />
@@ -604,6 +605,7 @@ export default function LearnPage() {
             <p className="section-sub" style={{ textAlign: "left", maxWidth: 560, marginBottom: "2.5rem" }}>
               {COURSES.length} structured courses from fundamentals to advanced topics. Built by a working electrician — with real diagrams, worked examples, and practical applications.
             </p>
+            <p role="status" style={{ maxWidth: 650, marginBottom: "2.5rem", color: "var(--text-dim)", fontSize: "0.82rem" }}>{OPEN_PREVIEW_NOTICE}</p>
             {/* Stats */}
             <div className="learn-hero-stats">
               {[
@@ -666,7 +668,7 @@ export default function LearnPage() {
               {filtered.map(course => {
                 const prog = progress[course.slug] ?? 0;
                 return (
-                  <Link key={course.slug} href={`/learn/${course.slug}`} className="course-card" style={{ "--cc": course.color } as React.CSSProperties}>
+                  <Link key={course.slug} href={`/learn/${course.slug}`} className="course-card" style={{ "--cc": course.color } as React.CSSProperties} aria-label={`${course.title} â€” open preview`}>
                     <div className="course-thumb">
                       {course.thumb}
                       <div className="course-thumb-overlay">
@@ -690,7 +692,7 @@ export default function LearnPage() {
                       </div>
                       <div className="course-footer">
                         <span className="course-selfpaced">Self-paced · {course.level}</span>
-                        <span className="course-free-badge">FREE</span>
+                        <span className="course-free-badge">{evaluateLearningAccess({ resource: "course" }).allowed ? "OPEN PREVIEW" : "ACCESS REQUIRED"}</span>
                       </div>
                     </div>
                   </Link>

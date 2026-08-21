@@ -7,6 +7,7 @@ import { ElectraCoreLogoMark } from "../../components/Logo";
 import { loadCourseLearning, recordAssessment, recordExercise, resetCourseLearning, saveLastLesson, saveLessonCompletion } from "../progress";
 import { getEnhancedLesson } from "../enhancedLessons";
 import { EnhancedLessonView } from "../EnhancedLessonView";
+import { OPEN_PREVIEW_NOTICE, evaluateLearningAccess } from "../accessPolicy";
 
 /* ─── Course Database ─── */
 const COURSES: Record<string, {
@@ -1534,6 +1535,7 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
     );
   }
 
+  const courseAccess = evaluateLearningAccess({ resource: "course" });
   const totalLessons = course.modules.reduce((a, m) => a + m.lessons.length, 0);
   const progressPct = Math.round((completed.size / totalLessons) * 100);
   const totalMinutes = course.modules.reduce((a, m) => a + m.lessons.reduce((b, l) => b + parseInt(l.duration), 0), 0);
@@ -1580,13 +1582,14 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                 </div>
                 <h1 className="course-page-title">{course.title}</h1>
                 <p className="course-page-intro">{course.intro}</p>
+                <p role="status" style={{ color: "var(--text-mute)", fontSize: "0.8rem", marginBottom: "1rem" }}>{OPEN_PREVIEW_NOTICE}</p>
                 {/* Meta row */}
                 <div className="course-meta-row">
                   {[
                     { icon: "📚", label: `${course.modules.length} modules` },
                     { icon: "🎬", label: `${totalLessons} lessons` },
                     { icon: "⏱", label: `${Math.round(totalMinutes / 60)}h ${totalMinutes % 60}min` },
-                    { icon: "🆓", label: "Free forever" },
+                    { icon: "🆓", label: "Open preview" },
                   ].map(m => (
                     <span key={m.label} className="course-meta-item">
                       <span>{m.icon}</span> {m.label}
@@ -1760,11 +1763,11 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                     { label: "Modules", val: course.modules.length },
                     { label: "Hours", val: `${Math.round(totalMinutes / 60)}h ${totalMinutes % 60}m` },
                     { label: "Level", val: course.level },
-                    { label: "Cost", val: "Free" },
+                    { label: "Access", val: courseAccess.allowed ? "Open preview" : "Required" },
                   ].map(s => (
                     <div key={s.label} className="progress-stat-row">
                       <span style={{ color: "var(--text-mute)", fontSize: "0.8rem" }}>{s.label}</span>
-                      <span style={{ fontSize: "0.85rem", fontWeight: 600, color: s.label === "Cost" ? "#34D399" : "var(--text)" }}>{s.val}</span>
+                      <span style={{ fontSize: "0.85rem", fontWeight: 600, color: s.label === "Access" ? "#34D399" : "var(--text)" }}>{s.val}</span>
                     </div>
                   ))}
                 </div>
