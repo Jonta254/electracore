@@ -115,10 +115,20 @@ test("domestic lighting and earthing group has specific content and assessment c
 });
 test("domestic special-locations and cable-routing group is specific and reviewed", () => {
   for (let id = 22; id <= 30; id += 1) assert.ok(LESSON_REVIEWS[`domestic-wiring:l${id}`]);
-  assert.equal(Object.keys(ENHANCED_LESSONS).length, 56);
+  assert.ok(Object.keys(ENHANCED_LESSONS).length >= 56);
   const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /t\.includes\("depths and zones quiz"\)/);
   assert.match(viewSource, /SPECIAL-LOCATION RISK LAYERS/);
   assert.match(viewSource, /CABLE ROUTE AND CONTAINMENT/);
+});
+test("domestic fault-finding and regulation group completes the course specifically", () => {
+  for (let id = 31; id <= 39; id += 1) assert.ok(LESSON_REVIEWS[`domestic-wiring:l${id}`]);
+  assert.equal(Object.keys(ENHANCED_LESSONS).length, 63);
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
+  assert.match(courseSource, /_slug === "domestic-wiring" && t\.includes\("fault finding case studies"\)/);
+  assert.match(courseSource, /slug === "domestic-wiring" && t\.includes\("final assessment"\)/);
+  assert.match(viewSource, /FAULT-FINDING DECISION PATH/);
+  assert.match(viewSource, /REGULATION AND RECORD PATH/);
 });

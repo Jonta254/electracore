@@ -844,6 +844,14 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
 
 function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
+  if (slug === "domestic-wiring" && t.includes("final assessment")) {
+    return {
+      question: "A new final circuit is installed in an English dwelling. Which statement is correct?",
+      options: ["Use the applicable Electrical Installation Certificate and complete the separate authorised Part P notification route", "A Minor Works certificate automatically completes Building Regulations notification", "An EICR is the certificate for the new circuit", "No Part P duty exists if the work passes electrical tests"],
+      correct: 0,
+      explanation: "A new circuit needs the applicable EIC documentation and is a current notification trigger in England. Electrical certification and Building Regulations compliance evidence are distinct, coordinated records.",
+    };
+  }
   if (slug === "domestic-wiring" && t.includes("depths and zones quiz")) {
     return {
       question: "A cable concealed diagonally between two wall accessories has 30 mA RCD protection but no other declared protection. What is the correct conclusion?",
@@ -968,6 +976,18 @@ function getQuizForLesson(title: string, slug: string): { question: string; opti
 
 function getExerciseForLesson(title: string, _slug: string): { problem: string; steps: string[]; answer: string } | null {
   const t = title.toLowerCase();
+  if (_slug === "domestic-wiring" && t.includes("fault finding case studies")) {
+    return {
+      problem: "After work in a two-gang switch box, an RCBO for Circuit A trips only when Circuit B is also energised. Both circuits serve loads in the box. Plan a safe diagnosis without repeatedly resetting either device.",
+      steps: [
+        "Record the exact device states, circuit schedules, recent work, and every possible source before disturbing conductors.",
+        "Secure and prove safe isolation for both circuits, proving the voltage indicator before and after and checking for alternative supplies.",
+        "Use circuit ownership, continuity, and appropriate insulation tests with sensitive loads disconnected to test the shared/borrowed-neutral hypothesis.",
+        "Correct identified conductor ownership or termination defects, then complete required continuity, insulation, polarity, protective-device, functional, and documentation checks for both circuits.",
+      ],
+      answer: "Treat both circuits as interacting until proven otherwise; isolate both, establish conductor ownership by dead testing, repair the root cross-connection, and verify both circuits",
+    };
+  }
   if (_slug === "domestic-wiring" && t.includes("wiring practice problems")) {
     return {
       problem: "A paper design shows a 32 A ring final with one existing unfused spur. A proposal extends that spur to three additional socket outlets and routes part of the branch through thermal insulation. Identify the topology and design issues; do not select a final cable size.",

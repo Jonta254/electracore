@@ -68,4 +68,13 @@ export const LESSON_REVIEWS: Record<string, LessonReview> = {
   "domestic-wiring:l28": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Containment fill, bend, grouping, segregation, earthing, and fire-stopping individually reviewed." },
   "domestic-wiring:l29": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Void routing, thermal insulation, supports, structure, and fire penetrations individually reviewed." },
   "domestic-wiring:l30": { state: "preserved-verified", reviewedOn: "2026-08-21", evidence: "Depths and zones quiz replaced with a concealed-route/RCD distinction and stable answer mapping." },
+  "domestic-wiring:l31": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Evidence-led fault process, safe boundaries, hypothesis tests, and post-repair verification individually reviewed." },
+  "domestic-wiring:l32": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Open line, neutral, CPC, backfeed, and continuity localisation individually reviewed." },
+  "domestic-wiring:l33": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Short, earth-fault, cross-connection, borrowed-neutral, and insulation-test workflow individually reviewed." },
+  "domestic-wiring:l34": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "RCD leakage, cumulative current, N-E faults, device type, and circuit division individually reviewed." },
+  "domestic-wiring:l35": { state: "preserved-verified", reviewedOn: "2026-08-21", evidence: "Generic exercise replaced with a two-circuit shared-neutral fault case and safe diagnostic sequence." },
+  "domestic-wiring:l36": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "BS 7671 structure, normative/informative roles, Part 7 interaction, and Amendment 4 transition individually reviewed." },
+  "domestic-wiring:l37": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "EIC, MEIWC, EICR, declaration, test-record, and notification distinctions individually reviewed." },
+  "domestic-wiring:l38": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "England Part P scope, notification, competent-person, building-control, and jurisdiction limits individually reviewed." },
+  "domestic-wiring:l39": { state: "preserved-verified", reviewedOn: "2026-08-21", evidence: "Final assessment replaced with a certification/notification distinction and stable answer mapping." },
 };
