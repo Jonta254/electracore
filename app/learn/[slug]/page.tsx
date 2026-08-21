@@ -844,6 +844,14 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
 
 function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
+  if (slug === "protection-fault-analysis" && t.includes("final assessment")) {
+    return {
+      question: "Which statement correctly distinguishes selectivity from backup protection?",
+      options: ["Selectivity aims to keep the upstream device closed; backup protection permits upstream assistance with fault interruption", "Both terms guarantee only the downstream device opens", "Backup protection proves total selectivity", "A current-rating ratio proves both"],
+      correct: 0,
+      explanation: "Selectivity and backup protection are separate coordination claims. Both require exact paired-device evidence for the stated voltage, fault-current range, and assembly conditions.",
+    };
+  }
   if (slug === "protection-fault-analysis" && t.includes("rcd selection quiz")) {
     return {
       question: "Which statement correctly distinguishes a Type B RCD from a B-curve MCB?",
@@ -992,6 +1000,18 @@ function getQuizForLesson(title: string, slug: string): { question: string; opti
 
 function getExerciseForLesson(title: string, _slug: string): { problem: string; steps: string[]; answer: string } | null {
   const t = title.toLowerCase();
+  if (_slug === "protection-fault-analysis" && t.includes("discrimination case study")) {
+    return {
+      problem: "A 16 A downstream MCB is supplied by a 63 A upstream MCB. The prospective fault current at the downstream board is 2.4 kA. Decide what evidence is needed before claiming selectivity.",
+      steps: [
+        "Identify the exact manufacturer, product family, voltage, poles, settings, and editions of data for both devices.",
+        "Compare complete time-current tolerance envelopes through overload and instantaneous regions; the 16 A-to-63 A rating ratio is not proof.",
+        "Use the manufacturer selectivity table or tested coordination data to obtain any declared selectivity limit for the exact pair.",
+        "Claim total selectivity only if the declared limit covers 2.4 kA and all disconnection, breaking/conditional, conductor, and assembly checks pass; otherwise state the partial limit or redesign.",
+      ],
+      answer: "The ratings alone cannot approve the pair; exact manufacturer data must demonstrate selectivity through the 2.4 kA site fault level and every related protection check must pass",
+    };
+  }
   if (_slug === "protection-fault-analysis" && t.includes("pfc worked problems")) {
     return {
       problem: "At 230 V, verified origin PSCC is 4.6 kA. A downstream feeder adds 0.10 Ω line-neutral impedance. Estimate downstream PSCC using a simple resistive model and identify the approval gates.",

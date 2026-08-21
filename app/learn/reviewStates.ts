@@ -97,4 +97,13 @@ export const LESSON_REVIEWS: Record<string, LessonReview> = {
   "protection-fault-analysis:l18": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Downstream Thevenin/feeder impedance, fault basis, temperature/reactance, and local sources individually reviewed." },
   "protection-fault-analysis:l19": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Breaking/withstand/conditional ratings, backup data, assembly capability, and source configuration individually reviewed." },
   "protection-fault-analysis:l20": { state: "preserved-verified", reviewedOn: "2026-08-21", evidence: "Generic PFC exercise replaced with origin/downstream calculation and uncertainty/capability gates." },
+  "protection-fault-analysis:l21": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Selectivity, partial selectivity, backup protection, fault-range, and paired-device evidence individually reviewed." },
+  "protection-fault-analysis:l22": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Current pickup, tolerance envelopes, instantaneous overlap, and selectivity limits individually reviewed." },
+  "protection-fault-analysis:l23": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Time grading, total clearing, margin, high-set overlap, and withstand constraints individually reviewed." },
+  "protection-fault-analysis:l24": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "I-squared-t, peak let-through, fuse distinctions, and manufacturer-specific MCB coordination individually reviewed." },
+  "protection-fault-analysis:l25": { state: "preserved-verified", reviewedOn: "2026-08-21", evidence: "Generic exercise replaced with a paired-device selectivity case that prevents approval from current-rating ratio alone." },
+  "protection-fault-analysis:l26": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Zs evidence options, no-trip limitations, parallel paths, uncertainty, and live-test controls individually reviewed." },
+  "protection-fault-analysis:l27": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Board PFC fault bases, low-impedance uncertainty, source contributions, and equipment capability individually reviewed." },
+  "protection-fault-analysis:l28": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Current RCD trip-time sequence, waveform settings, leakage, records, and restoration individually reviewed." },
+  "protection-fault-analysis:l29": { state: "preserved-verified", reviewedOn: "2026-08-21", evidence: "Final assessment replaced with a selectivity-versus-backup distinction and stable answer mapping." },
 };

@@ -34,8 +34,8 @@ function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonI
 }
   if (courseSlug === "protection-fault-analysis") {
     const lessonNumber = Number(lessonId.slice(1));
-    const label = lessonNumber <= 5 ? "PROTECTIVE DEVICE OPERATING PATHS" : lessonNumber <= 10 ? "EARTH-FAULT LOOP AND ADS" : lessonNumber <= 15 ? "RESIDUAL-CURRENT SENSING" : "PROSPECTIVE FAULT CURRENT";
-    const relationship = lessonNumber <= 5 ? "current · time · energy" : lessonNumber <= 10 ? "Zs → fault current → operating time" : lessonNumber <= 15 ? "ΣI → residual flux → trip" : "source Z → PFC → device capability";
+    const label = lessonNumber <= 5 ? "PROTECTIVE DEVICE OPERATING PATHS" : lessonNumber <= 10 ? "EARTH-FAULT LOOP AND ADS" : lessonNumber <= 15 ? "RESIDUAL-CURRENT SENSING" : lessonNumber <= 20 ? "PROSPECTIVE FAULT CURRENT" : lessonNumber <= 25 ? "SELECTIVITY AND COORDINATION" : "PROTECTION TEST EVIDENCE";
+    const relationship = lessonNumber <= 5 ? "current / time / energy" : lessonNumber <= 10 ? "Zs to fault current to operating time" : lessonNumber <= 15 ? "current balance to residual trip" : lessonNumber <= 20 ? "source Z to PFC to device capability" : lessonNumber <= 25 ? "curves / time / I-squared-t / paired data" : "method to reading to evidence to decision";
     return (
       <svg className="enhanced-diagram" viewBox="0 0 640 190" role="img" aria-labelledby={`diagram-${courseSlug}-${lessonId}`}>
         <title id={`diagram-${courseSlug}-${lessonId}`}>{label}</title>

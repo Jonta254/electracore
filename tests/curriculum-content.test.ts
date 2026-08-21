@@ -144,11 +144,21 @@ test("first protection group has specific devices, loop content, and assessments
 });
 test("protection RCD and PFC group has specific content and assessment coverage", () => {
   for (let id = 11; id <= 20; id += 1) assert.ok(LESSON_REVIEWS[`protection-fault-analysis:l${id}`]);
-  assert.equal(Object.keys(ENHANCED_LESSONS).length, 79);
+  assert.ok(Object.keys(ENHANCED_LESSONS).length >= 79);
   const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /t\.includes\("rcd selection quiz"\)/);
   assert.match(courseSource, /t\.includes\("pfc worked problems"\)/);
   assert.match(viewSource, /RESIDUAL-CURRENT SENSING/);
   assert.match(viewSource, /PROSPECTIVE FAULT CURRENT/);
+});
+test("protection coordination and testing group completes the course specifically", () => {
+  for (let id = 21; id <= 29; id += 1) assert.ok(LESSON_REVIEWS[`protection-fault-analysis:l${id}`]);
+  assert.equal(Object.keys(ENHANCED_LESSONS).length, 86);
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
+  assert.match(courseSource, /t\.includes\("discrimination case study"\)/);
+  assert.match(courseSource, /slug === "protection-fault-analysis" && t\.includes\("final assessment"\)/);
+  assert.match(viewSource, /SELECTIVITY AND COORDINATION/);
+  assert.match(viewSource, /PROTECTION TEST EVIDENCE/);
 });
