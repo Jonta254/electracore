@@ -14,3 +14,9 @@ export function twoBranchCurrents(totalCurrent: number, firstResistance: number,
   requireFinitePositive([firstResistance, secondResistance]);
   return { first: totalCurrent * secondResistance / (firstResistance + secondResistance), second: totalCurrent * firstResistance / (firstResistance + secondResistance) };
 }
+export function sineRms(peak: number) { if (!Number.isFinite(peak)) throw new RangeError("Peak must be finite"); return peak / Math.SQRT2; }
+export function periodFromFrequency(frequency: number) { requireFinitePositive([frequency]); return 1 / frequency; }
+export function capacitiveReactance(frequency: number, capacitance: number) { requireFinitePositive([frequency, capacitance]); return 1 / (2 * Math.PI * frequency * capacitance); }
+export function inductiveReactance(frequency: number, inductance: number) { requireFinitePositive([frequency, inductance]); return 2 * Math.PI * frequency * inductance; }
+export function rcTimeConstant(resistance: number, capacitance: number) { requireFinitePositive([resistance, capacitance]); return resistance * capacitance; }
+export function rlTimeConstant(inductance: number, resistance: number) { requireFinitePositive([inductance, resistance]); return inductance / resistance; }

@@ -1,7 +1,10 @@
 import fs from "node:fs";
 const read = (path) => fs.readFileSync(new URL(path, import.meta.url), "utf8");
 const source = read("../app/learn/[slug]/page.tsx");
-const enhancementSource = read("../app/learn/enhancedLessons.ts") + read("../app/learn/fundamentalsGroupOne.ts") + read("../app/learn/fundamentalsGroupTwo.ts");
+const enhancementSource = read("../app/learn/enhancedLessons.ts") + read("../app/learn/fundamentalsGroupOne.ts") + read("../app/learn/fundamentalsGroupTwo.ts")
+  + read("../app/learn/fundamentalsAcLessons.ts")
+  + read("../app/learn/fundamentalsReactiveLessons.ts")
+  + read("../app/learn/fundamentalsMeasurementLessons.ts");
 const reviewSource = read("../app/learn/reviewStates.ts");
 const enhanced = new Set([...enhancementSource.matchAll(/"([a-z0-9-]+:l\d+)":\s*(?:(?:lesson|make)\()?\{/g)].map(match => match[1]));
 const reviews = new Map([...reviewSource.matchAll(/"([a-z0-9-]+:l\d+)": \{ state: "([^"]+)", reviewedOn: "([^"]+)", evidence: "([^"]+)" \}/g)].map(match => [match[1], { state: match[2], date: match[3], evidence: match[4] }]));

@@ -82,8 +82,15 @@ test("fundamentals module quiz and circuit practice do not use generic fallbacks
 });
 test("second fundamentals group has review evidence and no generic assessments", () => {
   for (let id = 16; id <= 23; id += 1) assert.ok(LESSON_REVIEWS[`electrical-fundamentals:l${id}`]);
-  assert.equal(Object.keys(ENHANCED_LESSONS).length, 18);
+  assert.ok(Object.keys(ENHANCED_LESSONS).length >= 18);
   const source = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
   assert.match(source, /slug === "electrical-fundamentals" && t\.includes\("power quiz"\)/);
   assert.match(source, /t\.includes\("kirchhoff's law problems"\)/);
+});
+test("remaining fundamentals group is fully recorded and assessment-specific", () => {
+  for (let id = 24; id <= 37; id += 1) assert.ok(LESSON_REVIEWS[`electrical-fundamentals:l${id}`]);
+  assert.equal(Object.keys(ENHANCED_LESSONS).length, 31);
+  const source = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  assert.match(source, /slug === "electrical-fundamentals" && t\.includes\("final assessment"\)/);
+  assert.match(source, /XC ≈ 31\.8 Ω; current leads voltage by 90°/);
 });

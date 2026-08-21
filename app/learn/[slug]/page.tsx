@@ -844,6 +844,14 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
 
 function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
+  if (slug === "electrical-fundamentals" && t.includes("final assessment")) {
+    return {
+      question: "A 100 µF ideal capacitor is connected to a 50 Hz sinusoidal source. Which result and phase statement are correct?",
+      options: ["XC ≈ 31.8 Ω; current leads voltage by 90°", "XC ≈ 31.8 Ω; current lags voltage by 90°", "XL ≈ 31.8 Ω; current leads voltage", "XC increases when frequency increases"],
+      correct: 0,
+      explanation: "XC = 1/(2πfC) = 31.8 Ω. For an ideal capacitor in sinusoidal steady state, current leads voltage by 90°, and XC falls as frequency rises.",
+    };
+  }
   if (slug === "electrical-fundamentals" && t.includes("power quiz")) {
     return {
       question: "A 2 kW heater runs for 30 minutes. How much electrical energy does it use?",

@@ -6,6 +6,9 @@ function QuantityDiagram({ lessonId }: { lessonId: string }) {
     l6: "VOLTAGE — ENERGY PER CHARGE", l7: "CURRENT — CHARGE PER SECOND", l8: "RESISTANCE — MATERIAL + GEOMETRY", l9: "OHM'S LAW — ONE RELATIONSHIP, THREE FORMS",
     l11: "SERIES — ONE CURRENT PATH", l12: "PARALLEL — COMMON VOLTAGE", l13: "SERIES-PARALLEL REDUCTION", l14: "DIVIDER RELATIONSHIPS",
     l16: "KCL — CURRENT BALANCE", l17: "KVL — LOOP BALANCE", l18: "MESH AND NODAL VARIABLES", l20: "POWER — ENERGY RATE", l21: "ENERGY OVER TIME", l22: "CABLE LOSS AND EFFICIENCY",
+    l24: "AC AND DC SYSTEMS", l25: "SINE-WAVE MEASURES", l26: "FREQUENCY AND PERIOD", l27: "PHASE RELATIONSHIPS", l28: "AC IMPEDANCE",
+    l29: "CAPACITOR ENERGY", l30: "CAPACITIVE REACTANCE", l31: "INDUCTOR ENERGY", l32: "INDUCTIVE REACTANCE", l33: "FIRST-ORDER TRANSIENTS",
+    l34: "MULTIMETER CONNECTIONS", l35: "CLAMP-METER FIELDS", l36: "OSCILLOSCOPE SCALES",
   };
   const label = labels[lessonId] ?? "ELECTRICAL RELATIONSHIP";
   return (
@@ -36,6 +39,22 @@ function QuantityDiagram({ lessonId }: { lessonId: string }) {
         <text x="165" y="108" className="diagram-value">input</text><text x="475" y="108" className="diagram-value">output</text>
         <text x="320" y="82" className="diagram-note">{lessonId === "l20" ? "P = VI" : lessonId === "l21" ? "E = Pt" : "Ploss = I²R"}</text>
         <text x="320" y="133" className="diagram-note">{lessonId === "l22" ? "η = Pout / Pin" : "units carry meaning"}</text>
+      </>}      {["l24","l25","l26","l27","l28"].includes(lessonId) && <>
+        <line x1="50" y1="104" x2="590" y2="104" className="diagram-wire" />
+        <path d="M50 104 C95 32 140 32 185 104 S275 176 320 104 S410 32 455 104 S545 176 590 104" fill="none" className="diagram-thick" />
+        <text x="320" y="58" className="diagram-value">{lessonId === "l25" ? "Vrms = Vpk/√2" : lessonId === "l26" ? "T = 1/f" : lessonId === "l27" ? "φ = 360°·Δt/T" : lessonId === "l28" ? "Z = R + jX" : "AC ↔ DC conversion"}</text>
+      </>}
+      {["l29","l30","l31","l32","l33"].includes(lessonId) && <>
+        <line x1="70" y1="103" x2="250" y2="103" className="diagram-wire" /><line x1="390" y1="103" x2="570" y2="103" className="diagram-wire" />
+        <line x1="280" y1="62" x2="280" y2="144" className="diagram-thick" /><line x1="360" y1="62" x2="360" y2="144" className="diagram-thick" />
+        <text x="320" y="48" className="diagram-value">{lessonId === "l29" ? "E = ½CV²" : lessonId === "l30" ? "XC = 1/(2πfC)" : lessonId === "l31" ? "E = ½LI²" : lessonId === "l32" ? "XL = 2πfL" : "τ = RC or L/R"}</text>
+        <text x="320" y="172" className="diagram-note">stored energy and time-dependent response</text>
+      </>}
+      {["l34","l35","l36"].includes(lessonId) && <>
+        <rect x="90" y="55" width="180" height="100" rx="8" className="diagram-source" /><circle cx="180" cy="105" r="30" className="diagram-load" />
+        <line x1="270" y1="85" x2="550" y2="85" className="diagram-wire" /><line x1="270" y1="125" x2="550" y2="125" className="diagram-wire" />
+        <text x="180" y="110" className="diagram-value">{lessonId === "l34" ? "DMM" : lessonId === "l35" ? "CLAMP" : "SCOPE"}</text>
+        <text x="410" y="62" className="diagram-note">{lessonId === "l36" ? "V/div · s/div · probe ×" : "rating · connection · range"}</text>
       </>}      {lessonId === "l6" && <>
         <circle cx="95" cy="96" r="43" className="diagram-source" />
         <text x="95" y="91" className="diagram-value">12 V</text><text x="95" y="111" className="diagram-note">source rise</text>

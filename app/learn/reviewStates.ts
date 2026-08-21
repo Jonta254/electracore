@@ -24,4 +24,17 @@ export const LESSON_REVIEWS: Record<string, LessonReview> = {
   "electrical-fundamentals:l20": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Power forms and 72 W / 43.2 kJ example verified." },
   "electrical-fundamentals:l21": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Energy unit conversions checked against SI relationships." },
   "electrical-fundamentals:l22": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Cable loss, voltage drop, and efficiency example verified." },
-  "electrical-fundamentals:l23": { state: "preserved-verified", reviewedOn: "2026-08-21", evidence: "Topic-specific power and energy quiz added with stable answer mapping." },};
+  "electrical-fundamentals:l23": { state: "preserved-verified", reviewedOn: "2026-08-21", evidence: "Topic-specific power and energy quiz added with stable answer mapping." },  "electrical-fundamentals:l24": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "AC/DC comparison and transmission-loss example individually verified." },
+  "electrical-fundamentals:l25": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Sine RMS, peak, and peak-to-peak relationships individually verified." },
+  "electrical-fundamentals:l26": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Frequency, period, and angular-frequency conversions individually verified." },
+  "electrical-fundamentals:l27": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Phase lead/lag and time-shift calculation individually verified." },
+  "electrical-fundamentals:l28": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "AC impedance magnitude and phase example individually verified." },
+  "electrical-fundamentals:l29": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Capacitance, stored charge, and energy example individually verified." },
+  "electrical-fundamentals:l30": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Capacitive reactance and leading-current example individually verified." },
+  "electrical-fundamentals:l31": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Inductance construction and stored-energy example individually verified." },
+  "electrical-fundamentals:l32": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Inductive reactance and lagging-current example individually verified." },
+  "electrical-fundamentals:l33": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "RC/RL time constants and one-tau landmark individually verified." },
+  "electrical-fundamentals:l34": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Multimeter connection, true-RMS, and CAT-system guidance individually reviewed." },
+  "electrical-fundamentals:l35": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Clamp placement, cancellation, sensor type, and live-work cautions individually reviewed." },
+  "electrical-fundamentals:l36": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Oscilloscope scale, probe-factor, sampling, and grounding guidance individually reviewed." },
+  "electrical-fundamentals:l37": { state: "preserved-verified", reviewedOn: "2026-08-21", evidence: "Final assessment replaced with a course-specific RMS/reactance question and stable answer mapping." },};
