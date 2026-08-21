@@ -174,11 +174,21 @@ test("three-phase fundamentals and star group is specific and reviewed", () => {
 });
 test("three-phase delta and power group is specific and reviewed", () => {
   for (let id = 10; id <= 18; id += 1) assert.ok(LESSON_REVIEWS[`three-phase-systems:l${id}`]);
-  assert.equal(Object.keys(ENHANCED_LESSONS).length, 100);
+  assert.ok(Object.keys(ENHANCED_LESSONS).length >= 100);
   const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /_slug === "three-phase-systems" && t\.includes\("delta circuit analysis problems"\)/);
   assert.match(courseSource, /slug === "three-phase-systems" && t\.includes\("three-phase power quiz"\)/);
   assert.match(viewSource, /DELTA VOLTAGE AND CURRENT PATHS/);
   assert.match(viewSource, /THREE-PHASE POWER TRIANGLE/);
+});
+test("three-phase motors and transformers group completes the course specifically", () => {
+  for (let id = 19; id <= 28; id += 1) assert.ok(LESSON_REVIEWS[`three-phase-systems:l${id}`]);
+  assert.equal(Object.keys(ENHANCED_LESSONS).length, 108);
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
+  assert.match(courseSource, /slug === "three-phase-systems" && t\.includes\("transformer quiz"\)/);
+  assert.match(courseSource, /slug === "three-phase-systems" && t\.includes\("final assessment"\)/);
+  assert.match(viewSource, /MOTOR FIELD AND CONTROL PATH/);
+  assert.match(viewSource, /TRANSFORMER FLUX AND VECTOR GROUP/);
 });

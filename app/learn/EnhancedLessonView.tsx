@@ -53,24 +53,21 @@ function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonI
   }
   if (courseSlug === "three-phase-systems") {
     const lessonNumber = Number(lessonId.slice(1));
-    const label = lessonNumber <= 5 ? "THREE-PHASE PHASOR SET" : lessonNumber <= 9 ? "STAR VOLTAGE AND CURRENT PATHS" : lessonNumber <= 13 ? "DELTA VOLTAGE AND CURRENT PATHS" : "THREE-PHASE POWER TRIANGLE";
+    const label = lessonNumber <= 5 ? "THREE-PHASE PHASOR SET" : lessonNumber <= 9 ? "STAR VOLTAGE AND CURRENT PATHS" : lessonNumber <= 13 ? "DELTA VOLTAGE AND CURRENT PATHS" : lessonNumber <= 18 ? "THREE-PHASE POWER TRIANGLE" : lessonNumber <= 23 ? "MOTOR FIELD AND CONTROL PATH" : "TRANSFORMER FLUX AND VECTOR GROUP";
     return (
       <svg className="enhanced-diagram" viewBox="0 0 640 190" role="img" aria-labelledby={`diagram-${courseSlug}-${lessonId}`}>
-        <title id={`diagram-${courseSlug}-${lessonId}`}>{label}</title>
-        <text x="22" y="26" className="diagram-kicker">{label}</text>
+        <title id={`diagram-${courseSlug}-${lessonId}`}>{label}</title><text x="22" y="26" className="diagram-kicker">{label}</text>
         {lessonNumber <= 9 ? <>
-          <circle cx="250" cy="105" r="10" className="diagram-charge" />
-          <line x1="250" y1="105" x2="250" y2="48" className="diagram-thick" /><line x1="250" y1="105" x2="201" y2="134" className="diagram-thick" /><line x1="250" y1="105" x2="299" y2="134" className="diagram-thick" />
-          <text x="250" y="42" className="diagram-note">L1 · 0°</text><text x="175" y="151" className="diagram-note">L2 · −120°</text><text x="325" y="151" className="diagram-note">L3 · +120°</text>
-          <text x="465" y="86" className="diagram-value">{lessonNumber <= 5 ? "ΣV = 0" : "VL = √3 Vph"}</text><text x="465" y="116" className="diagram-note">{lessonNumber <= 5 ? "equal magnitude · 120° apart" : "IL = Iph · IN = phasor sum"}</text>
+          <circle cx="250" cy="105" r="10" className="diagram-charge" /><line x1="250" y1="105" x2="250" y2="48" className="diagram-thick" /><line x1="250" y1="105" x2="201" y2="134" className="diagram-thick" /><line x1="250" y1="105" x2="299" y2="134" className="diagram-thick" />
+          <text x="250" y="42" className="diagram-note">L1 · 0°</text><text x="175" y="151" className="diagram-note">L2 · −120°</text><text x="325" y="151" className="diagram-note">L3 · +120°</text><text x="465" y="86" className="diagram-value">{lessonNumber <= 5 ? "ΣV = 0" : "VL = √3 Vph"}</text><text x="465" y="116" className="diagram-note">{lessonNumber <= 5 ? "equal magnitude · 120° apart" : "IL = Iph · IN = phasor sum"}</text>
         </> : lessonNumber <= 13 ? <>
-          <path d="M250 48 L180 145 L320 145 Z" fill="none" className="diagram-thick" />
-          <text x="250" y="42" className="diagram-note">L1</text><text x="158" y="160" className="diagram-note">L2</text><text x="335" y="160" className="diagram-note">L3</text>
-          <text x="465" y="86" className="diagram-value">Vph = VL</text><text x="465" y="116" className="diagram-note">IL = √3 Iph · 30° shift</text>
+          <path d="M250 48 L180 145 L320 145 Z" fill="none" className="diagram-thick" /><text x="250" y="42" className="diagram-note">L1</text><text x="158" y="160" className="diagram-note">L2</text><text x="335" y="160" className="diagram-note">L3</text><text x="465" y="86" className="diagram-value">Vph = VL</text><text x="465" y="116" className="diagram-note">IL = √3 Iph · 30° shift</text>
+        </> : lessonNumber <= 18 ? <>
+          <path d="M185 145 L185 50 L345 145 Z" fill="none" className="diagram-thick" /><text x="170" y="45" className="diagram-note">Q</text><text x="270" y="164" className="diagram-note">P</text><text x="285" y="92" className="diagram-note">S</text><text x="465" y="86" className="diagram-value">S² = P² + Q²</text><text x="465" y="116" className="diagram-note">P = √3 VL IL PF</text>
+        </> : lessonNumber <= 23 ? <>
+          <circle cx="240" cy="104" r="54" className="diagram-source" /><circle cx="240" cy="104" r="28" className="diagram-load" /><path d="M240 42 A62 62 0 0 1 300 104" fill="none" className="diagram-thick" /><text x="240" y="109" className="diagram-value">ROTOR</text><text x="465" y="86" className="diagram-value">ns = 120f/P</text><text x="465" y="116" className="diagram-note">isolate · interlock · protect</text>
         </> : <>
-          <path d="M185 145 L185 50 L345 145 Z" fill="none" className="diagram-thick" />
-          <text x="170" y="45" className="diagram-note">Q</text><text x="270" y="164" className="diagram-note">P</text><text x="285" y="92" className="diagram-note">S</text>
-          <text x="465" y="86" className="diagram-value">S² = P² + Q²</text><text x="465" y="116" className="diagram-note">P = √3 VL IL PF</text>
+          <rect x="145" y="58" width="72" height="94" rx="5" className="diagram-source" /><rect x="295" y="58" width="72" height="94" rx="5" className="diagram-load" /><path d="M217 75 C250 50 262 50 295 75 M217 105 C250 80 262 80 295 105 M217 135 C250 110 262 110 295 135" fill="none" className="diagram-thick" /><text x="181" y="108" className="diagram-note">HV</text><text x="331" y="108" className="diagram-note">LV</text><text x="475" y="86" className="diagram-value">V1/V2 = N1/N2</text><text x="475" y="116" className="diagram-note">ratio · impedance · vector group</text>
         </>}
       </svg>
     );

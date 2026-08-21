@@ -844,6 +844,22 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
 
 function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
+  if (slug === "three-phase-systems" && t.includes("final assessment")) {
+    return {
+      question: "A four-pole, 50 Hz induction motor runs at 1440 rpm. What are synchronous speed and slip?",
+      options: ["1500 rpm and 4.0%", "1440 rpm and 4.0%", "3000 rpm and 52%", "1500 rpm and 96%"],
+      correct: 0,
+      explanation: "ns = 120f/P = 1500 rpm. Slip = (1500 − 1440)/1500 = 0.040 = 4.0%.",
+    };
+  }
+  if (slug === "three-phase-systems" && t.includes("transformer quiz")) {
+    return {
+      question: "What does the vector group Dyn11 state?",
+      options: ["HV delta, LV star with accessible neutral, clock-11 displacement", "HV star, LV delta, eleven neutral points", "Both windings delta with 11% impedance", "A single-phase transformer with an 11:1 ratio"],
+      correct: 0,
+      explanation: "D denotes the high-voltage delta winding, yn the low-voltage star winding with its neutral brought out, and 11 the declared 30-degree-step clock displacement.",
+    };
+  }
   if (slug === "three-phase-systems" && t.includes("three-phase power quiz")) {
     return {
       question: "A balanced 400 V load draws 20 A at 0.80 lagging power factor. Which power set is correct?",
