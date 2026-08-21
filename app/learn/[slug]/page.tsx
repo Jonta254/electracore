@@ -844,6 +844,14 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
 
 function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
+  if (slug === "three-phase-systems" && t.includes("three-phase power quiz")) {
+    return {
+      question: "A balanced 400 V load draws 20 A at 0.80 lagging power factor. Which power set is correct?",
+      options: ["S = 13.86 kVA, P = 11.09 kW, Q = 8.31 kvar", "S = 16.00 kVA, P = 12.80 kW, Q = 9.60 kvar", "S = 11.09 kVA, P = 13.86 kW, Q = 8.31 kvar", "S = 13.86 kW, P = 8.31 kvar, Q = 11.09 kVA"],
+      correct: 0,
+      explanation: "S = root(3) × 400 × 20 = 13.86 kVA; P = S × 0.80 = 11.09 kW; with sin(phi) = 0.60, Q = 8.31 kvar lagging.",
+    };
+  }
   if (slug === "three-phase-systems" && t.includes("phase fundamentals quiz")) {
     return {
       question: "A verified L1-L2-L3 supply has L2 and L3 interchanged. What happens downstream?",
@@ -1008,6 +1016,18 @@ function getQuizForLesson(title: string, slug: string): { question: string; opti
 
 function getExerciseForLesson(title: string, _slug: string): { problem: string; steps: string[]; answer: string } | null {
   const t = title.toLowerCase();
+  if (_slug === "three-phase-systems" && t.includes("delta circuit analysis problems")) {
+    return {
+      problem: "A balanced 400 V three-phase delta load has 40 ohms resistance per branch. Calculate phase current, line current, and total active power.",
+      steps: [
+        "In delta, Vph = VL = 400 V.",
+        "Branch current: Iph = 400/40 = 10 A.",
+        "Balanced delta line current: IL = root(3) × 10 = 17.32 A.",
+        "For a resistive balanced load, P = 3 × Vph × Iph = 3 × 400 × 10 = 12.0 kW; the line formula gives the same result.",
+      ],
+      answer: "Iph = 10 A; IL approximately 17.32 A; total active power = 12.0 kW",
+    };
+  }
   if (_slug === "three-phase-systems" && t.includes("star circuit analysis problems")) {
     return {
       problem: "A balanced 400 V line-to-line, three-phase star load has 20 ohms resistance per phase. Calculate phase voltage, line current, neutral current, and total active power.",

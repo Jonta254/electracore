@@ -53,18 +53,25 @@ function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonI
   }
   if (courseSlug === "three-phase-systems") {
     const lessonNumber = Number(lessonId.slice(1));
-    const label = lessonNumber <= 5 ? "THREE-PHASE PHASOR SET" : "STAR VOLTAGE AND CURRENT PATHS";
+    const label = lessonNumber <= 5 ? "THREE-PHASE PHASOR SET" : lessonNumber <= 9 ? "STAR VOLTAGE AND CURRENT PATHS" : lessonNumber <= 13 ? "DELTA VOLTAGE AND CURRENT PATHS" : "THREE-PHASE POWER TRIANGLE";
     return (
       <svg className="enhanced-diagram" viewBox="0 0 640 190" role="img" aria-labelledby={`diagram-${courseSlug}-${lessonId}`}>
         <title id={`diagram-${courseSlug}-${lessonId}`}>{label}</title>
         <text x="22" y="26" className="diagram-kicker">{label}</text>
-        <circle cx="250" cy="105" r="10" className="diagram-charge" />
-        <line x1="250" y1="105" x2="250" y2="48" className="diagram-thick" />
-        <line x1="250" y1="105" x2="201" y2="134" className="diagram-thick" />
-        <line x1="250" y1="105" x2="299" y2="134" className="diagram-thick" />
-        <text x="250" y="42" className="diagram-note">L1 · 0°</text><text x="175" y="151" className="diagram-note">L2 · −120°</text><text x="325" y="151" className="diagram-note">L3 · +120°</text>
-        <text x="465" y="86" className="diagram-value">{lessonNumber <= 5 ? "ΣV = 0" : "VL = √3 Vph"}</text>
-        <text x="465" y="116" className="diagram-note">{lessonNumber <= 5 ? "equal magnitude · 120° apart" : "IL = Iph · IN = phasor sum"}</text>
+        {lessonNumber <= 9 ? <>
+          <circle cx="250" cy="105" r="10" className="diagram-charge" />
+          <line x1="250" y1="105" x2="250" y2="48" className="diagram-thick" /><line x1="250" y1="105" x2="201" y2="134" className="diagram-thick" /><line x1="250" y1="105" x2="299" y2="134" className="diagram-thick" />
+          <text x="250" y="42" className="diagram-note">L1 · 0°</text><text x="175" y="151" className="diagram-note">L2 · −120°</text><text x="325" y="151" className="diagram-note">L3 · +120°</text>
+          <text x="465" y="86" className="diagram-value">{lessonNumber <= 5 ? "ΣV = 0" : "VL = √3 Vph"}</text><text x="465" y="116" className="diagram-note">{lessonNumber <= 5 ? "equal magnitude · 120° apart" : "IL = Iph · IN = phasor sum"}</text>
+        </> : lessonNumber <= 13 ? <>
+          <path d="M250 48 L180 145 L320 145 Z" fill="none" className="diagram-thick" />
+          <text x="250" y="42" className="diagram-note">L1</text><text x="158" y="160" className="diagram-note">L2</text><text x="335" y="160" className="diagram-note">L3</text>
+          <text x="465" y="86" className="diagram-value">Vph = VL</text><text x="465" y="116" className="diagram-note">IL = √3 Iph · 30° shift</text>
+        </> : <>
+          <path d="M185 145 L185 50 L345 145 Z" fill="none" className="diagram-thick" />
+          <text x="170" y="45" className="diagram-note">Q</text><text x="270" y="164" className="diagram-note">P</text><text x="285" y="92" className="diagram-note">S</text>
+          <text x="465" y="86" className="diagram-value">S² = P² + Q²</text><text x="465" y="116" className="diagram-note">P = √3 VL IL PF</text>
+        </>}
       </svg>
     );
   }

@@ -115,4 +115,13 @@ export const LESSON_REVIEWS: Record<string, LessonReview> = {
   "three-phase-systems:l7": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Root-three line-voltage derivation, 30-degree displacement, and 230-to-398 V calculation individually verified." },
   "three-phase-systems:l8": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Neutral phasor sum, unbalance example, triplen harmonics, and neutral safety individually reviewed." },
   "three-phase-systems:l9": { state: "preserved-verified", reviewedOn: "2026-08-22", evidence: "Generic exercise replaced with a balanced-star voltage, current, neutral, and power analysis with explicit assumptions." },
+  "three-phase-systems:l10": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Delta topology, phase/line voltage, branch/line current, and sequence-path qualifications individually reviewed." },
+  "three-phase-systems:l11": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Root-three delta line-current derivation, 30-degree displacement, and 12-to-20.8 A example individually verified." },
+  "three-phase-systems:l12": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Circulating-current causes, balanced fundamental cancellation, triplen paths, and paralleling risks individually reviewed." },
+  "three-phase-systems:l13": { state: "preserved-verified", reviewedOn: "2026-08-22", evidence: "Generic exercise replaced with a balanced-delta branch current, line current, and total-power analysis." },
+  "three-phase-systems:l14": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Balanced active, reactive, and apparent power formulas and 400 V, 20 A, 0.80 PF example individually verified." },
+  "three-phase-systems:l15": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "True versus displacement power factor, current impact, distortion, and representative measurement individually reviewed." },
+  "three-phase-systems:l16": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Two-wattmeter topology, algebraic signs, balanced-load PF limitation, and 8/2 kW example individually verified." },
+  "three-phase-systems:l17": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Correction kvar, star/delta capacitance basis, switching, discharge, and harmonic resonance individually reviewed." },
+  "three-phase-systems:l18": { state: "preserved-verified", reviewedOn: "2026-08-22", evidence: "Generic quiz replaced with a three-phase P-Q-S numerical question and stable answer mapping." },
 };
