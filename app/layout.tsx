@@ -15,7 +15,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <a className="skip-link" href="#main-content">Skip to main content</a>
+        <div id="main-content">{children}</div>
+        <aside className="site-safety-notice" aria-label="Electrical safety notice">
+          <strong>Educational use:</strong> ElectraCore supports learning and preliminary checks. It does not replace a competent electrician or engineer. Verify results, equipment data, and current local regulations before installation or live work.
+        </aside>
+      </body>
     </html>
   );
 }

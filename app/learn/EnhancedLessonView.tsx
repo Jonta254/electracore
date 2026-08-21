@@ -1,0 +1,95 @@
+﻿import type { EnhancedLesson } from "./enhancedLessons";
+
+function QuantityDiagram({ lessonId }: { lessonId: string }) {
+  const label = lessonId === "l6" ? "VOLTAGE — ENERGY PER CHARGE"
+    : lessonId === "l7" ? "CURRENT — CHARGE PER SECOND"
+    : lessonId === "l8" ? "RESISTANCE — MATERIAL + GEOMETRY"
+    : "OHM'S LAW — ONE RELATIONSHIP, THREE FORMS";
+  return (
+    <svg className="enhanced-diagram" viewBox="0 0 640 190" role="img" aria-labelledby={`diagram-${lessonId}`}>
+      <title id={`diagram-${lessonId}`}>{label}</title>
+      <text x="22" y="26" className="diagram-kicker">{label}</text>
+      {lessonId === "l6" && <>
+        <circle cx="95" cy="96" r="43" className="diagram-source" />
+        <text x="95" y="91" className="diagram-value">12 V</text><text x="95" y="111" className="diagram-note">source rise</text>
+        <line x1="138" y1="96" x2="486" y2="96" className="diagram-wire" />
+        <rect x="486" y="62" width="104" height="68" rx="5" className="diagram-load" />
+        <text x="538" y="91" className="diagram-value">lamp</text><text x="538" y="111" className="diagram-note">12 V drop</text>
+        <text x="310" y="78" className="diagram-note">energy carried to load</text>
+      </>}
+      {lessonId === "l7" && <>
+        <line x1="60" y1="96" x2="580" y2="96" className="diagram-wire" />
+        {[120, 200, 280, 360, 440].map((x) => <g key={x}><circle cx={x} cy="96" r="7" className="diagram-charge" /><path d={`M${x + 12} 88 l16 8 -16 8z`} className="diagram-arrow" /></g>)}
+        <text x="320" y="55" className="diagram-value">I = Q ÷ t</text><text x="320" y="145" className="diagram-note">3 C each second = 3 A</text>
+      </>}
+      {lessonId === "l8" && <>
+        <line x1="60" y1="70" x2="300" y2="70" className="diagram-thin" /><text x="180" y="52" className="diagram-note">longer → more R</text>
+        <line x1="360" y1="70" x2="580" y2="70" className="diagram-thick" /><text x="470" y="52" className="diagram-note">larger area → less R</text>
+        <text x="320" y="140" className="diagram-value">R = ρL ÷ A</text>
+      </>}
+      {lessonId === "l9" && <>
+        <circle cx="320" cy="98" r="68" className="diagram-source" />
+        <text x="320" y="74" className="diagram-value">V</text>
+        <line x1="270" y1="94" x2="370" y2="94" className="diagram-wire" />
+        <text x="286" y="126" className="diagram-value">I</text><text x="354" y="126" className="diagram-value">R</text>
+        <text x="90" y="101" className="diagram-note">V = I × R</text><text x="475" y="101" className="diagram-note">I = V ÷ R</text>
+      </>}
+    </svg>
+  );
+}
+
+export function EnhancedLessonView({ lesson, lessonId }: { lesson: EnhancedLesson; lessonId: string }) {
+  return (
+    <div className="enhanced-lesson">
+      <nav className="lesson-toc" aria-label="Lesson contents">
+        <a href={`#purpose-${lessonId}`}>Purpose</a><a href={`#theory-${lessonId}`}>Theory</a>
+        <a href={`#example-${lessonId}`}>Worked example</a><a href={`#check-${lessonId}`}>Knowledge check</a>
+        <a href={`#sources-${lessonId}`}>Sources</a>
+      </nav>
+
+      <section id={`purpose-${lessonId}`}>
+        <div className="lesson-meta-line"><span>{lesson.difficulty}</span><span>Review: {lesson.reviewStatus === "professional-review-pending" ? "expert review pending" : "reviewed"}</span></div>
+        <h3>Purpose</h3><p>{lesson.purpose}</p>
+        <div className="lesson-callout remember"><strong>Before you begin</strong><span>{lesson.prerequisites.join(" · ")}</span></div>
+        <h3>Learning objectives</h3><ul>{lesson.objectives.map(item => <li key={item}>{item}</li>)}</ul>
+        <p className="lesson-introduction">{lesson.introduction}</p>
+      </section>
+
+      <QuantityDiagram lessonId={lessonId} />
+
+      <section id={`theory-${lessonId}`}>
+        <h3>Core theory</h3>{lesson.theory.map(item => <p key={item}>{item}</p>)}
+        <div className="terms-table-wrap"><table className="terms-table"><caption>Terms, symbols, and units</caption><thead><tr><th>Term</th><th>Meaning</th><th>Symbol</th><th>Unit</th></tr></thead>
+          <tbody>{lesson.terms.map(item => <tr key={item.term}><th scope="row">{item.term}</th><td>{item.meaning}</td><td>{item.symbol ?? "—"}</td><td>{item.unit ?? "—"}</td></tr>)}</tbody>
+        </table></div>
+        {lesson.formula && <div className="lesson-formula"><code>{lesson.formula.expression}</code><p>{lesson.formula.explanation}</p><small>{lesson.formula.units}</small></div>}
+      </section>
+
+      <section id={`example-${lessonId}`}>
+        <div className="lesson-callout example"><strong>Worked example</strong><span>{lesson.workedExample.problem}</span></div>
+        <p><strong>Assumptions:</strong> {lesson.workedExample.assumptions.join("; ")}.</p>
+        <ol className="worked-steps">{lesson.workedExample.steps.map(step => <li key={step.label}><strong>{step.label}:</strong> {step.detail}</li>)}</ol>
+        <p className="worked-answer">{lesson.workedExample.answer}</p>
+        <p><strong>Reasonableness check:</strong> {lesson.workedExample.reasonableness}</p>
+      </section>
+
+      <div className="lesson-callout mistake"><strong>Common mistakes</strong><ul>{lesson.commonMistakes.map(item => <li key={item}>{item}</li>)}</ul></div>
+      <h3>Where this appears in practice</h3><p>{lesson.application}</p>
+      <div className="lesson-callout safety"><strong>Safety</strong><span>{lesson.safety}</span></div>
+      <div className="lesson-callout local"><strong>Local code check</strong><span>{lesson.localCode}</span></div>
+
+      <section id={`check-${lessonId}`}>
+        <h3>Knowledge check</h3>
+        <details className="lesson-check-detail"><summary>{lesson.knowledgeCheck.question}</summary><p><strong>{lesson.knowledgeCheck.answer}.</strong> {lesson.knowledgeCheck.feedback}</p></details>
+        <h3>Practical exercise</h3><p>{lesson.practicalExercise}</p>
+        <h3>Summary</h3><ul>{lesson.summary.map(item => <li key={item}>{item}</li>)}</ul>
+      </section>
+
+      <section id={`sources-${lessonId}`} className="lesson-sources">
+        <h3>Sources and review</h3>
+        <ul>{lesson.sources.map(source => <li key={source.title}>{source.title} — {source.publisher}; {source.edition}; {source.jurisdiction}</li>)}</ul>
+        <p>Content review date: {lesson.reviewDate}. Professional electrical review is pending.</p>
+      </section>
+    </div>
+  );
+}

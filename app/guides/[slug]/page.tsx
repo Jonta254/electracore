@@ -3,6 +3,7 @@ import React, { use } from "react";
 import Link from "next/link";
 import { ElectraCoreLogoMark } from "../../components/Logo";
 import { GUIDE_MAP, GUIDES, type Block } from "../content";
+import { getGuideReview } from "../review";
 
 const TONE = {
   safety: { c: "#FF4444", rgb: "255,68,68", label: "Safety" },
@@ -121,6 +122,7 @@ export default function GuidePage({ params }: { params: Promise<{ slug: string }
   }
 
   const related = guide.related.map((s) => GUIDE_MAP[s]).filter(Boolean);
+  const review = getGuideReview(slug);
 
   return (
     <>
@@ -157,6 +159,11 @@ export default function GuidePage({ params }: { params: Promise<{ slug: string }
             <div className="g-standards">
               {guide.standards.map((s) => <span key={s} className="g-standard-chip">{s}</span>)}
             </div>
+            <aside className="g-review-note" aria-label="Technical source and review status">
+              <strong>Source scope:</strong> {review.jurisdiction} · {review.sources.map((source) => `${source.title} (${source.edition})`).join("; ")}
+              <br />
+              <strong>Review status:</strong> Professional electrical review pending. Confirm the current edition and local requirements before use.
+            </aside>
             <div className="g-header-actions g-noprint">
               <button className="g-print-btn" onClick={() => window.print()}>⎙ Print / save as PDF</button>
             </div>

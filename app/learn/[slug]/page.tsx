@@ -4,6 +4,9 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { use } from "react";
 import { ElectraCoreLogoMark } from "../../components/Logo";
+import { loadCourseLearning, recordAssessment, recordExercise, resetCourseLearning, saveLastLesson, saveLessonCompletion } from "../progress";
+import { getEnhancedLesson } from "../enhancedLessons";
+import { EnhancedLessonView } from "../EnhancedLessonView";
 
 /* ─── Course Database ─── */
 const COURSES: Record<string, {
@@ -1336,11 +1339,14 @@ function LEDLuxDiagram() {
   );
 }
 
-function LessonContent({ lesson, courseColor, courseSlug, moduleTitle }: {
+function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, previousLesson, nextLesson, onNavigate }: {
   lesson: { id: string; title: string; duration: string; type: string };
   courseColor: string;
   courseSlug: string;
   moduleTitle: string;
+  previousLesson?: Lesson;
+  nextLesson?: Lesson;
+  onNavigate: (lessonId: string) => void;
 }) {
   const [quizAnswered, setQuizAnswered] = useState<number | null>(null);
   const [showSolution, setShowSolution] = useState(false);
@@ -1348,6 +1354,7 @@ function LessonContent({ lesson, courseColor, courseSlug, moduleTitle }: {
   const quizData = getQuizForLesson(lesson.title, courseSlug);
   const exerciseData = getExerciseForLesson(lesson.title, courseSlug);
   const lessonBody = getLessonBody(lesson.title, courseSlug, moduleTitle);
+  const enhancedLesson = getEnhancedLesson(courseSlug, lesson.id);
 
   return (
     <div style={{
@@ -1380,7 +1387,11 @@ function LessonContent({ lesson, courseColor, courseSlug, moduleTitle }: {
               const showResult = quizAnswered !== null;
               return (
                 <button key={i}
-                  onClick={() => { if (quizAnswered === null) setQuizAnswered(i); }}
+                  onClick={() => {
+                    if (quizAnswered !== null) return;
+                    setQuizAnswered(i);
+                    try { recordAssessment(localStorage, courseSlug, lesson.id, i === quizData.correct ? 100 : 0); } catch {}
+                  }}
                   style={{
                     textAlign: "left", padding: "0.75rem 1rem", borderRadius: 8,
                     border: `1px solid ${showResult ? (isCorrect ? "#34D399" : isSelected ? "#FF6B35" : "rgba(255,255,255,0.08)") : "rgba(255,255,255,0.1)"}`,
@@ -1403,6 +1414,7 @@ function LessonContent({ lesson, courseColor, courseSlug, moduleTitle }: {
             <div style={{ marginTop: "1rem", padding: "0.875rem 1rem", borderRadius: 8, background: quizAnswered === quizData.correct ? "rgba(52,211,153,0.08)" : "rgba(240,165,0,0.08)", border: `1px solid ${quizAnswered === quizData.correct ? "rgba(52,211,153,0.25)" : "rgba(240,165,0,0.25)"}`, fontSize: "0.85rem", color: "var(--text-dim)", lineHeight: 1.6 }}>
               <strong style={{ color: quizAnswered === quizData.correct ? "#34D399" : "#F0A500" }}>{quizAnswered === quizData.correct ? "Correct! " : "Not quite. "}</strong>
               {quizData.explanation}
+              <button type="button" className="lesson-retry" onClick={() => setQuizAnswered(null)}>Retry question</button>
             </div>
           )}
         </div>
@@ -1414,7 +1426,11 @@ function LessonContent({ lesson, courseColor, courseSlug, moduleTitle }: {
             <p style={{ fontSize: "0.9rem", color: "var(--text)", lineHeight: 1.7 }}>{exerciseData.problem}</p>
           </div>
           <button
-            onClick={() => setShowSolution(s => !s)}
+            onClick={() => setShowSolution(s => {
+              const next = !s;
+              if (next) try { recordExercise(localStorage, courseSlug, lesson.id); } catch {}
+              return next;
+            })}
             style={{ background: `${courseColor}15`, border: `1px solid ${courseColor}35`, color: courseColor, padding: "0.625rem 1.25rem", borderRadius: 8, cursor: "pointer", fontSize: "0.85rem", fontWeight: 700, marginBottom: showSolution ? "1rem" : 0 }}
           >
             {showSolution ? "Hide Solution ↑" : "Reveal Solution →"}
@@ -1442,21 +1458,31 @@ function LessonContent({ lesson, courseColor, courseSlug, moduleTitle }: {
               {lessonBody.diagram}
             </div>
           )}
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
-            {lessonBody.points.map((pt, i) => (
-              <div key={i} style={{ display: "flex", gap: "0.75rem" }}>
-                <span style={{ color: courseColor, fontWeight: 700, flexShrink: 0, marginTop: 2 }}>→</span>
-                <p style={{ fontSize: "0.875rem", color: "var(--text-dim)", lineHeight: 1.7, margin: 0 }}>{pt}</p>
+          {enhancedLesson ? (
+            <EnhancedLessonView lesson={enhancedLesson} lessonId={lesson.id} />
+          ) : (
+            <>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+                {lessonBody.points.map((pt, i) => (
+                  <div key={i} style={{ display: "flex", gap: "0.75rem" }}>
+                    <span style={{ color: courseColor, fontWeight: 700, flexShrink: 0, marginTop: 2 }}>→</span>
+                    <p style={{ fontSize: "0.875rem", color: "var(--text-dim)", lineHeight: 1.7, margin: 0 }}>{pt}</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          {lessonBody.formula && (
-            <div style={{ marginTop: "1rem", padding: "0.875rem 1.25rem", borderRadius: 8, background: `${courseColor}0A`, border: `1px solid ${courseColor}25`, fontFamily: "monospace", fontSize: "1.1rem", color: courseColor, letterSpacing: "0.06em", textAlign: "center" }}>
-              {lessonBody.formula}
-            </div>
+              {lessonBody.formula && (
+                <div style={{ marginTop: "1rem", padding: "0.875rem 1.25rem", borderRadius: 8, background: `${courseColor}0A`, border: `1px solid ${courseColor}25`, fontFamily: "monospace", fontSize: "1.1rem", color: courseColor, letterSpacing: "0.06em", textAlign: "center" }}>
+                  {lessonBody.formula}
+                </div>
+              )}
+            </>
           )}
         </div>
       )}
+      <nav className="lesson-sequence" aria-label="Lesson sequence">
+        {previousLesson ? <button type="button" onClick={() => onNavigate(previousLesson.id)}>← <span>Previous</span><strong>{previousLesson.title}</strong></button> : <span />}
+        {nextLesson ? <button type="button" onClick={() => onNavigate(nextLesson.id)}><span>Next</span><strong>{nextLesson.title}</strong> →</button> : <span />}
+      </nav>
     </div>
   );
 }
@@ -1471,11 +1497,17 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
 
   useEffect(() => {
     try {
-      const key = `ec-completed-${slug}`;
-      const saved = localStorage.getItem(key);
-      if (saved) setCompleted(new Set(JSON.parse(saved)));
-    } catch {}
-  }, [slug]);
+      const saved = loadCourseLearning(localStorage, slug);
+      setCompleted(new Set(saved.completedLessons));
+      if (saved.lastLessonId) {
+        setActiveLesson(saved.lastLessonId);
+        const owner = course?.modules.find((mod) => mod.lessons.some((lesson) => lesson.id === saved.lastLessonId));
+        if (owner) setExpanded(prev => new Set(prev).add(owner.id));
+      }
+    } catch {
+      // Malformed or unavailable browser storage falls back to empty local state.
+    }
+  }, [course, slug]);
 
   const toggleComplete = (lessonId: string) => {
     setCompleted(prev => {
@@ -1483,16 +1515,11 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
       if (next.has(lessonId)) next.delete(lessonId);
       else next.add(lessonId);
       try {
-        localStorage.setItem(`ec-completed-${slug}`, JSON.stringify([...next]));
-        // Update overall progress
-        if (course) {
-          const total = course.modules.reduce((a, m) => a + m.lessons.length, 0);
-          const pct = Math.round((next.size / total) * 100);
-          const allProg = JSON.parse(localStorage.getItem("ec-progress") || "{}");
-          allProg[slug] = pct;
-          localStorage.setItem("ec-progress", JSON.stringify(allProg));
-        }
-      } catch {}
+        const total = course?.modules.reduce((sum, mod) => sum + mod.lessons.length, 0) ?? 0;
+        saveLessonCompletion(localStorage, slug, [...next], total);
+      } catch {
+        // Completion still updates in memory when storage is unavailable.
+      }
       return next;
     });
   };
@@ -1510,6 +1537,13 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
   const totalLessons = course.modules.reduce((a, m) => a + m.lessons.length, 0);
   const progressPct = Math.round((completed.size / totalLessons) * 100);
   const totalMinutes = course.modules.reduce((a, m) => a + m.lessons.reduce((b, l) => b + parseInt(l.duration), 0), 0);
+  const courseLessons = course.modules.flatMap((mod) => mod.lessons);
+  const navigateLesson = (lessonId: string) => {
+    setActiveLesson(lessonId);
+    const owner = course.modules.find((mod) => mod.lessons.some((lesson) => lesson.id === lessonId));
+    if (owner) setExpanded(prev => new Set(prev).add(owner.id));
+    try { saveLastLesson(localStorage, slug, lessonId); } catch {}
+  };
 
   return (
     <>
@@ -1644,12 +1678,17 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                       {isOpen && (
                         <div className="module-lessons">
                           {mod.lessons.map((lesson, li) => {
+                            const lessonIndex = courseLessons.findIndex((item) => item.id === lesson.id);
                             const isDone = completed.has(lesson.id);
                             const isActive = activeLesson === lesson.id;
                             return (
                               <div key={lesson.id}>
                                 <div className={`lesson-item${isActive ? " active" : ""}${isDone ? " done" : ""}`}
-                                  onClick={() => setActiveLesson(isActive ? null : lesson.id)}>
+                                  onClick={() => {
+                                    const nextLesson = isActive ? null : lesson.id;
+                                    setActiveLesson(nextLesson);
+                                    if (nextLesson) try { saveLastLesson(localStorage, slug, nextLesson); } catch {}
+                                  }}>
                                   <div className="lesson-left">
                                     <button
                                       className="lesson-check"
@@ -1681,6 +1720,9 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                                     courseColor={course.color}
                                     courseSlug={slug}
                                     moduleTitle={mod.title}
+                                    previousLesson={courseLessons[lessonIndex - 1]}
+                                    nextLesson={courseLessons[lessonIndex + 1]}
+                                    onNavigate={navigateLesson}
                                   />
                                 )}
                               </div>
@@ -1711,6 +1753,7 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                   <div style={{ fontSize: "0.82rem", color: "var(--text-dim)", marginTop: "0.5rem" }}>
                     {completed.size} / {totalLessons} lessons
                   </div>
+                  <p style={{ fontSize: "0.72rem", color: "var(--text-mute)", marginTop: "0.45rem" }}>Progress is stored on this device. No account sync is active.</p>
                 </div>
                 <div className="progress-stats">
                   {[
@@ -1729,12 +1772,7 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                   <button
                     onClick={() => {
                       setCompleted(new Set());
-                      try {
-                        localStorage.removeItem(`ec-completed-${slug}`);
-                        const allProg = JSON.parse(localStorage.getItem("ec-progress") || "{}");
-                        delete allProg[slug];
-                        localStorage.setItem("ec-progress", JSON.stringify(allProg));
-                      } catch {}
+                      try { resetCourseLearning(localStorage, slug); } catch {}
                     }}
                     style={{ width: "100%", marginTop: "1rem", padding: "8px", borderRadius: "8px", border: "1px solid var(--border)", background: "transparent", color: "var(--text-mute)", fontSize: "0.78rem", cursor: "pointer" }}
                   >

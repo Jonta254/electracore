@@ -2,11 +2,15 @@
   "name": "electracore",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit --incremental false",
+    "test": "node --test --experimental-strip-types --test-isolation=none tests/*.test.ts",
+    "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {
     "lucide-react": "^1.21.0",
