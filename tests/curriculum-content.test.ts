@@ -105,11 +105,20 @@ test("first domestic wiring group has course-specific content and review evidenc
 });
 test("domestic lighting and earthing group has specific content and assessment coverage", () => {
   for (let id = 11; id <= 21; id += 1) assert.ok(LESSON_REVIEWS[`domestic-wiring:l${id}`]);
-  assert.equal(Object.keys(ENHANCED_LESSONS).length, 48);
+  assert.ok(Object.keys(ENHANCED_LESSONS).length >= 48);
   const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /t\.includes\("lighting circuit quiz"\)/);
   assert.match(courseSource, /t\.includes\("bonding quiz"\)/);
   assert.match(viewSource, /LIGHTING CONTROL PATHS/);
   assert.match(viewSource, /EARTHING AND BONDING PATHS/);
+});
+test("domestic special-locations and cable-routing group is specific and reviewed", () => {
+  for (let id = 22; id <= 30; id += 1) assert.ok(LESSON_REVIEWS[`domestic-wiring:l${id}`]);
+  assert.equal(Object.keys(ENHANCED_LESSONS).length, 56);
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
+  assert.match(courseSource, /t\.includes\("depths and zones quiz"\)/);
+  assert.match(viewSource, /SPECIAL-LOCATION RISK LAYERS/);
+  assert.match(viewSource, /CABLE ROUTE AND CONTAINMENT/);
 });

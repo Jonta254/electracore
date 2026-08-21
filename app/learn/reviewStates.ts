@@ -59,4 +59,13 @@ export const LESSON_REVIEWS: Record<string, LessonReview> = {
   "domestic-wiring:l19": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Supplementary-bonding scope and conditional omission workflow individually reviewed." },
   "domestic-wiring:l20": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "TT electrode design, RA/RCD coordination, hazards, and measurement limitations individually reviewed." },
   "domestic-wiring:l21": { state: "preserved-verified", reviewedOn: "2026-08-21", evidence: "Bonding quiz replaced with an extraneous-conductive-part classification question and stable answer mapping." },
+  "domestic-wiring:l22": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Bathroom zone geometry, equipment suitability, RCD, and Amendment 4 distance caveats individually reviewed." },
+  "domestic-wiring:l23": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Kitchen loads, accessory duty, isolation, routes, and external influences individually reviewed." },
+  "domestic-wiring:l24": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Outbuilding load, submain, exported-earth, PEN-risk, and verification workflow individually reviewed." },
+  "domestic-wiring:l25": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Outdoor ingress, RCD, burial, mechanical, and excavation controls individually reviewed." },
+  "domestic-wiring:l26": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Twin-and-earth construction, CPC sizing, identification, and sheath limitations individually reviewed." },
+  "domestic-wiring:l27": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Concealed wall zones, RCD, mechanical protection, and structural constraints individually reviewed." },
+  "domestic-wiring:l28": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Containment fill, bend, grouping, segregation, earthing, and fire-stopping individually reviewed." },
+  "domestic-wiring:l29": { state: "enhanced-review-pending", reviewedOn: "2026-08-21", evidence: "Void routing, thermal insulation, supports, structure, and fire penetrations individually reviewed." },
+  "domestic-wiring:l30": { state: "preserved-verified", reviewedOn: "2026-08-21", evidence: "Depths and zones quiz replaced with a concealed-route/RCD distinction and stable answer mapping." },
 };

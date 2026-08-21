@@ -9,8 +9,12 @@ function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonI
         ? "RING, SPUR, AND RADIAL TOPOLOGY"
         : lessonNumber <= 16
           ? "LIGHTING CONTROL PATHS"
-          : "EARTHING AND BONDING PATHS";
-    const originLabel = lessonNumber <= 4 ? "CU" : lessonNumber <= 10 ? "ORIGIN" : lessonNumber <= 16 ? "SWITCH" : "MET";
+          : lessonNumber <= 21
+            ? "EARTHING AND BONDING PATHS"
+            : lessonNumber <= 25
+              ? "SPECIAL-LOCATION RISK LAYERS"
+              : "CABLE ROUTE AND CONTAINMENT";
+    const originLabel = lessonNumber <= 4 ? "CU" : lessonNumber <= 10 ? "ORIGIN" : lessonNumber <= 16 ? "SWITCH" : lessonNumber <= 21 ? "MET" : lessonNumber <= 25 ? "ZONE" : "ROUTE";
     return (
       <svg className="enhanced-diagram" viewBox="0 0 640 190" role="img" aria-labelledby={`diagram-${courseSlug}-${lessonId}`}>
         <title id={`diagram-${courseSlug}-${lessonId}`}>{label}</title>

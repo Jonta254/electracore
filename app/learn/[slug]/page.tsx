@@ -844,6 +844,14 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
 
 function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
+  if (slug === "domestic-wiring" && t.includes("depths and zones quiz")) {
+    return {
+      question: "A cable concealed diagonally between two wall accessories has 30 mA RCD protection but no other declared protection. What is the correct conclusion?",
+      options: ["RCD protection alone does not make an unrecognisable concealed route acceptable", "The route is acceptable because it joins accessories", "The route is acceptable if the wall is plasterboard", "RCD protection counts as mechanical armour"],
+      correct: 0,
+      explanation: "Additional RCD protection does not replace prescribed routing, sufficient depth, or a current permitted mechanical/protective wiring method. Structural and building-performance checks also remain.",
+    };
+  }
   if (slug === "domestic-wiring" && t.includes("lighting circuit quiz")) {
     return {
       question: "In a conventional two-way lighting circuit, what does each end switch do?",

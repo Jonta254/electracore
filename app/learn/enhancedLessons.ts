@@ -38,6 +38,7 @@ import { FUNDAMENTALS_MEASUREMENT_LESSONS } from "./fundamentalsMeasurementLesso
 import { DOMESTIC_CONSUMER_UNIT_LESSONS } from "./domesticConsumerUnitLessons.ts";
 import { DOMESTIC_FINAL_CIRCUIT_LESSONS } from "./domesticFinalCircuitLessons.ts";
 import { DOMESTIC_LIGHTING_EARTHING_LESSONS } from "./domesticLightingEarthingLessons.ts";
+import { DOMESTIC_LOCATIONS_CABLES_LESSONS } from "./domesticLocationsCablesLessons.ts";
 
 export const ENHANCED_LESSONS: Record<string, EnhancedLesson> = {
   ...FUNDAMENTALS_GROUP_ONE,
@@ -48,6 +49,7 @@ export const ENHANCED_LESSONS: Record<string, EnhancedLesson> = {
   ...DOMESTIC_CONSUMER_UNIT_LESSONS,
   ...DOMESTIC_FINAL_CIRCUIT_LESSONS,
   ...DOMESTIC_LIGHTING_EARTHING_LESSONS,
+  ...DOMESTIC_LOCATIONS_CABLES_LESSONS,
   "electrical-fundamentals:l6": {
     purpose: "Distinguish voltage from current and use potential difference correctly when describing a circuit.",
     difficulty: "Beginner",
