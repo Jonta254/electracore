@@ -51,6 +51,11 @@ function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonI
       </svg>
     );
   }
+  if (courseSlug === "solar-pv") {
+    const n = Number(lessonId.slice(1));
+    const label = n <= 5 ? "PV I-V CURVE AND OPERATING POINTS" : n <= 10 ? "ARRAY STRING AND YIELD DESIGN" : "PV SYSTEM ENERGY PATH";
+    return <svg className="enhanced-diagram" viewBox="0 0 640 190" role="img" aria-labelledby={`diagram-${courseSlug}-${lessonId}`}><title id={`diagram-${courseSlug}-${lessonId}`}>{label}</title><text x="22" y="26" className="diagram-kicker">{label}</text><rect x="55" y="58" width="130" height="84" rx="8" className="diagram-source"/><text x="120" y="104" className="diagram-value">MODULE</text><line x1="185" y1="100" x2="305" y2="100" className="diagram-wire"/><rect x="305" y="70" width="115" height="60" className="diagram-load"/><text x="362" y="104" className="diagram-value">MPPT</text><line x1="420" y1="100" x2="570" y2="100" className="diagram-wire"/><text x="495" y="78" className="diagram-note">cold Voc · hot Vmp</text><text x="320" y="164" className="diagram-note">irradiance · temperature · shading · exact product limits</text></svg>;
+  }
   if (courseSlug === "cable-sizing") {
     const lessonNumber = Number(lessonId.slice(1));
     const label = lessonNumber <= 5 ? "CURRENT-CARRYING CAPACITY WORKFLOW" : lessonNumber <= 10 ? "CORRECTION-FACTOR THERMAL MODEL" : lessonNumber <= 15 ? "WHOLE-PATH VOLTAGE-DROP BUDGET" : lessonNumber <= 20 ? "SWA CONSTRUCTION AND FAULT PATH" : lessonNumber <= 24 ? "FIRE-SURVIVING CABLE SYSTEM" : "END-TO-END CABLE DESIGN GATES";

@@ -844,12 +844,16 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
 
 function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
+  if (slug === "solar-pv" && t.includes("pv physics quiz")) {
+    return { question: "Which values govern the two opposing string-length voltage checks?", options: ["Cold corrected Voc for the maximum, and hot corrected Vmp for MPPT operation", "Hot Isc for both checks", "STC power divided by annual yield", "Ambient temperature with no module coefficient"], correct: 0, explanation: "Cold cells raise Voc and set the upper series limit; hot cells lower Vmp and can set the minimum viable operating string length." };
+  }
   if (slug === "cable-sizing" && t.includes("fire cable quiz")) {
     return { question: "Which statement correctly distinguishes an LSOH cable from a fire-resistant circuit-integrity cable?", options: ["LSOH limits declared smoke/halogen behavior; circuit integrity requires separate exact test/category evidence", "Every LSOH cable maintains power for 120 minutes", "Red sheath proves enhanced fire resistance", "Fire-resistant cable needs no fire-resistant supports"], correct: 0, explanation: "Reaction/smoke characteristics and continued circuit function are separate claims; the complete tested cable, accessories, supports and installation must match the required application category." };
   }
   if (slug === "cable-sizing" && t.includes("final assessment")) {
     return { question: "A cable passes corrected current capacity but exceeds its allocated voltage-drop budget. What is the correct design decision?", options: ["Reject or redesign the candidate, then repeat every affected design gate", "Approve it because thermal capacity has priority", "Round the drop down to the limit", "Increase the protective-device rating"], correct: 0, explanation: "Every applicable gate must pass. Changing cable, route, load or protection changes dependent thermal, voltage-drop, fault and coordination results." };
-  }  if (slug === "three-phase-systems" && t.includes("final assessment")) {
+  }
+  if (slug === "three-phase-systems" && t.includes("final assessment")) {
     return {
       question: "A four-pole, 50 Hz induction motor runs at 1440 rpm. What are synchronous speed and slip?",
       options: ["1500 rpm and 4.0%", "1440 rpm and 4.0%", "3000 rpm and 52%", "1500 rpm and 96%"],
@@ -1037,6 +1041,9 @@ function getQuizForLesson(title: string, slug: string): { question: string; opti
 
 function getExerciseForLesson(title: string, _slug: string): { problem: string; steps: string[]; answer: string } | null {
   const t = title.toLowerCase();
+  if (_slug === "solar-pv" && t.includes("system sizing design exercise")) {
+    return { problem: "A supplied module has Pmp=430 W, corrected cold Voc=54.9 V and corrected hot Vmp=35.2 V. The inverter maximum is 600 V, MPPT minimum is 250 V, and input current permits one 10.5 A string per MPPT. Find the feasible integer string range and nominal DC power for a 10-module string.", steps: ["Cold upper bound: 600/54.9=10.93, so maximum integer length is 10 modules; never round this limit upward.", "Hot lower bound: 250/35.2=7.10, so at least 8 modules are required to remain at or above the supplied MPPT minimum.", "The feasible voltage-only range is therefore 8–10 modules, subject to start voltage, tolerances, absolute component limits and every current/protection/manufacturer rule.", "For 10 modules, nominal STC DC power is 10×430=4.30 kWp. This is not annual energy or guaranteed field output."], answer: "Feasible supplied voltage range: 8–10 modules per string; 10 modules give 4.30 kWp nominal DC capacity" };
+  }
   if (_slug === "cable-sizing" && t.includes("voltage drop problems set")) {
     return {
       problem: "A supplied single-phase table gives 4 mm² vd = 11 mV/A/m and 6 mm² vd = 7.3 mV/A/m. Ib = 28 A, one-way length = 42 m, and the allocated circuit budget is 8.0 V. Screen both candidates.",
