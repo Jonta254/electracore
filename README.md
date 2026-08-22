@@ -1,4 +1,8 @@
-﻿# ElectraCore
+# ElectraCore
+
+<p align="center">
+  <img src="public/electracore-profile-logo.png" width="220" alt="ElectraCore lightning bolt and circuit emblem" />
+</p>
 
 ElectraCore is an educational electrical-learning and preliminary calculation platform built with Next.js 16, React 19, TypeScript, and Tailwind CSS 4.
 
