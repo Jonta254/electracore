@@ -844,6 +844,9 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
 
 function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
+  if (slug === "solar-pv" && t.includes("inverter quiz")) {
+    return { question: "A grid-connected hybrid inverter is rated 5 kW but its EPS output is rated 3 kW. Which statement is correct?", options: ["Backup loads must satisfy the separate 3 kW continuous, surge, energy and protection limits", "All 5 kW is automatically available during an outage", "Anti-islanding makes every circuit a backup circuit", "The battery can be connected without manufacturer approval"], correct: 0, explanation: "Grid and EPS ports have separate declared capabilities; backup also requires deliberate switching, earthing, protection and circuit selection." };
+  }
   if (slug === "solar-pv" && t.includes("pv physics quiz")) {
     return { question: "Which values govern the two opposing string-length voltage checks?", options: ["Cold corrected Voc for the maximum, and hot corrected Vmp for MPPT operation", "Hot Isc for both checks", "STC power divided by annual yield", "Ambient temperature with no module coefficient"], correct: 0, explanation: "Cold cells raise Voc and set the upper series limit; hot cells lower Vmp and can set the minimum viable operating string length." };
   }
@@ -1041,6 +1044,9 @@ function getQuizForLesson(title: string, slug: string): { question: string; opti
 
 function getExerciseForLesson(title: string, _slug: string): { problem: string; steps: string[]; answer: string } | null {
   const t = title.toLowerCase();
+  if (_slug === "solar-pv" && t.includes("battery sizing exercise")) {
+    return { problem: "A household wants 6.0 kWh delivered after charging. The supplied battery usable fraction is 90%, charge-path efficiency 96%, and discharge-path efficiency 94%. Find nominal capacity when the 6.0 kWh is measured at the AC load, then check a 3 kW battery against a 4.2 kW simultaneous backup load.", steps: ["Combined usable delivery factor = 0.90 × 0.96 × 0.94 = 0.81216.", "Nominal energy = 6.0/0.81216 = 7.387 kWh; select a suitable product capacity without rounding the requirement downward.", "The 4.2 kW simultaneous load exceeds the supplied 3 kW battery/converter power limit, regardless of sufficient kWh.", "Reprofile or shed loads and verify surge, phase, EPS, reserve SoC, aging, PAS 63100/fire location, protection and exact manufacturer compatibility."], answer: "Minimum illustrative nominal capacity ≈ 7.39 kWh; the proposed 4.2 kW backup load fails the separate 3 kW power limit" };
+  }
   if (_slug === "solar-pv" && t.includes("system sizing design exercise")) {
     return { problem: "A supplied module has Pmp=430 W, corrected cold Voc=54.9 V and corrected hot Vmp=35.2 V. The inverter maximum is 600 V, MPPT minimum is 250 V, and input current permits one 10.5 A string per MPPT. Find the feasible integer string range and nominal DC power for a 10-module string.", steps: ["Cold upper bound: 600/54.9=10.93, so maximum integer length is 10 modules; never round this limit upward.", "Hot lower bound: 250/35.2=7.10, so at least 8 modules are required to remain at or above the supplied MPPT minimum.", "The feasible voltage-only range is therefore 8–10 modules, subject to start voltage, tolerances, absolute component limits and every current/protection/manufacturer rule.", "For 10 modules, nominal STC DC power is 10×430=4.30 kWp. This is not annual energy or guaranteed field output."], answer: "Feasible supplied voltage range: 8–10 modules per string; 10 modules give 4.30 kWp nominal DC capacity" };
   }
