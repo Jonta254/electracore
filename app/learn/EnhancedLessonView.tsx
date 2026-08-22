@@ -51,7 +51,11 @@ function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonI
       </svg>
     );
   }
-  if (courseSlug === "solar-pv") {
+  if (courseSlug === "industrial-control") {
+    const n = Number(lessonId.slice(1));
+    const label = n <= 5 ? "MOTOR STARTER POWER AND CONTROL" : n <= 10 ? "CONTACTOR AND OVERLOAD COORDINATION" : "INDUSTRIAL CONTROL FUNCTION PATH";
+    return <svg className="enhanced-diagram" viewBox="0 0 640 190" role="img" aria-labelledby={`diagram-${courseSlug}-${lessonId}`}><title id={`diagram-${courseSlug}-${lessonId}`}>{label}</title><text x="22" y="26" className="diagram-kicker">{label}</text><rect x="45" y="62" width="120" height="74" rx="8" className="diagram-source"/><text x="105" y="104" className="diagram-value">SUPPLY</text><line x1="165" y1="99" x2="285" y2="99" className="diagram-wire"/><rect x="285" y="62" width="125" height="74" className="diagram-load"/><text x="347" y="104" className="diagram-value">STARTER</text><line x1="410" y1="99" x2="555" y2="99" className="diagram-wire"/><text x="500" y="82" className="diagram-note">motor · load</text><text x="190" y="165" className="diagram-note">short circuit · overload · command · interlock · isolation</text></svg>;
+  }  if (courseSlug === "solar-pv") {
     const n = Number(lessonId.slice(1));
     const label = n <= 5 ? "PV I-V CURVE AND OPERATING POINTS" : n <= 10 ? "ARRAY STRING AND YIELD DESIGN" : n <= 15 ? "INVERTER PORTS AND MPPT PATHS" : n <= 20 ? "BATTERY ENERGY AND SAFETY PATHS" : n <= 25 ? "GRID CONNECTION AND EXPORT CONTROL" : "PV INSTALLATION AND COMMISSIONING";
     return <svg className="enhanced-diagram" viewBox="0 0 640 190" role="img" aria-labelledby={`diagram-${courseSlug}-${lessonId}`}><title id={`diagram-${courseSlug}-${lessonId}`}>{label}</title><text x="22" y="26" className="diagram-kicker">{label}</text><rect x="55" y="58" width="130" height="84" rx="8" className="diagram-source"/><text x="120" y="104" className="diagram-value">MODULE</text><line x1="185" y1="100" x2="305" y2="100" className="diagram-wire"/><rect x="305" y="70" width="115" height="60" className="diagram-load"/><text x="362" y="104" className="diagram-value">MPPT</text><line x1="420" y1="100" x2="570" y2="100" className="diagram-wire"/><text x="495" y="78" className="diagram-note">cold Voc · hot Vmp</text><text x="320" y="164" className="diagram-note">irradiance · temperature · shading · exact product limits</text></svg>;
