@@ -668,7 +668,7 @@ export default function LearnPage() {
               {filtered.map(course => {
                 const prog = progress[course.slug] ?? 0;
                 return (
-                  <Link key={course.slug} href={`/learn/${course.slug}`} className="course-card" style={{ "--cc": course.color } as React.CSSProperties} aria-label={`${course.title} â€” open preview`}>
+                  <Link key={course.slug} href={`/learn/${course.slug}`} className="course-card" style={{ "--cc": course.color } as React.CSSProperties} aria-label={`${course.title} — open preview`}>
                     <div className="course-thumb">
                       {course.thumb}
                       <div className="course-thumb-overlay">

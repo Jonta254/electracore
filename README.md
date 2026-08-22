@@ -1,39 +1,84 @@
-# ElectraCore
-
 <p align="center">
-  <img src="public/electracore-profile-logo.png" width="220" alt="ElectraCore lightning bolt and circuit emblem" />
+  <img src="public/electracore-mark.svg" width="144" alt="ElectraCore mark" />
 </p>
 
-ElectraCore is an educational electrical-learning and preliminary calculation platform built with Next.js 16, React 19, TypeScript, and Tailwind CSS 4.
+<h1 align="center">ElectraCore</h1>
 
-It includes eight calculators, a connected circuit-design workflow, nine courses, nine reference guides, inline technical diagrams, browser-local progress tracking, calculation history, and printable/PDF summaries.
+<p align="center">
+  Electrical learning, calculation, and preliminary design tools with visible working.
+</p>
+
+<p align="center">
+  <a href="https://electracore.vercel.app">Live application</a> ·
+  <a href="docs/PRODUCT-INVENTORY.md">Product inventory</a> ·
+  <a href="docs/CURRICULUM-MATRIX.md">Curriculum matrix</a>
+</p>
+
+## Overview
+
+ElectraCore brings practical electrical calculations, circuit-design checks, reference material, and structured learning into one browser-based workspace. Results show their method and assumptions so they can be checked rather than accepted as a black box.
+
+The current application provides:
+
+- Eight calculators covering Ohm's law, power, voltage drop, resistor networks, LED resistors, power factor, cable sizing, and voltage dividers.
+- A connected single- and three-phase design workflow for load current, protective-device selection, derating, thermal capacity, and voltage drop.
+- Nine courses containing 280 individually reviewed lessons.
+- Nine reference guides with technical diagrams and print-friendly views.
+- Device-local learning progress and calculation history.
+- Printable calculation and design summaries.
+
+All current learning content is available in open-preview mode. Account synchronization and payment processing are not implemented.
+
+## Technology
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- Node.js test runner
+
+## Run locally
+
+~~~bash
+npm ci
+npm run dev
+~~~
+
+Open http://localhost:3000.
+
+## Verification
+
+~~~bash
+npm run verify
+~~~
+
+The verification pipeline runs ESLint, TypeScript, 52 automated tests, and a production build. Tests cover calculation utilities, circuit sizing, curriculum topology and assessment mappings, access-policy behavior, and defensive progress persistence.
+
+## Browser data
+
+ElectraCore stores saved work on the current device. Existing storage contracts remain supported:
+
+- electracore.calc.history.v1
+- ec-progress
+- ec-completed-{courseSlug}
+- electracore.learning.v2
+
+Changes to these contracts require a versioned, non-destructive migration.
+
+## Project structure
+
+~~~text
+app/
+  calculate/    calculators and saved calculation history
+  design/       connected circuit-design workflow
+  guides/       reference catalogue and guide pages
+  learn/        courses, lessons, assessments, and progress
+docs/           product, curriculum, and payment audits
+tests/          calculation, curriculum, access, and persistence tests
+~~~
 
 ## Safety and scope
 
-ElectraCore does not replace a competent electrician, engineer, equipment manufacturer, or the regulations applicable to an installation. Capacity tables, correction factors, voltage-drop limits, and worked examples are educational and representative unless a page identifies a source, jurisdiction, edition, and review date. Verify every real design locally before installation or live work.
+ElectraCore is an educational and preliminary-checking aid. It does not replace a competent electrician, engineer, manufacturer instructions, or the regulations applicable to an installation. Verify equipment data, assumptions, calculations, and current local requirements before installation or live work.
 
-## Development
-
-Run `npm ci`, then `npm run dev`. Use `npm run verify` for lint, TypeScript, calculation tests, and the production build.
-
-## Routes
-
-- `/` — overview
-- `/calculate` — calculators and saved history
-- `/design` — connected design workflow
-- `/learn` and `/learn/[slug]` — courses and lessons
-- `/guides` and `/guides/[slug]` — reference guides and print views
-
-## Browser-data compatibility
-
-No migration is performed. Existing keys remain supported:
-
-- `electracore.calc.history.v1`: JSON calculation-history array.
-- `ec-progress`: JSON object mapping course slugs to completion percentages.
-- `ec-completed-{courseSlug}`: JSON array of completed lesson IDs.
-
-Do not rename, clear, or change these schemas without a versioned, non-destructive migration.
-
-## Technical-content maintenance
-
-For regulatory content, record the source title, jurisdiction, edition/version, relevant section or table, and review date. Content without those fields must remain labelled educational or representative. Safety-critical content requires qualified professional review before being described as authoritative.
+Safety-critical and jurisdiction-dependent content remains labelled for professional review where appropriate.

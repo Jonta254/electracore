@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ElectraCoreLogoMark } from "./components/Logo";
+import { BookOpen, Cable, Calculator, FileText, GraduationCap, Workflow } from "lucide-react";
 
 /* ─────────────────────────────────────────────────────────────
    "Who it's for" — real electrical illustrations, one per audience.
@@ -246,40 +247,40 @@ const NAV_LINKS = [
 
 const FEATURES = [
   {
-    icon: "⚡",
-    color: "rgba(240,165,0,0.15)",
+    icon: Calculator,
+    color: "rgba(240,165,0,0.12)",
     title: "Electrical Calculators",
-    desc: "Ohm's law, voltage drop, cable sizing, power factor, LED resistor, series/parallel resistance — instant results with unit explanations.",
+    desc: "Eight focused calculators show formulas, units, substitutions, and results for direct review.",
   },
   {
-    icon: "🔌",
+    icon: BookOpen,
     color: "rgba(0,212,255,0.12)",
-    title: "Wiring Connection Guides",
-    desc: "Step-by-step guides for domestic, commercial, and industrial wiring. Colour codes, termination diagrams, and safety callouts included.",
+    title: "Reference Guides",
+    desc: "Nine practical guides combine concise explanations, deterministic diagrams, safety context, and print views.",
   },
   {
-    icon: "📐",
+    icon: Cable,
     color: "rgba(52,211,153,0.12)",
     title: "Load Analysis & Cable Sizing",
-    desc: "Calculate current demand, size circuits correctly, and check for overloads before you wire. Supports single-phase and three-phase.",
+    desc: "Check design current, protective-device coordination, derating, thermal capacity, and voltage drop.",
   },
   {
-    icon: "🎓",
+    icon: GraduationCap,
     color: "rgba(168,85,247,0.12)",
-    title: "Structured Learning Paths",
-    desc: "From basic circuit theory to advanced protection coordination. Built for students, apprentices, and engineers refreshing their knowledge.",
+    title: "Structured Learning",
+    desc: "Nine courses contain 280 reviewed lessons with worked examples, checks, exercises, and sources.",
   },
   {
-    icon: "🏗️",
+    icon: Workflow,
     color: "rgba(240,165,0,0.12)",
-    title: "Project Tools & Cost Estimation",
-    desc: "Map your installation, create material takeoffs, and estimate costs with live pricing data. From single rooms to full commercial fits.",
+    title: "Connected Design Workflow",
+    desc: "Carry one load through supply selection, cable sizing, voltage-drop checks, and a printable preliminary verdict.",
   },
   {
-    icon: "💼",
+    icon: FileText,
     color: "rgba(255,68,68,0.1)",
-    title: "Job Billing & Client Portal",
-    desc: "Quote jobs, log hours, raise invoices, and share client-facing project reports — without leaving the platform.",
+    title: "Saved Work & Reports",
+    desc: "Keep calculation history on the current device and prepare clear calculation or design summaries for print.",
   },
 ];
 
@@ -307,7 +308,7 @@ const WHO = [
       "Work Ohm's law, power, series/parallel and Kirchhoff from first principles — every calculator shows the formula it used, so you learn the method, not just the answer.",
       "Follow structured courses from fundamentals to three-phase and cable sizing, each with worked examples and self-marking quizzes.",
       "Check your homework instantly: enter your values and compare against the step-by-step working.",
-      "Practise with the same figures and limits used on real installations, so exam answers match site reality.",
+      "Practise with supplied examples that reflect common electrical scenarios while keeping assumptions visible.",
     ],
     links: [
       { label: "Start with fundamentals →", href: "/learn/electrical-fundamentals" },
@@ -331,7 +332,7 @@ const WHO = [
   },
   {
     role: "Electricians",
-    tagline: "Design a circuit and quote it — fast.",
+    tagline: "Check a circuit design — clearly.",
     illo: "electricians",
     points: [
       "Run the whole chain in the Circuit Designer: load → protective device → cable size with derating → voltage drop → a clear pass/fail.",
@@ -442,11 +443,11 @@ export default function HomePage() {
           <span>⚡</span> Built by an Electrician · 1 Year on Site
         </div>
         <h1 className="hero-title">
-          Every <span className="accent">electrical</span> tool<br />
-          you actually <span className="volt">need.</span>
+          <span className="accent">Electrical</span> work,<br />
+          explained and <span className="volt">checked.</span>
         </h1>
         <p className="hero-sub">
-          Calculators, wiring guides, learning paths, load analysis, and job billing — for students, engineers, apprentices, and trade workers. One platform, built from the job up.
+          Calculators, reference guides, structured courses, and preliminary design checks for students, apprentices, electricians, and engineers.
         </p>
         <div className="hero-actions">
           <Link href="/calculate" className="btn-primary">Start Calculating →</Link>
@@ -458,8 +459,8 @@ export default function HomePage() {
             <span className="hero-stat-label">Calculators</span>
           </div>
           <div className="hero-stat">
-            <span className="hero-stat-num">15</span>
-            <span className="hero-stat-label">Wiring Guides</span>
+            <span className="hero-stat-num">9</span>
+            <span className="hero-stat-label">Reference Guides</span>
           </div>
           <div className="hero-stat">
             <span className="hero-stat-num">9</span>
@@ -476,9 +477,9 @@ export default function HomePage() {
       <section style={{ background: "var(--bg2)", padding: "5rem 1.5rem" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <p className="section-label" ref={addReveal}>Platform</p>
-          <h2 className="section-title reveal" ref={addReveal}>Everything the job demands.</h2>
+          <h2 className="section-title reveal" ref={addReveal}>Tools for learning and preliminary checks.</h2>
           <p className="section-sub reveal" ref={addReveal}>
-            Not a textbook. Not a single-purpose app. A full platform built from real, on-site work.
+            One focused workspace for calculation, reference, structured learning, and traceable design checks.
           </p>
           <div className="feature-grid">
             {FEATURES.map((f, i) => (
@@ -488,7 +489,7 @@ export default function HomePage() {
                 ref={addReveal}
                 style={{ transitionDelay: `${i * 0.07}s` }}
               >
-                <div className="feature-icon" style={{ background: f.color }}>{f.icon}</div>
+                <div className="feature-icon" style={{ background: f.color }}><f.icon size={22} strokeWidth={1.8} aria-hidden="true" /></div>
                 <div className="feature-title">{f.title}</div>
                 <div className="feature-desc">{f.desc}</div>
               </div>
@@ -608,7 +609,7 @@ export default function HomePage() {
             Free to use. No account needed.
           </h2>
           <p className="reveal" ref={addReveal} style={{ color: "var(--text-dim)", fontSize: "1rem", marginBottom: "2rem", lineHeight: 1.7 }}>
-            Every calculator and guide is open access. Create an account to save your calculations, track learning progress, and unlock Pro tools.
+            Every calculator, guide, and course is open access. Saved calculations and learning progress remain on this device.
           </p>
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
             <Link href="/calculate" className="btn-primary">Open Calculators</Link>
@@ -617,44 +618,29 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* PRICING */}
+      {/* ACCESS */}
       <section className="section">
-        <p className="section-label reveal" ref={addReveal}>Pricing</p>
-        <h2 className="section-title reveal" ref={addReveal}>Start free. Go Pro when it pays.</h2>
-        <p className="section-sub reveal" ref={addReveal}>Core calculators and guides are free, forever.</p>
+        <p className="section-label reveal" ref={addReveal}>Access</p>
+        <h2 className="section-title reveal" ref={addReveal}>The complete platform is open.</h2>
+        <p className="section-sub reveal" ref={addReveal}>
+          Use all calculators, guides, courses, and design tools without an account or checkout.
+        </p>
         <div className="price-grid">
           {[
-            {
-              tier: "Free", amount: "$0", period: "", desc: "The essentials, always available.",
-              features: ["Ohm's law calculator", "Basic wiring guides", "Series/parallel resistance", "Community access"],
-              cta: "Get Started", href: "/calculate", featured: false,
-            },
-            {
-              tier: "Pro", amount: "$15", period: "/mo", desc: "For serious students and working electricians.",
-              features: ["All 8 calculators", "Full guide library (15 guides)", "9 structured courses", "Calculation history & save", "PDF export"],
-              cta: "Start Pro", href: "/calculate", featured: true,
-            },
-            {
-              tier: "Business", amount: "$45", period: "/mo", desc: "Teams, firms, and training providers.",
-              features: ["Everything in Pro", "Job billing & invoicing", "Client portal & reports", "Team accounts (up to 10)", "Priority support"],
-              cta: "Contact Us", href: "mailto:hello@electracore.app", featured: false,
-            },
-          ].map((p, i) => (
-            <div key={i} className={`price-card reveal ${p.featured ? "featured" : ""}`} ref={addReveal} style={{ transitionDelay: `${i * 0.08}s` }}>
-              <div className="price-tier">{p.tier}</div>
-              <div className="price-amount">{p.amount}<span>{p.period}</span></div>
-              <div className="price-desc">{p.desc}</div>
-              <ul className="price-features">
-                {p.features.map((f, j) => <li key={j}>{f}</li>)}
-              </ul>
-              <a href={p.href} className={p.featured ? "btn-primary" : "btn-ghost"} style={{ width: "100%", justifyContent: "center" }}>
-                {p.cta}
-              </a>
+            { title: "Calculate", desc: "Eight calculators with units, visible working, saved history, and printable results.", href: "/calculate", cta: "Open calculators" },
+            { title: "Learn", desc: "Nine courses and 280 reviewed lessons with checks, exercises, sources, and device-local progress.", href: "/learn", cta: "Browse courses" },
+            { title: "Design", desc: "A connected preliminary workflow for load current, protection, cable capacity, and voltage drop.", href: "/design", cta: "Open designer" },
+          ].map((item, i) => (
+            <div key={item.title} className="price-card reveal" ref={addReveal} style={{ transitionDelay: `${i * 0.08}s` }}>
+              <div className="price-tier">{item.title}</div>
+              <div className="price-desc">{item.desc}</div>
+              <Link href={item.href} className="btn-ghost" style={{ width: "100%", justifyContent: "center" }}>
+                {item.cta}
+              </Link>
             </div>
           ))}
         </div>
       </section>
-
       {/* FOOTER */}
       <footer style={{ borderTop: "1px solid var(--border)", padding: "3rem 1.5rem", marginTop: "2rem" }}>
         <div className="footer">

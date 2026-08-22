@@ -27,5 +27,11 @@
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "description": "Electrical learning, calculation, and preliminary design tools with visible working.",
+  "homepage": "https://electracore.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jonta254/electracore.git"
   }
 }

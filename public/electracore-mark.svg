@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1280" role="img" aria-labelledby="title desc">
+  <title id="title">ElectraCore mark</title>
+  <desc id="desc">Amber lightning bolt crossing a cyan circuit ring on graphite.</desc>
+  <rect width="1280" height="1280" rx="240" fill="#0A0A0C"/>
+  <circle cx="640" cy="640" r="440" fill="#111216" stroke="#252830" stroke-width="32"/>
+  <circle cx="640" cy="640" r="388" fill="none" stroke="#00D4FF" stroke-width="20"/>
+  <g fill="none" stroke="#00D4FF" stroke-width="18" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M298 526h132l88 88"/>
+    <path d="M762 448h116l84-84"/>
+    <path d="M782 692h128l88 88"/>
+    <path d="M364 822h116l74-74"/>
+  </g>
+  <g fill="#0A0A0C" stroke="#00D4FF" stroke-width="18">
+    <circle cx="298" cy="526" r="30"/>
+    <circle cx="962" cy="364" r="30"/>
+    <circle cx="998" cy="780" r="30"/>
+    <circle cx="364" cy="822" r="30"/>
+  </g>
+  <path d="M704 222 394 690h206l-54 368 340-528H674l30-308Z" fill="#F0A500"/>
+  <path d="M704 222 394 690h206" fill="none" stroke="#FFD35A" stroke-width="18" stroke-linejoin="miter"/>
+</svg>
