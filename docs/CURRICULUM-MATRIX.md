@@ -1,6 +1,6 @@
 # Curriculum matrix
 
-Generated from the preserved course database on 2026-08-22. Courses: 9; lessons: 280; structured enhancements: 124; individually reviewed: 153; awaiting review: 127.
+Generated from the preserved course database on 2026-08-22. Courses: 9; lessons: 280; structured enhancements: 130; individually reviewed: 161; awaiting review: 119.
 
 Lesson IDs are compatibility-sensitive internal identifiers. Review states come only from `app/learn/reviewStates.ts`; absent entries are explicitly incomplete.
 
@@ -159,14 +159,14 @@ Lesson IDs are compatibility-sensitive internal identifiers. Review states come 
 | cable-sizing | Wiring Regulations | SWA as protective conductor? | /learn/cable-sizing (lesson id: l18) | 7min | video | Structured enhanced lesson | enhanced-review-pending | Armour CPC material area, steel k, adiabatic, resistance/reactance, Zs, continuity and termination gates individually reviewed. |
 | cable-sizing | Wiring Regulations | XLPE vs PVC insulation | /learn/cable-sizing (lesson id: l19) | 8min | video | Structured enhanced lesson | enhanced-review-pending | PVC/XLPE temperature classes, terminal limits, voltage-drop temperature, fault and fire/product-data distinctions individually reviewed. |
 | cable-sizing | Wiring Regulations | SWA sizing exercise | /learn/cable-sizing (lesson id: l20) | 6min | exercise | Existing route content | preserved-verified | Generic SWA exercise replaced with thermal-pass/voltage-drop-fail screening and explicit armour-CPC evidence requirements. |
-| cable-sizing | Wiring Regulations | MICC construction and applications | /learn/cable-sizing (lesson id: l21) | 8min | video | Existing route content | Not yet reviewed | Pending individual inspection |
-| cable-sizing | Wiring Regulations | Fire performance cables — FP200, LSOH | /learn/cable-sizing (lesson id: l22) | 8min | video | Existing route content | Not yet reviewed | Pending individual inspection |
-| cable-sizing | Wiring Regulations | Cable selection for life safety systems | /learn/cable-sizing (lesson id: l23) | 7min | video | Existing route content | Not yet reviewed | Pending individual inspection |
-| cable-sizing | Wiring Regulations | Fire cable quiz | /learn/cable-sizing (lesson id: l24) | 5min | quiz | Existing route content | Not yet reviewed | Pending individual inspection |
-| cable-sizing | Wiring Regulations | End-to-end cable sizing — worked design | /learn/cable-sizing (lesson id: l25) | 15min | video | Existing route content | Not yet reviewed | Pending individual inspection |
-| cable-sizing | Wiring Regulations | Documenting the cable schedule | /learn/cable-sizing (lesson id: l26) | 8min | video | Existing route content | Not yet reviewed | Pending individual inspection |
-| cable-sizing | Wiring Regulations | Common errors and how to avoid them | /learn/cable-sizing (lesson id: l27) | 7min | video | Existing route content | Not yet reviewed | Pending individual inspection |
-| cable-sizing | Wiring Regulations | Final assessment | /learn/cable-sizing (lesson id: l28) | 15min | quiz | Existing route content | Not yet reviewed | Pending individual inspection |
+| cable-sizing | Wiring Regulations | MICC construction and applications | /learn/cable-sizing (lesson id: l21) | 8min | video | Structured enhanced lesson | enhanced-review-pending | MICC construction, hygroscopic termination, sheath/CPC qualification, fire-system and environmental constraints individually reviewed. |
+| cable-sizing | Wiring Regulations | Fire performance cables — FP200, LSOH | /learn/cable-sizing (lesson id: l22) | 8min | video | Structured enhanced lesson | enhanced-review-pending | Reaction-to-fire, smoke/acidity and circuit-integrity distinctions; product-name and LSOH limitations individually reviewed. |
+| cable-sizing | Wiring Regulations | Cable selection for life safety systems | /learn/cable-sizing (lesson id: l23) | 7min | video | Structured enhanced lesson | enhanced-review-pending | Life-safety function, survival time, certified system, supports, route diversity, common modes and interfaces individually reviewed. |
+| cable-sizing | Wiring Regulations | Fire cable quiz | /learn/cable-sizing (lesson id: l24) | 5min | quiz | Existing route content | preserved-verified | Generic quiz replaced with a stable LSOH-versus-circuit-integrity distinction. |
+| cable-sizing | Wiring Regulations | End-to-end cable sizing — worked design | /learn/cable-sizing (lesson id: l25) | 15min | video | Structured enhanced lesson | enhanced-review-pending | End-to-end load, route, CCC, drop, ADS, fault, terminal, environment and iteration workflow individually reviewed. |
+| cable-sizing | Wiring Regulations | Documenting the cable schedule | /learn/cable-sizing (lesson id: l26) | 8min | video | Structured enhanced lesson | enhanced-review-pending | Reproducible cable-schedule inputs, sources, results, revision control, as-built and test links individually reviewed. |
+| cable-sizing | Wiring Regulations | Common errors and how to avoid them | /learn/cable-sizing (lesson id: l27) | 7min | video | Structured enhanced lesson | enhanced-review-pending | Method, factor, unit, phase, length, protection, spreadsheet and independent-check error controls individually reviewed. |
+| cable-sizing | Wiring Regulations | Final assessment | /learn/cable-sizing (lesson id: l28) | 15min | quiz | Existing route content | preserved-verified | Final assessment replaced with a stable all-design-gates decision question. |
 | solar-pv | Wiring Regulations | Photovoltaic effect — how a cell works | /learn/solar-pv (lesson id: l1) | 9min | video | Existing route content | Not yet reviewed | Pending individual inspection |
 | solar-pv | Wiring Regulations | Monocrystalline vs polycrystalline vs thin-film | /learn/solar-pv (lesson id: l2) | 9min | video | Existing route content | Not yet reviewed | Pending individual inspection |
 | solar-pv | Wiring Regulations | Panel specifications — Voc, Vmp, Isc, Imp | /learn/solar-pv (lesson id: l3) | 9min | video | Existing route content | Not yet reviewed | Pending individual inspection |

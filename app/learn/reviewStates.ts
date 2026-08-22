@@ -154,4 +154,12 @@ export const LESSON_REVIEWS: Record<string, LessonReview> = {
   "cable-sizing:l18": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Armour CPC material area, steel k, adiabatic, resistance/reactance, Zs, continuity and termination gates individually reviewed." },
   "cable-sizing:l19": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "PVC/XLPE temperature classes, terminal limits, voltage-drop temperature, fault and fire/product-data distinctions individually reviewed." },
   "cable-sizing:l20": { state: "preserved-verified", reviewedOn: "2026-08-22", evidence: "Generic SWA exercise replaced with thermal-pass/voltage-drop-fail screening and explicit armour-CPC evidence requirements." },
+  "cable-sizing:l21": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "MICC construction, hygroscopic termination, sheath/CPC qualification, fire-system and environmental constraints individually reviewed." },
+  "cable-sizing:l22": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Reaction-to-fire, smoke/acidity and circuit-integrity distinctions; product-name and LSOH limitations individually reviewed." },
+  "cable-sizing:l23": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Life-safety function, survival time, certified system, supports, route diversity, common modes and interfaces individually reviewed." },
+  "cable-sizing:l24": { state: "preserved-verified", reviewedOn: "2026-08-22", evidence: "Generic quiz replaced with a stable LSOH-versus-circuit-integrity distinction." },
+  "cable-sizing:l25": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "End-to-end load, route, CCC, drop, ADS, fault, terminal, environment and iteration workflow individually reviewed." },
+  "cable-sizing:l26": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Reproducible cable-schedule inputs, sources, results, revision control, as-built and test links individually reviewed." },
+  "cable-sizing:l27": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Method, factor, unit, phase, length, protection, spreadsheet and independent-check error controls individually reviewed." },
+  "cable-sizing:l28": { state: "preserved-verified", reviewedOn: "2026-08-22", evidence: "Final assessment replaced with a stable all-design-gates decision question." },
 };

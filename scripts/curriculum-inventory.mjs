@@ -18,9 +18,10 @@ const enhancementSource = read("../app/learn/enhancedLessons.ts") + read("../app
   + read("../app/learn/threePhaseDeltaPowerLessons.ts")
   + read("../app/learn/threePhaseMachinesLessons.ts")
   + read("../app/learn/cableCccDeratingLessons.ts")
-  + read("../app/learn/cableVoltageSwaLessons.ts");
+  + read("../app/learn/cableVoltageSwaLessons.ts")
+  + read("../app/learn/cableFireDesignLessons.ts");
 const reviewSource = read("../app/learn/reviewStates.ts");
-const enhanced = new Set([...enhancementSource.matchAll(/"([a-z0-9-]+:l\d+)":\s*(?:(?:lesson|make)\()?\{/g)].map(match => match[1]));
+const enhanced = new Set([...enhancementSource.matchAll(/"([a-z0-9-]+:l\d+)":/g)].map(match => match[1]));
 const reviews = new Map([...reviewSource.matchAll(/"([a-z0-9-]+:l\d+)": \{ state: "([^"]+)", reviewedOn: "([^"]+)", evidence: "([^"]+)" \}/g)].map(match => [match[1], { state: match[2], date: match[3], evidence: match[4] }]));
 const rows=[]; let course=""; let moduleTitle="";
 for (const line of source.split(/\r?\n/)) {

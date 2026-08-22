@@ -204,11 +204,21 @@ test("cable capacity and derating group is specific and reviewed", () => {
 });
 test("cable voltage drop and SWA group is specific and reviewed", () => {
   for (let id = 11; id <= 20; id += 1) assert.ok(LESSON_REVIEWS[`cable-sizing:l${id}`]);
-  assert.equal(Object.keys(ENHANCED_LESSONS).length, 124);
+  assert.ok(Object.keys(ENHANCED_LESSONS).length >= 124);
   const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /_slug === "cable-sizing" && t\.includes\("voltage drop problems set"\)/);
   assert.match(courseSource, /_slug === "cable-sizing" && t\.includes\("swa sizing exercise"\)/);
   assert.match(viewSource, /WHOLE-PATH VOLTAGE-DROP BUDGET/);
   assert.match(viewSource, /SWA CONSTRUCTION AND FAULT PATH/);
+});
+test("cable fire systems and final design group completes the course", () => {
+  for (let id = 21; id <= 28; id += 1) assert.ok(LESSON_REVIEWS[`cable-sizing:l${id}`]);
+  assert.equal(Object.keys(ENHANCED_LESSONS).length, 130);
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
+  assert.match(courseSource, /slug === "cable-sizing" && t\.includes\("fire cable quiz"\)/);
+  assert.match(courseSource, /slug === "cable-sizing" && t\.includes\("final assessment"\)/);
+  assert.match(viewSource, /FIRE-SURVIVING CABLE SYSTEM/);
+  assert.match(viewSource, /END-TO-END CABLE DESIGN GATES/);
 });

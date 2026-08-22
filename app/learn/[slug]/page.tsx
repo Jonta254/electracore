@@ -844,7 +844,12 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
 
 function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
-  if (slug === "three-phase-systems" && t.includes("final assessment")) {
+  if (slug === "cable-sizing" && t.includes("fire cable quiz")) {
+    return { question: "Which statement correctly distinguishes an LSOH cable from a fire-resistant circuit-integrity cable?", options: ["LSOH limits declared smoke/halogen behavior; circuit integrity requires separate exact test/category evidence", "Every LSOH cable maintains power for 120 minutes", "Red sheath proves enhanced fire resistance", "Fire-resistant cable needs no fire-resistant supports"], correct: 0, explanation: "Reaction/smoke characteristics and continued circuit function are separate claims; the complete tested cable, accessories, supports and installation must match the required application category." };
+  }
+  if (slug === "cable-sizing" && t.includes("final assessment")) {
+    return { question: "A cable passes corrected current capacity but exceeds its allocated voltage-drop budget. What is the correct design decision?", options: ["Reject or redesign the candidate, then repeat every affected design gate", "Approve it because thermal capacity has priority", "Round the drop down to the limit", "Increase the protective-device rating"], correct: 0, explanation: "Every applicable gate must pass. Changing cable, route, load or protection changes dependent thermal, voltage-drop, fault and coordination results." };
+  }  if (slug === "three-phase-systems" && t.includes("final assessment")) {
     return {
       question: "A four-pole, 50 Hz induction motor runs at 1440 rpm. What are synchronous speed and slip?",
       options: ["1500 rpm and 4.0%", "1440 rpm and 4.0%", "3000 rpm and 52%", "1500 rpm and 96%"],
