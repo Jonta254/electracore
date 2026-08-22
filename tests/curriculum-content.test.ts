@@ -254,11 +254,20 @@ test("solar grid connection and commissioning group completes the course", () =>
 });
 test("industrial starters and overload protection group is specific and reviewed", () => {
   for (let id = 1; id <= 10; id += 1) assert.ok(LESSON_REVIEWS[`industrial-control:l${id}`]);
-  assert.equal(Object.keys(ENHANCED_LESSONS).length, 161);
+  assert.ok(Object.keys(ENHANCED_LESSONS).length >= 161);
   const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /slug === "industrial-control" && t\.includes\("motor starter quiz"\)/);
   assert.match(courseSource, /_slug === "industrial-control" && t\.includes\("contactor circuit problems"\)/);
   assert.match(viewSource, /MOTOR STARTER POWER AND CONTROL/);
   assert.match(viewSource, /CONTACTOR AND OVERLOAD COORDINATION/);
+});
+test("industrial diagrams and safety systems group is specific and reviewed", () => {
+  for (let id = 11; id <= 20; id += 1) assert.ok(LESSON_REVIEWS[`industrial-control:l${id}`]);
+  assert.equal(Object.keys(ENHANCED_LESSONS).length, 169);
+  const s=fs.readFileSync(new URL("../app/learn/[slug]/page.tsx",import.meta.url),"utf8");
+  const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");
+  assert.match(s,/_slug === "industrial-control" && t\.includes\("diagram reading exercises"\)/);
+  assert.match(s,/slug === "industrial-control" && t\.includes\("safety systems quiz"\)/);
+  assert.match(v,/CONTROL DIAGRAM STATE AND INTERLOCKS/); assert.match(v,/MACHINE SAFETY FUNCTION PATH/);
 });
