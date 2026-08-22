@@ -273,7 +273,8 @@ test("industrial diagrams and safety systems group is specific and reviewed", ()
 });
 test("industrial PLC and panel group completes the course specifically", () => {
   for (let id=21;id<=30;id+=1) assert.ok(LESSON_REVIEWS[`industrial-control:l${id}`]);
-  assert.equal(Object.keys(ENHANCED_LESSONS).length,177);
+  assert.ok(Object.keys(ENHANCED_LESSONS).length>=177);
   const s=fs.readFileSync(new URL("../app/learn/[slug]/page.tsx",import.meta.url),"utf8"); const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");
   assert.match(s,/_slug === "industrial-control" && t\.includes\("writing a simple motor control program"\)/); assert.match(s,/slug === "industrial-control" && t\.includes\("final assessment"\)/); assert.match(v,/PLC SCAN AND LADDER STATE/); assert.match(v,/PANEL DESIGN AND COMMISSIONING/);
 });
+test("inspection preparation and continuity group is specific and reviewed",()=>{for(let id=1;id<=10;id+=1)assert.ok(LESSON_REVIEWS[`inspection-testing:l${id}`]);assert.equal(Object.keys(ENHANCED_LESSONS).length,185);const s=fs.readFileSync(new URL("../app/learn/[slug]/page.tsx",import.meta.url),"utf8");const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");assert.match(s,/slug === "inspection-testing" && t\.includes\("preparation quiz"\)/);assert.match(s,/_slug === "inspection-testing" && t\.includes\("continuity exercise"\)/);assert.match(v,/SAFE TEST SEQUENCE AND EVIDENCE/);assert.match(v,/CONTINUITY TOPOLOGY AND PATTERN/);});

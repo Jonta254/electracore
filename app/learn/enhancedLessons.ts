@@ -56,6 +56,7 @@ import { SOLAR_GRID_COMMISSIONING_LESSONS } from "./solarGridCommissioningLesson
 import { INDUSTRIAL_STARTER_PROTECTION_LESSONS } from "./industrialStarterProtectionLessons.ts";
 import { INDUSTRIAL_DIAGRAM_SAFETY_LESSONS } from "./industrialDiagramSafetyLessons.ts";
 import { INDUSTRIAL_PLC_PANEL_LESSONS } from "./industrialPlcPanelLessons.ts";
+import { INSPECTION_PREPARATION_CONTINUITY_LESSONS } from "./inspectionPreparationContinuityLessons.ts";
 
 export const ENHANCED_LESSONS: Record<string, EnhancedLesson> = {
   ...FUNDAMENTALS_GROUP_ONE,
@@ -84,6 +85,7 @@ export const ENHANCED_LESSONS: Record<string, EnhancedLesson> = {
   ...INDUSTRIAL_STARTER_PROTECTION_LESSONS,
   ...INDUSTRIAL_DIAGRAM_SAFETY_LESSONS,
   ...INDUSTRIAL_PLC_PANEL_LESSONS,
+  ...INSPECTION_PREPARATION_CONTINUITY_LESSONS,
   "electrical-fundamentals:l6": {
     purpose: "Distinguish voltage from current and use potential difference correctly when describing a circuit.",
     difficulty: "Beginner",
