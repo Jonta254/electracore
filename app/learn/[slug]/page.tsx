@@ -844,7 +844,12 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
 
 function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
-  if (slug === "solar-pv" && t.includes("inverter quiz")) {
+  if (slug === "solar-pv" && t.includes("grid connection quiz")) {
+    return { question: "Two type-tested devices each fall within G98 individually. Can they always be treated separately for the connection route?", options: ["No — assess their aggregate capability and arrangement at the connection point under the current DNO process", "Yes — type testing prevents aggregation", "Yes — provided each marketing rating is below 3.68 kW", "Only the battery inverter needs to be declared"], correct: 0, explanation: "G98 uses its current scope and rating basis, while all generation and storage capable of parallel operation must be assessed in the site arrangement. Exact product evidence does not replace DNO process." };
+  }
+  if (slug === "solar-pv" && t.includes("final assessment")) {
+    return { question: "A type-tested inverter starts and generates normally. What proves the PV installation is complete?", options: ["The full inspection/test record, network and export-control evidence, as-builts, labels, functional proving and owner handover", "A screenshot of the inverter portal", "Only matching string Voc readings", "The module and inverter warranties"], correct: 0, explanation: "Normal generation is one observation. Commissioning must verify electrical, mechanical, network/control and documentation requirements and resolve every defect." };
+  }  if (slug === "solar-pv" && t.includes("inverter quiz")) {
     return { question: "A grid-connected hybrid inverter is rated 5 kW but its EPS output is rated 3 kW. Which statement is correct?", options: ["Backup loads must satisfy the separate 3 kW continuous, surge, energy and protection limits", "All 5 kW is automatically available during an outage", "Anti-islanding makes every circuit a backup circuit", "The battery can be connected without manufacturer approval"], correct: 0, explanation: "Grid and EPS ports have separate declared capabilities; backup also requires deliberate switching, earthing, protection and circuit selection." };
   }
   if (slug === "solar-pv" && t.includes("pv physics quiz")) {

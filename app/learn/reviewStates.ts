@@ -182,4 +182,12 @@ export const LESSON_REVIEWS: Record<string, LessonReview> = {
   "solar-pv:l18": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "AC/DC coupling conversion paths, fault/protection, metering, export, communications and mode-specific efficiency individually reviewed." },
   "solar-pv:l19": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "BS 7671 Chapter 57/PAS 63100, escape, fire, structural, environmental, alternative-supply and emergency location gates individually reviewed." },
   "solar-pv:l20": { state: "preserved-verified", reviewedOn: "2026-08-22", evidence: "Generic battery exercise replaced with separate energy-capacity and backup-power screening plus explicit safety gates." },
-};
+  "solar-pv:l21": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "G98 current 16 A-per-phase basis, 3.68 kW shorthand limitation, aggregation, type-test and DNO notification boundaries individually reviewed." },
+  "solar-pv:l22": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "G99 classification, pre-connection approval, site studies, settings, protection, witness and commissioning evidence individually reviewed." },
+  "solar-pv:l23": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "G100 sensing/control boundary, aggregate plant, fail-safe response, DNO evidence and tariff separation individually reviewed." },
+  "solar-pv:l24": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Generation, boundary import/export and inverter portal measurement purposes, CT direction and reconciliation individually reviewed." },
+  "solar-pv:l25": { state: "preserved-verified", reviewedOn: "2026-08-22", evidence: "Generic grid quiz replaced with current-rating-basis and aggregate-connection-route reasoning." },
+  "solar-pv:l26": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "Structural load path, wind/snow, rail span, clamp zone, weathering, fire/access and roof-work controls individually reviewed." },
+  "solar-pv:l27": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "PV DC current, voltage, temperature, route, loss, reverse-current, connector compatibility and persistent-energy risks individually reviewed." },
+  "solar-pv:l28": { state: "enhanced-review-pending", reviewedOn: "2026-08-22", evidence: "IEC 62446-1 documentation, inspection, string/electrical tests, network/export functions and handover individually reviewed." },
+  "solar-pv:l29": { state: "preserved-verified", reviewedOn: "2026-08-22", evidence: "Generic final assessment replaced with full mechanical, electrical, network, export-control and handover evidence test." },};
