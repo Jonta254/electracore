@@ -53,7 +53,7 @@ function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonI
   }
   if (courseSlug === "cable-sizing") {
     const lessonNumber = Number(lessonId.slice(1));
-    const label = lessonNumber <= 5 ? "CURRENT-CARRYING CAPACITY WORKFLOW" : "CORRECTION-FACTOR THERMAL MODEL";
+    const label = lessonNumber <= 5 ? "CURRENT-CARRYING CAPACITY WORKFLOW" : lessonNumber <= 10 ? "CORRECTION-FACTOR THERMAL MODEL" : lessonNumber <= 15 ? "WHOLE-PATH VOLTAGE-DROP BUDGET" : "SWA CONSTRUCTION AND FAULT PATH";
     return (
       <svg className="enhanced-diagram" viewBox="0 0 640 190" role="img" aria-labelledby={`diagram-${courseSlug}-${lessonId}`}>
         <title id={`diagram-${courseSlug}-${lessonId}`}>{label}</title><text x="22" y="26" className="diagram-kicker">{label}</text>

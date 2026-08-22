@@ -1032,6 +1032,30 @@ function getQuizForLesson(title: string, slug: string): { question: string; opti
 
 function getExerciseForLesson(title: string, _slug: string): { problem: string; steps: string[]; answer: string } | null {
   const t = title.toLowerCase();
+  if (_slug === "cable-sizing" && t.includes("voltage drop problems set")) {
+    return {
+      problem: "A supplied single-phase table gives 4 mm² vd = 11 mV/A/m and 6 mm² vd = 7.3 mV/A/m. Ib = 28 A, one-way length = 42 m, and the allocated circuit budget is 8.0 V. Screen both candidates.",
+      steps: [
+        "4 mm²: ΔV = 11 × 28 × 42 / 1000 = 12.936 V, so it fails the supplied 8.0 V budget.",
+        "6 mm²: ΔV = 7.3 × 28 × 42 / 1000 = 8.5848 V, so it also fails; do not round it into compliance.",
+        "Select the next matching table candidate or redesign the route/load, then include upstream drop and equipment tolerance.",
+        "Repeat CCC/corrections, ADS/Zs, short-circuit withstand, terminals, protection, installation and all other design checks after changing conductor or route.",
+      ],
+      answer: "Neither supplied candidate passes the 8.0 V budget: 4 mm² gives 12.94 V and 6 mm² gives 8.58 V",
+    };
+  }
+  if (_slug === "cable-sizing" && t.includes("swa sizing exercise")) {
+    return {
+      problem: "A fictional SWA feeder has Ib = 46 A and In = 50 A. Supplied candidate data: It = 67 A, Ca = 0.94, Cg = 0.90, vd = 2.9 mV/A/m, length = 65 m. The allocated voltage-drop budget is 7.0 V. Screen capacity and drop, then state the armour evidence still required.",
+      steps: [
+        "Corrected capacity: Iz = 67 × 0.94 × 0.90 = 56.682 A; the basic 46 ≤ 50 ≤ 56.682 A thermal relation passes on the supplied basis.",
+        "Voltage drop: ΔV = 2.9 × 46 × 65 / 1000 = 8.671 V, so the 7.0 V allocated budget fails.",
+        "A larger conductor or redesigned route/load is required, followed by every affected thermal, voltage-drop, fault and protection calculation.",
+        "Armour as CPC remains unproved: verify effective armour data, steel k, adiabatic withstand, resistance/reactance and Zs/disconnection, glands/earth tags, continuity, corrosion and any parallel CPC/current sharing.",
+      ],
+      answer: "The supplied candidate passes only the thermal screen (Iz ≈ 56.7 A) but fails voltage drop (8.67 V > 7.0 V); armour-CPC capability also remains to be proven",
+    };
+  }
   if (_slug === "cable-sizing" && t.includes("ccc selection problems")) {
     return {
       problem: "Using only this supplied fictional table row: 4 mm² It = 37 A and 6 mm² It = 47 A for the declared cable and method. Ib = 32 A, In = 32 A, Ca = 0.94 and Cg = 0.80. Screen both candidates thermally, then state what the result does not prove.",
