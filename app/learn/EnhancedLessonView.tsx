@@ -53,7 +53,7 @@ function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonI
   }
   if (courseSlug === "industrial-control") {
     const n = Number(lessonId.slice(1));
-    const label = n <= 5 ? "MOTOR STARTER POWER AND CONTROL" : n <= 10 ? "CONTACTOR AND OVERLOAD COORDINATION" : n <= 15 ? "CONTROL DIAGRAM STATE AND INTERLOCKS" : n <= 20 ? "MACHINE SAFETY FUNCTION PATH" : "INDUSTRIAL CONTROL FUNCTION PATH";
+    const label = n <= 5 ? "MOTOR STARTER POWER AND CONTROL" : n <= 10 ? "CONTACTOR AND OVERLOAD COORDINATION" : n <= 15 ? "CONTROL DIAGRAM STATE AND INTERLOCKS" : n <= 20 ? "MACHINE SAFETY FUNCTION PATH" : n <= 25 ? "PLC SCAN AND LADDER STATE" : "PANEL DESIGN AND COMMISSIONING";
     return <svg className="enhanced-diagram" viewBox="0 0 640 190" role="img" aria-labelledby={`diagram-${courseSlug}-${lessonId}`}><title id={`diagram-${courseSlug}-${lessonId}`}>{label}</title><text x="22" y="26" className="diagram-kicker">{label}</text><rect x="45" y="62" width="120" height="74" rx="8" className="diagram-source"/><text x="105" y="104" className="diagram-value">SUPPLY</text><line x1="165" y1="99" x2="285" y2="99" className="diagram-wire"/><rect x="285" y="62" width="125" height="74" className="diagram-load"/><text x="347" y="104" className="diagram-value">STARTER</text><line x1="410" y1="99" x2="555" y2="99" className="diagram-wire"/><text x="500" y="82" className="diagram-note">motor · load</text><text x="190" y="165" className="diagram-note">short circuit · overload · command · interlock · isolation</text></svg>;
   }  if (courseSlug === "solar-pv") {
     const n = Number(lessonId.slice(1));
