@@ -30,7 +30,8 @@ const enhancementSource = read("../app/learn/enhancedLessons.ts") + read("../app
   + read("../app/learn/inspectionIrLoopLessons.ts")
   + read("../app/learn/inspectionRcdPfcLessons.ts")
   + read("../app/learn/inspectionCertificationLessons.ts")
-  + read("../app/learn/ledTechnologyDriverLessons.ts");
+  + read("../app/learn/ledTechnologyDriverLessons.ts")
+  + read("../app/learn/ledEmergencyDesignLessons.ts");
 const reviewSource = read("../app/learn/reviewStates.ts");
 const enhanced = new Set([...enhancementSource.matchAll(/"([a-z0-9-]+:l\d+)":/g)].map(match => match[1]));
 const reviews = new Map([...reviewSource.matchAll(/"([a-z0-9-]+:l\d+)": \{ state: "([^"]+)", reviewedOn: "([^"]+)", evidence: "([^"]+)" \}/g)].map(match => [match[1], { state: match[2], date: match[3], evidence: match[4] }]));

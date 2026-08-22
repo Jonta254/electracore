@@ -844,7 +844,12 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
 
 function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
   const t = title.toLowerCase();
-  if (slug === "led-lighting" && t.includes("led technology quiz")) {
+  if (slug === "led-lighting" && t.includes("emergency lighting quiz")) {
+    return { question: "A non-maintained emergency luminaire senses only the building incomer, while its local normal-lighting MCB can fail independently. What is wrong?", options: ["It may not respond to the relevant local lighting failure; monitoring and cause-effect testing must cover that subcircuit", "Nothing — emergency lighting only responds to total blackout", "Non-maintained units do not need charging", "Changing it to 4000 K fixes the issue"], correct: 0, explanation: "Emergency response must cover the failure modes defined by the fire/risk strategy, including relevant local normal-lighting circuit loss." };
+  }
+  if (slug === "led-lighting" && t.includes("final assessment")) {
+    return { question: "A design meets average lux but fails minimum uniformity and glare, while its emergency fittings pass only a dashboard self-test. Is it complete?", options: ["No — verify point/minimum/uniformity/glare and physical emergency output, duration, failure response, logs and controlled handover", "Yes — average lux overrides all other metrics", "Yes — any automated pass certifies photometry", "Only if every luminaire is DALI-2"], correct: 0, explanation: "Normal and emergency lighting require separate complete evidence. Average illuminance and automated status are useful but insufficient." };
+  }  if (slug === "led-lighting" && t.includes("led technology quiz")) {
     return { question: "A complete luminaire produces 4200 lm from 32 W mains input. What may be claimed?", options: ["Its stated-condition luminaire efficacy is 131.25 lm/W; package efficacy, maintenance, glare and installed illuminance remain separate", "Its LED chips are 131.25% efficient", "It will deliver 4200 lux in every room", "Its driver has power factor 1.0"], correct: 0, explanation: "Lumens and watts share the complete-luminaire boundary, so 4200/32=131.25 lm/W. Other optical, electrical and maintained-performance metrics are not implied." };
   }
   if (slug === "led-lighting" && t.includes("driver circuit quiz")) {
@@ -1071,7 +1076,9 @@ function getQuizForLesson(title: string, slug: string): { question: string; opti
 
 function getExerciseForLesson(title: string, _slug: string): { problem: string; steps: string[]; answer: string } | null {
   const t = title.toLowerCase();
-  if (_slug === "inspection-testing" && t.includes("eicr coding exercise")) {
+  if (_slug === "led-lighting" && t.includes("lux calculation worked example")) {
+    return { problem: "A room is 10 m × 6 m with mounting height 2.4 m above the working plane. Twelve luminaires each provide 3200 lm; UF=0.62 and MF=0.80. Find room index and maintained average illuminance, then state what remains.", steps: ["Room index K=(10×6)/(2.4×(10+6))=60/38.4=1.5625; confirm UF was selected from the exact luminaire/reflectance table for this K.", "Useful maintained plane flux=12×3200×0.62×0.80=19046.4 lm-equivalent.", "Average maintained illuminance=19046.4/(10×6)=317.44 lx.", "Still verify point minimum, uniformity, spacing, glare, vertical/cylindrical light, color/flicker, controls, emergency photometry and the documented maintenance plan."], answer: "K≈1.56 and maintained Eavg≈317 lx; average alone does not complete the lighting design" };
+  }  if (_slug === "inspection-testing" && t.includes("eicr coding exercise")) {
     return { problem: "Code four observations: (1) an accessible exposed live conductor; (2) a disconnected CPC feeding Class I equipment; (3) no RCD on an older circuit where no present/potential danger is otherwise established but improvement is recommended; (4) unexplained overheating hidden in an inaccessible joint after reasonable testing cannot establish safety.", steps: ["(1) C1: danger is present; make safe immediately where authorized and notify promptly in writing.", "(2) C2: a credible fault can make accessible Class I metal live; urgent remedial action is required.", "(3) C3 on the supplied facts: age/nonconformity alone does not establish potential danger; recommend improvement.", "(4) FI only if reasonable inspection/testing truly cannot determine danger; state the focused investigation required. If evidence already establishes potential danger, use C2 instead."], answer: "C1, C2, C3 and carefully justified FI respectively, with one most-serious code and evidence for each observation" };
   }
   if (_slug === "inspection-testing" && t.includes("full mock test schedule")) {
