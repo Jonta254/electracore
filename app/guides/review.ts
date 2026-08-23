@@ -1,4 +1,4 @@
-﻿export type ReviewStatus = "pending-professional-review" | "professionally-reviewed";
+export type ReviewStatus = "pending-professional-review" | "professionally-reviewed";
 export interface TechnicalReview {
   jurisdiction: string;
   sources: { title: string; edition: string }[];
@@ -8,7 +8,7 @@ export interface TechnicalReview {
 export const DEFAULT_GUIDE_REVIEW: TechnicalReview = {
   jurisdiction: "United Kingdom",
   sources: [
-    { title: "BS 7671 Requirements for Electrical Installations", edition: "2018+A2:2022" },
+    { title: "BS 7671 Requirements for Electrical Installations", edition: "2018+A4:2026" },
     { title: "IET On-Site Guide", edition: "Current edition must be confirmed before use" },
   ],
   reviewedAt: null,

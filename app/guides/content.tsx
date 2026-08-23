@@ -3,7 +3,7 @@ import React from "react";
 /* ─────────────────────────────────────────────────────────────
    ElectraCore — Guide content
    Reference material written the way it's used on site. Figures are
-   drawn from BS 7671:2018+A2:2022 (the IET Wiring Regulations) and the
+   drawn from BS 7671:2018+A4:2026 (the IET Wiring Regulations) and the
    IET On-Site Guide unless a different standard is named in the text.
    Always confirm against the current edition and the standard that
    applies to your installation before you rely on a number.
@@ -382,7 +382,7 @@ export const GUIDES: Guide[] = [
         heading: "Why the sequence matters",
         blocks: [
           { kind: "p", text: "A voltage indicator that reads zero tells you one of two things: the circuit is dead, or your indicator is faulty. You cannot tell which from the reading alone. That is why proving the instrument on a known live source — before and after you test the isolated conductors — is not optional. It is the step that turns a zero reading into evidence." },
-          { kind: "callout", tone: "safety", title: "This is a legal duty, not a courtesy", text: "Regulation 14 of the Electricity at Work Regulations 1989 prohibits work on or near live conductors unless it is unreasonable for them to be dead. In practice that means: isolate, prove dead, and only then work." },
+          { kind: "callout", tone: "safety", title: "This is a legal duty, not a courtesy", text: "Regulation 14 of the Electricity at Work Regulations 1989 permits work on or near dangerous live conductors only when all three statutory conditions are met: it is unreasonable for them to be dead, live work is reasonable, and suitable precautions prevent injury. The default safe approach is to isolate, secure the isolation, and prove dead before work." },
         ],
       },
       {
@@ -528,7 +528,7 @@ export const GUIDES: Guide[] = [
     cat: "Safety",
     readMins: 8,
     updated: "2024",
-    standards: ["BS 7671:2018+A2:2022", "BS EN 61008 / 61009", "BS EN 62423"],
+    standards: ["BS 7671:2018+A4:2026", "BS EN 61008 / 61009", "BS EN 62423"],
     summary:
       "An RCD measures the current going out against the current coming back. If they don't match, current is leaking to earth — possibly through a person — and the device trips. The catch is that modern electronics distort the residual current, and the cheapest RCD (Type AC) can be 'blinded' by it. Choosing the right type is a safety decision, not a cost one.",
     sections: [
@@ -582,7 +582,7 @@ export const GUIDES: Guide[] = [
               ["B", "All of the above + smooth d.c. residual", "Three-phase EV chargers, PV inverters without isolation, three-phase VSDs."],
             ],
           },
-          { kind: "callout", tone: "warn", title: "Type AC is being designed out", text: "Amendment 2 to BS 7671 effectively pushes Type A as the minimum for most circuits, because switched-mode power supplies (chargers, LED drivers, TVs) produce pulsating d.c. that can stop a Type AC device from tripping. Fit Type A unless a higher type is required." },
+          { kind: "callout", tone: "warn", title: "Type AC has a narrow scope", text: "Under BS 7671:2018+A2:2022, Type AC is limited to fixed equipment where the load current is known to contain no d.c. components. Select the RCD type from the expected residual-current waveform and manufacturer data; Type A is common for electronic loads, with Type F or B used where their additional capabilities are required. Confirm the applicable current or transition edition." },
           { kind: "callout", tone: "note", title: "EV charging is the common decision point", text: "An EV charge point needs at least 30 mA Type A plus d.c. residual detection ≥ 6 mA — provided either by a Type B RCD or by a Type A RCD combined with built-in 6 mA d.c. protection (RDC-DD) in the charger. Check the charger's data sheet before choosing the RCD." },
         ],
       },
@@ -605,7 +605,7 @@ export const GUIDES: Guide[] = [
     cat: "Standards",
     readMins: 10,
     updated: "2024",
-    standards: ["BS 7671:2018+A2:2022 Section 312", "IET On-Site Guide"],
+    standards: ["BS 7671:2018+A4:2026 Section 312", "IET On-Site Guide"],
     summary:
       "The earthing system decides how a fault current gets back to the source, how low the earth-fault loop impedance is, and therefore what protection you can rely on. The first letter is the source earth, the second is the installation's exposed metalwork. Get the arrangement wrong in your head and every Zs limit and RCD decision that follows will be wrong too.",
     sections: [
@@ -670,7 +670,7 @@ export const GUIDES: Guide[] = [
     cat: "Testing",
     readMins: 9,
     updated: "2024",
-    standards: ["BS 7671:2018+A2:2022 Reg 643.3", "GS38"],
+    standards: ["BS 7671:2018+A4:2026 Reg 643.3", "GS38"],
     summary:
       "Insulation resistance testing applies a high d.c. voltage between conductors that should be electrically separate, and measures how much current leaks across the insulation. It's a dead test — everything is isolated — and it catches damaged cables, moisture ingress and wiring errors before the installation is energised.",
     sections: [
@@ -737,7 +737,7 @@ export const GUIDES: Guide[] = [
     cat: "Testing",
     readMins: 11,
     updated: "2024",
-    standards: ["BS 7671:2018+A2:2022 Reg 411 & Table 41.3/41.4", "IET On-Site Guide"],
+    standards: ["BS 7671:2018+A4:2026 Reg 411 & Table 41.3/41.4", "IET On-Site Guide"],
     summary:
       "Earth-fault loop impedance is the total resistance of the path a fault current takes from the point of fault, back through the earthing and the supply transformer, and out again to the point of fault. The lower it is, the bigger the fault current and the faster the protective device trips. Zs is what you measure to prove the disconnection times can actually be met.",
     sections: [
@@ -940,7 +940,7 @@ export const GUIDES: Guide[] = [
     cat: "Wiring",
     readMins: 8,
     updated: "2024",
-    standards: ["BS 7671:2018+A2:2022", "IET On-Site Guide"],
+    standards: ["BS 7671:2018+A4:2026", "IET On-Site Guide"],
     summary:
       "Socket circuits are the bread and butter of domestic work, and also where small mistakes — a loose cpc, a broken ring, an over-loaded spur — cause the most call-backs. This covers the two circuit types, how to terminate correctly, and the rules for spurs.",
     sections: [

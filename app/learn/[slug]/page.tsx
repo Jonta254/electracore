@@ -487,7 +487,7 @@ const COURSES: Record<string, {
         { id: "l16", title: "Emergency stop requirements — IEC 60204", duration: "9min", type: "lesson" },
         { id: "l17", title: "Safety relays and safety PLCs", duration: "9min", type: "lesson" },
         { id: "l18", title: "Light curtains and safety interlocks", duration: "9min", type: "lesson" },
-        { id: "l19", title: "Safe isolation procedure — Reg 514", duration: "8min", type: "lesson" },
+        { id: "l19", title: "Safe isolation — EAWR and multi-energy control", duration: "8min", type: "lesson" },
         { id: "l20", title: "Safety systems quiz", duration: "5min", type: "quiz" },
       ]},
       { id: "m5", title: "PLC Fundamentals", duration: "52min", lessons: [
