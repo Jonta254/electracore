@@ -352,7 +352,7 @@ function HistoryPanel({ history, onRemove, onClear, onExport }: { history: HistE
   };
 
   return (
-    <aside className="hist-panel" aria-label="Saved calculations">
+    <aside id="saved-calculations" className="hist-panel" aria-label="Saved calculations">
       <div className="hist-head">
         <div>
           <div className="hist-title">Saved calculations</div>

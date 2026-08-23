@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { GlobalHeader } from "./components/GlobalHeader";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://electracore.vercel.app"),
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <a className="skip-link" href="#main-content">Skip to main content</a>
+        <GlobalHeader />
         <div id="main-content">{children}</div>
         <aside className="site-safety-notice" aria-label="Electrical safety notice">
           <strong>Educational use:</strong> ElectraCore supports learning and preliminary checks. It does not replace a competent electrician or engineer. Verify results, equipment data, and current local regulations before installation or live work.
