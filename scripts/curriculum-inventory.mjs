@@ -39,7 +39,7 @@ const rows=[]; let course=""; let moduleTitle="";
 for (const line of source.split(/\r?\n/)) {
   const c=line.match(/^  "([^"]+)": \{$/); if(c) course=c[1];
   const m=line.match(/(?:^\s*\{|^\s*)id: "m\d+", title: "([^"]+)"/); if(m) moduleTitle=m[1];
-  const l=line.match(/\{ id: "(l\d+)", title: "([^"]+)", duration: "([^"]+)", type: "(video|quiz|exercise)" \}/); if(!l||!course) continue;
+  const l=line.match(/\{ id: "(l\d+)", title: "([^"]+)", duration: "([^"]+)", type: "(lesson|quiz|exercise)" \}/); if(!l||!course) continue;
   const key=`${course}:${l[1]}`; const review=reviews.get(key);
   rows.push({course,moduleTitle,id:l[1],title:l[2],duration:l[3],type:l[4],key,enhanced:enhanced.has(key),review});
 }

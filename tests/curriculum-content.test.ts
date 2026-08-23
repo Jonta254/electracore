@@ -17,7 +17,7 @@ test("course inventory contains 9 courses and 280 uniquely addressable lessons",
   let total = 0;
   const inventory = new Set<string>();
   for (const [, slug, block] of courseBlocks) {
-    const ids = [...block.matchAll(/\{ id: "(l\d+)", title: "([^"]+)", duration: "([^"]+)", type: "(video|quiz|exercise)" \}/g)];
+    const ids = [...block.matchAll(/\{ id: "(l\d+)", title: "([^"]+)", duration: "([^"]+)", type: "(lesson|quiz|exercise)" \}/g)];
     assert.ok(ids.length > 0, `${slug} has no lessons`);
     const local = new Set<string>();
     for (const [, id, title, duration] of ids) {
