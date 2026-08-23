@@ -1,6 +1,6 @@
 # Curriculum matrix
 
-Generated from the preserved course database on 2026-08-22. Courses: 9; lessons: 280; structured enhancements: 223; individually reviewed: 280; awaiting review: 0.
+Generated from the preserved course database on 2026-08-23. Courses: 9; lessons: 280; structured enhancements: 223; individually reviewed: 280; awaiting review: 0.
 
 Lesson IDs are compatibility-sensitive internal identifiers. Review states come only from `app/learn/reviewStates.ts`; absent entries are explicitly incomplete.
 
