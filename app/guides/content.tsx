@@ -837,7 +837,7 @@ export const GUIDES: Guide[] = [
             rows: [
               ["2.5 mm² solid cable factor", "≈ 30", "8", "240"],
               ["Sum of cable factors", "", "", "240"],
-              ["20 mm conduit, 6 m, 2 bends", "≈ 260", "", "260 ✓"],
+              ["20 mm conduit, 6 m, 2 bends", "≈ 260", "", "260 (acceptable)"],
               ["25 mm conduit, 6 m, 2 bends", "≈ 460", "", "460 (spare capacity)"],
             ],
             caption: "240 ≤ 260, so 20 mm just works; 25 mm gives headroom for future cables. Figures illustrate the method — use the current On-Site Guide tables for real designs.",

@@ -303,7 +303,7 @@ body {
 .price-desc { font-size: 0.875rem; color: var(--text-dim); margin-bottom: 1.5rem; line-height: 1.5; }
 .price-features { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
 .price-features li { font-size: 0.9rem; display: flex; align-items: center; gap: 8px; color: var(--text-dim); }
-.price-features li::before { content: "✓"; color: var(--ground); font-weight: 700; flex-shrink: 0; }
+.price-features li::before { content: "—"; color: var(--ground); font-weight: 700; flex-shrink: 0; }
 
 /* CIRCUIT BANNER */
 .circuit-bg {

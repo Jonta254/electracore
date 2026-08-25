@@ -25,6 +25,13 @@ This file is the durable handoff record for review, commits, and a later authori
 - Verification: ESLint passed; TypeScript passed; 59/59 tests passed; production build passed
 - Commit: `feat: add versioned lesson notes`
 
+### 3. Visual provenance and interface restraint
+
+- Status: verified
+- Photography: homepage uses the locally stored 1024×768 CC0 Wikimedia laboratory multimeter photograph recorded in `docs/SOURCE-REGISTRY.md`
+- Drawings: course and design visuals are purpose-built technical SVG diagrams representing circuits, cable cross-sections, protection devices, waveforms, inspection results, and electrical layouts
+- Interface cleanup: removed pictographic emoji controls and replaced them with engineering labels or plain status language; repository UI emoji scan returned no matches
+- Verification: ESLint passed; TypeScript passed; 59/59 tests passed; production build passed
 ## Deployment handoff checklist
 
 - [x] Working tree clean

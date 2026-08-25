@@ -114,7 +114,7 @@ export default function GuidePage({ params }: { params: Promise<{ slug: string }
   if (!guide) {
     return (
       <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "1.5rem" }}>
-        <div style={{ fontSize: "3rem" }}>🔌</div>
+        <div className="guide-empty-label">GUIDE</div>
         <h1 style={{ fontSize: "1.5rem", fontWeight: 700 }}>Guide not found</h1>
         <Link href="/guides" style={{ color: "var(--core)", textDecoration: "none" }}>← Back to all guides</Link>
       </div>

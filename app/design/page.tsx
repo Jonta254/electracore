@@ -206,13 +206,13 @@ export default function DesignPage() {
             <div className={`dz-result-card${allPass ? " pass" : anyFail ? " fail" : ""}`}>
               {!result.valid ? (
                 <div className="dz-empty">
-                  <div className="dz-empty-icon">🔌</div>
+                  <div className="dz-empty-icon">NO RESULT</div>
                   <p>{result.message || "Enter a load to start the design."}</p>
                 </div>
               ) : (
                 <>
                   <div className={`dz-verdict ${allPass ? "ok" : anyFail ? "no" : "wait"}`}>
-                    {allPass ? "✓ Design passes" : anyFail ? "⚠ Needs attention" : "Working…"}
+                    {allPass ? "PASS — Design passes" : anyFail ? "REVIEW — Needs attention" : "Working…"}
                   </div>
 
                   <div className="dz-xsec">
@@ -238,7 +238,7 @@ export default function DesignPage() {
                   <div className="dz-checks">
                     {result.checks.map((c, i) => (
                       <div key={i} className={`dz-check ${c.ok ? "ok" : "no"}`}>
-                        <span className="dz-check-mark">{c.ok ? "✓" : "✕"}</span>
+                        <span className="dz-check-mark">{c.ok ? "PASS" : "REVIEW"}</span>
                         <div>
                           <div className="dz-check-label">{c.label}</div>
                           <div className="dz-check-detail">{c.detail}</div>

@@ -45,7 +45,7 @@ function voltageDrop(v: string, i: string, len: string, res: string): CalcResult
     value: drop.toFixed(3),
     unit: "V",
     note: pct !== null
-      ? `${pct.toFixed(2)}% of supply — ${pct > 3 ? "⚠ exceeds the common 3% limit; consider a larger conductor" : "✓ within the common 3% guideline"}`
+      ? `${pct.toFixed(2)}% of supply — ${pct > 3 ? "Review: exceeds the common 3% limit; consider a larger conductor" : "Within the common 3% guideline"}`
       : "Single-phase drop across the run (×2 for go + return). Enter supply voltage to see % drop.",
   };
 }
@@ -85,7 +85,7 @@ function powerFactor(kw: string, kva: string): CalcResult {
   return {
     value: pf.toFixed(3),
     unit: "PF",
-    note: pf < 0.85 ? "⚠ below 0.85 — correction capacitors are usually worthwhile" : "✓ acceptable power factor (PF = kW ÷ kVA)",
+    note: pf < 0.85 ? "Review: below 0.85 — correction capacitors are usually worthwhile" : "Acceptable power factor (PF = kW ÷ kVA)",
   };
 }
 
@@ -126,7 +126,7 @@ interface CalcDef {
 
 const CALCS: CalcDef[] = [
   {
-    id: "ohms", title: "Ohm's Law", icon: "⚡", desc: "Fill any two fields — the third is calculated automatically.",
+    id: "ohms", title: "Ohm's Law", icon: "V/I", desc: "Fill any two fields — the third is calculated automatically.",
     fields: [
       { id: "v", label: "Voltage", placeholder: "e.g. 230", unit: "V" },
       { id: "i", label: "Current", placeholder: "e.g. 10", unit: "A" },
@@ -135,7 +135,7 @@ const CALCS: CalcDef[] = [
     compute: (vals) => ohmsLaw(vals.v, vals.i, vals.r),
   },
   {
-    id: "power", title: "Power (P = VI)", icon: "💡", desc: "Calculate power from voltage and current.",
+    id: "power", title: "Power (P = VI)", icon: "W", desc: "Calculate power from voltage and current.",
     fields: [
       { id: "v", label: "Voltage", placeholder: "230", unit: "V" },
       { id: "i", label: "Current", placeholder: "10", unit: "A" },
@@ -143,7 +143,7 @@ const CALCS: CalcDef[] = [
     compute: (vals) => powerCalc(vals.v, vals.i),
   },
   {
-    id: "vdrop", title: "Voltage Drop", icon: "📉", desc: "Single-phase drop across a cable run. The common limit is 3% of supply.",
+    id: "vdrop", title: "Voltage Drop", icon: "ΔV", desc: "Single-phase drop across a cable run. The common limit is 3% of supply.",
     fields: [
       { id: "v", label: "Supply Voltage", placeholder: "230", unit: "V" },
       { id: "i", label: "Load Current", placeholder: "16", unit: "A" },
@@ -153,7 +153,7 @@ const CALCS: CalcDef[] = [
     compute: (vals) => voltageDrop(vals.v, vals.i, vals.len, vals.res),
   },
   {
-    id: "res", title: "Resistors in Series / Parallel", icon: "🔗", desc: "Total resistance of a two- or three-resistor network.",
+    id: "res", title: "Resistors in Series / Parallel", icon: "R∥", desc: "Total resistance of a two- or three-resistor network.",
     fields: [
       { id: "r1", label: "R1", placeholder: "100", unit: "Ω" },
       { id: "r2", label: "R2", placeholder: "220", unit: "Ω" },
@@ -163,7 +163,7 @@ const CALCS: CalcDef[] = [
     compute: (vals) => resistorSeriesParallel(vals.r1, vals.r2, vals.r3, (vals.mode || "series") as "series" | "parallel"),
   },
   {
-    id: "led", title: "LED Resistor", icon: "💠", desc: "Series resistor value to drive an LED safely.",
+    id: "led", title: "LED Resistor", icon: "LED", desc: "Series resistor value to drive an LED safely.",
     fields: [
       { id: "supply", label: "Supply Voltage", placeholder: "12", unit: "V" },
       { id: "vf", label: "LED Forward Voltage", placeholder: "2.1", unit: "V" },
@@ -172,7 +172,7 @@ const CALCS: CalcDef[] = [
     compute: (vals) => ledResistor(vals.supply, vals.vf, vals.ifma),
   },
   {
-    id: "pf", title: "Power Factor", icon: "📊", desc: "Power factor from real (kW) and apparent (kVA) power.",
+    id: "pf", title: "Power Factor", icon: "PF", desc: "Power factor from real (kW) and apparent (kVA) power.",
     fields: [
       { id: "kw", label: "Real Power", placeholder: "18", unit: "kW" },
       { id: "kva", label: "Apparent Power", placeholder: "22", unit: "kVA" },
@@ -180,7 +180,7 @@ const CALCS: CalcDef[] = [
     compute: (vals) => powerFactor(vals.kw, vals.kva),
   },
   {
-    id: "cable", title: "Cable Sizing", icon: "🔧", desc: "Minimum copper cross-section limited by voltage drop.",
+    id: "cable", title: "Cable Sizing", icon: "mm²", desc: "Minimum copper cross-section limited by voltage drop.",
     fields: [
       { id: "i", label: "Load Current", placeholder: "32", unit: "A" },
       { id: "vd", label: "Max Allowable Voltage Drop", placeholder: "6.9", unit: "V" },
@@ -189,7 +189,7 @@ const CALCS: CalcDef[] = [
     compute: (vals) => cableSizing(vals.i, vals.vd, vals.len),
   },
   {
-    id: "divider", title: "Voltage Divider", icon: "🔀", desc: "Output voltage from a resistive divider (no load).",
+    id: "divider", title: "Voltage Divider", icon: "Vout", desc: "Output voltage from a resistive divider (no load).",
     fields: [
       { id: "vin", label: "Input Voltage", placeholder: "12", unit: "V" },
       { id: "r1", label: "R1 (top)", placeholder: "10000", unit: "Ω" },
@@ -306,7 +306,7 @@ function CalcBlock({ calc, onSave }: { calc: CalcDef; onSave: (e: Omit<HistEntry
         {result ? (
           result.error ? (
             <div className="calc-result calc-result-error">
-              <span aria-hidden style={{ fontSize: "1.1rem" }}>⚠</span>
+              <span aria-hidden className="calc-status-label">Review</span>
               <div style={{ fontSize: "0.85rem", color: "var(--hot)", lineHeight: 1.5 }}>{result.note}</div>
             </div>
           ) : (
@@ -321,10 +321,10 @@ function CalcBlock({ calc, onSave }: { calc: CalcDef; onSave: (e: Omit<HistEntry
               </div>
               <div className="calc-actions">
                 <button type="button" className="calc-action-btn" onClick={handleSave}>
-                  {flash === "saved" ? "Saved ✓" : "Save"}
+                  {flash === "saved" ? "Saved" : "Save"}
                 </button>
                 <button type="button" className="calc-action-btn" onClick={handleCopy}>
-                  {flash === "copied" ? "Copied ✓" : "Copy"}
+                  {flash === "copied" ? "Copied" : "Copy"}
                 </button>
               </div>
             </div>
@@ -368,7 +368,7 @@ function HistoryPanel({ history, onRemove, onClear, onExport }: { history: HistE
 
       {history.length === 0 ? (
         <div className="hist-empty">
-          <div style={{ fontSize: "1.75rem", marginBottom: "0.5rem" }} aria-hidden>🧮</div>
+          <div className="hist-empty-label">Saved results</div>
           <div style={{ fontWeight: 700, color: "var(--text)", marginBottom: "0.35rem" }}>Nothing saved yet</div>
           <p style={{ fontSize: "0.82rem", color: "var(--text-dim)", lineHeight: 1.6 }}>
             Run a calculation and press <strong>Save</strong> to keep the result here — handy when you&apos;re working a job and need to compare a few figures side by side.
@@ -388,9 +388,9 @@ function HistoryPanel({ history, onRemove, onClear, onExport }: { history: HistE
               </div>
               <div className="hist-item-actions">
                 <button type="button" className="hist-icon-btn" onClick={() => copyEntry(e)} aria-label={`Copy ${e.calc} result`}>
-                  {copiedId === e.id ? "✓" : "⧉"}
+                  {copiedId === e.id ? "Done" : "Copy"}
                 </button>
-                <button type="button" className="hist-icon-btn" onClick={() => onRemove(e.id)} aria-label={`Delete ${e.calc} result`}>✕</button>
+                <button type="button" className="hist-icon-btn" onClick={() => onRemove(e.id)} aria-label={`Delete ${e.calc} result`}>Delete</button>
               </div>
             </li>
           ))}
@@ -488,7 +488,7 @@ export default function CalculatePage() {
           </p>
 
           <Link href="/design" className="calc-designer-banner">
-            <div className="calc-designer-icon" aria-hidden>⚙</div>
+            <div className="calc-designer-icon" aria-hidden>DESIGN</div>
             <div className="calc-designer-copy">
               <div className="calc-designer-title">Need the whole circuit, not one number?</div>
               <div className="calc-designer-sub">Open the Circuit Designer — load → device → cable size → voltage drop → pass/fail, with a printable summary.</div>

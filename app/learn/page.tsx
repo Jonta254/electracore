@@ -394,7 +394,7 @@ function ThumbInspection() {
           <text x="155" y={60+i*15} fontFamily="monospace" fontSize="7" fill="#888899" opacity="0.7">{test}</text>
           <text x="290" y={60+i*15} textAnchor="end" fontFamily="monospace" fontSize="7" fill={ok?"#34D399":"#FF4444"} opacity="0.8">{val}</text>
           <circle cx="300" cy={56+i*15} r="4" fill={ok?"rgba(52,211,153,0.2)":"rgba(255,68,68,0.2)"} stroke={ok?"#34D399":"#FF4444"} strokeWidth="0.8" opacity="0.7"/>
-          <text x="300" y={59+i*15} textAnchor="middle" fontFamily="monospace" fontSize="7" fill={ok?"#34D399":"#FF4444"} opacity="0.8">{ok?"✓":"✗"}</text>
+          <text x="300" y={59+i*15} textAnchor="middle" fontFamily="monospace" fontSize="7" fill={ok?"#34D399":"#FF4444"} opacity="0.8">{ok?"OK":"X"}</text>
           <line x1="148" y1={63+i*15} x2="308" y2={63+i*15} stroke="rgba(255,255,255,0.04)" strokeWidth="0.5"/>
         </g>
       ))}

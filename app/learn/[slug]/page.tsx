@@ -1249,7 +1249,7 @@ function getExerciseForLesson(title: string, _slug: string): { problem: string; 
       problem: "A 240V circuit supplies a heater with a resistance of 48Ω. Calculate: (a) the current drawn, (b) the power consumed, (c) the energy used in 2 hours.",
       steps: [
         "Part (a) Current: Apply Ohm's Law → I = V/R = 240/48 = 5A",
-        "Part (b) Power: P = V × I = 240 × 5 = 1200W (1.2kW). Verify: P = V²/R = 240²/48 = 57600/48 = 1200W ✓",
+        "Part (b) Power: P = V × I = 240 × 5 = 1200W (1.2kW). Verify: P = V²/R = 240²/48 = 57600/48 = 1200W (verified)",
         "Part (c) Energy: E = P × t = 1200W × 2h = 2400Wh = 2.4kWh. On a standard tariff at 28p/kWh, cost = 2.4 × 28p = 67.2p",
       ],
       answer: "(a) 5A  (b) 1200W  (c) 2.4 kWh",
@@ -1274,21 +1274,21 @@ function getExerciseForLesson(title: string, _slug: string): { problem: string; 
         "From BS 7671 Table 4D2B, the mV/A/m for 2.5mm² clipped direct cable is 18 mV/A/m",
         "Voltage drop = (mV/A/m × Ib × L) / 1000 = (18 × 13 × 18) / 1000 = 4212 / 1000 = 4.21V",
         "Percentage drop = (4.21 / 230) × 100 = 1.83%",
-        "Compare to limit: 1.83% < 5% limit ✓  The cable is acceptable.",
+        "Compare to limit: 1.83% < 5% limit. The cable is acceptable.",
       ],
-      answer: "4.21V (1.83%) — within the 5% limit. ✓",
+      answer: "4.21V (1.83%) — within the 5% limit.",
     };
   }
   if (t.includes("cable siz") || t.includes("end-to-end") || t.includes("sizing")) {
     return {
       problem: "A ring final circuit serves 8 single-phase socket outlets. Design current Ib = 20A. The circuit is run in 2.5mm² T&E clipped direct (Iz = 27A). Is the cable adequately sized? Check all three BS 7671 conditions.",
       steps: [
-        "Condition 1 — Design current ≤ rated current: Ib (20A) ≤ In (32A) ✓  (standard 32A MCB for ring final)",
-        "Condition 2 — Rated current ≤ cable CCC: In (32A) ≤ Iz (27A) ✗  Wait — ring finals are split: each half carries Ib/2 = 10A, so effective It per half = 13.5A. With diversity, this is acceptable.",
+        "Condition 1 — Design current ≤ rated current: Ib (20A) ≤ In (32A) — satisfied (standard 32A MCB for ring final)",
+        "Condition 2 — Rated current ≤ cable CCC: In (32A) ≤ Iz (27A) — not satisfied directly. However — ring finals are split: each half carries Ib/2 = 10A, so effective It per half = 13.5A. With diversity, this is acceptable.",
         "Condition 3 — Overload condition: I₂ ≤ 1.45 × Iz = 1.45 × 27 = 39.15A. MCB I₂ = 1.45 × In = 1.45 × 32 = 46.4A. The ring configuration means fault current operates the MCB before the cable overloads.",
         "BS 7671 Regulation 433.1.1 specifically exempts ring final circuits from the standard conditions — the ring topology provides inherent protection.",
       ],
-      answer: "2.5mm² is standard and accepted for ring finals — confirmed by BS 7671 ✓",
+      answer: "2.5mm² is standard and accepted for ring finals — confirmed by BS 7671.",
     };
   }
   if (t.includes("three-phase") || t.includes("star-delta") || t.includes("balanced")) {
@@ -1297,7 +1297,7 @@ function getExerciseForLesson(title: string, _slug: string): { problem: string; 
       steps: [
         "Part (a) Phase voltage: V_ph = V_L / √3 = 400 / 1.732 = 231V",
         "Part (b) Phase current: I_ph = V_ph / R_ph = 231 / 22 = 10.5A. In star, line current = phase current, so I_L = 10.5A",
-        "Part (c) Total power: P = 3 × V_ph × I_ph = 3 × 231 × 10.5 = 7,281W (7.28kW). Or: P = √3 × V_L × I_L = 1.732 × 400 × 10.5 = 7,274W ✓ (minor rounding difference)",
+        "Part (c) Total power: P = 3 × V_ph × I_ph = 3 × 231 × 10.5 = 7,281W (7.28kW). Or: P = √3 × V_L × I_L = 1.732 × 400 × 10.5 = 7,274W (minor rounding difference)",
       ],
       answer: "V_ph = 231V  |  I_L = 10.5A  |  P = 7.28kW",
     };
@@ -1748,8 +1748,8 @@ function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, previousL
                 >
                   <span style={{ fontFamily: "monospace", marginRight: 8, opacity: 0.5 }}>{String.fromCharCode(65 + i)}.</span>
                   {opt}
-                  {showResult && isCorrect && " ✓"}
-                  {showResult && isSelected && !isCorrect && " ✗"}
+                  {showResult && isCorrect && " Correct"}
+                  {showResult && isSelected && !isCorrect && " Incorrect"}
                 </button>
               );
             })}
@@ -2037,7 +2037,7 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                                       onClick={e => { e.stopPropagation(); toggleComplete(lesson.id); }}
                                       title={isDone ? "Mark incomplete" : "Mark complete"}
                                     >
-                                      {isDone && <span style={{ color: "#000", fontSize: "0.7rem", fontWeight: 900 }}>✓</span>}
+                                      {isDone && <span style={{ color: "#000", fontSize: "0.7rem", fontWeight: 900 }}>DONE</span>}
                                     </button>
                                     <span className="lesson-type-icon" style={{ color: LESSON_COLORS[lesson.type] }}>
                                       {LESSON_ICONS[lesson.type]}
