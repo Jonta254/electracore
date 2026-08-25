@@ -6,7 +6,7 @@ This file is the durable handoff record for review, commits, and a later authori
 
 - Branch: `codex/electracore-hardening`
 - Starting commit for learning-system stage: `f7c9e64`
-- Production push/deployment: not authorized
+- Production push/deployment: authorized by the user on 2026-08-25
 - Preserved inventory: 9 courses, 280 lesson IDs, calculators, guides, circuit designer, saved calculations, and legacy/versioned progress keys
 
 ## Stage log
@@ -34,5 +34,12 @@ This file is the durable handoff record for review, commits, and a later authori
 - [x] Complete tests passed
 - [x] Production build passed
 - [x] Browser limitations recorded — administrator policy blocked localhost browser control; automated and production-build checks used without claiming visual inspection
-- [ ] Push explicitly authorized
-- [ ] Deployment explicitly authorized
+- [x] Push explicitly authorized on 2026-08-25
+- [x] Deployment explicitly authorized on 2026-08-25
+
+## Production release
+
+- Target: Vercel production project `electracore` (`https://electracore.vercel.app`)
+- Source branch: `codex/electracore-hardening`
+- Release method: push the committed branch, then deploy the same clean working tree with the linked Vercel project
+- Post-deployment URL and status are captured in the Codex task handoff after verification.
