@@ -1,3 +1,8 @@
+# Image and media registry
+
+| Local asset | Use | Creator | Source | License | Reviewed |
+|---|---|---|---|---|---|
+| `/public/electracore-lab-multimeter.jpg` | Homepage hero; a laboratory multimeter and test leads | Aldestyo | [Wikimedia Commons: Multimeter Lab.jpg](https://commons.wikimedia.org/wiki/File:Multimeter_Lab.jpg) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | 2026-08-25 |
 # Source registry
 
 Registry review date: 2026-08-23.
@@ -14,7 +19,7 @@ This registry records sources used to guide ElectraCore's product, accessibility
 | Electrical test equipment for use on low-voltage electrical systems (GS38) | UK Health and Safety Executive | https://www.hse.gov.uk/pubns/books/gs38.htm | Great Britain | Fourth edition, 2015 | 2026-08-23 | Suitable test equipment and lead/probe safety | GB guidance; equipment selection and live testing require competent risk control. |
 | Electricity at Work Regulations 1989 — Guidance on Regulations (HSR25) | UK Health and Safety Executive | https://www.hse.gov.uk/pubns/priced/hsr25.pdf | Great Britain | Third edition 2015 | 2026-08-23 | Legal-duty context and safety review | Great Britain only; not a substitute for current local law or competent risk assessment. |
 | WCAG 2.2 | World Wide Web Consortium | https://www.w3.org/TR/WCAG22/ | International web standard | W3C Recommendation, 2024-12-12 | 2026-08-23 | Contrast, reflow, focus, keyboard access, target size, alternatives, reduced motion | Conformance requires route-level testing; this registry does not itself establish compliance. |
-| Multimeter Lab.jpg | Aldestyo / Wikimedia Commons | https://commons.wikimedia.org/wiki/File:Multimeter_Lab.jpg | International media reuse | 2023-12-20; CC0 1.0 | 2026-08-23 | Candidate equipment-recognition photography | Resolution is 1024×768 and composition must be technically reviewed before use. Not yet approved as the hero. |
+| Multimeter Lab.jpg | Aldestyo / Wikimedia Commons | https://commons.wikimedia.org/wiki/File:Multimeter_Lab.jpg | International media reuse | 2023-12-20; CC0 1.0 | 2026-08-25 | Homepage hero photography | Approved for the hero after source, CC0 license, resolution, technical relevance, local storage, responsive crop, alt text, and attribution review. |
 
 ## Photography acceptance gate
 

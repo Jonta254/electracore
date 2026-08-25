@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ElectraCoreLogoMark } from "./components/Logo";
-import { BookOpen, Cable, Calculator, FileText, GraduationCap, Workflow } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, BookOpen, Cable, Calculator, FileText, GraduationCap, Workflow } from "lucide-react";
 
 /* ─────────────────────────────────────────────────────────────
    "Who it's for" — real electrical illustrations, one per audience.
@@ -380,9 +380,14 @@ const WHO = [
 export default function HomePage() {
   const revealRefs = useRef<HTMLElement[]>([]);
   const [activeWho, setActiveWho] = useState(0);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [hasProgress, setHasProgress] = useState(false);
 
   useEffect(() => {
+    try {
+      setHasProgress(Boolean(localStorage.getItem("ec-progress") || localStorage.getItem("electracore.learning.v2")));
+    } catch {
+      setHasProgress(false);
+    }
     const obs = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }),
       { threshold: 0.1 }
@@ -397,82 +402,36 @@ export default function HomePage() {
 
   return (
     <>
-      {/* FLOATING CTA */}
-      <a href="/calculate" className="float-cta" aria-label="Open calculators">
-        ⚡ Open Calculators
-      </a>
-
-      {/* NAV */}
-      <nav className="nav">
-        <Link href="/" className="nav-logo">
-          <ElectraCoreLogoMark size={32} />
-          <span className="nav-logo-text">ElectraCore</span>
-        </Link>
-        <div className="nav-links">
-          {NAV_LINKS.map((l) => (
-            <Link key={l.href} href={l.href} className="nav-link">{l.label}</Link>
-          ))}
-        </div>
-        <Link href="/calculate" className="nav-cta">Open Calculator</Link>
-        <button
-          className="nav-hamburger"
-          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
-          onClick={() => setMenuOpen(m => !m)}
-          aria-label="Menu"
-        >
-          <span style={{ display: "block", width: 22, height: 2, background: "#F2F0FC", borderRadius: 2 }} />
-          <span style={{ display: "block", width: 22, height: 2, background: "#F2F0FC", borderRadius: 2 }} />
-          <span style={{ display: "block", width: 22, height: 2, background: "#F2F0FC", borderRadius: 2 }} />
-        </button>
-      </nav>
-
-      {/* MOBILE NAV OVERLAY */}
-      {menuOpen && (
-        <div style={{ position: "fixed", inset: 0, top: 64, zIndex: 800, background: "rgba(7,8,16,0.97)", backdropFilter: "blur(20px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "2rem", padding: "2rem" }}>
-          {NAV_LINKS.map((l) => (
-            <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{ fontFamily: "inherit", fontSize: "2rem", fontWeight: 800, letterSpacing: "0.08em", color: "#F2F0FC", textDecoration: "none" }}>{l.label}</a>
-          ))}
-          <a href="/calculate" onClick={() => setMenuOpen(false)} style={{ background: "linear-gradient(135deg,#D4A843,#FFD700)", color: "#07080F", fontFamily: "inherit", fontWeight: 800, fontSize: "1rem", letterSpacing: "0.12em", textTransform: "uppercase", padding: "1rem 2.5rem", borderRadius: 12, textDecoration: "none", marginTop: "0.5rem" }}>Open Calculators →</a>
-        </div>
-      )}
-
       {/* HERO */}
       <section className="hero">
-        <div className="hero-glow" />
-        <div className="hero-badge">
-          <span>⚡</span> Built by an Electrician · 1 Year on Site
-        </div>
-        <h1 className="hero-title">
-          <span className="accent">Electrical</span> work,<br />
-          explained and <span className="volt">checked.</span>
-        </h1>
-        <p className="hero-sub">
-          Calculators, reference guides, structured courses, and preliminary design checks for students, apprentices, electricians, and engineers.
-        </p>
-        <div className="hero-actions">
-          <Link href="/calculate" className="btn-primary">Start Calculating →</Link>
-          <Link href="/guides" className="btn-ghost">Browse Guides</Link>
-        </div>
-        <div className="hero-stats">
-          <div className="hero-stat">
-            <span className="hero-stat-num">8</span>
-            <span className="hero-stat-label">Calculators</span>
+        <Image className="hero-photo" src="/electracore-lab-multimeter.jpg" alt="Digital multimeter and test leads arranged on an electrical laboratory bench" fill priority sizes="100vw" />
+        <div className="hero-overlay" />
+        <div className="hero-content">
+          <p className="hero-badge">Electrical learning, calculation and circuit tools</p>
+          <h1 className="hero-title">Understand the circuit.<br /><span className="accent">Check the numbers.</span></h1>
+          <p className="hero-sub">Learn electrical principles, study clear diagrams, work through practical examples, and use calculation tools with visible assumptions and safety context.</p>
+          <div className="hero-actions">
+            <Link href="/learn" className="btn-primary">{hasProgress ? "Continue learning" : "Start learning"}<ArrowRight size={17} aria-hidden="true" /></Link>
+            <Link href="/calculate" className="btn-ghost">Open calculators</Link>
           </div>
-          <div className="hero-stat">
-            <span className="hero-stat-num">9</span>
-            <span className="hero-stat-label">Reference Guides</span>
-          </div>
-          <div className="hero-stat">
-            <span className="hero-stat-num">9</span>
-            <span className="hero-stat-label">Courses</span>
-          </div>
-          <div className="hero-stat">
-            <span className="hero-stat-num">Free</span>
-            <span className="hero-stat-label">Core Tools</span>
-          </div>
+          <div className="hero-links"><Link href="/learn">Explore courses</Link><Link href="/guides">Browse references</Link></div>
+          <dl className="hero-stats">
+            <div className="hero-stat"><dt className="hero-stat-num">9</dt><dd className="hero-stat-label">Courses</dd></div>
+            <div className="hero-stat"><dt className="hero-stat-num">280</dt><dd className="hero-stat-label">Lessons</dd></div>
+            <div className="hero-stat"><dt className="hero-stat-num">8</dt><dd className="hero-stat-label">Calculators</dd></div>
+            <div className="hero-stat"><dt className="hero-stat-num">9</dt><dd className="hero-stat-label">References</dd></div>
+          </dl>
+          <p className="hero-credit">Laboratory multimeter photograph: Aldestyo, CC0 1.0, via Wikimedia Commons.</p>
         </div>
       </section>
 
+      <nav className="quick-access" aria-label="Quick access">
+        <p><strong>Work from one place.</strong><span>Progress, notes and saved calculations remain on this device.</span></p>
+        <div>{[
+          ["Browse courses", "/learn"], ["Open calculator", "/calculate"], ["Circuit designer", "/design"],
+          ["Reference library", "/guides"], ["Saved calculations", "/calculate#saved-calculations"],
+        ].map(([label, href]) => <Link key={href} href={href}>{label}<ArrowRight size={15} aria-hidden="true" /></Link>)}</div>
+      </nav>
       {/* FEATURES */}
       <section style={{ background: "var(--bg2)", padding: "5rem 1.5rem" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
