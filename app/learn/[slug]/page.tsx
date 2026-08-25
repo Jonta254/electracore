@@ -6,6 +6,7 @@ import { use } from "react";
 import { loadCourseLearning, recordAssessment, recordExercise, resetCourseLearning, saveLastLesson, saveLessonCompletion } from "../progress";
 import { getEnhancedLesson } from "../enhancedLessons";
 import { EnhancedLessonView } from "../EnhancedLessonView";
+import { LessonNotes } from "../LessonNotes";
 import { OPEN_PREVIEW_NOTICE, evaluateLearningAccess } from "../accessPolicy";
 
 /* ─── Course Database ─── */
@@ -1822,6 +1823,7 @@ function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, previousL
           )}
         </div>
       )}
+      <LessonNotes courseSlug={courseSlug} lessonId={lesson.id} lessonTitle={lesson.title} />
       <nav className="lesson-sequence" aria-label="Lesson sequence">
         {previousLesson ? <button type="button" onClick={() => onNavigate(previousLesson.id)}>← <span>Previous</span><strong>{previousLesson.title}</strong></button> : <span />}
         {nextLesson ? <button type="button" onClick={() => onNavigate(nextLesson.id)}><span>Next</span><strong>{nextLesson.title}</strong> →</button> : <span />}

@@ -18,14 +18,21 @@ This file is the durable handoff record for review, commits, and a later authori
 - Verification: ESLint passed; TypeScript passed; 55/55 tests passed; production build passed; no-emoji scan passed for catalogue and course routes
 - Commit: `feat: improve course catalogue and curriculum`
 
+### 2. Lesson reader and notes
+
+- Status: verified
+- Scope: versioned local notes, autosave state, defensive parsing, export/import preview, explicit deletion, print view, and note search
+- Verification: ESLint passed; TypeScript passed; 59/59 tests passed; production build passed
+- Commit: `feat: add versioned lesson notes`
+
 ## Deployment handoff checklist
 
-- [ ] Working tree clean
-- [ ] Focused commits reviewed
+- [x] Working tree clean
+- [x] Focused commits reviewed
 - [x] ESLint passed
 - [x] TypeScript passed
 - [x] Complete tests passed
 - [x] Production build passed
-- [ ] Browser limitations recorded
+- [x] Browser limitations recorded — administrator policy blocked localhost browser control; automated and production-build checks used without claiming visual inspection
 - [ ] Push explicitly authorized
 - [ ] Deployment explicitly authorized
