@@ -1,8 +1,9 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { ElectraCoreLogoMark } from "../components/Logo";
+import { ArrowRight, BookOpen, RotateCcw, Search, ShieldCheck } from "lucide-react";
 import { OPEN_PREVIEW_NOTICE, evaluateLearningAccess } from "./accessPolicy";
+import { loadCourseLearning } from "./progress";
 
 /* ─── Course SVG Thumbnails ─── */
 function ThumbFundamentals() {
@@ -548,217 +549,170 @@ const COURSES = [
 ];
 
 const LEVELS = ["All", "Beginner", "Intermediate", "Advanced"] as const;
-const CATS = ["All", "Theory", "Installation", "Protection", "Power Systems", "Design", "Renewables", "Industrial", "Testing", "Technology"];
+type LevelFilter = typeof LEVELS[number];
+type CompletionFilter = "All" | "Not started" | "In progress" | "Completed";
+type DurationFilter = "All" | "Under 4 hours" | "4–6 hours" | "Over 6 hours";
+
+const COURSE_DETAILS: Record<string, {
+  lessons: number;
+  minutes: number;
+  pathway: string;
+  purpose: string;
+  prerequisites: string;
+  skills: string[];
+  hasExercise: boolean;
+  hasCalculator: boolean;
+  hasDiagram: boolean;
+}> = {
+  "electrical-fundamentals": { lessons: 37, minutes: 342, pathway: "Electrical foundations", purpose: "Build the quantities, laws, units, and measurement habits required for every later course.", prerequisites: "No prior electrical study required", skills: ["Ohm’s law", "Circuit quantities", "AC and DC", "Measurement"], hasExercise: true, hasCalculator: true, hasDiagram: true },
+  "domestic-wiring": { lessons: 39, minutes: 345, pathway: "Wiring and installation concepts", purpose: "Understand domestic circuit arrangements, protective paths, earthing, and documented installation limits.", prerequisites: "Electrical Fundamentals recommended", skills: ["Final circuits", "Earthing", "Consumer units", "Fault finding"], hasExercise: true, hasCalculator: true, hasDiagram: true },
+  "protection-fault-analysis": { lessons: 29, minutes: 246, pathway: "Measurement and troubleshooting", purpose: "Relate fault current, loop impedance, protective-device behavior, and test evidence.", prerequisites: "Fundamentals and basic wiring concepts", skills: ["Fault loops", "RCDs", "Selectivity", "Test interpretation"], hasExercise: true, hasCalculator: true, hasDiagram: true },
+  "three-phase-systems": { lessons: 28, minutes: 252, pathway: "Advanced electrical topics", purpose: "Analyze three-phase quantities, star and delta networks, power, motors, and transformers.", prerequisites: "Confident algebra and AC fundamentals", skills: ["Star and delta", "Three-phase power", "Machines", "Power factor"], hasExercise: true, hasCalculator: true, hasDiagram: true },
+  "cable-sizing": { lessons: 28, minutes: 247, pathway: "Design and calculations", purpose: "Work through preliminary cable capacity, derating, voltage-drop, and installation checks.", prerequisites: "Electrical Fundamentals and circuit protection", skills: ["Design current", "Derating", "Voltage drop", "Cable coordination"], hasExercise: true, hasCalculator: true, hasDiagram: true },
+  "solar-pv": { lessons: 29, minutes: 240, pathway: "Renewable and stored energy", purpose: "Understand PV arrays, inverter windows, batteries, grid interfaces, and commissioning evidence.", prerequisites: "DC fundamentals and safe-isolation awareness", skills: ["PV strings", "Inverters", "Battery storage", "Commissioning"], hasExercise: true, hasCalculator: true, hasDiagram: true },
+  "industrial-control": { lessons: 30, minutes: 267, pathway: "Machines and control", purpose: "Read, reason about, and document motor starters, control circuits, PLC logic, and panels.", prerequisites: "Three-phase principles recommended", skills: ["Motor starters", "Control logic", "PLCs", "Panel documentation"], hasExercise: true, hasCalculator: false, hasDiagram: true },
+  "inspection-testing": { lessons: 36, minutes: 283, pathway: "Measurement and troubleshooting", purpose: "Follow a defensible inspection and test sequence and interpret results without overclaiming.", prerequisites: "Wiring, protection, and safe-isolation knowledge", skills: ["Dead testing", "Live testing", "Result interpretation", "Certification"], hasExercise: true, hasCalculator: true, hasDiagram: true },
+  "led-lighting": { lessons: 24, minutes: 170, pathway: "Design and calculations", purpose: "Connect LED behavior, drivers, emergency operation, controls, and maintained lighting calculations.", prerequisites: "Basic electrical quantities", skills: ["LED drivers", "Emergency lighting", "Lux calculations", "Controls"], hasExercise: true, hasCalculator: true, hasDiagram: true },
+};
+
+const PATHWAYS = ["All", ...new Set(Object.values(COURSE_DETAILS).map((course) => course.pathway))];
+const COMPLETION_FILTERS: CompletionFilter[] = ["All", "Not started", "In progress", "Completed"];
+const DURATION_FILTERS: DurationFilter[] = ["All", "Under 4 hours", "4–6 hours", "Over 6 hours"];
 
 export default function LearnPage() {
-  const [levelFilter, setLevelFilter] = useState<typeof LEVELS[number]>("All");
-  const [catFilter, setCatFilter] = useState("All");
+  const [levelFilter, setLevelFilter] = useState<LevelFilter>("All");
+  const [pathwayFilter, setPathwayFilter] = useState("All");
+  const [completionFilter, setCompletionFilter] = useState<CompletionFilter>("All");
+  const [durationFilter, setDurationFilter] = useState<DurationFilter>("All");
+  const [requireExercise, setRequireExercise] = useState(false);
+  const [requireCalculator, setRequireCalculator] = useState(false);
+  const [requireDiagram, setRequireDiagram] = useState(false);
   const [search, setSearch] = useState("");
-  const [progress, setProgress] = useState<Record<string, number>>({});
+  const [progress, setProgress] = useState<Record<string, { percent: number; lastLessonId?: string }>>({});
 
   useEffect(() => {
+    const next: Record<string, { percent: number; lastLessonId?: string }> = {};
     try {
-      const saved = localStorage.getItem("ec-progress");
-      if (saved) setProgress(JSON.parse(saved));
-    } catch {}
+      for (const course of COURSES) {
+        const stored = loadCourseLearning(localStorage, course.slug);
+        next[course.slug] = {
+          percent: Math.round((stored.completedLessons.length / COURSE_DETAILS[course.slug].lessons) * 100),
+          lastLessonId: stored.lastLessonId,
+        };
+      }
+    } catch {
+      // Storage unavailable: the catalogue remains usable with empty progress.
+    }
+    setProgress(next);
   }, []);
 
-  const filtered = COURSES.filter(c => {
-    const matchLevel = levelFilter === "All" || c.level === levelFilter;
-    const matchCat = catFilter === "All" || c.category === catFilter;
-    const matchSearch = !search || c.title.toLowerCase().includes(search.toLowerCase()) || c.desc.toLowerCase().includes(search.toLowerCase());
-    return matchLevel && matchCat && matchSearch;
+  const resetFilters = () => {
+    setSearch("");
+    setLevelFilter("All");
+    setPathwayFilter("All");
+    setCompletionFilter("All");
+    setDurationFilter("All");
+    setRequireExercise(false);
+    setRequireCalculator(false);
+    setRequireDiagram(false);
+  };
+
+  const filtered = COURSES.filter((course) => {
+    const detail = COURSE_DETAILS[course.slug];
+    const percent = progress[course.slug]?.percent ?? 0;
+    const normalized = search.trim().toLowerCase();
+    const searchable = [course.title, course.desc, course.category, detail.pathway, detail.purpose, detail.prerequisites, ...course.topics, ...detail.skills].join(" ").toLowerCase();
+    const completionMatches = completionFilter === "All"
+      || (completionFilter === "Not started" && percent === 0)
+      || (completionFilter === "In progress" && percent > 0 && percent < 100)
+      || (completionFilter === "Completed" && percent === 100);
+    const durationMatches = durationFilter === "All"
+      || (durationFilter === "Under 4 hours" && detail.minutes < 240)
+      || (durationFilter === "4–6 hours" && detail.minutes >= 240 && detail.minutes <= 360)
+      || (durationFilter === "Over 6 hours" && detail.minutes > 360);
+    return (levelFilter === "All" || course.level === levelFilter)
+      && (pathwayFilter === "All" || detail.pathway === pathwayFilter)
+      && completionMatches
+      && durationMatches
+      && (!requireExercise || detail.hasExercise)
+      && (!requireCalculator || detail.hasCalculator)
+      && (!requireDiagram || detail.hasDiagram)
+      && (!normalized || searchable.includes(normalized));
   });
 
-  const totalHours = COURSES.reduce((a, c) => a + c.hours, 0);
-  const totalTopics = COURSES.reduce((a, c) => a + c.topics.length, 0);
+  const access = evaluateLearningAccess({ resource: "course" });
 
   return (
-    <>
-      {/* NAV */}
-      <nav className="nav">
-        <Link href="/" className="nav-logo">
-          <ElectraCoreLogoMark size={32} />
-          <span className="nav-logo-text">ElectraCore</span>
-        </Link>
-        <div className="nav-links">
-          <Link href="/design" className="nav-link">Design</Link>
-          <Link href="/calculate" className="nav-link">Calculate</Link>
-          <Link href="/guides" className="nav-link">Guides</Link>
-          <Link href="/learn" className="nav-link" style={{ color: "var(--core)" }}>Learn</Link>
-        </div>
-        <Link href="/calculate" className="nav-cta">Open Calculator</Link>
-      </nav>
+    <main className="catalogue-page">
+      <header className="catalogue-intro">
+        <p className="catalogue-eyebrow">Structured electrical learning</p>
+        <h1>Choose a course with a clear purpose.</h1>
+        <p>Follow a pathway from first principles to installation concepts, measurement, machines, design, and renewable systems. Every course is available in open preview.</p>
+        <dl className="catalogue-summary">
+          <div><dt>9</dt><dd>Courses</dd></div>
+          <div><dt>280</dt><dd>Lessons</dd></div>
+          <div><dt>71</dt><dd>Modules</dd></div>
+          <div><dt>Open</dt><dd>No account required</dd></div>
+        </dl>
+        <p className="catalogue-notice" role="status">{OPEN_PREVIEW_NOTICE}</p>
+      </header>
 
-      <main style={{ paddingTop: "64px" }}>
-        {/* HERO */}
-        <div className="learn-hero">
-          <div className="learn-hero-glow" />
-          <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 1.5rem", position: "relative", zIndex: 1 }}>
-            <div className="hero-badge" style={{ marginBottom: "1.5rem", display: "inline-flex" }}>
-              🎓 Open preview · No account required · All levels
-            </div>
-            <h1 className="section-title" style={{ textAlign: "left", fontSize: "clamp(2.2rem,6vw,4rem)", marginBottom: "1rem" }}>
-              Learn electrical engineering<br />
-              <span className="accent">the right way.</span>
-            </h1>
-            <p className="section-sub" style={{ textAlign: "left", maxWidth: 560, marginBottom: "2.5rem" }}>
-              {COURSES.length} structured courses from fundamentals to advanced topics. Built by a working electrician — with real diagrams, worked examples, and practical applications.
-            </p>
-            <p role="status" style={{ maxWidth: 650, marginBottom: "2.5rem", color: "var(--text-dim)", fontSize: "0.82rem" }}>{OPEN_PREVIEW_NOTICE}</p>
-            {/* Stats */}
-            <div className="learn-hero-stats">
-              {[
-                { n: COURSES.length, label: "Courses" },
-                { n: COURSES.reduce((a,c)=>a+c.modules,0), label: "Modules" },
-                { n: `${totalHours}h`, label: "Content" },
-                { n: totalTopics, label: "Topics" },
-              ].map(s => (
-                <div key={s.label} className="learn-stat">
-                  <div className="learn-stat-num">{s.n}</div>
-                  <div className="learn-stat-label">{s.label}</div>
-                </div>
-              ))}
-            </div>
-            {/* Search */}
-            <div className="learn-search-wrap">
-              <span className="learn-search-icon">🔍</span>
-              <input
-                className="learn-search"
-                placeholder="Search courses — e.g. Ohm's law, motor starters, RCD..."
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-              />
-              {search && (
-                <button onClick={() => setSearch("")} className="learn-search-clear">✕</button>
-              )}
-            </div>
-          </div>
+      <section className="catalogue-tools" aria-labelledby="catalogue-filter-title">
+        <div className="catalogue-search">
+          <label htmlFor="course-search">Search courses and lesson topics</label>
+          <div><Search size={18} aria-hidden="true" /><input id="course-search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Try voltage drop, RCD, motor starter, or Ohm’s law" /></div>
         </div>
+        <div className="catalogue-filter-grid">
+          <label>Difficulty<select value={levelFilter} onChange={(event) => setLevelFilter(event.target.value as LevelFilter)}>{LEVELS.map((value) => <option key={value}>{value}</option>)}</select></label>
+          <label>Learning pathway<select value={pathwayFilter} onChange={(event) => setPathwayFilter(event.target.value)}>{PATHWAYS.map((value) => <option key={value}>{value}</option>)}</select></label>
+          <label>Completion<select value={completionFilter} onChange={(event) => setCompletionFilter(event.target.value as CompletionFilter)}>{COMPLETION_FILTERS.map((value) => <option key={value}>{value}</option>)}</select></label>
+          <label>Estimated duration<select value={durationFilter} onChange={(event) => setDurationFilter(event.target.value as DurationFilter)}>{DURATION_FILTERS.map((value) => <option key={value}>{value}</option>)}</select></label>
+        </div>
+        <fieldset className="catalogue-capabilities"><legend>Include resources</legend>
+          <label><input type="checkbox" checked={requireExercise} onChange={(event) => setRequireExercise(event.target.checked)} />Practical exercise</label>
+          <label><input type="checkbox" checked={requireCalculator} onChange={(event) => setRequireCalculator(event.target.checked)} />Related calculator</label>
+          <label><input type="checkbox" checked={requireDiagram} onChange={(event) => setRequireDiagram(event.target.checked)} />Technical diagram</label>
+        </fieldset>
+        <div className="catalogue-result-row"><p id="catalogue-filter-title" role="status">{filtered.length} course{filtered.length === 1 ? "" : "s"} shown</p><button type="button" onClick={resetFilters}><RotateCcw size={15} aria-hidden="true" />Reset filters</button></div>
+      </section>
 
-        {/* FILTERS */}
-        <div className="learn-filters-bar">
-          <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 1.5rem" }}>
-            <div className="learn-filter-row">
-              <span className="learn-filter-label">Level:</span>
-              {LEVELS.map(l => (
-                <button key={l} className={`learn-filter-btn${levelFilter===l?" active":""}`} onClick={() => setLevelFilter(l)}>{l}</button>
-              ))}
-              <div style={{ width: 1, height: 20, background: "var(--border)", margin: "0 0.5rem", flexShrink: 0 }} />
-              <span className="learn-filter-label">Category:</span>
-              <div className="learn-filter-scroll">
-                {CATS.map(c => (
-                  <button key={c} className={`learn-filter-btn${catFilter===c?" active":""}`} onClick={() => setCatFilter(c)}>{c}</button>
-                ))}
+      <section className="catalogue-results" aria-label="Course catalogue">
+        {filtered.length === 0 ? <div className="catalogue-empty"><BookOpen size={28} aria-hidden="true" /><h2>No courses match these filters</h2><p>Broaden the pathway or duration, or search for a related electrical term.</p><button type="button" onClick={resetFilters}>Reset all filters</button></div> :
+          filtered.map((course, index) => {
+            const detail = COURSE_DETAILS[course.slug];
+            const courseProgress = progress[course.slug]?.percent ?? 0;
+            const action = courseProgress > 0 ? "Continue course" : "Start course";
+            return <article key={course.slug} className="catalogue-course" style={{ "--course-accent": course.color } as React.CSSProperties}>
+              <div className="catalogue-course-number">{String(index + 1).padStart(2, "0")}</div>
+              <div className="catalogue-course-visual" aria-hidden="true">{course.thumb}</div>
+              <div className="catalogue-course-copy">
+                <p className="catalogue-pathway">{detail.pathway}</p>
+                <h2><Link href={"/learn/" + course.slug}>{course.title}</Link></h2>
+                <p className="catalogue-purpose">{detail.purpose}</p>
+                <dl className="catalogue-metadata">
+                  <div><dt>Difficulty</dt><dd>{course.level}</dd></div>
+                  <div><dt>Lessons</dt><dd>{detail.lessons} in {course.modules} modules</dd></div>
+                  <div><dt>Estimated time</dt><dd>{Math.floor(detail.minutes / 60)}h {detail.minutes % 60}min</dd></div>
+                  <div><dt>Prerequisite</dt><dd>{detail.prerequisites}</dd></div>
+                </dl>
+                <ul className="catalogue-skills" aria-label="Main skills">{detail.skills.map((skill) => <li key={skill}>{skill}</li>)}</ul>
+                <div className="catalogue-review"><ShieldCheck size={16} aria-hidden="true" /><span>Curriculum reviewed; professional electrical review remains pending where identified.</span></div>
+                <div className="catalogue-progress"><div><span>{courseProgress === 0 ? "Not started" : courseProgress === 100 ? "Completed" : "In progress"}</span><strong>{courseProgress}%</strong></div><div className="catalogue-progress-track"><span style={{ width: courseProgress + "%" }} /></div></div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* COURSE GRID */}
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "2.5rem 1.5rem 5rem" }}>
-          {filtered.length === 0 ? (
-            <div style={{ textAlign: "center", padding: "4rem 0", color: "var(--text-dim)" }}>
-              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🔌</div>
-              <div style={{ fontSize: "1.1rem", marginBottom: "0.5rem" }}>No courses match that filter.</div>
-              <button onClick={() => { setSearch(""); setLevelFilter("All"); setCatFilter("All"); }} style={{ background: "none", border: "none", color: "var(--core)", cursor: "pointer", fontSize: "0.9rem" }}>Clear filters →</button>
-            </div>
-          ) : (
-            <div className="course-grid">
-              {filtered.map(course => {
-                const prog = progress[course.slug] ?? 0;
-                return (
-                  <Link key={course.slug} href={`/learn/${course.slug}`} className="course-card" style={{ "--cc": course.color } as React.CSSProperties} aria-label={`${course.title} — open preview`}>
-                    <div className="course-thumb">
-                      {course.thumb}
-                      <div className="course-thumb-overlay">
-                        <span className="course-play-btn">▶ Start</span>
-                      </div>
-                      <span className={`course-level-badge level-${course.level.toLowerCase()}`}>{course.level}</span>
-                      {prog > 0 && (
-                        <div className="course-progress-bar">
-                          <div className="course-progress-fill" style={{ width: `${prog}%`, background: course.color }} />
-                        </div>
-                      )}
-                    </div>
-                    <div className="course-body">
-                      <div className="course-cat" style={{ color: course.color }}>{course.category}</div>
-                      <h3 className="course-title">{course.title}</h3>
-                      <p className="course-desc">{course.desc}</p>
-                      <div className="course-meta">
-                        <span>📚 {course.modules} modules</span>
-                        <span>⏱ {course.hours}h</span>
-                        <span>📑 {course.topics.length} topics</span>
-                      </div>
-                      <div className="course-footer">
-                        <span className="course-selfpaced">Self-paced · {course.level}</span>
-                        <span className="course-free-badge">{evaluateLearningAccess({ resource: "course" }).allowed ? "OPEN PREVIEW" : "ACCESS REQUIRED"}</span>
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      </main>
-
-      <footer style={{ borderTop: "1px solid var(--border)", padding: "3rem 1.5rem", background: "var(--bg2)" }}>
-        <div className="footer">
-          <div className="footer-copy">ElectraCore · Built by Brian Josiah · Electrician &amp; Developer</div>
-          <a href="https://josiah.rawsignal.dev" target="_blank" rel="noopener" className="footer-link">← Back to Portfolio</a>
-        </div>
-      </footer>
+              <div className="catalogue-course-action">
+                <span>{access.allowed ? "Open preview" : "Access required"}</span>
+                <Link href={"/learn/" + course.slug}>{action}<ArrowRight size={16} aria-hidden="true" /></Link>
+                <small>Progress stays on this device.</small>
+              </div>
+            </article>;
+          })}
+      </section>
 
       <style>{`
-        .learn-hero { padding: 5rem 0 3rem; position: relative; overflow: hidden; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(240,165,0,0.10) 0%, transparent 60%), var(--bg); border-bottom: 1px solid var(--border); }
-        .learn-hero-glow { position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 700px; height: 400px; background: radial-gradient(ellipse, rgba(240,165,0,0.14) 0%, rgba(0,212,255,0.06) 50%, transparent 70%); pointer-events: none; }
-        .learn-hero-stats { display: flex; gap: 2.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
-        .learn-stat { display: flex; flex-direction: column; gap: 4px; }
-        .learn-stat-num { font-size: 1.8rem; font-weight: 900; color: var(--core); letter-spacing: -0.04em; line-height: 1; }
-        .learn-stat-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; font-family: 'JetBrains Mono', monospace; }
-        .learn-search-wrap { position: relative; max-width: 580px; }
-        .learn-search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); font-size: 1rem; pointer-events: none; }
-        .learn-search { width: 100%; padding: 0.875rem 3rem 0.875rem 2.75rem; border-radius: 12px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: inherit; font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
-        .learn-search:focus { border-color: rgba(240,165,0,0.45); }
-        .learn-search-clear { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 0.9rem; }
-        .learn-filters-bar { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 0.875rem 0; position: sticky; top: 64px; z-index: 40; }
-        .learn-filter-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-        .learn-filter-label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-mute); text-transform: uppercase; letter-spacing: 0.1em; white-space: nowrap; }
-        .learn-filter-scroll { display: flex; gap: 0.375rem; overflow-x: auto; scrollbar-width: none; flex-wrap: wrap; }
-        .learn-filter-scroll::-webkit-scrollbar { display: none; }
-        .learn-filter-btn { padding: 4px 12px; border-radius: 100px; border: 1px solid var(--border); background: transparent; color: var(--text-dim); font-family: inherit; font-size: 0.8rem; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
-        .learn-filter-btn:hover { border-color: rgba(240,165,0,0.35); color: var(--text); }
-        .learn-filter-btn.active { background: rgba(240,165,0,0.12); border-color: rgba(240,165,0,0.5); color: var(--core); font-weight: 600; }
-        .course-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%,320px),1fr)); gap: 1.25rem; }
-        .course-card { display: flex; flex-direction: column; border-radius: 14px; background: var(--bg2); border: 1px solid var(--border); overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.25s cubic-bezier(0.25,1,0.5,1), border-color 0.25s, box-shadow 0.25s; }
-        .course-card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--cc) 35%, transparent); box-shadow: 0 12px 40px rgba(0,0,0,0.55), 0 0 0 1px color-mix(in srgb, var(--cc) 20%, transparent); }
-        .course-thumb { position: relative; aspect-ratio: 16/9; overflow: hidden; background: #0A0A0C; }
-        .course-thumb-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0); display: flex; align-items: center; justify-content: center; transition: background 0.25s; }
-        .course-card:hover .course-thumb-overlay { background: rgba(0,0,0,0.45); }
-        .course-play-btn { padding: 8px 18px; border-radius: 100px; background: var(--core); color: #000; font-weight: 700; font-size: 0.85rem; opacity: 0; transform: scale(0.8); transition: all 0.25s; }
-        .course-card:hover .course-play-btn { opacity: 1; transform: scale(1); }
-        .course-level-badge { position: absolute; top: 10px; left: 10px; padding: 3px 9px; border-radius: 100px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; backdrop-filter: blur(8px); }
-        .level-beginner { background: rgba(52,211,153,0.2); color: #34D399; border: 1px solid rgba(52,211,153,0.35); }
-        .level-intermediate { background: rgba(240,165,0,0.2); color: #F0A500; border: 1px solid rgba(240,165,0,0.35); }
-        .level-advanced { background: rgba(168,85,247,0.2); color: #A855F7; border: 1px solid rgba(168,85,247,0.35); }
-        .course-progress-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: rgba(255,255,255,0.1); }
-        .course-progress-fill { height: 100%; border-radius: 0 2px 2px 0; transition: width 0.5s; }
-        .course-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
-        .course-cat { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
-        .course-title { font-size: 1.05rem; font-weight: 800; line-height: 1.3; color: var(--text); }
-        .course-desc { font-size: 0.82rem; color: var(--text-dim); line-height: 1.6; flex: 1; }
-        .course-meta { display: flex; gap: 0.875rem; flex-wrap: wrap; }
-        .course-meta span { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-mute); }
-        .course-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 0.25rem; }
-        .course-free-badge { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 700; color: #34D399; background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.3); padding: 2px 8px; border-radius: 100px; letter-spacing: 0.1em; }
-        .course-selfpaced { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--text-mute); letter-spacing: 0.04em; }
-        @media (max-width: 640px) {
-          .course-grid { grid-template-columns: 1fr; }
-          .learn-filter-row { gap: 0.375rem; }
-          .learn-hero-stats { gap: 1.5rem; }
-        }
+        .catalogue-page{padding:64px 1.5rem 5rem;max-width:1220px;margin:auto}.catalogue-intro{padding:4.5rem 0 3rem;border-bottom:1px solid var(--border)}.catalogue-eyebrow,.catalogue-pathway{color:var(--core);font:700 .72rem 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em}.catalogue-intro h1{max-width:820px;font-size:clamp(2.5rem,6vw,5.2rem);line-height:1;letter-spacing:-.055em;margin:.8rem 0 1.25rem}.catalogue-intro>p:not(.catalogue-eyebrow):not(.catalogue-notice){max-width:720px;color:#C5CDD1;font-size:1.05rem}.catalogue-summary{display:flex;flex-wrap:wrap;gap:2rem;margin-top:2rem}.catalogue-summary div{min-width:105px}.catalogue-summary dt{font-size:1.65rem;font-weight:850}.catalogue-summary dd{color:var(--text-dim);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em}.catalogue-notice{margin-top:1.5rem;color:var(--text-dim);font-size:.78rem}.catalogue-tools{padding:1.5rem 0;border-bottom:1px solid var(--border)}.catalogue-search>label,.catalogue-filter-grid label{display:grid;gap:.4rem;color:var(--text-dim);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}.catalogue-search>div{max-width:760px;display:flex;align-items:center;gap:.7rem;padding:.75rem 1rem;background:var(--bg2);border:1px solid var(--border);margin-top:.4rem}.catalogue-search input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--text);font:inherit}.catalogue-filter-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem;margin-top:1rem}.catalogue-filter-grid select{min-height:44px;padding:0 .7rem;background:var(--bg2);border:1px solid var(--border);color:var(--text);font:inherit}.catalogue-capabilities{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1rem;border:0}.catalogue-capabilities legend{width:100%;color:var(--text-dim);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}.catalogue-capabilities label{display:flex;align-items:center;gap:.45rem;font-size:.82rem}.catalogue-capabilities input{width:18px;height:18px;accent-color:var(--core)}.catalogue-result-row{display:flex;align-items:center;justify-content:space-between;margin-top:1rem;color:var(--text-dim);font-size:.82rem}.catalogue-result-row button,.catalogue-empty button{display:flex;align-items:center;gap:.4rem;border:0;background:transparent;color:var(--core);font:inherit;cursor:pointer}.catalogue-results{display:grid}.catalogue-course{display:grid;grid-template-columns:46px 210px minmax(0,1fr) 170px;gap:1.5rem;padding:2rem 0;border-bottom:1px solid var(--border);align-items:start}.catalogue-course-number{font:700 .8rem 'JetBrains Mono',monospace;color:var(--text-mute)}.catalogue-course-visual{aspect-ratio:16/9;overflow:hidden;border:1px solid var(--border);background:#080A0C}.catalogue-course-copy h2{font-size:1.55rem;line-height:1.15;margin:.3rem 0 .55rem}.catalogue-course-copy h2 a{color:var(--text);text-decoration:none}.catalogue-purpose{color:#C5CDD1;line-height:1.65}.catalogue-metadata{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin:1rem 0}.catalogue-metadata div{border-left:2px solid color-mix(in srgb,var(--course-accent) 55%,transparent);padding-left:.65rem}.catalogue-metadata dt{color:var(--text-mute);font-size:.65rem;text-transform:uppercase;letter-spacing:.06em}.catalogue-metadata dd{color:var(--text-dim);font-size:.78rem;line-height:1.4}.catalogue-skills{display:flex;flex-wrap:wrap;gap:.4rem;list-style:none}.catalogue-skills li{padding:.25rem .55rem;border:1px solid var(--border);color:var(--text-dim);font-size:.7rem}.catalogue-review{display:flex;gap:.45rem;align-items:flex-start;margin-top:.85rem;color:var(--text-dim);font-size:.72rem}.catalogue-review svg{color:var(--ground);flex:none}.catalogue-progress{margin-top:1rem}.catalogue-progress>div:first-child{display:flex;justify-content:space-between;font-size:.72rem;color:var(--text-dim)}.catalogue-progress-track{height:3px;background:var(--border);margin-top:.35rem}.catalogue-progress-track span{display:block;height:100%;background:var(--course-accent)}.catalogue-course-action{display:grid;gap:.6rem;justify-items:start}.catalogue-course-action>span{color:var(--ground);font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}.catalogue-course-action a{display:flex;align-items:center;justify-content:space-between;gap:.6rem;width:100%;padding:.65rem .75rem;background:var(--core);color:#080A0C;text-decoration:none;font-size:.8rem;font-weight:800}.catalogue-course-action small{color:var(--text-mute);line-height:1.4}.catalogue-empty{display:grid;justify-items:center;text-align:center;gap:.7rem;padding:5rem 1rem;color:var(--text-dim)}.catalogue-empty h2{color:var(--text)}
+        @media(max-width:980px){.catalogue-filter-grid{grid-template-columns:1fr 1fr}.catalogue-course{grid-template-columns:36px 150px minmax(0,1fr)}.catalogue-course-action{grid-column:3}.catalogue-metadata{grid-template-columns:1fr 1fr}}
+        @media(max-width:680px){.catalogue-page{padding-inline:1rem}.catalogue-intro{padding-top:3rem}.catalogue-filter-grid{grid-template-columns:1fr}.catalogue-course{grid-template-columns:30px minmax(0,1fr);gap:1rem}.catalogue-course-visual{grid-column:2;max-width:320px}.catalogue-course-copy,.catalogue-course-action{grid-column:2}.catalogue-metadata{grid-template-columns:1fr}.catalogue-course-action a{width:auto}.catalogue-summary{gap:1.25rem}.catalogue-results{min-width:0}}
       `}</style>
-    </>
+    </main>
   );
 }

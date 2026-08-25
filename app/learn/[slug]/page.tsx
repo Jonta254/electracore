@@ -3,7 +3,6 @@ import React from "react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { use } from "react";
-import { ElectraCoreLogoMark } from "../../components/Logo";
 import { loadCourseLearning, recordAssessment, recordExercise, resetCourseLearning, saveLastLesson, saveLessonCompletion } from "../progress";
 import { getEnhancedLesson } from "../enhancedLessons";
 import { EnhancedLessonView } from "../EnhancedLessonView";
@@ -635,7 +634,7 @@ const COURSES: Record<string, {
 interface Lesson { id: string; title: string; duration: string; type: "lesson" | "quiz" | "exercise"; }
 interface Module { id: string; title: string; duration: string; lessons: Lesson[]; }
 
-const LESSON_ICONS = { lesson: "◆", quiz: "✦", exercise: "⚡" };
+const LESSON_ICONS = { lesson: "L", quiz: "Q", exercise: "EX" };
 const LESSON_COLORS = { lesson: "#00D4FF", quiz: "#A855F7", exercise: "#F0A500" };
 
 /* ─── Lesson Content Helpers ─── */
@@ -1716,7 +1715,7 @@ function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, previousL
         background: `${courseColor}08`,
       }}>
         <span style={{ fontSize: "0.8rem", color: courseColor, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-          {lesson.type === "lesson" ? "◆ Lesson" : lesson.type === "quiz" ? "✦ Quiz" : "⚡ Exercise"} · {lesson.duration}
+          {lesson.type === "lesson" ? "Lesson" : lesson.type === "quiz" ? "Quiz" : "Exercise"} · {lesson.duration}
         </span>
       </div>
 
@@ -1871,7 +1870,6 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
   if (!course) {
     return (
       <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "1.5rem" }}>
-        <div style={{ fontSize: "3rem" }}>🔌</div>
         <h1 style={{ fontSize: "1.5rem", fontWeight: 700 }}>Course not found</h1>
         <Link href="/learn" style={{ color: "var(--core)", textDecoration: "none" }}>← Back to all courses</Link>
       </div>
@@ -1892,20 +1890,6 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
 
   return (
     <>
-      <nav className="nav">
-        <Link href="/" className="nav-logo">
-          <ElectraCoreLogoMark size={32} />
-          <span className="nav-logo-text">ElectraCore</span>
-        </Link>
-        <div className="nav-links">
-          <Link href="/design" className="nav-link">Design</Link>
-          <Link href="/calculate" className="nav-link">Calculate</Link>
-          <Link href="/guides" className="nav-link">Guides</Link>
-          <Link href="/learn" className="nav-link" style={{ color: "var(--core)" }}>← All Courses</Link>
-        </div>
-        <Link href="/calculate" className="nav-cta">Open Calculator</Link>
-      </nav>
-
       <main style={{ paddingTop: "64px" }}>
         {/* COURSE HERO */}
         <div className="course-page-hero" style={{ borderBottom: `1px solid rgba(${course.color === "#F0A500" ? "240,165,0" : course.color === "#34D399" ? "52,211,153" : course.color === "#00D4FF" ? "0,212,255" : course.color === "#A855F7" ? "168,85,247" : "255,107,53"},0.2)` }}>
@@ -1929,13 +1913,13 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                 {/* Meta row */}
                 <div className="course-meta-row">
                   {[
-                    { icon: "📚", label: `${course.modules.length} modules` },
-                    { icon: "🎬", label: `${totalLessons} lessons` },
-                    { icon: "⏱", label: `${Math.round(totalMinutes / 60)}h ${totalMinutes % 60}min` },
-                    { icon: "🆓", label: "Open preview" },
+                    { label: `${course.modules.length} modules` },
+                    { label: `${totalLessons} lessons` },
+                    { label: `${Math.round(totalMinutes / 60)}h ${totalMinutes % 60}min` },
+                    { label: "Open preview" },
                   ].map(m => (
                     <span key={m.label} className="course-meta-item">
-                      <span>{m.icon}</span> {m.label}
+                      {m.label}
                     </span>
                   ))}
                 </div>
@@ -1962,7 +1946,7 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                   <ul className="sidebar-outcomes">
                     {course.outcomes.map((o, i) => (
                       <li key={i} className="sidebar-outcome">
-                        <span style={{ color: course.color, flexShrink: 0 }}>✓</span>
+                        <span className="outcome-marker" aria-hidden="true">Complete</span>
                         <span>{o}</span>
                       </li>
                     ))}
@@ -1988,9 +1972,18 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "3rem 1.5rem 5rem" }}>
           <div className="curriculum-layout">
             <div className="curriculum-main">
-              <h2 style={{ fontSize: "1.4rem", fontWeight: 800, marginBottom: "1.5rem", letterSpacing: "-0.02em" }}>
-                Course Curriculum
-              </h2>
+              <div className="curriculum-heading">
+                <div>
+                  <p className="curriculum-kicker">Course contents</p>
+                  <h2>Course curriculum</h2>
+                  <p>{completed.size} of {totalLessons} lessons complete. Progress is stored on this device.</p>
+                </div>
+                <div className="curriculum-controls">
+                  {activeLesson && <button type="button" onClick={() => navigateLesson(activeLesson)}>Continue current lesson</button>}
+                  <button type="button" onClick={() => setExpanded(new Set(course.modules.map((module) => module.id)))}>Expand all</button>
+                  <button type="button" onClick={() => setExpanded(new Set())}>Collapse all</button>
+                </div>
+              </div>
               <div className="modules-list">
                 {course.modules.map((mod, mi) => {
                   const isOpen = expanded.has(mod.id);
@@ -2149,7 +2142,7 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
         .course-sidebar-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
         .sidebar-card-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-mute); margin-bottom: 0.875rem; }
         .sidebar-outcomes { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-        .sidebar-outcome { display: flex; gap: 8px; font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; }
+        .sidebar-outcome { display: grid; gap: 4px; font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; } .outcome-marker { color: var(--ground); font: 700 .62rem 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: .08em; }
         .sidebar-prereqs { list-style: none; }
         .curriculum-layout { display: grid; grid-template-columns: 1fr 280px; gap: 3rem; align-items: start; }
         @media (max-width: 900px) { .curriculum-layout { grid-template-columns: 1fr; } .curriculum-sidebar { display: none; } }
