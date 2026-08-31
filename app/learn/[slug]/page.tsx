@@ -2024,21 +2024,28 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                             const isActive = activeLesson === lesson.id;
                             return (
                               <div key={lesson.id}>
-                                <div className={`lesson-item${isActive ? " active" : ""}${isDone ? " done" : ""}`}
-                                  onClick={() => {
+                                <div className={`lesson-item${isActive ? " active" : ""}${isDone ? " done" : ""}`}>
+                                  <button
+                                    type="button"
+                                    className="lesson-check"
+                                    style={{ borderColor: isDone ? course.color : undefined, background: isDone ? course.color : undefined }}
+                                    onClick={() => toggleComplete(lesson.id)}
+                                    aria-label={`${isDone ? "Mark incomplete" : "Mark complete"}: ${lesson.title}`}
+                                    title={isDone ? "Mark incomplete" : "Mark complete"}
+                                  >
+                                    {isDone && <span style={{ color: "#000", fontSize: "0.7rem", fontWeight: 900 }}>DONE</span>}
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="lesson-open"
+                                    aria-expanded={isActive}
+                                    onClick={() => {
                                     const nextLesson = isActive ? null : lesson.id;
                                     setActiveLesson(nextLesson);
                                     if (nextLesson) try { saveLastLesson(localStorage, slug, nextLesson); } catch {}
-                                  }}>
+                                    }}
+                                  >
                                   <div className="lesson-left">
-                                    <button
-                                      className="lesson-check"
-                                      style={{ borderColor: isDone ? course.color : undefined, background: isDone ? course.color : undefined }}
-                                      onClick={e => { e.stopPropagation(); toggleComplete(lesson.id); }}
-                                      title={isDone ? "Mark incomplete" : "Mark complete"}
-                                    >
-                                      {isDone && <span style={{ color: "#000", fontSize: "0.7rem", fontWeight: 900 }}>DONE</span>}
-                                    </button>
                                     <span className="lesson-type-icon" style={{ color: LESSON_COLORS[lesson.type] }}>
                                       {LESSON_ICONS[lesson.type]}
                                     </span>
@@ -2054,6 +2061,7 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                                     </span>
                                     <span className="lesson-duration">{lesson.duration}</span>
                                   </div>
+                                  </button>
                                 </div>
                                 {isActive && (
                                   <LessonContent
@@ -2158,10 +2166,11 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
         .module-subtitle { font-size: 0.78rem; color: var(--text-mute); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
         .module-chevron { font-size: 1.3rem; color: var(--text-mute); transition: transform 0.25s; line-height: 1; }
         .module-lessons { border-top: 1px solid var(--border); }
-        .lesson-item { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.25rem; cursor: pointer; transition: background 0.15s; gap: 0.5rem; border-left: 3px solid transparent; }
+        .lesson-item { display: flex; align-items: center; padding: 0.75rem 1.25rem; transition: background 0.15s; gap: 0.875rem; border-left: 3px solid transparent; }
         .lesson-item:hover { background: rgba(255,255,255,0.025); }
         .lesson-item.done { opacity: 0.6; }
         .lesson-item.active { background: rgba(255,255,255,0.04); border-left: 3px solid currentColor; }
+        .lesson-open { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex: 1; min-width: 0; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; text-align: left; }
         .lesson-left { display: flex; align-items: center; gap: 0.875rem; flex: 1; min-width: 0; }
         .lesson-check { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--border); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
         .lesson-type-icon { font-size: 0.75rem; flex-shrink: 0; width: 18px; text-align: center; }

@@ -6,6 +6,7 @@ const catalogueSource = fs.readFileSync(new URL("../app/learn/page.tsx", import.
 const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
 const enhancedReaderSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
 const globalStyles = fs.readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
+const nextConfigSource = fs.readFileSync(new URL("../next.config.mjs", import.meta.url), "utf8");
 
 test("catalogue metadata covers every preserved course and matches lesson counts", () => {
   const courseBlocks = [...courseSource.matchAll(/^  "([^"]+)": \{([\s\S]*?)(?=^  "[^"]+": \{|^\};)/gm)];
@@ -48,4 +49,15 @@ test("lesson reader styles preserve reading measure, mobile navigation, and prin
   assert.match(courseSource, /className="lesson-content-shell"/);
   assert.match(courseSource, /className="lesson-reading-body"/);
   assert.match(globalStyles, /\.lesson-content-shell\s*\{[^}]*margin-inline:\s*0 !important/);
+});
+
+test("lesson controls are keyboard-native and production CSP is bounded", () => {
+  assert.match(courseSource, /className="lesson-open"/);
+  assert.match(courseSource, /aria-expanded=\{isActive\}/);
+  assert.doesNotMatch(courseSource, /className=\{`lesson-item[\s\S]{0,180}onClick=/);
+  assert.match(nextConfigSource, /NODE_ENV === 'development'/);
+  assert.match(nextConfigSource, /"connect-src 'self'"/);
+  assert.match(nextConfigSource, /"object-src 'none'"/);
+  assert.doesNotMatch(nextConfigSource, /"connect-src 'self' https:"/);
+  assert.doesNotMatch(nextConfigSource, /"img-src 'self' data: blob: https:"/);
 });
