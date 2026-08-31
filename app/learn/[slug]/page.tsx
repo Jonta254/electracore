@@ -1701,7 +1701,7 @@ function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, previousL
   const enhancedLesson = getEnhancedLesson(courseSlug, lesson.id);
 
   return (
-    <div style={{
+    <div className="lesson-content-shell" style={{
       margin: "0 1.25rem 1rem",
       borderRadius: 10,
       border: `1px solid ${courseColor}30`,
@@ -1796,7 +1796,7 @@ function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, previousL
         </div>
       ) : (
         /* READING LESSON */
-        <div style={{ padding: "1.25rem" }}>
+        <div className="lesson-reading-body" style={{ padding: "1.25rem" }}>
           {lessonBody.diagram && (
             <div style={{ marginBottom: "1rem", borderRadius: 8, overflow: "hidden", border: "1px solid rgba(255,255,255,0.06)" }}>
               {lessonBody.diagram}

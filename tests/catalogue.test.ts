@@ -4,6 +4,8 @@ import test from "node:test";
 
 const catalogueSource = fs.readFileSync(new URL("../app/learn/page.tsx", import.meta.url), "utf8");
 const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+const enhancedReaderSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
+const globalStyles = fs.readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
 
 test("catalogue metadata covers every preserved course and matches lesson counts", () => {
   const courseBlocks = [...courseSource.matchAll(/^  "([^"]+)": \{([\s\S]*?)(?=^  "[^"]+": \{|^\};)/gm)];
@@ -26,4 +28,24 @@ test("professional learning routes contain no emoji controls or false video type
   assert.equal(emoji.test(catalogueSource), false);
   assert.equal(emoji.test(courseSource), false);
   assert.doesNotMatch(courseSource, /type: "video"/i);
+
+});
+test("enhanced lesson reader exposes responsive orientation and print controls", () => {
+  for (const section of ["Purpose", "Core theory", "Worked example", "Knowledge check", "Sources"]) {
+    assert.ok(enhancedReaderSource.includes(`label: "${section}"`), `missing lesson section: ${section}`);
+  }
+  assert.match(enhancedReaderSource, /aria-current=\{activeSection === section\.id \? "location"/);
+  assert.match(enhancedReaderSource, /className="lesson-mobile-contents"/);
+  assert.match(enhancedReaderSource, /onClick=\{\(\) => window\.print\(\)\}/);
+  assert.match(enhancedReaderSource, /className="lesson-reading-progress"/);
+});
+
+test("lesson reader styles preserve reading measure, mobile navigation, and print output", () => {
+  assert.match(globalStyles, /\.lesson-reading-column\s*\{[\s\S]*?max-width:\s*68ch/);
+  assert.match(globalStyles, /@media\(max-width:760px\)[\s\S]*\.lesson-mobile-tools\s*\{[^}]*display:\s*grid/);
+  assert.match(globalStyles, /@media print[\s\S]*\.lesson-reader-rail\s*\{[^}]*display:\s*none !important/);
+  assert.match(globalStyles, /break-inside:\s*avoid/);
+  assert.match(courseSource, /className="lesson-content-shell"/);
+  assert.match(courseSource, /className="lesson-reading-body"/);
+  assert.match(globalStyles, /\.lesson-content-shell\s*\{[^}]*margin-inline:\s*0 !important/);
 });

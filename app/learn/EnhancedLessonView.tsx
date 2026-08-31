@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
 import type { EnhancedLesson } from "./enhancedLessons";
 
 function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonId: string }) {
@@ -184,13 +187,61 @@ function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonI
 }
 
 export function EnhancedLessonView({ lesson, courseSlug, lessonId }: { lesson: EnhancedLesson; courseSlug: string; lessonId: string }) {
+  const sections = useMemo(() => [
+    { id: `purpose-${lessonId}`, label: "Purpose" },
+    { id: `theory-${lessonId}`, label: "Core theory" },
+    { id: `example-${lessonId}`, label: "Worked example" },
+    { id: `check-${lessonId}`, label: "Knowledge check" },
+    { id: `sources-${lessonId}`, label: "Sources" },
+  ], [lessonId]);
+  const [activeSection, setActiveSection] = useState(sections[0].id);
+  const [readingProgress, setReadingProgress] = useState(0);
+
+  useEffect(() => {
+    const root = document.getElementById(`lesson-reader-${lessonId}`);
+    if (!root) return;
+    const updateProgress = () => {
+      const rect = root.getBoundingClientRect();
+      const available = Math.max(1, root.offsetHeight - window.innerHeight);
+      setReadingProgress(Math.min(100, Math.max(0, ((-rect.top + 96) / available) * 100)));
+    };
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (visible[0]) setActiveSection(visible[0].target.id);
+    }, { rootMargin: "-18% 0px -68% 0px" });
+    sections.forEach((section) => {
+      const element = document.getElementById(section.id);
+      if (element) observer.observe(element);
+    });
+    updateProgress();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+    };
+  }, [lessonId, sections]);
+
+  const contents = (className: string) => (
+    <nav className={className} aria-label="Lesson contents">
+      <p>In this lesson</p>
+      {sections.map((section) => (
+        <a key={section.id} href={`#${section.id}`} aria-current={activeSection === section.id ? "location" : undefined}>{section.label}</a>
+      ))}
+    </nav>
+  );
+
   return (
-    <div className="enhanced-lesson">
-      <nav className="lesson-toc" aria-label="Lesson contents">
-        <a href={`#purpose-${lessonId}`}>Purpose</a><a href={`#theory-${lessonId}`}>Theory</a>
-        <a href={`#example-${lessonId}`}>Worked example</a><a href={`#check-${lessonId}`}>Knowledge check</a>
-        <a href={`#sources-${lessonId}`}>Sources</a>
-      </nav>
+    <div className="enhanced-lesson" id={`lesson-reader-${lessonId}`}>
+      <div className="lesson-reading-progress" aria-hidden="true"><span style={{ width: `${readingProgress}%` }} /></div>
+      <div className="lesson-mobile-tools">
+        <details className="lesson-mobile-contents"><summary>Lesson contents <span>{Math.round(readingProgress)}%</span></summary>{contents("lesson-toc-mobile")}</details>
+        <button type="button" onClick={() => window.print()}>Print lesson</button>
+      </div>
+      <div className="lesson-reader-layout">
+        <aside className="lesson-reader-rail">{contents("lesson-toc")}<button type="button" onClick={() => window.print()}>Print lesson</button><span>{Math.round(readingProgress)}% read</span></aside>
+        <article className="lesson-reading-column">
 
       <section id={`purpose-${lessonId}`}>
         <div className="lesson-meta-line"><span>{lesson.difficulty}</span><span>Review: {lesson.reviewStatus === "professional-review-pending" ? "expert review pending" : "reviewed"}</span></div>
@@ -235,6 +286,8 @@ export function EnhancedLessonView({ lesson, courseSlug, lessonId }: { lesson: E
         <ul>{lesson.sources.map(source => <li key={source.title}>{source.url ? <a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a> : source.title} — {source.publisher}; {source.edition}; {source.jurisdiction}</li>)}</ul>
         <p>Content review date: {lesson.reviewDate}. Professional electrical review is pending.</p>
       </section>
+        </article>
+      </div>
     </div>
   );
 }
