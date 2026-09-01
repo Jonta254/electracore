@@ -2,12 +2,14 @@
 import React from "react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { use } from "react";
 import { loadCourseLearning, recordAssessment, recordExercise, resetCourseLearning, saveLastLesson, saveLessonCompletion } from "../progress";
-import { getEnhancedLesson } from "../enhancedLessons";
+import type { EnhancedLesson } from "../enhancedLessons";
 import { EnhancedLessonView } from "../EnhancedLessonView";
 import { LessonNotes } from "../LessonNotes";
 import { OPEN_PREVIEW_NOTICE, evaluateLearningAccess } from "../accessPolicy";
+import { isLessonIdForCourse } from "../courseTopology";
+import { calculateAssessmentScore } from "../assessment";
+import { loadEnhancedLesson } from "../enhancedLessonLoader";
 
 /* ─── Course Database ─── */
 export const COURSES: Record<string, {
@@ -842,7 +844,9 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
   };
 }
 
-function getQuizForLesson(title: string, slug: string): { question: string; options: string[]; correct: number; explanation: string } | null {
+type QuizQuestion = { question: string; options: string[]; correct: number; explanation: string };
+
+function getQuizForLesson(title: string, slug: string): QuizQuestion | null {
   const t = title.toLowerCase();
   if (slug === "led-lighting" && t.includes("emergency lighting quiz")) {
     return { question: "A non-maintained emergency luminaire senses only the building incomer, while its local normal-lighting MCB can fail independently. What is wrong?", options: ["It may not respond to the relevant local lighting failure; monitoring and cause-effect testing must cover that subcircuit", "Nothing — emergency lighting only responds to total blackout", "Non-maintained units do not need charging", "Changing it to 4000 K fixes the issue"], correct: 0, explanation: "Emergency response must cover the failure modes defined by the fire/risk strategy, including relevant local normal-lighting circuit loss." };
@@ -1072,6 +1076,22 @@ function getQuizForLesson(title: string, slug: string): { question: string; opti
     correct: 1,
     explanation: "BS 7671 (Requirements for Electrical Installations) is the IET Wiring Regulations — the primary standard for fixed electrical installations in the UK. It is based on IEC 60364.",
   };
+}
+
+function getAssessmentQuestions(lesson: Pick<Lesson, "id" | "title">, slug: string): QuizQuestion[] {
+  const primary = getQuizForLesson(lesson.title, slug);
+  if (!primary) return [];
+  if (!lesson.title.toLowerCase().includes("final assessment")) return [primary];
+  const course = COURSES[slug];
+  const candidates = course.modules
+    .flatMap(module => module.lessons)
+    .filter(item => item.type === "quiz" && item.id !== lesson.id)
+    .map(item => getQuizForLesson(item.title, slug))
+    .filter((item): item is QuizQuestion => item !== null);
+  const selected = candidates.length <= 3
+    ? candidates
+    : [candidates[0], candidates[Math.floor(candidates.length / 2)], candidates[candidates.length - 1]];
+  return [...selected, primary];
 }
 
 function getExerciseForLesson(title: string, _slug: string): { problem: string; steps: string[]; answer: string } | null {
@@ -1692,13 +1712,36 @@ export function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, pr
   nextLesson?: Lesson;
   onNavigate: (lessonId: string) => void;
 }) {
-  const [quizAnswered, setQuizAnswered] = useState<number | null>(null);
+  const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [showSolution, setShowSolution] = useState(false);
+  const [exerciseComplete, setExerciseComplete] = useState(false);
+  const [enhancedLesson, setEnhancedLesson] = useState<EnhancedLesson | undefined>();
+  const [enhancedLoading, setEnhancedLoading] = useState(lesson.type === "lesson");
 
-  const quizData = getQuizForLesson(lesson.title, courseSlug);
+  const quizData = getAssessmentQuestions(lesson, courseSlug);
   const exerciseData = getExerciseForLesson(lesson.title, courseSlug);
   const lessonBody = getLessonBody(lesson.title, courseSlug, moduleTitle);
-  const enhancedLesson = getEnhancedLesson(courseSlug, lesson.id);
+  useEffect(() => {
+    let current = true;
+    if (lesson.type !== "lesson") {
+      setEnhancedLesson(undefined);
+      setEnhancedLoading(false);
+      return () => { current = false; };
+    }
+    setEnhancedLoading(true);
+    loadEnhancedLesson(courseSlug, lesson.id).then(value => {
+      if (current) {
+        setEnhancedLesson(value);
+        setEnhancedLoading(false);
+      }
+    }).catch(() => {
+      if (current) {
+        setEnhancedLesson(undefined);
+        setEnhancedLoading(false);
+      }
+    });
+    return () => { current = false; };
+  }, [courseSlug, lesson.id, lesson.type]);
 
   return (
     <div className="lesson-content-shell" style={{
@@ -1720,47 +1763,40 @@ export function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, pr
         </span>
       </div>
 
-      {lesson.type === "quiz" && quizData ? (
+      {lesson.type === "quiz" && quizData.length > 0 ? (
         /* QUIZ */
         <div style={{ padding: "1.25rem" }}>
-          <p style={{ fontSize: "0.95rem", fontWeight: 700, marginBottom: "1.25rem", color: "var(--text)" }}>{quizData.question}</p>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-            {quizData.options.map((opt, i) => {
-              const isSelected = quizAnswered === i;
-              const isCorrect = i === quizData.correct;
-              const showResult = quizAnswered !== null;
-              return (
-                <button key={i}
-                  onClick={() => {
-                    if (quizAnswered !== null) return;
-                    setQuizAnswered(i);
-                    try { recordAssessment(localStorage, courseSlug, lesson.id, i === quizData.correct ? 100 : 0); } catch {}
-                  }}
-                  style={{
-                    textAlign: "left", padding: "0.75rem 1rem", borderRadius: 8,
-                    border: `1px solid ${showResult ? (isCorrect ? "#34D399" : isSelected ? "#FF6B35" : "rgba(255,255,255,0.08)") : "rgba(255,255,255,0.1)"}`,
-                    background: showResult ? (isCorrect ? "rgba(52,211,153,0.08)" : isSelected ? "rgba(255,107,53,0.08)" : "transparent") : "rgba(255,255,255,0.03)",
-                    color: showResult ? (isCorrect ? "#34D399" : isSelected ? "#FF6B35" : "var(--text-mute)") : "var(--text-dim)",
-                    cursor: quizAnswered === null ? "pointer" : "default",
-                    fontSize: "0.875rem", lineHeight: 1.5,
-                    transition: "all 0.2s",
-                  }}
-                >
-                  <span style={{ fontFamily: "monospace", marginRight: 8, opacity: 0.5 }}>{String.fromCharCode(65 + i)}.</span>
-                  {opt}
-                  {showResult && isCorrect && " Correct"}
-                  {showResult && isSelected && !isCorrect && " Incorrect"}
-                </button>
-              );
-            })}
-          </div>
-          {quizAnswered !== null && (
-            <div style={{ marginTop: "1rem", padding: "0.875rem 1rem", borderRadius: 8, background: quizAnswered === quizData.correct ? "rgba(52,211,153,0.08)" : "rgba(240,165,0,0.08)", border: `1px solid ${quizAnswered === quizData.correct ? "rgba(52,211,153,0.25)" : "rgba(240,165,0,0.25)"}`, fontSize: "0.85rem", color: "var(--text-dim)", lineHeight: 1.6 }}>
-              <strong style={{ color: quizAnswered === quizData.correct ? "#34D399" : "#F0A500" }}>{quizAnswered === quizData.correct ? "Correct! " : "Not quite. "}</strong>
-              {quizData.explanation}
-              <button type="button" className="lesson-retry" onClick={() => setQuizAnswered(null)}>Retry question</button>
-            </div>
-          )}
+          <p className="assessment-scope">{quizData.length === 1 ? "Knowledge checkpoint · 1 question" : `Final assessment · ${quizData.length} questions`}</p>
+          {quizData.map((question, questionIndex) => {
+            const answer = quizAnswers[questionIndex];
+            const showResult = answer !== undefined;
+            return <fieldset className="assessment-question" key={question.question}>
+              <legend>{questionIndex + 1}. {question.question}</legend>
+              <div className="assessment-options">
+                {question.options.map((option, optionIndex) => {
+                  const isSelected = answer === optionIndex;
+                  const isCorrect = optionIndex === question.correct;
+                  return <button key={option} type="button" disabled={showResult} className={showResult ? isCorrect ? "correct" : isSelected ? "incorrect" : "" : ""} onClick={() => {
+                    setQuizAnswers(current => {
+                      if (current[questionIndex] !== undefined) return current;
+                      const next = { ...current, [questionIndex]: optionIndex };
+                      if (Object.keys(next).length === quizData.length) {
+                        const score = calculateAssessmentScore(quizData.map(item => item.correct), next);
+                        try { recordAssessment(localStorage, courseSlug, lesson.id, score); } catch {}
+                      }
+                      return next;
+                    });
+                  }}><span>{String.fromCharCode(65 + optionIndex)}.</span>{option}{showResult && isCorrect ? " Correct" : showResult && isSelected ? " Incorrect" : ""}</button>;
+                })}
+              </div>
+              {showResult ? <p className="assessment-explanation"><strong>{answer === question.correct ? "Correct. " : "Review: "}</strong>{question.explanation}</p> : null}
+            </fieldset>;
+          })}
+          {Object.keys(quizAnswers).length === quizData.length ? <div className="assessment-result" role="status">
+            <strong>{quizData.filter((item, index) => quizAnswers[index] === item.correct).length} of {quizData.length} correct</strong>
+            <span>{calculateAssessmentScore(quizData.map(item => item.correct), quizAnswers)}%</span>
+            <button type="button" className="lesson-retry" onClick={() => setQuizAnswers({})}>Retry assessment</button>
+          </div> : null}
         </div>
       ) : lesson.type === "exercise" && exerciseData ? (
         /* EXERCISE */
@@ -1770,11 +1806,7 @@ export function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, pr
             <p style={{ fontSize: "0.9rem", color: "var(--text)", lineHeight: 1.7 }}>{exerciseData.problem}</p>
           </div>
           <button
-            onClick={() => setShowSolution(s => {
-              const next = !s;
-              if (next) try { recordExercise(localStorage, courseSlug, lesson.id); } catch {}
-              return next;
-            })}
+            onClick={() => setShowSolution(value => !value)}
             style={{ background: `${courseColor}15`, border: `1px solid ${courseColor}35`, color: courseColor, padding: "0.625rem 1.25rem", borderRadius: 8, cursor: "pointer", fontSize: "0.85rem", fontWeight: 700, marginBottom: showSolution ? "1rem" : 0 }}
           >
             {showSolution ? "Hide Solution ↑" : "Reveal Solution →"}
@@ -1791,6 +1823,17 @@ export function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, pr
                 <span style={{ fontSize: "0.72rem", fontFamily: "monospace", color: courseColor, textTransform: "uppercase", letterSpacing: "0.1em", display: "block", marginBottom: "0.35rem" }}>Answer</span>
                 <span style={{ fontSize: "1rem", fontWeight: 800, color: courseColor }}>{exerciseData.answer}</span>
               </div>
+              <button
+                type="button"
+                className="lesson-exercise-complete"
+                disabled={exerciseComplete}
+                onClick={() => {
+                  try { recordExercise(localStorage, courseSlug, lesson.id); } catch {}
+                  setExerciseComplete(true);
+                }}
+              >
+                {exerciseComplete ? "Exercise marked complete" : "I have completed this exercise"}
+              </button>
             </div>
           )}
         </div>
@@ -1802,7 +1845,9 @@ export function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, pr
               {lessonBody.diagram}
             </div>
           )}
-          {enhancedLesson ? (
+          {enhancedLoading ? (
+            <div className="lesson-content-loading" role="status">Loading reviewed lesson content…</div>
+          ) : enhancedLesson ? (
             <EnhancedLessonView lesson={enhancedLesson} courseSlug={courseSlug} lessonId={lesson.id} />
           ) : (
             <>
@@ -1832,8 +1877,7 @@ export function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, pr
   );
 }
 
-export default function CoursePage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
+export default function CoursePage({ slug }: { slug: string }) {
   const course = COURSES[slug];
 
   const [expanded, setExpanded] = useState<Set<string>>(new Set(["m1"]));
@@ -1844,7 +1888,7 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
     try {
       const saved = loadCourseLearning(localStorage, slug);
       setCompleted(new Set(saved.completedLessons));
-      if (saved.lastLessonId) {
+      if (saved.lastLessonId && isLessonIdForCourse(slug, saved.lastLessonId)) {
         setActiveLesson(saved.lastLessonId);
         const owner = course?.modules.find((mod) => mod.lessons.some((lesson) => lesson.id === saved.lastLessonId));
         if (owner) setExpanded(prev => new Set(prev).add(owner.id));
@@ -2001,6 +2045,9 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                     <div key={mod.id} className="module-item">
                       <button
                         className="module-header"
+                        type="button"
+                        aria-expanded={isOpen}
+                        aria-controls={`module-lessons-${mod.id}`}
                         onClick={() => setExpanded(prev => {
                           const n = new Set(prev);
                           if (n.has(mod.id)) n.delete(mod.id); else n.add(mod.id);
@@ -2024,7 +2071,7 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                         <span className="module-chevron" style={{ transform: isOpen ? "rotate(90deg)" : "rotate(0deg)" }}>›</span>
                       </button>
                       {isOpen && (
-                        <div className="module-lessons">
+                        <div className="module-lessons" id={`module-lessons-${mod.id}`}>
                           {mod.lessons.map((lesson, li) => {
                             const isDone = completed.has(lesson.id);
                             const isActive = activeLesson === lesson.id;

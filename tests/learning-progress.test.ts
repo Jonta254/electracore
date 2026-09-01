@@ -52,3 +52,20 @@ test("recovers from malformed state and only resets the requested course", () =>
   assert.equal(loadLearningState(storage).courses.one, undefined);
   assert.ok(loadLearningState(storage).courses.two);
 });
+
+test("drops malformed assessment records without damaging valid progress", () => {
+  const storage = new MemoryStorage();
+  storage.setItem(LEARNING_STATE_KEY, JSON.stringify({ version: 2, courses: { course: {
+    completedLessons: ["l1"],
+    completedExercises: [],
+    assessments: {
+      valid: { attempts: 2, bestScore: 75, lastAttemptAt: "2026-08-30T10:00:00.000Z" },
+      textAttempts: { attempts: "2", bestScore: 50, lastAttemptAt: "2026-08-30T10:00:00.000Z" },
+      excessScore: { attempts: 1, bestScore: 140, lastAttemptAt: "2026-08-30T10:00:00.000Z" },
+      badDate: { attempts: 1, bestScore: 50, lastAttemptAt: "not-a-date" },
+    },
+  } } }));
+  const course = loadLearningState(storage).courses.course;
+  assert.deepEqual(Object.keys(course.assessments), ["valid"]);
+  assert.deepEqual(course.completedLessons, ["l1"]);
+});

@@ -8,6 +8,8 @@ const enhancedReaderSource = fs.readFileSync(new URL("../app/learn/EnhancedLesso
 const globalStyles = fs.readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
 const nextConfigSource = fs.readFileSync(new URL("../next.config.mjs", import.meta.url), "utf8");
 const lessonRouteSource = fs.readFileSync(new URL("../app/learn/[slug]/[lessonId]/page.tsx", import.meta.url), "utf8");
+const lessonLayoutSource = fs.readFileSync(new URL("../app/learn/[slug]/[lessonId]/layout.tsx", import.meta.url), "utf8");
+const courseRouteSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
 
 test("catalogue metadata covers every preserved course and matches lesson counts", () => {
   const courseBlocks = [...courseSource.matchAll(/^  "([^"]+)": \{([\s\S]*?)(?=^  "[^"]+": \{|^\};)/gm)];
@@ -76,6 +78,19 @@ test("every lesson opens on a stable route with syllabus and sequence navigation
   assert.match(lessonRouteSource, /<optgroup key=\{item\.id\}/);
   assert.match(courseSource, /className="course-primary-actions"/);
   assert.match(courseSource, /Continue learning/);
+  assert.match(courseRouteSource, /if \(!isCourseSlug\(slug\)\) notFound\(\)/);
+  assert.match(lessonLayoutSource, /if \(!isLessonIdForCourse\(slug, lessonId\)\) notFound\(\)/);
+  assert.match(courseRouteSource, /export const dynamicParams = false/);
+  assert.match(lessonLayoutSource, /export const dynamicParams = false/);
+  assert.match(courseSource, /isLessonIdForCourse\(slug, saved\.lastLessonId\)/);
+  assert.match(courseSource, /aria-expanded=\{isOpen\}/);
+  assert.match(courseSource, /aria-controls=\{`module-lessons-\$\{mod\.id\}`\}/);
+  assert.doesNotMatch(courseSource, /if \(next\) try \{ recordExercise/);
+  assert.match(courseSource, /I have completed this exercise/);
+  assert.match(courseSource, /Final assessment · \$\{quizData\.length\} questions/);
+  assert.match(courseSource, /calculateAssessmentScore\(quizData\.map\(item => item\.correct\), next\)/);
+  assert.match(courseSource, /loadEnhancedLesson\(courseSlug, lesson\.id\)/);
+  assert.match(courseSource, /Loading reviewed lesson content/);
 });
 
 test("lesson visuals are technical, labelled, and topic-routed", () => {

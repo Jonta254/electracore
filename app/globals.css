@@ -599,6 +599,21 @@ html, body { max-width: 100%; overflow-x: clip; }
 .lesson-syllabus-head { position: sticky; top: 0; z-index: 1; display: flex; justify-content: space-between; gap: .5rem; padding: 1rem; border-bottom: 1px solid var(--border); background: var(--bg2); font-size: .75rem; }
 .lesson-syllabus-head a { color: var(--lesson-accent); text-decoration: none; }
 .lesson-mobile-jump { display: none; }
+.lesson-exercise-complete { align-self: flex-start; min-height: 42px; margin-top: .35rem; padding: 0 .9rem; border: 1px solid var(--ground); border-radius: 8px; background: rgba(52,211,153,.08); color: var(--ground); cursor: pointer; font-weight: 750; }
+.lesson-exercise-complete:disabled { cursor: default; opacity: .75; }
+.assessment-scope { margin: 0 0 1rem; color: var(--text-mute); font: 700 .68rem 'JetBrains Mono',monospace; letter-spacing: .08em; text-transform: uppercase; }
+.assessment-question { min-width: 0; margin: 0; padding: 1.2rem 0; border: 0; border-top: 1px solid var(--border); }
+.assessment-question legend { width: 100%; padding: 0 0 .9rem; color: var(--text); font-size: .94rem; font-weight: 750; line-height: 1.55; }
+.assessment-options { display: grid; gap: .5rem; }
+.assessment-options button { min-height: 44px; padding: .75rem 1rem; border: 1px solid var(--border); border-radius: 8px; background: rgba(255,255,255,.03); color: var(--text-dim); cursor: pointer; text-align: left; line-height: 1.5; }
+.assessment-options button span { margin-right: .55rem; color: var(--text-mute); font-family: 'JetBrains Mono',monospace; }
+.assessment-options button.correct { border-color: var(--ground); background: rgba(52,211,153,.08); color: var(--ground); }
+.assessment-options button.incorrect { border-color: var(--danger); background: rgba(255,107,53,.08); color: var(--danger); }
+.assessment-options button:disabled { cursor: default; }
+.assessment-explanation { margin: .75rem 0 0; color: var(--text-dim); font-size: .82rem; line-height: 1.6; }
+.assessment-result { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; padding: 1rem; border: 1px solid var(--border); border-radius: 8px; background: var(--bg2); }
+.assessment-result > span { color: var(--core); font: 800 1rem 'JetBrains Mono',monospace; }
+.lesson-content-loading { min-height: 220px; display: grid; place-items: center; color: var(--text-mute); font-size: .8rem; }
 .lesson-syllabus details { border-bottom: 1px solid var(--border); }
 .lesson-syllabus summary { display: grid; grid-template-columns: 28px 1fr; gap: .55rem; padding: .9rem 1rem; cursor: pointer; color: var(--text); font-size: .78rem; font-weight: 750; }
 .lesson-syllabus summary span { color: var(--lesson-accent); font-family: 'JetBrains Mono',monospace; }

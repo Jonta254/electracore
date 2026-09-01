@@ -34,6 +34,19 @@ function parseJson(raw: string | null): unknown {
   if (!raw) return null;
   try { return JSON.parse(raw); } catch { return null; }
 }
+function validAssessments(value: unknown): Record<string, AssessmentRecord> {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+  const result: Record<string, AssessmentRecord> = {};
+  for (const [lessonId, candidate] of Object.entries(value)) {
+    if (!candidate || typeof candidate !== "object" || Array.isArray(candidate)) continue;
+    const record = candidate as Partial<AssessmentRecord>;
+    if (!Number.isInteger(record.attempts) || (record.attempts ?? 0) < 0) continue;
+    if (!Number.isFinite(record.bestScore) || (record.bestScore ?? -1) < 0 || (record.bestScore ?? 101) > 100) continue;
+    if (typeof record.lastAttemptAt !== "string" || Number.isNaN(Date.parse(record.lastAttemptAt))) continue;
+    result[lessonId] = { attempts: record.attempts!, bestScore: record.bestScore!, lastAttemptAt: record.lastAttemptAt };
+  }
+  return result;
+}
 export function loadLearningState(storage: StorageLike): LearningState {
   const parsed = parseJson(storage.getItem(LEARNING_STATE_KEY));
   if (!parsed || typeof parsed !== "object" || (parsed as { version?: unknown }).version !== 2) return emptyState();
@@ -45,7 +58,7 @@ export function loadLearningState(storage: StorageLike): LearningState {
     courses[slug] = {
       completedLessons: uniqueStrings(course.completedLessons),
       lastLessonId: typeof course.lastLessonId === "string" ? course.lastLessonId : undefined,
-      assessments: course.assessments && typeof course.assessments === "object" ? course.assessments : {},
+      assessments: validAssessments(course.assessments),
       completedExercises: uniqueStrings(course.completedExercises),
     };
   }
