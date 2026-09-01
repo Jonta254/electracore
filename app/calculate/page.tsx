@@ -5,7 +5,7 @@ import { ElectraCoreLogoMark } from "../components/Logo";
 
 type CalcResult = { value: string; unit: string; note?: string; error?: boolean } | null;
 
-const err = (note: string): CalcResult => ({ value: "—", unit: "", note, error: true });
+const err = (note: string): CalcResult => ({ value: "Error", unit: "", note, error: true });
 
 /* ── individual calculators ─────────────────────────────
    Each returns the computed value, its unit, and a note that
@@ -45,7 +45,7 @@ function voltageDrop(v: string, i: string, len: string, res: string): CalcResult
     value: drop.toFixed(3),
     unit: "V",
     note: pct !== null
-      ? `${pct.toFixed(2)}% of supply — ${pct > 3 ? "Review: exceeds the common 3% limit; consider a larger conductor" : "Within the common 3% guideline"}`
+      ? `${pct.toFixed(2)}% of supply: ${pct > 3 ? "Review: exceeds the common 3% limit; consider a larger conductor" : "Within the common 3% guideline"}`
       : "Single-phase drop across the run (×2 for go + return). Enter supply voltage to see % drop.",
   };
 }
@@ -85,7 +85,7 @@ function powerFactor(kw: string, kva: string): CalcResult {
   return {
     value: pf.toFixed(3),
     unit: "PF",
-    note: pf < 0.85 ? "Review: below 0.85 — correction capacitors are usually worthwhile" : "Acceptable power factor (PF = kW ÷ kVA)",
+    note: pf < 0.85 ? "Review: below 0.85: correction capacitors are usually worthwhile" : "Acceptable power factor (PF = kW ÷ kVA)",
   };
 }
 
@@ -98,7 +98,7 @@ function cableSizing(i: string, vd: string, len: string): CalcResult {
   const minArea = (2 * rho * L * I) / VD;
   const sizes = [1, 1.5, 2.5, 4, 6, 10, 16, 25, 35, 50, 70, 95, 120];
   const selected = sizes.find((s) => s >= minArea);
-  if (!selected) return err(`Minimum area ${minArea.toFixed(1)} mm² exceeds this table (max 120 mm²) — this is a specialist run.`);
+  if (!selected) return err(`Minimum area ${minArea.toFixed(1)} mm² exceeds this table (max 120 mm²): this is a specialist run.`);
   return {
     value: selected.toString(),
     unit: "mm²",
@@ -126,7 +126,7 @@ interface CalcDef {
 
 const CALCS: CalcDef[] = [
   {
-    id: "ohms", title: "Ohm's Law", icon: "V/I", desc: "Fill any two fields — the third is calculated automatically.",
+    id: "ohms", title: "Ohm's Law", icon: "V/I", desc: "Fill any two fields: the third is calculated automatically.",
     fields: [
       { id: "v", label: "Voltage", placeholder: "e.g. 230", unit: "V" },
       { id: "i", label: "Current", placeholder: "e.g. 10", unit: "A" },
@@ -255,7 +255,7 @@ function CalcBlock({ calc, onSave }: { calc: CalcDef; onSave: (e: Omit<HistEntry
 
   const handleCopy = async () => {
     if (!usable || !result) return;
-    const ok = await copyText(`${result.value} ${result.unit} — ${calc.title} (${inputsSummary})`.trim());
+    const ok = await copyText(`${result.value} ${result.unit}: ${calc.title} (${inputsSummary})`.trim());
     if (ok) flashFor("copied");
   };
 
@@ -344,7 +344,7 @@ function HistoryPanel({ history, onRemove, onClear, onExport }: { history: HistE
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const copyEntry = async (e: HistEntry) => {
-    const ok = await copyText(`${e.value} ${e.unit} — ${e.calc} (${e.inputs})`.trim());
+    const ok = await copyText(`${e.value} ${e.unit}: ${e.calc} (${e.inputs})`.trim());
     if (ok) {
       setCopiedId(e.id);
       window.setTimeout(() => setCopiedId((c) => (c === e.id ? null : c)), 1400);
@@ -371,7 +371,7 @@ function HistoryPanel({ history, onRemove, onClear, onExport }: { history: HistE
           <div className="hist-empty-label">Saved results</div>
           <div style={{ fontWeight: 700, color: "var(--text)", marginBottom: "0.35rem" }}>Nothing saved yet</div>
           <p style={{ fontSize: "0.82rem", color: "var(--text-dim)", lineHeight: 1.6 }}>
-            Run a calculation and press <strong>Save</strong> to keep the result here — handy when you&apos;re working a job and need to compare a few figures side by side.
+            Run a calculation and press <strong>Save</strong> to keep the result here: handy when you&apos;re working a job and need to compare a few figures side by side.
           </p>
         </div>
       ) : (
@@ -410,14 +410,14 @@ export default function CalculatePage() {
     try {
       const raw = localStorage.getItem(LS_KEY);
       if (raw) setHistory(JSON.parse(raw));
-    } catch { /* corrupt or unavailable storage — start empty */ }
+    } catch { /* corrupt or unavailable storage: start empty */ }
   }, []);
 
   useEffect(() => {
     if (!mounted) return;
     try {
       localStorage.setItem(LS_KEY, JSON.stringify(history));
-    } catch { /* storage full or blocked — keep in memory */ }
+    } catch { /* storage full or blocked: keep in memory */ }
   }, [history, mounted]);
 
   const addEntry = (e: Omit<HistEntry, "id" | "ts">) =>
@@ -435,7 +435,7 @@ export default function CalculatePage() {
 
   return (
     <>
-      {/* Print-only report — hidden on screen, rendered when the user prints / saves as PDF */}
+      {/* Print-only report: hidden on screen, rendered when the user prints / saves as PDF */}
       <div className="calc-report" aria-hidden>
         <div className="calc-report-head">
           <div className="calc-report-brand">ElectraCore</div>
@@ -484,14 +484,14 @@ export default function CalculatePage() {
           <h1 className="section-title">Electrical Calculators</h1>
           <p className="section-sub">
             The calculations you run every day, with the formula shown and results you can save. Every answer is voltage-drop or first-principles
-            math — always verify against the wiring regulations for your installation before you rely on it.
+            math: always verify against the wiring regulations for your installation before you rely on it.
           </p>
 
           <Link href="/design" className="calc-designer-banner">
             <div className="calc-designer-icon" aria-hidden>DESIGN</div>
             <div className="calc-designer-copy">
               <div className="calc-designer-title">Need the whole circuit, not one number?</div>
-              <div className="calc-designer-sub">Open the Circuit Designer — load → device → cable size → voltage drop → pass/fail, with a printable summary.</div>
+              <div className="calc-designer-sub">Open the Circuit Designer: load → device → cable size → voltage drop → pass/fail, with a printable summary.</div>
             </div>
             <span className="calc-designer-go">Open Designer →</span>
           </Link>

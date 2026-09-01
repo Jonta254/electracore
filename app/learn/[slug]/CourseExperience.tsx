@@ -22,7 +22,7 @@ export const COURSES: Record<string, {
     color: "#F0A500",
     level: "Beginner",
     category: "Theory",
-    intro: "Everything in electrical engineering rests on a handful of core relationships. This course builds them from first principles — starting with what electricity actually is at the atomic level and ending with real circuit analysis using Kirchhoff's laws.",
+    intro: "Everything in electrical engineering rests on a handful of core relationships. This course builds them from first principles: starting with what electricity actually is at the atomic level and ending with real circuit analysis using Kirchhoff's laws.",
     prerequisites: ["Basic maths (algebra)", "No prior electrical knowledge required"],
     outcomes: [
       "Apply Ohm's Law to calculate voltage, current, and resistance",
@@ -36,7 +36,7 @@ export const COURSES: Record<string, {
       {
         id: "m1", title: "Atoms, Electrons & Electric Charge", duration: "38min",
         lessons: [
-          { id: "l1", title: "What is electricity? — atomic model", duration: "9min", type: "lesson" },
+          { id: "l1", title: "What is electricity?: atomic model", duration: "9min", type: "lesson" },
           { id: "l2", title: "Electric charge and the coulomb", duration: "7min", type: "lesson" },
           { id: "l3", title: "Conductors, insulators, and semiconductors", duration: "8min", type: "lesson" },
           { id: "l4", title: "Conventional current vs electron flow", duration: "7min", type: "lesson" },
@@ -46,18 +46,18 @@ export const COURSES: Record<string, {
       {
         id: "m2", title: "Voltage, Current & Resistance", duration: "44min",
         lessons: [
-          { id: "l6", title: "Potential difference — the driving force", duration: "8min", type: "lesson" },
-          { id: "l7", title: "Current — the rate of charge flow", duration: "7min", type: "lesson" },
+          { id: "l6", title: "Potential difference: the driving force", duration: "8min", type: "lesson" },
+          { id: "l7", title: "Current: the rate of charge flow", duration: "7min", type: "lesson" },
           { id: "l8", title: "Resistance and resistivity", duration: "9min", type: "lesson" },
-          { id: "l9", title: "Ohm's Law — derivation and examples", duration: "12min", type: "lesson" },
-          { id: "l10", title: "Worked examples — Ohm's Law problems", duration: "8min", type: "exercise" },
+          { id: "l9", title: "Ohm's Law: derivation and examples", duration: "12min", type: "lesson" },
+          { id: "l10", title: "Worked examples: Ohm's Law problems", duration: "8min", type: "exercise" },
         ],
       },
       {
         id: "m3", title: "Series & Parallel Circuits", duration: "52min",
         lessons: [
-          { id: "l11", title: "Series circuits — characteristics and rules", duration: "10min", type: "lesson" },
-          { id: "l12", title: "Parallel circuits — characteristics and rules", duration: "10min", type: "lesson" },
+          { id: "l11", title: "Series circuits: characteristics and rules", duration: "10min", type: "lesson" },
+          { id: "l12", title: "Parallel circuits: characteristics and rules", duration: "10min", type: "lesson" },
           { id: "l13", title: "Combined series-parallel networks", duration: "12min", type: "lesson" },
           { id: "l14", title: "Voltage dividers and current dividers", duration: "10min", type: "lesson" },
           { id: "l15", title: "Circuit analysis practice", duration: "10min", type: "exercise" },
@@ -66,8 +66,8 @@ export const COURSES: Record<string, {
       {
         id: "m4", title: "Kirchhoff's Laws", duration: "40min",
         lessons: [
-          { id: "l16", title: "KCL — Kirchhoff's Current Law", duration: "9min", type: "lesson" },
-          { id: "l17", title: "KVL — Kirchhoff's Voltage Law", duration: "9min", type: "lesson" },
+          { id: "l16", title: "KCL: Kirchhoff's Current Law", duration: "9min", type: "lesson" },
+          { id: "l17", title: "KVL: Kirchhoff's Voltage Law", duration: "9min", type: "lesson" },
           { id: "l18", title: "Mesh and nodal analysis", duration: "12min", type: "lesson" },
           { id: "l19", title: "Kirchhoff's law problems set", duration: "10min", type: "exercise" },
         ],
@@ -75,8 +75,8 @@ export const COURSES: Record<string, {
       {
         id: "m5", title: "Power & Energy", duration: "35min",
         lessons: [
-          { id: "l20", title: "Electrical power — watts and horsepower", duration: "8min", type: "lesson" },
-          { id: "l21", title: "Energy — kilowatt-hours and joules", duration: "7min", type: "lesson" },
+          { id: "l20", title: "Electrical power: watts and horsepower", duration: "8min", type: "lesson" },
+          { id: "l21", title: "Energy: kilowatt-hours and joules", duration: "7min", type: "lesson" },
           { id: "l22", title: "Efficiency and power loss in cables", duration: "8min", type: "lesson" },
           { id: "l23", title: "Power quiz", duration: "12min", type: "quiz" },
         ],
@@ -84,8 +84,8 @@ export const COURSES: Record<string, {
       {
         id: "m6", title: "Alternating Current Fundamentals", duration: "48min",
         lessons: [
-          { id: "l24", title: "AC vs DC — why AC won", duration: "8min", type: "lesson" },
-          { id: "l25", title: "Sinusoidal waveforms — peak, RMS, average", duration: "10min", type: "lesson" },
+          { id: "l24", title: "AC vs DC: why AC won", duration: "8min", type: "lesson" },
+          { id: "l25", title: "Sinusoidal waveforms: peak, RMS, average", duration: "10min", type: "lesson" },
           { id: "l26", title: "Frequency and period", duration: "7min", type: "lesson" },
           { id: "l27", title: "Phase relationships", duration: "10min", type: "lesson" },
           { id: "l28", title: "AC circuit analysis introduction", duration: "13min", type: "lesson" },
@@ -95,18 +95,18 @@ export const COURSES: Record<string, {
         id: "m7", title: "Capacitors & Inductors", duration: "50min",
         lessons: [
           { id: "l29", title: "Capacitor construction and capacitance", duration: "9min", type: "lesson" },
-          { id: "l30", title: "Capacitors in AC circuits — reactance", duration: "10min", type: "lesson" },
+          { id: "l30", title: "Capacitors in AC circuits: reactance", duration: "10min", type: "lesson" },
           { id: "l31", title: "Inductor construction and inductance", duration: "9min", type: "lesson" },
-          { id: "l32", title: "Inductors in AC circuits — reactance", duration: "10min", type: "lesson" },
-          { id: "l33", title: "RC and RL circuits — time constants", duration: "12min", type: "lesson" },
+          { id: "l32", title: "Inductors in AC circuits: reactance", duration: "10min", type: "lesson" },
+          { id: "l33", title: "RC and RL circuits: time constants", duration: "12min", type: "lesson" },
         ],
       },
       {
         id: "m8", title: "Measurement & Instruments", duration: "35min",
         lessons: [
-          { id: "l34", title: "Multimeters — AC/DC voltage and current", duration: "9min", type: "lesson" },
+          { id: "l34", title: "Multimeters: AC/DC voltage and current", duration: "9min", type: "lesson" },
           { id: "l35", title: "Clamp meters and measuring live current", duration: "7min", type: "lesson" },
-          { id: "l36", title: "Oscilloscopes — reading waveforms", duration: "10min", type: "lesson" },
+          { id: "l36", title: "Oscilloscopes: reading waveforms", duration: "10min", type: "lesson" },
           { id: "l37", title: "Final assessment", duration: "9min", type: "quiz" },
         ],
       },
@@ -118,7 +118,7 @@ export const COURSES: Record<string, {
     color: "#34D399",
     level: "Beginner",
     category: "Installation",
-    intro: "Fixed wiring in UK homes follows a set of well-defined rules — ring finals, lighting circuits, earthing, bonding. This course teaches you every circuit type you'll encounter in domestic work, with full wiring diagrams and fault-finding techniques.",
+    intro: "Fixed wiring in UK homes follows a set of well-defined rules: ring finals, lighting circuits, earthing, bonding. This course teaches you every circuit type you'll encounter in domestic work, with full wiring diagrams and fault-finding techniques.",
     prerequisites: ["Electrical Fundamentals (recommended)", "Basic hand tool skills"],
     outcomes: [
       "Design and install ring final circuits to BS 7671",
@@ -133,8 +133,8 @@ export const COURSES: Record<string, {
         id: "m1", title: "Consumer Unit Design", duration: "45min",
         lessons: [
           { id: "l1", title: "Consumer unit layout and components", duration: "10min", type: "lesson" },
-          { id: "l2", title: "MCBs — types, ratings, and selection", duration: "9min", type: "lesson" },
-          { id: "l3", title: "RCDs vs RCBOs — when to use which", duration: "9min", type: "lesson" },
+          { id: "l2", title: "MCBs: types, ratings, and selection", duration: "9min", type: "lesson" },
+          { id: "l3", title: "RCDs vs RCBOs: when to use which", duration: "9min", type: "lesson" },
           { id: "l4", title: "Split load vs dual RCD boards", duration: "8min", type: "lesson" },
           { id: "l5", title: "Module quiz", duration: "9min", type: "quiz" },
         ],
@@ -142,10 +142,10 @@ export const COURSES: Record<string, {
       {
         id: "m2", title: "Ring Final Circuits", duration: "50min",
         lessons: [
-          { id: "l6", title: "How ring circuits work — the topology", duration: "10min", type: "lesson" },
+          { id: "l6", title: "How ring circuits work: the topology", duration: "10min", type: "lesson" },
           { id: "l7", title: "Cable selection for ring finals", duration: "9min", type: "lesson" },
-          { id: "l8", title: "Spur outlets — fused and unfused", duration: "9min", type: "lesson" },
-          { id: "l9", title: "Radial circuits — when to use them", duration: "8min", type: "lesson" },
+          { id: "l8", title: "Spur outlets: fused and unfused", duration: "9min", type: "lesson" },
+          { id: "l9", title: "Radial circuits: when to use them", duration: "8min", type: "lesson" },
           { id: "l10", title: "Wiring practice problems", duration: "14min", type: "exercise" },
         ],
       },
@@ -153,8 +153,8 @@ export const COURSES: Record<string, {
         id: "m3", title: "Lighting Circuits", duration: "55min",
         lessons: [
           { id: "l11", title: "Junction box vs loop-in wiring methods", duration: "10min", type: "lesson" },
-          { id: "l12", title: "One-way switching — full diagram", duration: "8min", type: "lesson" },
-          { id: "l13", title: "Two-way switching — staircase wiring", duration: "10min", type: "lesson" },
+          { id: "l12", title: "One-way switching: full diagram", duration: "8min", type: "lesson" },
+          { id: "l13", title: "Two-way switching: staircase wiring", duration: "10min", type: "lesson" },
           { id: "l14", title: "Intermediate switching for long runs", duration: "9min", type: "lesson" },
           { id: "l15", title: "Dimmer circuits and LED compatibility", duration: "8min", type: "lesson" },
           { id: "l16", title: "Lighting circuit quiz", duration: "10min", type: "quiz" },
@@ -163,7 +163,7 @@ export const COURSES: Record<string, {
       {
         id: "m4", title: "Earthing & Bonding", duration: "42min",
         lessons: [
-          { id: "l17", title: "Types of earthing — TN-S, TN-C-S, TT", duration: "10min", type: "lesson" },
+          { id: "l17", title: "Types of earthing: TN-S, TN-C-S, TT", duration: "10min", type: "lesson" },
           { id: "l18", title: "Main protective bonding", duration: "8min", type: "lesson" },
           { id: "l19", title: "Supplementary bonding requirements", duration: "8min", type: "lesson" },
           { id: "l20", title: "Earth electrode installation for TT", duration: "8min", type: "lesson" },
@@ -173,17 +173,17 @@ export const COURSES: Record<string, {
       {
         id: "m5", title: "Special Locations", duration: "40min",
         lessons: [
-          { id: "l22", title: "Bathroom zones — Zone 0, 1, 2", duration: "10min", type: "lesson" },
+          { id: "l22", title: "Bathroom zones: Zone 0, 1, 2", duration: "10min", type: "lesson" },
           { id: "l23", title: "Kitchen wiring requirements", duration: "8min", type: "lesson" },
           { id: "l24", title: "Garage and outbuilding circuits", duration: "10min", type: "lesson" },
-          { id: "l25", title: "Garden power — outdoor sockets and lighting", duration: "12min", type: "lesson" },
+          { id: "l25", title: "Garden power: outdoor sockets and lighting", duration: "12min", type: "lesson" },
         ],
       },
       {
         id: "m6", title: "Cables & Containment", duration: "35min",
         lessons: [
           { id: "l26", title: "Twin-and-earth cable construction", duration: "7min", type: "lesson" },
-          { id: "l27", title: "Installing in walls — notching and chasing", duration: "8min", type: "lesson" },
+          { id: "l27", title: "Installing in walls: notching and chasing", duration: "8min", type: "lesson" },
           { id: "l28", title: "Trunking, conduit and dado systems", duration: "8min", type: "lesson" },
           { id: "l29", title: "Cable in ceilings and floor voids", duration: "7min", type: "lesson" },
           { id: "l30", title: "Depths and zones quiz", duration: "5min", type: "quiz" },
@@ -193,7 +193,7 @@ export const COURSES: Record<string, {
         id: "m7", title: "Fault Finding", duration: "48min",
         lessons: [
           { id: "l31", title: "Systematic fault finding process", duration: "10min", type: "lesson" },
-          { id: "l32", title: "Open circuits — symptoms and finding them", duration: "9min", type: "lesson" },
+          { id: "l32", title: "Open circuits: symptoms and finding them", duration: "9min", type: "lesson" },
           { id: "l33", title: "Short circuits and cross-connections", duration: "9min", type: "lesson" },
           { id: "l34", title: "RCD nuisance tripping", duration: "10min", type: "lesson" },
           { id: "l35", title: "Fault finding case studies", duration: "10min", type: "exercise" },
@@ -216,7 +216,7 @@ export const COURSES: Record<string, {
     color: "#FF6B35",
     level: "Intermediate",
     category: "Protection",
-    intro: "A circuit that trips saves lives — but only if the protective device operates correctly and in time. This course goes deep into overcurrent protection, earth fault loop impedance, RCD selection, and discrimination between cascading devices.",
+    intro: "Protective devices reduce risk only when they operate correctly and within the required time. This course covers overcurrent protection, earth fault loop impedance, RCD selection and coordination between devices.",
     prerequisites: ["Electrical Fundamentals", "Domestic Wiring (recommended)"],
     outcomes: [
       "Select the correct protective device type for any circuit",
@@ -229,27 +229,27 @@ export const COURSES: Record<string, {
     modules: [
       { id: "m1", title: "Overcurrent Protection Devices", duration: "45min", lessons: [
         { id: "l1", title: "Rewirable fuses vs cartridge fuses", duration: "9min", type: "lesson" },
-        { id: "l2", title: "MCB operating characteristics — B, C, D curves", duration: "10min", type: "lesson" },
-        { id: "l3", title: "RCBO — combined RCD + MCB operation", duration: "9min", type: "lesson" },
-        { id: "l4", title: "AFDD — arc fault detection", duration: "9min", type: "lesson" },
+        { id: "l2", title: "MCB operating characteristics: B, C, D curves", duration: "10min", type: "lesson" },
+        { id: "l3", title: "RCBO: combined RCD + MCB operation", duration: "9min", type: "lesson" },
+        { id: "l4", title: "AFDD: arc fault detection", duration: "9min", type: "lesson" },
         { id: "l5", title: "Device selection quiz", duration: "8min", type: "quiz" },
       ]},
       { id: "m2", title: "Fault Loop Impedance", duration: "50min", lessons: [
         { id: "l6", title: "What is earth fault loop impedance?", duration: "10min", type: "lesson" },
-        { id: "l7", title: "Ze — external impedance measurement", duration: "9min", type: "lesson" },
-        { id: "l8", title: "Zs — total loop impedance calculations", duration: "10min", type: "lesson" },
-        { id: "l9", title: "Disconnection time requirements — Table 41.1", duration: "9min", type: "lesson" },
+        { id: "l7", title: "Ze: external impedance measurement", duration: "9min", type: "lesson" },
+        { id: "l8", title: "Zs: total loop impedance calculations", duration: "10min", type: "lesson" },
+        { id: "l9", title: "Disconnection time requirements: Table 41.1", duration: "9min", type: "lesson" },
         { id: "l10", title: "Zs calculation exercises", duration: "12min", type: "exercise" },
       ]},
       { id: "m3", title: "RCDs and Residual Current", duration: "40min", lessons: [
-        { id: "l11", title: "How RCDs work — the core balance principle", duration: "9min", type: "lesson" },
-        { id: "l12", title: "RCD types — Type AC, A, F, B", duration: "9min", type: "lesson" },
-        { id: "l13", title: "RCD ratings — 10, 30, 100, 300mA", duration: "7min", type: "lesson" },
+        { id: "l11", title: "How RCDs work: the core balance principle", duration: "9min", type: "lesson" },
+        { id: "l12", title: "RCD types: Type AC, A, F, B", duration: "9min", type: "lesson" },
+        { id: "l13", title: "RCD ratings: 10, 30, 100, 300mA", duration: "7min", type: "lesson" },
         { id: "l14", title: "RCD testing and nuisance trips", duration: "8min", type: "lesson" },
         { id: "l15", title: "RCD selection quiz", duration: "7min", type: "quiz" },
       ]},
       { id: "m4", title: "Prospective Fault Current", duration: "38min", lessons: [
-        { id: "l16", title: "PFC — what it is and why it matters", duration: "9min", type: "lesson" },
+        { id: "l16", title: "PFC: what it is and why it matters", duration: "9min", type: "lesson" },
         { id: "l17", title: "Calculating PFC at the origin", duration: "9min", type: "lesson" },
         { id: "l18", title: "PFC at distribution boards downstream", duration: "8min", type: "lesson" },
         { id: "l19", title: "Fault current rating of devices", duration: "7min", type: "lesson" },
@@ -288,21 +288,21 @@ export const COURSES: Record<string, {
     ],
     modules: [
       { id: "m1", title: "Three-Phase Fundamentals", duration: "42min", lessons: [
-        { id: "l1", title: "Why three-phase? — advantages over single-phase", duration: "8min", type: "lesson" },
+        { id: "l1", title: "Why three-phase?: advantages over single-phase", duration: "8min", type: "lesson" },
         { id: "l2", title: "Generation of three-phase voltages", duration: "9min", type: "lesson" },
-        { id: "l3", title: "Phase sequence — L1, L2, L3", duration: "8min", type: "lesson" },
+        { id: "l3", title: "Phase sequence: L1, L2, L3", duration: "8min", type: "lesson" },
         { id: "l4", title: "Phasor representation of three-phase", duration: "9min", type: "lesson" },
         { id: "l5", title: "Phase fundamentals quiz", duration: "8min", type: "quiz" },
       ]},
       { id: "m2", title: "Star (Wye) Connection", duration: "44min", lessons: [
         { id: "l6", title: "Star connection topology", duration: "9min", type: "lesson" },
-        { id: "l7", title: "Line voltage = √3 × phase voltage — proof", duration: "10min", type: "lesson" },
+        { id: "l7", title: "Line voltage = √3 × phase voltage: proof", duration: "10min", type: "lesson" },
         { id: "l8", title: "Neutral current in star systems", duration: "9min", type: "lesson" },
         { id: "l9", title: "Star circuit analysis problems", duration: "16min", type: "exercise" },
       ]},
       { id: "m3", title: "Delta Connection", duration: "38min", lessons: [
         { id: "l10", title: "Delta connection topology", duration: "8min", type: "lesson" },
-        { id: "l11", title: "Line current = √3 × phase current — proof", duration: "9min", type: "lesson" },
+        { id: "l11", title: "Line current = √3 × phase current: proof", duration: "9min", type: "lesson" },
         { id: "l12", title: "Circulating currents in delta", duration: "7min", type: "lesson" },
         { id: "l13", title: "Delta circuit analysis problems", duration: "14min", type: "exercise" },
       ]},
@@ -317,8 +317,8 @@ export const COURSES: Record<string, {
         { id: "l19", title: "How induction motors work", duration: "10min", type: "lesson" },
         { id: "l20", title: "Motor nameplate data and efficiency classes", duration: "8min", type: "lesson" },
         { id: "l21", title: "Starting currents and starting methods", duration: "9min", type: "lesson" },
-        { id: "l22", title: "DOL starters — design and wiring", duration: "10min", type: "lesson" },
-        { id: "l23", title: "Star-delta starters — wiring and timing", duration: "11min", type: "lesson" },
+        { id: "l22", title: "DOL starters: design and wiring", duration: "10min", type: "lesson" },
+        { id: "l23", title: "Star-delta starters: wiring and timing", duration: "11min", type: "lesson" },
       ]},
       { id: "m6", title: "Transformers", duration: "40min", lessons: [
         { id: "l24", title: "Transformer construction and principles", duration: "9min", type: "lesson" },
@@ -335,11 +335,11 @@ export const COURSES: Record<string, {
     color: "#00D4FF",
     level: "Advanced",
     category: "Design",
-    intro: "Selecting the correct cable is one of the most safety-critical decisions in electrical design. Get it wrong and cables overheat, insulation fails, fires start. This course teaches the full BS 7671 cable sizing methodology — current capacity, derating factors, voltage drop, and installation method selection.",
+    intro: "Selecting the correct cable is one of the most safety-critical decisions in electrical design. Get it wrong and cables overheat, insulation fails, fires start. This course teaches the full BS 7671 cable sizing methodology: current capacity, derating factors, voltage drop, and installation method selection.",
     prerequisites: ["Electrical Fundamentals", "Domestic Wiring or equivalent"],
     outcomes: [
       "Select cable size using current-carrying capacity tables",
-      "Apply all derating factors — grouping, thermal, depth of burial",
+      "Apply all derating factors: grouping, thermal, depth of burial",
       "Calculate voltage drop to verify compliance",
       "Select installation methods and apply the correct CCC tables",
       "Size armoured cables for underground and industrial use",
@@ -347,9 +347,9 @@ export const COURSES: Record<string, {
     ],
     modules: [
       { id: "m1", title: "Current-Carrying Capacity", duration: "44min", lessons: [
-        { id: "l1", title: "How CCC tables work — Appendix 4", duration: "10min", type: "lesson" },
-        { id: "l2", title: "Reference method A — enclosed in conduit", duration: "8min", type: "lesson" },
-        { id: "l3", title: "Reference method B — clipped direct", duration: "8min", type: "lesson" },
+        { id: "l1", title: "How CCC tables work: Appendix 4", duration: "10min", type: "lesson" },
+        { id: "l2", title: "Reference method A: enclosed in conduit", duration: "8min", type: "lesson" },
+        { id: "l3", title: "Reference method B: clipped direct", duration: "8min", type: "lesson" },
         { id: "l4", title: "Reference methods C, E, F, G", duration: "10min", type: "lesson" },
         { id: "l5", title: "CCC selection problems", duration: "8min", type: "exercise" },
       ]},
@@ -361,14 +361,14 @@ export const COURSES: Record<string, {
         { id: "l10", title: "Applying multiple correction factors", duration: "14min", type: "exercise" },
       ]},
       { id: "m3", title: "Voltage Drop Calculations", duration: "42min", lessons: [
-        { id: "l11", title: "Why voltage drop matters — Reg 525", duration: "8min", type: "lesson" },
+        { id: "l11", title: "Why voltage drop matters: Reg 525", duration: "8min", type: "lesson" },
         { id: "l12", title: "mV/A/m tables and how to use them", duration: "9min", type: "lesson" },
         { id: "l13", title: "Calculating voltage drop for single-phase", duration: "9min", type: "lesson" },
         { id: "l14", title: "Three-phase voltage drop", duration: "8min", type: "lesson" },
         { id: "l15", title: "Voltage drop problems set", duration: "8min", type: "exercise" },
       ]},
       { id: "m4", title: "Armoured Cables", duration: "38min", lessons: [
-        { id: "l16", title: "SWA construction — layers and materials", duration: "8min", type: "lesson" },
+        { id: "l16", title: "SWA construction: layers and materials", duration: "8min", type: "lesson" },
         { id: "l17", title: "Underground cable installation methods", duration: "9min", type: "lesson" },
         { id: "l18", title: "SWA as protective conductor?", duration: "7min", type: "lesson" },
         { id: "l19", title: "XLPE vs PVC insulation", duration: "8min", type: "lesson" },
@@ -376,12 +376,12 @@ export const COURSES: Record<string, {
       ]},
       { id: "m5", title: "Mineral Insulated (MICC) Cable", duration: "28min", lessons: [
         { id: "l21", title: "MICC construction and applications", duration: "8min", type: "lesson" },
-        { id: "l22", title: "Fire performance cables — FP200, LSOH", duration: "8min", type: "lesson" },
+        { id: "l22", title: "Fire performance cables: FP200, LSOH", duration: "8min", type: "lesson" },
         { id: "l23", title: "Cable selection for life safety systems", duration: "7min", type: "lesson" },
         { id: "l24", title: "Fire cable quiz", duration: "5min", type: "quiz" },
       ]},
       { id: "m6", title: "Full Cable Sizing Design", duration: "45min", lessons: [
-        { id: "l25", title: "End-to-end cable sizing — worked design", duration: "15min", type: "lesson" },
+        { id: "l25", title: "End-to-end cable sizing: worked design", duration: "15min", type: "lesson" },
         { id: "l26", title: "Documenting the cable schedule", duration: "8min", type: "lesson" },
         { id: "l27", title: "Common errors and how to avoid them", duration: "7min", type: "lesson" },
         { id: "l28", title: "Final assessment", duration: "15min", type: "quiz" },
@@ -406,42 +406,42 @@ export const COURSES: Record<string, {
     ],
     modules: [
       { id: "m1", title: "PV Physics & Panel Technology", duration: "40min", lessons: [
-        { id: "l1", title: "Photovoltaic effect — how a cell works", duration: "9min", type: "lesson" },
+        { id: "l1", title: "Photovoltaic effect: how a cell works", duration: "9min", type: "lesson" },
         { id: "l2", title: "Monocrystalline vs polycrystalline vs thin-film", duration: "9min", type: "lesson" },
-        { id: "l3", title: "Panel specifications — Voc, Vmp, Isc, Imp", duration: "9min", type: "lesson" },
+        { id: "l3", title: "Panel specifications: Voc, Vmp, Isc, Imp", duration: "9min", type: "lesson" },
         { id: "l4", title: "Temperature and irradiance effects", duration: "8min", type: "lesson" },
         { id: "l5", title: "PV physics quiz", duration: "5min", type: "quiz" },
       ]},
       { id: "m2", title: "System Design & Sizing", duration: "50min", lessons: [
-        { id: "l6", title: "Site survey — roof orientation, shading, pitch", duration: "10min", type: "lesson" },
-        { id: "l7", title: "String sizing — voltage and current matching", duration: "10min", type: "lesson" },
+        { id: "l6", title: "Site survey: roof orientation, shading, pitch", duration: "10min", type: "lesson" },
+        { id: "l7", title: "String sizing: voltage and current matching", duration: "10min", type: "lesson" },
         { id: "l8", title: "Series vs parallel string configurations", duration: "9min", type: "lesson" },
-        { id: "l9", title: "Yield estimation — kWh/kWp calculations", duration: "10min", type: "lesson" },
+        { id: "l9", title: "Yield estimation: kWh/kWp calculations", duration: "10min", type: "lesson" },
         { id: "l10", title: "System sizing design exercise", duration: "11min", type: "exercise" },
       ]},
       { id: "m3", title: "Inverters", duration: "38min", lessons: [
-        { id: "l11", title: "String inverters — topology and MPPT", duration: "9min", type: "lesson" },
+        { id: "l11", title: "String inverters: topology and MPPT", duration: "9min", type: "lesson" },
         { id: "l12", title: "Microinverters and power optimisers", duration: "8min", type: "lesson" },
         { id: "l13", title: "Hybrid inverters for battery systems", duration: "8min", type: "lesson" },
         { id: "l14", title: "Inverter selection criteria", duration: "8min", type: "lesson" },
         { id: "l15", title: "Inverter quiz", duration: "5min", type: "quiz" },
       ]},
       { id: "m4", title: "Battery Storage", duration: "42min", lessons: [
-        { id: "l16", title: "Battery chemistries — LFP vs NMC", duration: "9min", type: "lesson" },
+        { id: "l16", title: "Battery chemistries: LFP vs NMC", duration: "9min", type: "lesson" },
         { id: "l17", title: "Battery sizing for self-consumption", duration: "10min", type: "lesson" },
         { id: "l18", title: "AC vs DC coupled systems", duration: "9min", type: "lesson" },
         { id: "l19", title: "Battery safety and installation requirements", duration: "9min", type: "lesson" },
         { id: "l20", title: "Battery sizing exercise", duration: "5min", type: "exercise" },
       ]},
       { id: "m5", title: "Grid Connection", duration: "35min", lessons: [
-        { id: "l21", title: "G98 — systems up to 3.68kW per phase", duration: "8min", type: "lesson" },
-        { id: "l22", title: "G99 — larger systems, DNO approval", duration: "8min", type: "lesson" },
+        { id: "l21", title: "G98: systems up to 3.68kW per phase", duration: "8min", type: "lesson" },
+        { id: "l22", title: "G99: larger systems, DNO approval", duration: "8min", type: "lesson" },
         { id: "l23", title: "Export limitation and smart export tariffs", duration: "8min", type: "lesson" },
         { id: "l24", title: "Generation and export metering", duration: "6min", type: "lesson" },
         { id: "l25", title: "Grid connection quiz", duration: "5min", type: "quiz" },
       ]},
       { id: "m6", title: "Installation & Commissioning", duration: "35min", lessons: [
-        { id: "l26", title: "Roof mounting systems — rail and clamp", duration: "8min", type: "lesson" },
+        { id: "l26", title: "Roof mounting systems: rail and clamp", duration: "8min", type: "lesson" },
         { id: "l27", title: "DC cable sizing and routing", duration: "8min", type: "lesson" },
         { id: "l28", title: "Commissioning and functional testing", duration: "10min", type: "lesson" },
         { id: "l29", title: "Final assessment", duration: "9min", type: "quiz" },
@@ -454,54 +454,54 @@ export const COURSES: Record<string, {
     color: "#A855F7",
     level: "Advanced",
     category: "Industrial",
-    intro: "Industrial electrical work is a different world — motor starters, control panels, PLC logic, and automation systems. This course bridges the gap between domestic competency and industrial capability.",
+    intro: "Industrial electrical work is a different world: motor starters, control panels, PLC logic, and automation systems. This course bridges the gap between domestic competency and industrial capability.",
     prerequisites: ["Electrical Fundamentals", "Three-Phase Systems"],
     outcomes: [
       "Design DOL and star-delta motor starter circuits",
       "Wire control circuits with contactors, overloads, and pilot devices",
       "Read and draw IEC-standard control circuit diagrams",
       "Write basic PLC ladder logic programs",
-      "Understand industrial safety systems — E-stops, interlocks",
+      "Understand industrial safety systems: E-stops, interlocks",
       "Apply safe isolation procedures for industrial equipment",
     ],
     modules: [
       { id: "m1", title: "Motor Starters", duration: "50min", lessons: [
-        { id: "l1", title: "DOL starter — main and control circuit", duration: "10min", type: "lesson" },
-        { id: "l2", title: "Star-delta starter — wiring and timer", duration: "11min", type: "lesson" },
-        { id: "l3", title: "Soft starters — operation and parameters", duration: "9min", type: "lesson" },
-        { id: "l4", title: "Variable speed drives — inverter drives", duration: "10min", type: "lesson" },
+        { id: "l1", title: "DOL starter: main and control circuit", duration: "10min", type: "lesson" },
+        { id: "l2", title: "Star-delta starter: wiring and timer", duration: "11min", type: "lesson" },
+        { id: "l3", title: "Soft starters: operation and parameters", duration: "9min", type: "lesson" },
+        { id: "l4", title: "Variable speed drives: inverter drives", duration: "10min", type: "lesson" },
         { id: "l5", title: "Motor starter quiz", duration: "10min", type: "quiz" },
       ]},
       { id: "m2", title: "Contactors & Overloads", duration: "42min", lessons: [
         { id: "l6", title: "Contactor construction and ratings", duration: "9min", type: "lesson" },
         { id: "l7", title: "Auxiliary contacts and interlocking", duration: "9min", type: "lesson" },
-        { id: "l8", title: "Thermal overload relays — setting the dial", duration: "9min", type: "lesson" },
+        { id: "l8", title: "Thermal overload relays: setting the dial", duration: "9min", type: "lesson" },
         { id: "l9", title: "Electronic overloads and motor protection relays", duration: "9min", type: "lesson" },
         { id: "l10", title: "Contactor circuit problems", duration: "6min", type: "exercise" },
       ]},
       { id: "m3", title: "Control Circuit Diagrams", duration: "45min", lessons: [
-        { id: "l11", title: "IEC 60617 symbols — reading control diagrams", duration: "10min", type: "lesson" },
-        { id: "l12", title: "Ladder diagrams — European and American styles", duration: "9min", type: "lesson" },
+        { id: "l11", title: "IEC 60617 symbols: reading control diagrams", duration: "10min", type: "lesson" },
+        { id: "l12", title: "Ladder diagrams: European and American styles", duration: "9min", type: "lesson" },
         { id: "l13", title: "Drawing a full DOL control circuit", duration: "13min", type: "lesson" },
         { id: "l14", title: "Forward-reverse motor control", duration: "8min", type: "lesson" },
         { id: "l15", title: "Diagram reading exercises", duration: "5min", type: "exercise" },
       ]},
       { id: "m4", title: "Safety Systems", duration: "40min", lessons: [
-        { id: "l16", title: "Emergency stop requirements — IEC 60204", duration: "9min", type: "lesson" },
+        { id: "l16", title: "Emergency stop requirements: IEC 60204", duration: "9min", type: "lesson" },
         { id: "l17", title: "Safety relays and safety PLCs", duration: "9min", type: "lesson" },
         { id: "l18", title: "Light curtains and safety interlocks", duration: "9min", type: "lesson" },
-        { id: "l19", title: "Safe isolation — EAWR and multi-energy control", duration: "8min", type: "lesson" },
+        { id: "l19", title: "Safe isolation: EAWR and multi-energy control", duration: "8min", type: "lesson" },
         { id: "l20", title: "Safety systems quiz", duration: "5min", type: "quiz" },
       ]},
       { id: "m5", title: "PLC Fundamentals", duration: "52min", lessons: [
         { id: "l21", title: "What is a PLC and where is it used?", duration: "8min", type: "lesson" },
-        { id: "l22", title: "PLC architecture — CPU, I/O modules, power", duration: "9min", type: "lesson" },
-        { id: "l23", title: "Ladder logic basics — contacts and coils", duration: "10min", type: "lesson" },
+        { id: "l22", title: "PLC architecture: CPU, I/O modules, power", duration: "9min", type: "lesson" },
+        { id: "l23", title: "Ladder logic basics: contacts and coils", duration: "10min", type: "lesson" },
         { id: "l24", title: "Timers and counters in ladder logic", duration: "10min", type: "lesson" },
         { id: "l25", title: "Writing a simple motor control program", duration: "15min", type: "exercise" },
       ]},
       { id: "m6", title: "Panel Layout & Installation", duration: "38min", lessons: [
-        { id: "l26", title: "Panel design — layout and component spacing", duration: "9min", type: "lesson" },
+        { id: "l26", title: "Panel design: layout and component spacing", duration: "9min", type: "lesson" },
         { id: "l27", title: "Cable management inside panels", duration: "8min", type: "lesson" },
         { id: "l28", title: "Labelling, ferrules, and documentation", duration: "8min", type: "lesson" },
         { id: "l29", title: "Panel testing and commissioning checklist", duration: "8min", type: "lesson" },
@@ -527,23 +527,23 @@ export const COURSES: Record<string, {
     ],
     modules: [
       { id: "m1", title: "Test Sequence & Preparation", duration: "35min", lessons: [
-        { id: "l1", title: "Why test sequence matters — safety", duration: "8min", type: "lesson" },
+        { id: "l1", title: "Why test sequence matters: safety", duration: "8min", type: "lesson" },
         { id: "l2", title: "Dead tests before live tests", duration: "7min", type: "lesson" },
         { id: "l3", title: "Test instrument calibration and leads", duration: "7min", type: "lesson" },
         { id: "l4", title: "BS 7671 Appendix 6 test schedule", duration: "8min", type: "lesson" },
         { id: "l5", title: "Preparation quiz", duration: "5min", type: "quiz" },
       ]},
       { id: "m2", title: "Continuity Testing", duration: "42min", lessons: [
-        { id: "l6", title: "Ring final continuity — three tests explained", duration: "10min", type: "lesson" },
+        { id: "l6", title: "Ring final continuity: three tests explained", duration: "10min", type: "lesson" },
         { id: "l7", title: "Protective conductor continuity", duration: "9min", type: "lesson" },
         { id: "l8", title: "Main and supplementary bonding continuity", duration: "8min", type: "lesson" },
-        { id: "l9", title: "Continuity test results — limits and recording", duration: "9min", type: "lesson" },
+        { id: "l9", title: "Continuity test results: limits and recording", duration: "9min", type: "lesson" },
         { id: "l10", title: "Continuity exercise", duration: "6min", type: "exercise" },
       ]},
       { id: "m3", title: "Insulation Resistance", duration: "38min", lessons: [
-        { id: "l11", title: "IR testing principles — 500V, 1000V", duration: "9min", type: "lesson" },
+        { id: "l11", title: "IR testing principles: 500V, 1000V", duration: "9min", type: "lesson" },
         { id: "l12", title: "Testing between live conductors and earth", duration: "8min", type: "lesson" },
-        { id: "l13", title: "Low IR readings — causes and diagnosis", duration: "9min", type: "lesson" },
+        { id: "l13", title: "Low IR readings: causes and diagnosis", duration: "9min", type: "lesson" },
         { id: "l14", title: "Electronic equipment and IR testing", duration: "7min", type: "lesson" },
         { id: "l15", title: "IR testing quiz", duration: "5min", type: "quiz" },
       ]},
@@ -555,27 +555,27 @@ export const COURSES: Record<string, {
         { id: "l20", title: "Zs measurement exercise", duration: "5min", type: "exercise" },
       ]},
       { id: "m5", title: "RCD Testing", duration: "35min", lessons: [
-        { id: "l21", title: "RCD tripping current tests — half-rated and rated", duration: "8min", type: "lesson" },
+        { id: "l21", title: "RCD tripping current tests: half-rated and rated", duration: "8min", type: "lesson" },
         { id: "l22", title: "RCD trip time testing at 1× and 5× rated current", duration: "9min", type: "lesson" },
         { id: "l23", title: "Maximum trip time limits for different RCD types", duration: "7min", type: "lesson" },
         { id: "l24", title: "Recording RCD test results", duration: "6min", type: "lesson" },
         { id: "l25", title: "RCD testing quiz", duration: "5min", type: "quiz" },
       ]},
       { id: "m6", title: "Polarity & PFC", duration: "28min", lessons: [
-        { id: "l26", title: "Polarity testing — dead and live methods", duration: "8min", type: "lesson" },
+        { id: "l26", title: "Polarity testing: dead and live methods", duration: "8min", type: "lesson" },
         { id: "l27", title: "PFC measurement at origin and boards", duration: "8min", type: "lesson" },
         { id: "l28", title: "Verifying PFC against device ratings", duration: "7min", type: "lesson" },
         { id: "l29", title: "Polarity and PFC quiz", duration: "5min", type: "quiz" },
       ]},
       { id: "m7", title: "Certification & EICRs", duration: "35min", lessons: [
-        { id: "l30", title: "EIC — Electrical Installation Certificate", duration: "8min", type: "lesson" },
-        { id: "l31", title: "Minor Works Certificate — when to use", duration: "7min", type: "lesson" },
-        { id: "l32", title: "EICR — periodic inspection", duration: "8min", type: "lesson" },
+        { id: "l30", title: "EIC: Electrical Installation Certificate", duration: "8min", type: "lesson" },
+        { id: "l31", title: "Minor Works Certificate: when to use", duration: "7min", type: "lesson" },
+        { id: "l32", title: "EICR: periodic inspection", duration: "8min", type: "lesson" },
         { id: "l33", title: "Observation codes C1, C2, C3, FI", duration: "7min", type: "lesson" },
         { id: "l34", title: "EICR coding exercise", duration: "5min", type: "exercise" },
       ]},
       { id: "m8", title: "Final Assessment", duration: "30min", lessons: [
-        { id: "l35", title: "Full mock test schedule — complete it", duration: "20min", type: "exercise" },
+        { id: "l35", title: "Full mock test schedule: complete it", duration: "20min", type: "exercise" },
         { id: "l36", title: "Final written assessment", duration: "10min", type: "quiz" },
       ]},
     ],
@@ -590,7 +590,7 @@ export const COURSES: Record<string, {
     prerequisites: ["Electrical Fundamentals (or equivalent understanding of voltage and current)"],
     outcomes: [
       "Explain how LEDs work and why they're efficient",
-      "Select driver types — constant current, constant voltage, DALI",
+      "Select driver types: constant current, constant voltage, DALI",
       "Design emergency lighting to BS 5266",
       "Calculate illuminance levels using the lumen method",
       "Specify dimming and control systems for commercial projects",
@@ -598,21 +598,21 @@ export const COURSES: Record<string, {
     ],
     modules: [
       { id: "m1", title: "LED Technology", duration: "35min", lessons: [
-        { id: "l1", title: "How LEDs produce light — p-n junction", duration: "8min", type: "lesson" },
-        { id: "l2", title: "Efficacy — lumens per watt explained", duration: "7min", type: "lesson" },
-        { id: "l3", title: "LED chip formats — COB, SMD, filament", duration: "7min", type: "lesson" },
-        { id: "l4", title: "Thermal management — heatsinks and junction temperature", duration: "8min", type: "lesson" },
+        { id: "l1", title: "How LEDs produce light: p-n junction", duration: "8min", type: "lesson" },
+        { id: "l2", title: "Efficacy: lumens per watt explained", duration: "7min", type: "lesson" },
+        { id: "l3", title: "LED chip formats: COB, SMD, filament", duration: "7min", type: "lesson" },
+        { id: "l4", title: "Thermal management: heatsinks and junction temperature", duration: "8min", type: "lesson" },
         { id: "l5", title: "LED technology quiz", duration: "5min", type: "quiz" },
       ]},
       { id: "m2", title: "Driver Circuits", duration: "38min", lessons: [
         { id: "l6", title: "Constant current vs constant voltage drivers", duration: "9min", type: "lesson" },
         { id: "l7", title: "Driver efficiency and power factor", duration: "8min", type: "lesson" },
-        { id: "l8", title: "Dimming methods — PWM, 0-10V, DALI", duration: "9min", type: "lesson" },
+        { id: "l8", title: "Dimming methods: PWM, 0-10V, DALI", duration: "9min", type: "lesson" },
         { id: "l9", title: "Driver selection and compatibility", duration: "7min", type: "lesson" },
         { id: "l10", title: "Driver circuit quiz", duration: "5min", type: "quiz" },
       ]},
       { id: "m3", title: "Emergency Lighting", duration: "35min", lessons: [
-        { id: "l11", title: "BS 5266 categories — escape, standby, high-risk", duration: "8min", type: "lesson" },
+        { id: "l11", title: "BS 5266 categories: escape, standby, high-risk", duration: "8min", type: "lesson" },
         { id: "l12", title: "Self-contained vs central battery systems", duration: "8min", type: "lesson" },
         { id: "l13", title: "Maintained vs non-maintained operation", duration: "7min", type: "lesson" },
         { id: "l14", title: "Testing requirements and log books", duration: "7min", type: "lesson" },
@@ -620,15 +620,15 @@ export const COURSES: Record<string, {
       ]},
       { id: "m4", title: "Lux Calculations", duration: "30min", lessons: [
         { id: "l16", title: "Illuminance, luminous flux, and efficacy", duration: "7min", type: "lesson" },
-        { id: "l17", title: "Lumen method — average illuminance", duration: "8min", type: "lesson" },
+        { id: "l17", title: "Lumen method: average illuminance", duration: "8min", type: "lesson" },
         { id: "l18", title: "Room index, UF, and MF", duration: "7min", type: "lesson" },
         { id: "l19", title: "Lux calculation worked example", duration: "8min", type: "exercise" },
       ]},
       { id: "m5", title: "Lighting Control & Quality", duration: "32min", lessons: [
-        { id: "l20", title: "Colour temperature — warm, neutral, cool white", duration: "7min", type: "lesson" },
+        { id: "l20", title: "Colour temperature: warm, neutral, cool white", duration: "7min", type: "lesson" },
         { id: "l21", title: "Colour rendering index (Ra/CRI)", duration: "6min", type: "lesson" },
-        { id: "l22", title: "Glare — UGR and how to reduce it", duration: "7min", type: "lesson" },
-        { id: "l23", title: "Smart lighting systems — DALI 2 and IoT", duration: "7min", type: "lesson" },
+        { id: "l22", title: "Glare: UGR and how to reduce it", duration: "7min", type: "lesson" },
+        { id: "l23", title: "Smart lighting systems: DALI 2 and IoT", duration: "7min", type: "lesson" },
         { id: "l24", title: "Final assessment", duration: "5min", type: "quiz" },
       ]},
     ],
@@ -664,7 +664,7 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
         "Kirchhoff's Current Law (KCL): The sum of currents entering any node equals the sum leaving. ΣI_in = ΣI_out",
         "Kirchhoff's Voltage Law (KVL): The sum of all voltage drops around any closed loop equals zero. ΣV = 0",
         "Use KCL to write equations at each node in the circuit. Use KVL for each independent loop.",
-        "These laws hold for any circuit — DC or AC — and form the basis of all systematic circuit analysis.",
+        "These laws apply to both DC and AC circuits and form the basis of systematic circuit analysis.",
       ],
       formula: "KCL: ΣI_in = ΣI_out    |    KVL: ΣV_loop = 0",
       diagram: <KirchhoffDiagram />,
@@ -697,10 +697,10 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
   if (t.includes("rcd") || t.includes("rcbo") || t.includes("residual")) {
     return {
       points: [
-        "An RCD (Residual Current Device) compares current in the live and neutral conductors. Any difference means current is escaping — through a fault or a person.",
+        "An RCD compares current in the line and neutral conductors. A difference indicates current flowing through another path, which may be a fault or a person.",
         "A 30mA RCD trips in <40ms when it detects 30mA imbalance. 30mA through the heart can cause ventricular fibrillation; the fast trip prevents it.",
         "Type A RCDs detect both AC and pulsed DC residual currents (needed for modern electronics with half-wave rectification). Type B also detects smooth DC.",
-        "RCBOs combine RCD protection with overcurrent protection (MCB) in a single device — ideal for individual circuit protection.",
+        "RCBOs combine RCD protection with overcurrent protection (MCB) in a single device: ideal for individual circuit protection.",
       ],
       diagram: <RCDBalanceDiagram />,
     };
@@ -745,7 +745,7 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
     return {
       points: [
         "MCBs (Miniature Circuit Breakers) protect cables from overloads and short circuits. Type B trips at 3–5× rated current, Type C at 5–10×, Type D at 10–20×.",
-        "Type B: general domestic use (resistive loads). Type C: motors and fluorescent lighting with moderate inrush. Type D: heavy inrush loads — welders, transformers.",
+        "Type B: general domestic use (resistive loads). Type C: motors and fluorescent lighting with moderate inrush. Type D: heavy inrush loads: welders, transformers.",
         "The rated current (In) must be ≥ the design current (Ib) and ≤ the cable CCC (Iz): Ib ≤ In ≤ Iz",
         "Under short circuit, the MCB must operate fast enough that the cable's adiabatic limit isn't exceeded: k²S² ≥ I²t",
       ],
@@ -769,7 +769,7 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
     return {
       points: [
         "Three-phase induction motors work by the stator creating a rotating magnetic field. The rotor 'slips' behind the field, inducing currents that create torque.",
-        "DOL (Direct On Line) starters connect the motor directly to supply — simple but causes high inrush current (5–8× FLC), causing voltage dips on the supply.",
+        "DOL (Direct On Line) starters connect the motor directly to supply: simple but causes high inrush current (5–8× FLC), causing voltage dips on the supply.",
         "Star-delta starting reduces starting current to 1/3 of DOL by starting in star (low voltage per winding) then switching to delta for running.",
         "Motor nameplate shows: rated power (kW), voltage (V), frequency (Hz), full load current (A), power factor, speed (RPM), and efficiency class (IE2, IE3).",
       ],
@@ -780,7 +780,7 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
     return {
       points: [
         "Atoms consist of a nucleus (protons + neutrons) surrounded by electrons in shells. The outer 'valence' electrons determine electrical behaviour.",
-        "Conductors have loosely bound valence electrons (metals like copper, aluminium) that can drift under an electric field — this is electric current.",
+        "Conductors have loosely bound valence electrons (metals like copper, aluminium) that can drift under an electric field: this is electric current.",
         "Conventional current flows from positive to negative (outside the source). Actual electron flow is from negative to positive. Both descriptions are used.",
         "One coulomb of charge = 6.24 × 10¹⁸ electrons. Current of 1 ampere = 1 coulomb passing a point per second (I = Q/t).",
       ],
@@ -793,7 +793,7 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
       points: [
         "Earthing connects metalwork to the general mass of earth to ensure fault currents can flow back to source, operating the protective device rapidly.",
         "TN-S systems have separate neutral and earth conductors all the way from the transformer. TN-C-S (PME) combines them at the source, splitting at the consumer unit.",
-        "TT systems have no metallic earth return — a local earth electrode must be installed. Earth fault loop impedance is high, requiring RCDs for protection.",
+        "TT systems have no metallic earth return: a local earth electrode must be installed. Earth fault loop impedance is high, requiring RCDs for protection.",
         "Main protective bonding connects extraneous conductive parts (gas, water, structural steel) to the main earth terminal to equalise potentials.",
       ],
       diagram: <EarthingMiniDiagram />,
@@ -803,7 +803,7 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
     return {
       points: [
         "DC (Direct Current) flows in one direction only. AC (Alternating Current) reverses direction sinusoidally, typically 50 times per second (50Hz in UK/Europe).",
-        "AC won over DC for distribution because transformers only work on AC — they allow voltage to be stepped up for efficient long-distance transmission, then down for safe use.",
+        "AC won over DC for distribution because transformers only work on AC: they allow voltage to be stepped up for efficient long-distance transmission, then down for safe use.",
         "RMS (Root Mean Square) voltage is the DC-equivalent value. For a pure sine wave: V_rms = V_peak / √2. UK mains: 230V rms = 325V peak.",
         "Frequency (f) is the number of complete cycles per second (Hz). Period T = 1/f = 20ms at 50Hz. Angular frequency ω = 2πf.",
       ],
@@ -817,7 +817,7 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
         "Electrical testing must follow a specific sequence: dead tests first (continuity, IR), then live tests (polarity, loop impedance, RCD).",
         "Insulation resistance (IR) testing: apply 500V DC between live conductors and earth. Result must be ≥1MΩ (BS 7671 Table 64). Higher is better.",
         "Continuity testing verifies all conductors are intact and ring finals are correctly wired. The 'end-to-end' and 'long lead' methods both confirm ring integrity.",
-        "Earth fault loop impedance (Zs) is measured live. Compare against Table 41.1 maximums — exceeding these means the protective device may not operate in time.",
+        "Earth fault loop impedance (Zs) is measured live. Compare against Table 41.1 maximums: exceeding these means the protective device may not operate in time.",
       ],
       diagram: <TestSequenceDiagram />,
     };
@@ -825,7 +825,7 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
   if (t.includes("led") || t.includes("lighting") || t.includes("lux") || t.includes("lumens")) {
     return {
       points: [
-        "LEDs produce light via electroluminescence — electrons recombine with holes in a semiconductor, emitting photons. No filament, no UV, very low heat relative to output.",
+        "LEDs produce light via electroluminescence: electrons recombine with holes in a semiconductor, emitting photons. No filament, no UV, very low heat relative to output.",
         "Efficacy (lm/W) measures efficiency. Incandescent: ~10 lm/W. LED: 80–200 lm/W. Higher efficacy = less energy for the same light output.",
         "Colour temperature: warm white (2700K) for residential comfort, neutral white (4000K) for offices, cool white (6500K) for task/retail. Higher K = bluer light.",
         "CRI (Colour Rendering Index / Ra): how accurately the light reveals colours compared to sunlight (Ra=100). Minimum Ra 80 for most applications; Ra 90+ for colour-critical work.",
@@ -837,9 +837,9 @@ function getLessonBody(title: string, slug: string, moduleTitle: string): { poin
   // Generic fallback
   return {
     points: [
-      `${moduleTitle} is a core skill area in electrical engineering. This lesson covers ${title.replace(/\s+—.*/, "")}.`,
+      `This lesson explains ${title.split(":")[0].trim().toLowerCase()} and where it is used.`,
       "Understanding this topic is essential for both safety compliance and practical installation work in the field.",
-      "Work through the examples and take notes on the key values and limits — these frequently appear in trade exams and on-site decisions.",
+      "Work through the example, check each value and record any limit that must be confirmed from current regulations or manufacturer data.",
       "Cross-reference with BS 7671 (the IET Wiring Regulations) for the specific regulation numbers that govern this area.",
     ],
   };
@@ -850,15 +850,15 @@ type QuizQuestion = { question: string; options: string[]; correct: number; expl
 function getQuizForLesson(title: string, slug: string): QuizQuestion | null {
   const t = title.toLowerCase();
   if (slug === "led-lighting" && t.includes("emergency lighting quiz")) {
-    return { question: "A non-maintained emergency luminaire senses only the building incomer, while its local normal-lighting MCB can fail independently. What is wrong?", options: ["It may not respond to the relevant local lighting failure; monitoring and cause-effect testing must cover that subcircuit", "Nothing — emergency lighting only responds to total blackout", "Non-maintained units do not need charging", "Changing it to 4000 K fixes the issue"], correct: 0, explanation: "Emergency response must cover the failure modes defined by the fire/risk strategy, including relevant local normal-lighting circuit loss." };
+    return { question: "A non-maintained emergency luminaire senses only the building incomer, while its local normal-lighting MCB can fail independently. What is wrong?", options: ["It may not respond to the relevant local lighting failure; monitoring and cause-effect testing must cover that subcircuit", "Nothing: emergency lighting only responds to total blackout", "Non-maintained units do not need charging", "Changing it to 4000 K fixes the issue"], correct: 0, explanation: "Emergency response must cover the failure modes defined by the fire/risk strategy, including relevant local normal-lighting circuit loss." };
   }
   if (slug === "led-lighting" && t.includes("final assessment")) {
-    return { question: "A design meets average lux but fails minimum uniformity and glare, while its emergency fittings pass only a dashboard self-test. Is it complete?", options: ["No — verify point/minimum/uniformity/glare and physical emergency output, duration, failure response, logs and controlled handover", "Yes — average lux overrides all other metrics", "Yes — any automated pass certifies photometry", "Only if every luminaire is DALI-2"], correct: 0, explanation: "Normal and emergency lighting require separate complete evidence. Average illuminance and automated status are useful but insufficient." };
+    return { question: "A design meets average lux but fails minimum uniformity and glare, while its emergency fittings pass only a dashboard self-test. Is it complete?", options: ["No: verify point/minimum/uniformity/glare and physical emergency output, duration, failure response, logs and controlled handover", "Yes: average lux overrides all other metrics", "Yes: any automated pass certifies photometry", "Only if every luminaire is DALI-2"], correct: 0, explanation: "Normal and emergency lighting require separate complete evidence. Average illuminance and automated status are useful but insufficient." };
   }  if (slug === "led-lighting" && t.includes("led technology quiz")) {
     return { question: "A complete luminaire produces 4200 lm from 32 W mains input. What may be claimed?", options: ["Its stated-condition luminaire efficacy is 131.25 lm/W; package efficacy, maintenance, glare and installed illuminance remain separate", "Its LED chips are 131.25% efficient", "It will deliver 4200 lux in every room", "Its driver has power factor 1.0"], correct: 0, explanation: "Lumens and watts share the complete-luminaire boundary, so 4200/32=131.25 lm/W. Other optical, electrical and maintained-performance metrics are not implied." };
   }
   if (slug === "led-lighting" && t.includes("driver circuit quiz")) {
-    return { question: "A 40 W driver has 25–40 V compliance and the module needs 38–44 V across conditions. Is it compatible?", options: ["No — the module can require 44 V, outside the driver window, despite adequate nominal watts", "Yes — 38–40 V overlaps", "Yes — wattage is the only output limit", "Only if connected to DALI"], correct: 0, explanation: "The entire cold/hot/tolerance load range must fit the output window, together with current, power, thermal, protection and control limits." };
+    return { question: "A 40 W driver has 25–40 V compliance and the module needs 38–44 V across conditions. Is it compatible?", options: ["No: the module can require 44 V, outside the driver window, despite adequate nominal watts", "Yes: 38–40 V overlaps", "Yes: wattage is the only output limit", "Only if connected to DALI"], correct: 0, explanation: "The entire cold/hot/tolerance load range must fit the output window, together with current, power, thermal, protection and control limits." };
   }  if (slug === "inspection-testing" && t.includes("final written assessment")) {
     return { question: "Which evidence supports a satisfactory EICR conclusion?", options: ["No C1, C2 or FI observations within the stated extent/limitations, with inspection/test schedules and each observation evidenced", "A new consumer unit and no inspection schedule", "Only C1 items have been repaired; unresolved C2 and FI remain", "The installation predates the current BS 7671 edition"], correct: 0, explanation: "C1, C2 or FI makes the report unsatisfactory. The conclusion is bounded by truthful extent/limitations and supporting inspection/test evidence." };
   }  if (slug === "inspection-testing" && t.includes("rcd testing quiz")) {
@@ -877,7 +877,7 @@ function getQuizForLesson(title: string, slug: string): QuizQuestion | null {
   }  if (slug === "industrial-control" && t.includes("motor starter quiz")) {
     return { question: "A motor develops 90 N·m starting torque in direct delta. What is the idealized star-start torque, and what must still be proved?", options: ["About 30 N·m; prove it exceeds load torque and verify motor connection, sequence and interlocking", "About 52 N·m; no further checks", "90 N·m; star changes current only", "270 N·m; star increases phase voltage"], correct: 0, explanation: "At the same line voltage, star phase voltage is 1/√3 of delta and ideal torque is about one-third. The real motor/load acceleration and safe changeover remain design gates." };
   }  if (slug === "solar-pv" && t.includes("grid connection quiz")) {
-    return { question: "Two type-tested devices each fall within G98 individually. Can they always be treated separately for the connection route?", options: ["No — assess their aggregate capability and arrangement at the connection point under the current DNO process", "Yes — type testing prevents aggregation", "Yes — provided each marketing rating is below 3.68 kW", "Only the battery inverter needs to be declared"], correct: 0, explanation: "G98 uses its current scope and rating basis, while all generation and storage capable of parallel operation must be assessed in the site arrangement. Exact product evidence does not replace DNO process." };
+    return { question: "Two type-tested devices each fall within G98 individually. Can they always be treated separately for the connection route?", options: ["No: assess their aggregate capability and arrangement at the connection point under the current DNO process", "Yes: type testing prevents aggregation", "Yes: provided each marketing rating is below 3.68 kW", "Only the battery inverter needs to be declared"], correct: 0, explanation: "G98 uses its current scope and rating basis, while all generation and storage capable of parallel operation must be assessed in the site arrangement. Exact product evidence does not replace DNO process." };
   }
   if (slug === "solar-pv" && t.includes("final assessment")) {
     return { question: "A type-tested inverter starts and generates normally. What proves the PV installation is complete?", options: ["The full inspection/test record, network and export-control evidence, as-builts, labels, functional proving and owner handover", "A screenshot of the inverter portal", "Only matching string Voc readings", "The module and inverter warranties"], correct: 0, explanation: "Normal generation is one observation. Commissioning must verify electrical, mechanical, network/control and documentation requirements and resolve every defect." };
@@ -1051,13 +1051,13 @@ function getQuizForLesson(title: string, slug: string): QuizQuestion | null {
       question: "In a star-connected system, the line voltage is 400V. What is the phase voltage?",
       options: ["400V", "231V", "693V", "115V"],
       correct: 1,
-      explanation: "In a star connection: V_phase = V_line / √3 = 400 / 1.732 ≈ 231V. This is why UK single-phase supply is 230V — it's the phase voltage of the 400V three-phase supply.",
+      explanation: "In a star connection: V_phase = V_line / √3 = 400 / 1.732 ≈ 231V. This is why UK single-phase supply is 230V: it's the phase voltage of the 400V three-phase supply.",
     };
   }
   if (t.includes("cable") || t.includes("ccc") || t.includes("current-carry")) {
     return {
       question: "What effect does grouping three current-carrying cables together have on their current-carrying capacity?",
-      options: ["No effect", "Increases it slightly", "Reduces it — apply grouping factor Cg", "Doubles it"],
+      options: ["No effect", "Increases it slightly", "Reduces it: apply grouping factor Cg", "Doubles it"],
       correct: 2,
       explanation: "Grouping cables reduces their ability to dissipate heat. A correction factor Cg (always <1.0) must be applied to the tabulated CCC. For 3 cables, Cg is typically 0.70.",
     };
@@ -1075,7 +1075,7 @@ function getQuizForLesson(title: string, slug: string): QuizQuestion | null {
     question: "Which standard governs electrical installations in the UK?",
     options: ["BS 5266", "BS 7671", "BS 1362", "BS EN 60898"],
     correct: 1,
-    explanation: "BS 7671 (Requirements for Electrical Installations) is the IET Wiring Regulations — the primary standard for fixed electrical installations in the UK. It is based on IEC 60364.",
+    explanation: "BS 7671 (Requirements for Electrical Installations) is the IET Wiring Regulations: the primary standard for fixed electrical installations in the UK. It is based on IEC 60364.",
   };
 }
 
@@ -1297,19 +1297,19 @@ function getExerciseForLesson(title: string, _slug: string): { problem: string; 
         "Percentage drop = (4.21 / 230) × 100 = 1.83%",
         "Compare to limit: 1.83% < 5% limit. The cable is acceptable.",
       ],
-      answer: "4.21V (1.83%) — within the 5% limit.",
+      answer: "4.21V (1.83%): within the 5% limit.",
     };
   }
   if (t.includes("cable siz") || t.includes("end-to-end") || t.includes("sizing")) {
     return {
       problem: "A ring final circuit serves 8 single-phase socket outlets. Design current Ib = 20A. The circuit is run in 2.5mm² T&E clipped direct (Iz = 27A). Is the cable adequately sized? Check all three BS 7671 conditions.",
       steps: [
-        "Condition 1 — Design current ≤ rated current: Ib (20A) ≤ In (32A) — satisfied (standard 32A MCB for ring final)",
-        "Condition 2 — Rated current ≤ cable CCC: In (32A) ≤ Iz (27A) — not satisfied directly. However — ring finals are split: each half carries Ib/2 = 10A, so effective It per half = 13.5A. With diversity, this is acceptable.",
-        "Condition 3 — Overload condition: I₂ ≤ 1.45 × Iz = 1.45 × 27 = 39.15A. MCB I₂ = 1.45 × In = 1.45 × 32 = 46.4A. The ring configuration means fault current operates the MCB before the cable overloads.",
-        "BS 7671 Regulation 433.1.1 specifically exempts ring final circuits from the standard conditions — the ring topology provides inherent protection.",
+        "Condition 1: Design current ≤ rated current: Ib (20A) ≤ In (32A): satisfied (standard 32A MCB for ring final)",
+        "Condition 2: rated current ≤ cable CCC. In (32A) ≤ Iz (27A) is not satisfied directly. Ring final circuits require their specific design rules, including load distribution between both legs, rather than this simple radial comparison.",
+        "Condition 3: Overload condition: I₂ ≤ 1.45 × Iz = 1.45 × 27 = 39.15A. MCB I₂ = 1.45 × In = 1.45 × 32 = 46.4A. The ring configuration means fault current operates the MCB before the cable overloads.",
+        "BS 7671 Regulation 433.1.1 specifically exempts ring final circuits from the standard conditions: the ring topology provides inherent protection.",
       ],
-      answer: "2.5mm² is standard and accepted for ring finals — confirmed by BS 7671.",
+      answer: "2.5mm² is standard and accepted for ring finals: confirmed by BS 7671.",
     };
   }
   if (t.includes("three-phase") || t.includes("star-delta") || t.includes("balanced")) {
@@ -1392,7 +1392,7 @@ function OhmsLawDiagram() {
   );
 }
 
-/* ── Lesson diagrams — one per core topic, ElectraCore style ── */
+/* ── Lesson diagrams: one per core topic, ElectraCore style ── */
 const LD = { c: "#F0A500", v: "#00D4FF", g: "#34D399", h: "#FF4444", p: "#A855F7", t: "#F0F0F0", d: "#888899" };
 const ldWrap = { display: "block", width: "100%", background: "#0A0C10" } as const;
 
@@ -1416,7 +1416,7 @@ function KirchhoffDiagram() {
   return (
     <svg viewBox="0 0 400 160" style={ldWrap} role="img" aria-label="Kirchhoff's current and voltage laws">
       {/* KCL node */}
-      <text x="14" y="20" fontFamily="monospace" fontSize="9" fill={LD.v} opacity="0.6">KCL — CURRENT AT A NODE</text>
+      <text x="14" y="20" fontFamily="monospace" fontSize="9" fill={LD.v} opacity="0.6">KCL: CURRENT AT A NODE</text>
       <circle cx="90" cy="80" r="4" fill={LD.c} />
       <line x1="30" y1="80" x2="86" y2="80" stroke={LD.h} strokeWidth="2" /><polygon points="80,77 88,80 80,83" fill={LD.h} />
       <text x="34" y="74" fontFamily="monospace" fontSize="9" fill={LD.h}>I₁</text>
@@ -1426,7 +1426,7 @@ function KirchhoffDiagram() {
       <text x="128" y="126" fontFamily="monospace" fontSize="9" fill={LD.g}>I₃</text>
       <text x="40" y="140" fontFamily="monospace" fontSize="10" fill={LD.t} opacity="0.85">I₁ = I₂ + I₃</text>
       {/* KVL loop */}
-      <text x="230" y="20" fontFamily="monospace" fontSize="9" fill={LD.v} opacity="0.6">KVL — VOLTAGE ROUND A LOOP</text>
+      <text x="230" y="20" fontFamily="monospace" fontSize="9" fill={LD.v} opacity="0.6">KVL: VOLTAGE ROUND A LOOP</text>
       <rect x="240" y="34" width="130" height="76" fill="none" stroke={LD.v} strokeWidth="1.4" opacity="0.7" />
       <line x1="240" y1="60" x2="240" y2="84" stroke={LD.c} strokeWidth="4" /><text x="222" y="76" fontFamily="monospace" fontSize="9" fill={LD.c}>V</text>
       <rect x="286" y="28" width="30" height="12" fill="none" stroke={LD.g} strokeWidth="1.4" /><text x="292" y="24" fontFamily="monospace" fontSize="8" fill={LD.g}>V₁</text>
@@ -1470,7 +1470,7 @@ function PowerTriangleDiagram() {
       <line x1="70" y1="40" x2="250" y2="120" stroke={LD.v} strokeWidth="2.4" />
       <path d="M96 120 A 26 26 0 0 0 88 104" fill="none" stroke={LD.d} strokeWidth="1" />
       <text x="100" y="114" fontFamily="monospace" fontSize="9" fill={LD.d}>φ</text>
-      <text x="150" y="136" fontFamily="monospace" fontSize="9" fill={LD.c}>P — real (W)</text>
+      <text x="150" y="136" fontFamily="monospace" fontSize="9" fill={LD.c}>P: real (W)</text>
       <text x="18" y="82" fontFamily="monospace" fontSize="9" fill={LD.g}>Q (VAr)</text>
       <text x="168" y="72" fontFamily="monospace" fontSize="9" fill={LD.v}>S (VA)</text>
       <rect x="292" y="46" width="96" height="70" rx="5" fill="rgba(0,212,255,0.05)" stroke="rgba(0,212,255,0.22)" strokeWidth="0.8" />

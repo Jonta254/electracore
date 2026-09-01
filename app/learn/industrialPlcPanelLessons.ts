@@ -1,9 +1,9 @@
 import type { EnhancedLesson, LessonSource } from "./enhancedLessons";
 type Draft=Omit<EnhancedLesson,"difficulty"|"sources"|"reviewDate"|"reviewStatus"|"localCode">;
 const sources:LessonSource[]=[
- {title:"IEC 61131-3:2025 — Programmable-controller languages",publisher:"IEC",edition:"2025",jurisdiction:"International",url:"https://webstore.iec.ch/en/publication/68533"},
- {title:"IEC 60204-1:2016+AMD1:2021 — Electrical equipment of machines",publisher:"IEC",edition:"6.1",jurisdiction:"International",url:"https://webstore.iec.ch/en/publication/26037"},
- {title:"IEC 61439-1:2020 — Low-voltage assemblies: general rules",publisher:"IEC",edition:"2020 with current corrigenda",jurisdiction:"International",url:"https://webstore.iec.ch/en/publication/32338"}
+ {title:"IEC 61131-3:2025: Programmable-controller languages",publisher:"IEC",edition:"2025",jurisdiction:"International",url:"https://webstore.iec.ch/en/publication/68533"},
+ {title:"IEC 60204-1:2016+AMD1:2021: Electrical equipment of machines",publisher:"IEC",edition:"6.1",jurisdiction:"International",url:"https://webstore.iec.ch/en/publication/26037"},
+ {title:"IEC 61439-1:2020: Low-voltage assemblies: general rules",publisher:"IEC",edition:"2020 with current corrigenda",jurisdiction:"International",url:"https://webstore.iec.ch/en/publication/32338"}
 ];
 const localCode="Confirm the exact PLC/runtime semantics and manufacturer manuals, current IEC/BS EN 61131-3, machine risk assessment, IEC/BS EN 60204-1, applicable IEC/BS EN 61439 assembly part, EMC/cybersecurity requirements, short-circuit rating and documented design/routine verification. Standard PLC logic is not a safety function unless the complete implementation is designed and validated accordingly.";
 const make=(d:Draft):EnhancedLesson=>({...d,difficulty:"Advanced",sources,reviewDate:"2026-08-22",reviewStatus:"professional-review-pending",localCode});

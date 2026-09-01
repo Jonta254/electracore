@@ -1,8 +1,8 @@
 import type { EnhancedLesson, LessonSource } from "./enhancedLessons";
 type Draft=Omit<EnhancedLesson,"difficulty"|"sources"|"reviewDate"|"reviewStatus"|"localCode">;
 const sources:LessonSource[]=[
- {title:"IEC 62031:2026 — LED modules safety requirements",publisher:"IEC",edition:"2026",jurisdiction:"International",url:"https://webstore.iec.ch/en/publication/92035"},
- {title:"IEC 61347-2-13:2024 — LED controlgear safety",publisher:"IEC",edition:"2024",jurisdiction:"International",url:"https://webstore.iec.ch/en/publication/64713"},
+ {title:"IEC 62031:2026: LED modules safety requirements",publisher:"IEC",edition:"2026",jurisdiction:"International",url:"https://webstore.iec.ch/en/publication/92035"},
+ {title:"IEC 61347-2-13:2024: LED controlgear safety",publisher:"IEC",edition:"2024",jurisdiction:"International",url:"https://webstore.iec.ch/en/publication/64713"},
  {title:"DALI-2 certification overview",publisher:"DALI Alliance",edition:"Current certification database/status must be checked",jurisdiction:"International",url:"https://www.dali-alliance.org/dali2/"}
 ];
 const localCode="Confirm current luminaire/module/controlgear safety and performance standards, BS 7671, exact driver/module/luminaire data, photobiological risk, thermal/fire enclosure requirements, EMC/flicker/harmonic obligations and control-protocol certification. A CE/UKCA or DALI-2 mark does not prove two arbitrary components are electrically, thermally or functionally compatible.";

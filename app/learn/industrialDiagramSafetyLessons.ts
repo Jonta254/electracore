@@ -1,10 +1,10 @@
 import type { EnhancedLesson, LessonSource } from "./enhancedLessons";
 type Draft=Omit<EnhancedLesson,"difficulty"|"sources"|"reviewDate"|"reviewStatus"|"localCode">;
 const sources:LessonSource[]=[
- {title:"IEC 60204-1:2016+AMD1:2021 — Electrical equipment of machines",publisher:"IEC",edition:"6.1",jurisdiction:"International",url:"https://webstore.iec.ch/en/publication/26037"},
- {title:"ISO 13849-1:2023 — Safety-related parts of control systems",publisher:"ISO",edition:"2023",jurisdiction:"International",url:"https://www.iso.org/standard/73481.html"},
- {title:"IEC 62061:2021 with current amendments — Functional safety of machinery control systems",publisher:"IEC",edition:"2021; confirm current consolidated version",jurisdiction:"International",url:"https://webstore.iec.ch/en/publication/59927"},
- {title:"IEC 61496-1:2020 — Electro-sensitive protective equipment",publisher:"IEC",edition:"2020",jurisdiction:"International",url:"https://webstore.iec.ch/en/publication/63115"},
+ {title:"IEC 60204-1:2016+AMD1:2021: Electrical equipment of machines",publisher:"IEC",edition:"6.1",jurisdiction:"International",url:"https://webstore.iec.ch/en/publication/26037"},
+ {title:"ISO 13849-1:2023: Safety-related parts of control systems",publisher:"ISO",edition:"2023",jurisdiction:"International",url:"https://www.iso.org/standard/73481.html"},
+ {title:"IEC 62061:2021 with current amendments: Functional safety of machinery control systems",publisher:"IEC",edition:"2021; confirm current consolidated version",jurisdiction:"International",url:"https://webstore.iec.ch/en/publication/59927"},
+ {title:"IEC 61496-1:2020: Electro-sensitive protective equipment",publisher:"IEC",edition:"2020",jurisdiction:"International",url:"https://webstore.iec.ch/en/publication/63115"},
  {title:"Electricity at Work Regulations 1989",publisher:"UK Legislation",edition:"Current official text",jurisdiction:"Great Britain",url:"https://www.legislation.gov.uk/uksi/1989/635/contents"}
 ];
 const localCode="Use the current machine risk assessment, applicable type-C standard, IEC/BS EN 60204-1, ISO/BS EN ISO 13849-1 or IEC/BS EN 62061 design route, IEC 61496 where applicable, Electricity at Work Regulations, site lockout procedure and manufacturer validation instructions. BS 7671 Section 514 identification/notices does not by itself define or authorize the complete safe-isolation procedure.";

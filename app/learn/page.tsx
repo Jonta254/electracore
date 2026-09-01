@@ -313,7 +313,7 @@ function ThumbIndustrial() {
       <line x1="290" y1="28" x2="290" y2="165" stroke="#F0F0F0" strokeWidth="2" opacity="0.35"/>
       <text x="16" y="25" fontFamily="monospace" fontSize="8" fill="#F0F0F0" opacity="0.3">L1</text>
       <text x="284" y="25" fontFamily="monospace" fontSize="8" fill="#F0F0F0" opacity="0.3">L2</text>
-      {/* Rung 1 — Start/Stop */}
+      {/* Rung 1: Start/Stop */}
       <line x1="30" y1="52" x2="80" y2="52" stroke="#F0A500" strokeWidth="1.5" opacity="0.7"/>
       <rect x="80" y="44" width="20" height="16" rx="2" fill="none" stroke="#34D399" strokeWidth="1.4" opacity="0.8"/>
       <text x="90" y="55" textAnchor="middle" fontFamily="monospace" fontSize="7" fill="#34D399" opacity="0.7">NO</text>
@@ -328,7 +328,7 @@ function ThumbIndustrial() {
       <text x="225" y="56" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#F0A500" opacity="0.8">M</text>
       <text x="225" y="67" textAnchor="middle" fontFamily="monospace" fontSize="6" fill="#F0F0F0" opacity="0.35">CONTACTOR</text>
       <line x1="235" y1="52" x2="290" y2="52" stroke="#F0A500" strokeWidth="1.5" opacity="0.7"/>
-      {/* Rung 2 — Aux contact */}
+      {/* Rung 2: Aux contact */}
       <line x1="30" y1="95" x2="80" y2="95" stroke="#F0A500" strokeWidth="1.5" opacity="0.55"/>
       <rect x="80" y="87" width="20" height="16" rx="2" fill="rgba(240,165,0,0.1)" stroke="#F0A500" strokeWidth="1.2" opacity="0.65"/>
       <text x="90" y="98" textAnchor="middle" fontFamily="monospace" fontSize="7" fill="#F0A500" opacity="0.6">AUX</text>
@@ -459,7 +459,7 @@ const COURSES = [
     category: "Installation",
     modules: 10,
     hours: 8,
-    desc: "Fixed wiring for houses and apartments. Ring circuits, radials, lighting, earthing, and consumer unit design — with real installation diagrams.",
+    desc: "Fixed wiring for houses and apartments. Ring circuits, radials, lighting, earthing, and consumer unit design: with real installation diagrams.",
     topics: ["Consumer units", "Ring circuits", "Radial circuits", "Lighting circuits", "Earthing", "Bonding", "Switch & socket wiring", "Fault finding"],
   },
   {
@@ -471,7 +471,7 @@ const COURSES = [
     category: "Protection",
     modules: 7,
     hours: 5,
-    desc: "Overcurrent protection, RCDs, fault loop impedance, and discrimination between devices. Understand why a circuit trips — before it does.",
+    desc: "Overcurrent protection, RCDs, fault loop impedance, and discrimination between devices. Understand why a circuit trips: before it does.",
     topics: ["Fuses vs MCBs vs RCBOs", "Fault loop impedance", "Prospective fault current", "RCD tripping times", "Selectivity", "AFDD", "Testing methods"],
   },
   {
@@ -531,7 +531,7 @@ const COURSES = [
     category: "Testing",
     modules: 8,
     hours: 7,
-    desc: "Initial verification and periodic inspection procedures. Every test, every limit, every form — from insulation resistance to RCD tripping time.",
+    desc: "Initial verification and periodic inspection procedures. Every test, every limit, every form: from insulation resistance to RCD tripping time.",
     topics: ["Continuity", "Insulation resistance", "Polarity", "Earth fault loop Zs", "RCD testing", "PFC testing", "EICRs", "Schedule of items"],
   },
   {

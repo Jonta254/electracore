@@ -1,7 +1,7 @@
 import React from "react";
 
 /* ─────────────────────────────────────────────────────────────
-   ElectraCore — Guide content
+   ElectraCore: Guide content
    Reference material written the way it's used on site. Figures are
    drawn from BS 7671:2018+A4:2026 (the IET Wiring Regulations) and the
    IET On-Site Guide unless a different standard is named in the text.
@@ -125,7 +125,7 @@ function RCDCoreBalanceDiagram() {
   );
 }
 
-/* Ring final topology — both legs return to the same protective device */
+/* Ring final topology: both legs return to the same protective device */
 function RingFinalDiagram() {
   const sockets = [[120, 60], [220, 55], [320, 60], [370, 120], [320, 168], [220, 172], [120, 168], [80, 120]];
   return (
@@ -136,7 +136,7 @@ function RingFinalDiagram() {
       <text x="40" y="78" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#00D4FF" opacity="0.7">CU</text>
       <rect x="26" y="98" width="28" height="14" rx="2" fill="#F0A500" opacity="0.8" />
       <text x="40" y="108" textAnchor="middle" fontFamily="monospace" fontSize="7" fill="#0A0A0C">32A</text>
-      {/* Ring path — two legs out and back to the same MCB */}
+      {/* Ring path: two legs out and back to the same MCB */}
       <path d="M62 104 C 90 40, 400 40, 400 104 C 400 176, 90 176, 62 118"
         fill="none" stroke="#F0A500" strokeWidth="1.8" opacity="0.7" />
       {/* Both legs land on the MCB */}
@@ -165,7 +165,7 @@ function RingFinalDiagram() {
   );
 }
 
-/* Earth-fault loop path — Zs = Ze + (R1 + R2) */
+/* Earth-fault loop path: Zs = Ze + (R1 + R2) */
 function LoopPathDiagram() {
   return (
     <svg viewBox="0 0 520 210" width="100%" style={{ display: "block", background: "#0B0D11", borderRadius: 8 }}>
@@ -265,12 +265,12 @@ function IRTestDiagram() {
       <text x="410" y="56" fontFamily="monospace" fontSize="7.5" fill="#888899">L &amp; N linked</text>
       {/* Pass note */}
       <rect x="150" y="150" width="360" height="30" rx="5" fill="rgba(52,211,153,0.06)" stroke="rgba(52,211,153,0.25)" strokeWidth="0.7" />
-      <text x="330" y="169" textAnchor="middle" fontFamily="monospace" fontSize="9" fill="#34D399" opacity="0.85">Pass ≥ 1 MΩ — investigate anything below ~2 MΩ</text>
+      <text x="330" y="169" textAnchor="middle" fontFamily="monospace" fontSize="9" fill="#34D399" opacity="0.85">Pass ≥ 1 MΩ: investigate anything below ~2 MΩ</text>
     </svg>
   );
 }
 
-/* Conduit cross-section — fill capacity */
+/* Conduit cross-section: fill capacity */
 function ConduitFillDiagram() {
   const cables = [[92, 74], [116, 74], [140, 74], [92, 98], [116, 98], [140, 98], [104, 122], [128, 122]];
   return (
@@ -303,7 +303,7 @@ function ConduitFillDiagram() {
   );
 }
 
-/* Diversity — connected load vs assessed maximum demand */
+/* Diversity: connected load vs assessed maximum demand */
 function DiversityBars() {
   const rows = [
     { label: "Lighting", conn: 5.2, div: 3.4 },
@@ -334,7 +334,7 @@ function DiversityBars() {
   );
 }
 
-/* Safe isolation — prove, test, prove */
+/* Safe isolation: prove, test, prove */
 function SafeIsolationFlow() {
   const steps = [
     { t: "Identify", c: "#00D4FF" }, { t: "Isolate", c: "#00D4FF" }, { t: "Lock off\n+ notice", c: "#F0A500" },
@@ -342,7 +342,7 @@ function SafeIsolationFlow() {
   ];
   return (
     <svg viewBox="0 0 520 150" width="100%" style={{ display: "block", background: "#0B0D11", borderRadius: 8 }}>
-      <text x="16" y="20" fontFamily="monospace" fontSize="10" fill="#34D399" opacity="0.55" letterSpacing="1">SAFE ISOLATION · PROVE — TEST — PROVE</text>
+      <text x="16" y="20" fontFamily="monospace" fontSize="10" fill="#34D399" opacity="0.55" letterSpacing="1">SAFE ISOLATION · PROVE: TEST: PROVE</text>
       {steps.map((s, i) => {
         const x = 20 + i * 83;
         return (
@@ -357,7 +357,7 @@ function SafeIsolationFlow() {
           </g>
         );
       })}
-      <text x="260" y="128" textAnchor="middle" fontFamily="monospace" fontSize="8.5" fill="#888899">If the tester fails the final check, every dead reading is void — start again.</text>
+      <text x="260" y="128" textAnchor="middle" fontFamily="monospace" fontSize="8.5" fill="#888899">If the tester fails the final check, every dead reading is void: start again.</text>
     </svg>
   );
 }
@@ -381,7 +381,7 @@ export const GUIDES: Guide[] = [
         id: "why",
         heading: "Why the sequence matters",
         blocks: [
-          { kind: "p", text: "A voltage indicator that reads zero tells you one of two things: the circuit is dead, or your indicator is faulty. You cannot tell which from the reading alone. That is why proving the instrument on a known live source — before and after you test the isolated conductors — is not optional. It is the step that turns a zero reading into evidence." },
+          { kind: "p", text: "A voltage indicator that reads zero tells you one of two things: the circuit is dead, or your indicator is faulty. You cannot tell which from the reading alone. That is why proving the instrument on a known live source: before and after you test the isolated conductors: is not optional. It is the step that turns a zero reading into evidence." },
           { kind: "callout", tone: "safety", title: "This is a legal duty, not a courtesy", text: "Regulation 14 of the Electricity at Work Regulations 1989 permits work on or near dangerous live conductors only when all three statutory conditions are met: it is unreasonable for them to be dead, live work is reasonable, and suitable precautions prevent injury. The default safe approach is to isolate, secure the isolation, and prove dead before work." },
         ],
       },
@@ -403,14 +403,14 @@ export const GUIDES: Guide[] = [
             kind: "steps",
             items: [
               { title: "Identify the circuit", text: "Confirm exactly which circuit or supply you are isolating, using the schedule, the labelling and, where needed, a proving trace. Isolating the wrong way switches off someone else's work, not yours." },
-              { title: "Isolate", text: "Switch off and isolate at the point that removes supply to the circuit — the MCB/RCBO, the main switch, or an upstream isolator. A plug-and-socket connection is only isolation if you can keep the plug under your control." },
+              { title: "Isolate", text: "Switch off and isolate at the point that removes supply to the circuit: the MCB/RCBO, the main switch, or an upstream isolator. A plug-and-socket connection is only isolation if you can keep the plug under your control." },
               { title: "Secure the isolation", text: "Lock off the isolating device with a device and padlock, keep the only key on you, and fit a caution notice so nobody re-energises the circuit." },
               { title: "Prove the tester works", text: "Check your voltage indicator on a proving unit or a known live source. It must clearly indicate voltage." },
               { title: "Prove the circuit dead", text: "Test every combination at the point of work: line–neutral, line–earth, and neutral–earth (and between phases on three-phase). All must read dead." },
               { title: "Re-prove the tester", text: "Return to the proving unit and confirm the indicator still works. Only now do you know the earlier zero readings were real." },
             ],
           },
-          { kind: "callout", tone: "tip", title: "Prove–test–prove", text: "Remember it as prove the tester, test the circuit, prove the tester again. If the tester fails the final check, every dead reading is void — start over with a working instrument." },
+          { kind: "callout", tone: "tip", title: "Prove–test–prove", text: "Remember it as prove the tester, test the circuit, prove the tester again. If the tester fails the final check, every dead reading is void: start over with a working instrument." },
         ],
       },
       {
@@ -434,21 +434,21 @@ export const GUIDES: Guide[] = [
 
   {
     slug: "cable-colour-codes",
-    title: "Cable Colour Codes — All Regions",
-    sub: "Side-by-side conductor colours for the UK, Europe, North America and Australia/New Zealand — plus the old codes you'll still meet.",
+    title: "Cable Colour Codes: All Regions",
+    sub: "Side-by-side conductor colours for the UK, Europe, North America and Australia/New Zealand: plus the old codes you'll still meet.",
     level: "Beginner",
     cat: "Standards",
     readMins: 6,
     updated: "2024",
     standards: ["BS 7671 / IEC 60446", "CENELEC HD 308 S2", "NEC (NFPA 70)", "AS/NZS 3000"],
     summary:
-      "Colour tells you a conductor's function, not that it is safe — always prove dead. This is a working reference for the harmonised European colours, the North American convention, the Australian/New Zealand scheme, and the pre-harmonised colours you'll find in older installations.",
+      "Colour tells you a conductor's function, not that it is safe: always prove dead. This is a working reference for the harmonised European colours, the North American convention, the Australian/New Zealand scheme, and the pre-harmonised colours you'll find in older installations.",
     sections: [
       {
         id: "uk-eu",
         heading: "UK & Europe (harmonised, post-2004)",
         blocks: [
-          { kind: "p", text: "Since the harmonisation of BS 7671 with CENELEC HD 308 S2, the UK uses the same fixed-wiring colours as the rest of Europe. Green-and-yellow is reserved exclusively for the protective (earth) conductor — never use it for anything else." },
+          { kind: "p", text: "Since the harmonisation of BS 7671 with CENELEC HD 308 S2, the UK uses the same fixed-wiring colours as the rest of Europe. Green-and-yellow is reserved exclusively for the protective conductor. Never use it for another purpose." },
           {
             kind: "swatches",
             items: [
@@ -479,7 +479,7 @@ export const GUIDES: Guide[] = [
               ["Earth", "Green (or green/yellow)", "Green / Yellow"],
             ],
           },
-          { kind: "callout", tone: "warn", title: "The classic trap", text: "Old blue was a phase; new blue is neutral. Old black was neutral; new black is a phase. Never assume — prove dead and confirm function before terminating." },
+          { kind: "callout", tone: "warn", title: "The classic trap", text: "Old blue was a phase; new blue is neutral. Old black was neutral; new black is a phase. Never assume: prove dead and confirm function before terminating." },
         ],
       },
       {
@@ -513,7 +513,7 @@ export const GUIDES: Guide[] = [
               ["3-phase actives", "Brown, Black, Grey", "Red, White, Blue"],
             ],
           },
-          { kind: "callout", tone: "tip", title: "One rule everywhere", text: "Green/yellow (and green) is always earth. If you see it doing anything else, stop and investigate — someone has mis-wired the installation." },
+          { kind: "callout", tone: "tip", title: "One rule everywhere", text: "Green/yellow (and green) is always earth. If you see it doing anything else, stop and investigate: someone has mis-wired the installation." },
         ],
       },
     ],
@@ -522,7 +522,7 @@ export const GUIDES: Guide[] = [
 
   {
     slug: "rcd-types",
-    title: "RCD Types — AC, A, F and B Explained",
+    title: "RCD Types: AC, A, F and B Explained",
     sub: "Which residual current device to fit, why it matters for EV chargers, solar and VSDs, and what the ratings mean.",
     level: "Intermediate",
     cat: "Safety",
@@ -530,14 +530,14 @@ export const GUIDES: Guide[] = [
     updated: "2024",
     standards: ["BS 7671:2018+A4:2026", "BS EN 61008 / 61009", "BS EN 62423"],
     summary:
-      "An RCD measures the current going out against the current coming back. If they don't match, current is leaking to earth — possibly through a person — and the device trips. The catch is that modern electronics distort the residual current, and the cheapest RCD (Type AC) can be 'blinded' by it. Choosing the right type is a safety decision, not a cost one.",
+      "An RCD measures the current going out against the current coming back. If they don't match, current is leaking to earth, possibly through a person, and the device trips. The catch is that modern electronics distort the residual current, and the cheapest RCD (Type AC) can be 'blinded' by it. Choosing the right type is a safety decision, not a cost one.",
     sections: [
       {
         id: "how",
         heading: "How an RCD works",
         blocks: [
           { kind: "node", node: <RCDCoreBalanceDiagram /> },
-          { kind: "p", text: "Line and neutral both pass through a toroidal core. In a healthy circuit the two currents are equal and opposite, so their magnetic fields cancel. Any imbalance — current returning via the earth path instead of the neutral — leaves a net flux that induces a current in a sense winding and releases the trip mechanism." },
+          { kind: "p", text: "Line and neutral both pass through a toroidal core. In a healthy circuit the two currents are equal and opposite, so their magnetic fields cancel. Any imbalance: current returning via the earth path instead of the neutral: leaves a net flux that induces a current in a sense winding and releases the trip mechanism." },
           { kind: "formula", expr: "ΔI = | I(line) − I(neutral) |", where: "When ΔI reaches the rated residual current IΔn, the device operates." },
         ],
       },
@@ -549,7 +549,7 @@ export const GUIDES: Guide[] = [
             kind: "keyvalues",
             items: [
               { k: "10 mA", v: "Special locations, medical, high-risk fixed equipment" },
-              { k: "30 mA", v: "Additional protection against electric shock — socket outlets, most final circuits" },
+              { k: "30 mA", v: "Additional protection against electric shock: socket outlets, most final circuits" },
               { k: "100 mA", v: "Fire protection / larger sub-mains where 30 mA nuisance-trips" },
               { k: "300–500 mA", v: "Fire protection on distribution circuits; not shock protection" },
             ],
@@ -577,20 +577,20 @@ export const GUIDES: Guide[] = [
             head: ["Type", "Detects", "Typical use"],
             rows: [
               ["AC", "Sinusoidal a.c. residual only", "Legacy resistive loads. No longer the default choice."],
-              ["A", "a.c. + pulsating d.c. residual", "Modern general use — anything with electronics/SMPS. The new baseline."],
+              ["A", "a.c. + pulsating d.c. residual", "Modern general use: anything with electronics/SMPS. The new baseline."],
               ["F", "a.c. + pulsating d.c. + mixed frequencies", "Single-phase inverter loads, some washing machines, class-1 VSD equipment."],
               ["B", "All of the above + smooth d.c. residual", "Three-phase EV chargers, PV inverters without isolation, three-phase VSDs."],
             ],
           },
           { kind: "callout", tone: "warn", title: "Type AC has a narrow scope", text: "Under BS 7671:2018+A2:2022, Type AC is limited to fixed equipment where the load current is known to contain no d.c. components. Select the RCD type from the expected residual-current waveform and manufacturer data; Type A is common for electronic loads, with Type F or B used where their additional capabilities are required. Confirm the applicable current or transition edition." },
-          { kind: "callout", tone: "note", title: "EV charging is the common decision point", text: "An EV charge point needs at least 30 mA Type A plus d.c. residual detection ≥ 6 mA — provided either by a Type B RCD or by a Type A RCD combined with built-in 6 mA d.c. protection (RDC-DD) in the charger. Check the charger's data sheet before choosing the RCD." },
+          { kind: "callout", tone: "note", title: "EV charging is the common decision point", text: "An EV charge point needs at least 30 mA Type A plus d.c. residual detection ≥ 6 mA. This can be provided either by a Type B RCD or by a Type A RCD combined with built-in 6 mA d.c. protection (RDC-DD) in the charger. Check the charger's data sheet before choosing the RCD." },
         ],
       },
       {
         id: "rcbo",
         heading: "RCD, RCBO or main-switch RCD?",
         blocks: [
-          { kind: "p", text: "A stand-alone RCD only does earth-fault protection; it must be paired with overcurrent protection. An RCBO combines a 30 mA RCD and an MCB in one module, so a fault on one circuit trips only that circuit — far better than a shared RCD taking out half the board. For new work, per-circuit RCBOs are usually the right answer for both safety and nuisance-trip resilience." },
+          { kind: "p", text: "A stand-alone RCD only does earth-fault protection; it must be paired with overcurrent protection. An RCBO combines a 30 mA RCD and an MCB in one module, so a fault on one circuit trips only that circuit: far better than a shared RCD taking out half the board. For new work, per-circuit RCBOs are usually the right answer for both safety and nuisance-trip resilience." },
         ],
       },
     ],
@@ -599,7 +599,7 @@ export const GUIDES: Guide[] = [
 
   {
     slug: "earthing-systems",
-    title: "Earthing Systems — TN-S, TN-C-S and TT Explained",
+    title: "Earthing Systems: TN-S, TN-C-S and TT Explained",
     sub: "How the supply earth is arranged, how to tell which one you have, and what each means for protection.",
     level: "Intermediate",
     cat: "Standards",
@@ -619,7 +619,7 @@ export const GUIDES: Guide[] = [
       },
       {
         id: "tns",
-        heading: "TN-S — separate earth back to source",
+        heading: "TN-S: separate earth back to source",
         blocks: [
           { kind: "p", text: "The protective conductor is separate from the neutral all the way back to the transformer, usually via the metallic sheath of the supply cable. Fault current has a dedicated low-impedance metallic path, so earth-fault loop impedance (Ze) is typically low." },
           { kind: "keyvalues", items: [{ k: "Typical Ze", v: "≤ 0.8 Ω (0.35 Ω is a common design figure)" }, { k: "Earth source", v: "Supply cable sheath / separate PE" }] },
@@ -627,19 +627,19 @@ export const GUIDES: Guide[] = [
       },
       {
         id: "tncs",
-        heading: "TN-C-S (PME) — combined then split",
+        heading: "TN-C-S (PME): combined then split",
         blocks: [
           { kind: "p", text: "The supply uses a combined neutral-and-earth conductor (PEN) that is split into separate N and PE at the origin of the installation (the main earth terminal). This is Protective Multiple Earthing (PME) and it is now the most common arrangement for new domestic supplies." },
           { kind: "keyvalues", items: [{ k: "Typical Ze", v: "≤ 0.35 Ω" }, { k: "Earth source", v: "Supplier's PEN, split at the MET" }] },
-          { kind: "callout", tone: "warn", title: "PME has a catch", text: "If the supplier's PEN conductor goes open-circuit, exposed metalwork can rise to a dangerous potential. That's why PME earths are prohibited or restricted in some situations — notably caravans, boats and (unless specific conditions are met) EV charging points, where an open-PEN detection device or a TT island is used instead." },
+          { kind: "callout", tone: "warn", title: "PME has a catch", text: "If the supplier's PEN conductor goes open-circuit, exposed metalwork can rise to a dangerous potential. That's why PME earths are prohibited or restricted in some situations: notably caravans, boats and (unless specific conditions are met) EV charging points, where an open-PEN detection device or a TT island is used instead." },
         ],
       },
       {
         id: "tt",
-        heading: "TT — your own electrode",
+        heading: "TT: your own electrode",
         blocks: [
           { kind: "p", text: "There is no metallic earth back to the source. The installation makes its own connection to earth through a local electrode (a rod). The earth-fault loop is completed through the ground itself, so the loop impedance is high and often variable with weather." },
-          { kind: "keyvalues", items: [{ k: "Typical Ze", v: "Often 20–200 Ω+ (soil dependent)" }, { k: "Protection", v: "RCD is essentially mandatory — the loop is too high for overcurrent devices to disconnect in time" }] },
+          { kind: "keyvalues", items: [{ k: "Typical Ze", v: "Often 20–200 Ω+ (soil dependent)" }, { k: "Protection", v: "RCD is essentially mandatory: the loop is too high for overcurrent devices to disconnect in time" }] },
           { kind: "callout", tone: "note", title: "Why TT relies on RCDs", text: "With a high loop impedance, a fault won't draw enough current to trip an MCB quickly. A 30 mA (or 100 mA S-type upstream) RCD detects the leakage directly and disconnects regardless of loop impedance." },
         ],
       },
@@ -652,7 +652,7 @@ export const GUIDES: Guide[] = [
             items: [
               "Look at the supply head: a separate earth from the cut-out sheath suggests TN-S; an earth link from the neutral block suggests TN-C-S/PME.",
               "An earth electrode (rod) with an earthing conductor to the MET, and no supplier earth, points to TT.",
-              "PME supplies are usually labelled at the cut-out. When in doubt, ask the DNO — do not guess.",
+              "PME supplies are usually labelled at the cut-out. When in doubt, ask the DNO: do not guess.",
               "Confirm by measuring Ze at the origin with the main switch off and the earthing conductor disconnected (safe-isolation applies).",
             ],
           },
@@ -672,7 +672,7 @@ export const GUIDES: Guide[] = [
     updated: "2024",
     standards: ["BS 7671:2018+A4:2026 Reg 643.3", "GS38"],
     summary:
-      "Insulation resistance testing applies a high d.c. voltage between conductors that should be electrically separate, and measures how much current leaks across the insulation. It's a dead test — everything is isolated — and it catches damaged cables, moisture ingress and wiring errors before the installation is energised.",
+      "Insulation resistance testing applies a high d.c. voltage between conductors that should be electrically separate, and measures how much current leaks across the insulation. It's a dead test. Everything is isolated, and the test catches damaged cables, moisture ingress and wiring errors before the installation is energised.",
     sections: [
       {
         id: "voltages",
@@ -686,7 +686,7 @@ export const GUIDES: Guide[] = [
               ["Up to and including 500 V (incl. 230/400 V)", "500 V", "1.0 MΩ"],
               ["Above 500 V", "1000 V", "1.0 MΩ"],
             ],
-            caption: "BS 7671 Table 64 values. 1 MΩ is the pass floor — a healthy new installation usually reads far higher (tens or hundreds of MΩ).",
+            caption: "BS 7671 Table 64 values. 1 MΩ is the pass floor: a healthy new installation usually reads far higher (tens or hundreds of MΩ).",
           },
           { kind: "callout", tone: "tip", title: "1 MΩ passes, but treat low as suspect", text: "A reading between 1 and 2 MΩ is a pass on paper but a warning in practice. It usually means moisture or slightly degraded insulation. Investigate rather than sign it off and forget it." },
         ],
@@ -700,7 +700,7 @@ export const GUIDES: Guide[] = [
             kind: "steps",
             items: [
               { title: "Isolate and prove dead", text: "Safe-isolate the installation or circuit. IR testing is a dead test and the 500 V output will damage connected electronics." },
-              { title: "Disconnect vulnerable equipment", text: "Remove or disconnect items that can't take 500 V d.c. — dimmers, electronic PIRs, RCDs' electronics, surge protection devices (SPDs), and connected appliances. Or test to a point that excludes them." },
+              { title: "Disconnect vulnerable equipment", text: "Remove or disconnect items that can't take 500 V d.c.: dimmers, electronic PIRs, RCDs' electronics, surge protection devices (SPDs), and connected appliances. Or test to a point that excludes them." },
               { title: "Link line and neutral (initial verification)", text: "For new work, link L and N together and test between the linked conductors and earth. This protects any connected equipment and speeds the test. Where required, also test between line and neutral." },
               { title: "Apply the test", text: "Select 500 V, connect the leads, and press test. Hold until the reading stabilises." },
               { title: "Record the lowest value", text: "Log the result per circuit on the schedule of test results. The lowest reading is the one that matters." },
@@ -717,8 +717,8 @@ export const GUIDES: Guide[] = [
             kind: "list",
             items: [
               "Near-zero across L–N: a dead short, a connected load still in circuit, or a crushed cable.",
-              "Low L–E or N–E but healthy L–N: an earth fault — nail/screw through a cable, water in an accessory, or a trapped conductor in a back box.",
-              "Reading that climbs slowly then holds: capacitance charging on a long run — normal; wait for it to settle.",
+              "Low L–E or N–E but healthy L–N: an earth fault: nail/screw through a cable, water in an accessory, or a trapped conductor in a back box.",
+              "Reading that climbs slowly then holds: capacitance charging on a long run: normal; wait for it to settle.",
               "Reading that drifts down under test: moisture. Common in outdoor circuits and new plaster; often recovers as things dry.",
             ],
           },
@@ -731,7 +731,7 @@ export const GUIDES: Guide[] = [
 
   {
     slug: "loop-impedance-testing",
-    title: "Earth Fault Loop Impedance — Step by Step",
+    title: "Earth Fault Loop Impedance: Step by Step",
     sub: "Measure Ze and Zs, understand the loop, and verify the protective device will disconnect fast enough.",
     level: "Intermediate",
     cat: "Testing",
@@ -747,7 +747,7 @@ export const GUIDES: Guide[] = [
         blocks: [
           { kind: "node", node: <LoopPathDiagram /> },
           { kind: "formula", expr: "Zs = Ze + (R1 + R2)", where: "Ze = external loop impedance at the origin; R1 = line conductor resistance; R2 = protective conductor resistance of the circuit." },
-          { kind: "p", text: "Ze is everything outside the installation (the supply and the earth return). (R1 + R2) is the go-and-return resistance of the final circuit conductors. Add them and you have Zs — the loop impedance at the furthest point of the circuit, which is where it is highest and disconnection is hardest." },
+          { kind: "p", text: "Ze is everything outside the installation (the supply and the earth return). (R1 + R2) is the go-and-return resistance of the final circuit conductors. Add them and you have Zs: the loop impedance at the furthest point of the circuit, which is where it is highest and disconnection is hardest." },
         ],
       },
       {
@@ -782,7 +782,7 @@ export const GUIDES: Guide[] = [
             ],
             caption: "Type B trips in the magnetic region at 5 × In. Type C needs 10 × In (half the Zs); Type D needs 20 × In.",
           },
-          { kind: "callout", tone: "tip", title: "Apply the temperature correction", text: "Tabulated maximum Zs values already include a factor for conductors being cold at the moment of test (roughly 0.8). If you calculate your own limit from U0/Ia, apply the same correction — or measure and compare to the tabulated figure, which is simpler and safer." },
+          { kind: "callout", tone: "tip", title: "Apply the temperature correction", text: "Tabulated maximum Zs values already include a factor for conductors being cold at the moment of test (roughly 0.8). If you calculate your own limit from U0/Ia, apply the same correction, or measure and compare to the tabulated figure, which is simpler and safer." },
         ],
       },
       {
@@ -792,10 +792,10 @@ export const GUIDES: Guide[] = [
           {
             kind: "list",
             items: [
-              "Increase the cpc size (lower R2) — often the cheapest fix on a long run.",
+              "Increase the cpc size (lower R2): often the cheapest fix on a long run.",
               "Use a device with a lower trip multiple (Type B instead of C) if the load's inrush allows.",
               "Fit an RCD: on TT systems, and where loop impedance can't meet the overcurrent limit, a 30 mA RCD provides the required disconnection regardless of Zs.",
-              "Recheck Ze — a poor supply earth or a PME fault at the source can push every circuit's Zs over the limit.",
+              "Recheck Ze: a poor supply earth or a PME fault at the source can push every circuit's Zs over the limit.",
             ],
           },
         ],
@@ -814,7 +814,7 @@ export const GUIDES: Guide[] = [
     updated: "2024",
     standards: ["IET On-Site Guide (cable/conduit factors)", "BS 7671 Appendix 4 (grouping)"],
     summary:
-      "Overfilling a conduit does two things: it makes cables impossible to pull without stripping insulation, and it traps heat so the cables can't carry their rated current. The IET On-Site Guide gives a 'factor' method that turns the geometry into simple arithmetic — add up the cable factors, and pick a conduit whose factor is larger.",
+      "Overfilling a conduit does two things: it makes cables impossible to pull without stripping insulation, and it traps heat so the cables can't carry their rated current. The IET On-Site Guide gives a 'factor' method that turns the geometry into simple arithmetic: add up the cable factors, and pick a conduit whose factor is larger.",
     sections: [
       {
         id: "method",
@@ -830,7 +830,7 @@ export const GUIDES: Guide[] = [
         id: "example",
         heading: "Worked example",
         blocks: [
-          { kind: "p", text: "Say you're running eight 2.5 mm² single-core thermoplastic (solid) cables through a 6 m conduit that has two bends. Using the running-system cable factors (illustrative figures — always read the current tables):" },
+          { kind: "p", text: "Say you're running eight 2.5 mm² single-core thermoplastic (solid) cables through a 6 m conduit that has two bends. Using the running-system cable factors (illustrative figures: always read the current tables):" },
           {
             kind: "table",
             head: ["Item", "Factor", "Qty", "Subtotal"],
@@ -840,7 +840,7 @@ export const GUIDES: Guide[] = [
               ["20 mm conduit, 6 m, 2 bends", "≈ 260", "", "260 (acceptable)"],
               ["25 mm conduit, 6 m, 2 bends", "≈ 460", "", "460 (spare capacity)"],
             ],
-            caption: "240 ≤ 260, so 20 mm just works; 25 mm gives headroom for future cables. Figures illustrate the method — use the current On-Site Guide tables for real designs.",
+            caption: "240 ≤ 260, so 20 mm just works; 25 mm gives headroom for future cables. Figures illustrate the method: use the current On-Site Guide tables for real designs.",
           },
         ],
       },
@@ -860,7 +860,7 @@ export const GUIDES: Guide[] = [
             ],
             caption: "Enclosed in conduit, BS 7671 Appendix 4. A neutral+line pair is one circuit; count circuits, not cores.",
           },
-          { kind: "callout", tone: "tip", title: "Rule of thumb, then verify", text: "A common working target is not to exceed about 40% of the conduit's cross-sectional area. It's a quick sanity check — but the factor tables, plus the grouping derating, are what you design and certify against." },
+          { kind: "callout", tone: "tip", title: "Rule of thumb, then verify", text: "A common working target is not to exceed about 40% of the conduit's cross-sectional area. Treat that only as a quick check. Use the applicable factor tables and grouping correction for the design." },
         ],
       },
     ],
@@ -870,7 +870,7 @@ export const GUIDES: Guide[] = [
   {
     slug: "maximum-demand",
     title: "Maximum Demand & Diversity for a House",
-    sub: "Size the main switch and supply conductors realistically — because everything is never on at once.",
+    sub: "Size the main switch and supply conductors realistically: because everything is never on at once.",
     level: "Intermediate",
     cat: "Calculations",
     readMins: 10,
@@ -898,12 +898,12 @@ export const GUIDES: Guide[] = [
               ["Cooker", "First 10 A + 30% of remainder + 5 A if the unit has a socket"],
               ["Ring / radial socket circuits", "100% of the largest, + 40% of the rest"],
               ["Instantaneous water heaters", "100% of the largest two, + 25% of the rest"],
-              ["Thermostatic water/space heating", "100% (no diversity — it's on a thermostat, not user choice)"],
-              ["EV charge point", "100% (no diversity — assume full load)"],
+              ["Thermostatic water/space heating", "100% (no diversity: it's on a thermostat, not user choice)"],
+              ["EV charge point", "100% (no diversity: assume full load)"],
             ],
             caption: "IET On-Site Guide allowances for an individual household installation. Blocks of flats and commercial premises use different figures.",
           },
-          { kind: "callout", tone: "warn", title: "EV charging changed the sums", text: "A 7.4 kW charger adds a solid 32 A with no diversity. On older properties this alone can push maximum demand past the supply capacity — which is why load management or a supply upgrade is often needed." },
+          { kind: "callout", tone: "warn", title: "EV charging changed the sums", text: "A 7.4 kW charger adds a solid 32 A with no diversity. On older properties this alone can push maximum demand past the supply capacity: which is why load management or a supply upgrade is often needed." },
         ],
       },
       {
@@ -923,9 +923,9 @@ export const GUIDES: Guide[] = [
               ["EV charger (7.4 kW ≈ 32 A)", "32 A", "32 A (100%)"],
               ["Maximum demand (sum)", "", "≈ 118 A"],
             ],
-            caption: "Illustrative. ~118 A comfortably fits a 100 A supply only if load management limits the EV charger — otherwise a supply upgrade or a load-limiting device is required.",
+            caption: "Illustrative. ~118 A comfortably fits a 100 A supply only if load management limits the EV charger: otherwise a supply upgrade or a load-limiting device is required.",
           },
-          { kind: "callout", tone: "tip", title: "Always sanity-check against the cut-out", text: "Most UK domestic supplies are fused at 60–100 A. If your maximum demand approaches or exceeds the DNO fuse, you either apply load management or arrange an upgrade — you can't just fit a bigger main switch." },
+          { kind: "callout", tone: "tip", title: "Always sanity-check against the cut-out", text: "Most UK domestic supplies are fused at 60–100 A. If your maximum demand approaches or exceeds the DNO fuse, you either apply load management or arrange an upgrade: you can't just fit a bigger main switch." },
         ],
       },
     ],
@@ -942,7 +942,7 @@ export const GUIDES: Guide[] = [
     updated: "2024",
     standards: ["BS 7671:2018+A4:2026", "IET On-Site Guide"],
     summary:
-      "Socket circuits are the bread and butter of domestic work, and also where small mistakes — a loose cpc, a broken ring, an over-loaded spur — cause the most call-backs. This covers the two circuit types, how to terminate correctly, and the rules for spurs.",
+      "Socket circuits are the bread and butter of domestic work, and also where small mistakes: a loose cpc, a broken ring, an over-loaded spur: cause the most call-backs. This covers the two circuit types, how to terminate correctly, and the rules for spurs.",
     sections: [
       {
         id: "types",
@@ -958,7 +958,7 @@ export const GUIDES: Guide[] = [
               ["Radial (4 mm²)", "4 mm²", "32 A", "Larger radial for bigger areas; no unlimited length rule but volt drop applies."],
             ],
           },
-          { kind: "p", text: "A ring shares load across two paths, so 2.5 mm² can be protected at 32 A. That only holds while the ring is continuous — a break turns it into a long radial that's under-protected. This is exactly what ring continuity testing exists to catch." },
+          { kind: "p", text: "A ring shares load across two paths, so 2.5 mm² can be protected at 32 A. That only holds while the ring is continuous: a break turns it into a long radial that's under-protected. This is exactly what ring continuity testing exists to catch." },
         ],
       },
       {
@@ -968,24 +968,24 @@ export const GUIDES: Guide[] = [
           {
             kind: "steps",
             items: [
-              { title: "Prepare the conductors", text: "Strip only as much insulation as the terminal needs; no bare copper should show below the terminal. Sleeve every cpc in green/yellow — bare cpcs in a back box are a common fail." },
-              { title: "Match by function, not colour habit", text: "Brown line → L, blue neutral → N, green/yellow cpc → E. On a ring, two conductors go into each terminal — make sure both are captured and tight." },
+              { title: "Prepare the conductors", text: "Strip only as much insulation as the terminal needs; no bare copper should show below the terminal. Sleeve every cpc in green/yellow: bare cpcs in a back box are a common fail." },
+              { title: "Match by function, not colour habit", text: "Brown line → L, blue neutral → N, green/yellow cpc → E. On a ring, two conductors go into each terminal: make sure both are captured and tight." },
               { title: "Torque the terminals", text: "Tighten to the maker's figure. Under-tight terminals arc and overheat; over-tight can shear a stranded conductor. Give each conductor a gentle tug to confirm it's held." },
               { title: "Dress and fit", text: "Fold conductors neatly into the box without trapping them behind the screws or the accessory. Check the earth tail to the box (metal boxes) is connected." },
             ],
           },
-          { kind: "callout", tone: "safety", title: "The cpc to a metal back box", text: "A metal back box needs an earth connection — a fly-lead from the socket's earth terminal to the box's earth terminal, or a fixed lug. A plastic accessory on a metal box with no earth to the box is a defect." },
+          { kind: "callout", tone: "safety", title: "The cpc to a metal back box", text: "A metal back box needs an earth connection: a fly-lead from the socket's earth terminal to the box's earth terminal, or a fixed lug. A plastic accessory on a metal box with no earth to the box is a defect." },
         ],
       },
       {
         id: "spurs",
-        heading: "Spurs — the rules people break",
+        heading: "Spurs: the rules people break",
         blocks: [
           {
             kind: "list",
             items: [
               "A non-fused spur off a ring may supply one single or one double socket (or one fixed appliance). One spur per socket on the ring.",
-              "For more than that, use a fused connection unit (FCU) — the fuse (usually 13 A) protects the thinner spur cable.",
+              "For more than that, use a fused connection unit (FCU): the fuse (usually 13 A) protects the thinner spur cable.",
               "Don't spur off a spur. If you need to extend, take it from the ring or fit an FCU.",
               "Kitchen appliances behind units are best on FCUs so they can be isolated without pulling the appliance out.",
             ],

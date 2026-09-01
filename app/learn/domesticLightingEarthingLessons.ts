@@ -3,8 +3,8 @@ import type { EnhancedLesson, LessonSource } from "./enhancedLessons";
 type Draft = Omit<EnhancedLesson, "difficulty" | "sources" | "reviewDate" | "reviewStatus" | "localCode">;
 
 const lightingSources: LessonSource[] = [
-  { title: "Best Practice Guide 9 — Safe installation of retrofit LED lamps", publisher: "Electrical Safety First", edition: "Current online issue", jurisdiction: "United Kingdom", url: "https://www.electricalsafetyfirst.org.uk/media/1206/best-practice-guide-9.pdf" },
-  { title: "Mythbuster #5 — Will any old terminal block do?", publisher: "IET Wiring Matters", edition: "2020", jurisdiction: "United Kingdom", url: "https://electrical.theiet.org/wiring-matters/years/2020/79-march-2020/mythbuster-5-will-any-old-terminal-block-do/" },
+  { title: "Best Practice Guide 9: Safe installation of retrofit LED lamps", publisher: "Electrical Safety First", edition: "Current online issue", jurisdiction: "United Kingdom", url: "https://www.electricalsafetyfirst.org.uk/media/1206/best-practice-guide-9.pdf" },
+  { title: "Mythbuster #5: Will any old terminal block do?", publisher: "IET Wiring Matters", edition: "2020", jurisdiction: "United Kingdom", url: "https://electrical.theiet.org/wiring-matters/years/2020/79-march-2020/mythbuster-5-will-any-old-terminal-block-do/" },
   { title: "Electrical safety: Approved Document P", publisher: "UK Government", edition: "Current online edition", jurisdiction: "England", url: "https://www.gov.uk/government/publications/electrical-safety-approved-document-p" },
 ];
 

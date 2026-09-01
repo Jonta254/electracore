@@ -2,7 +2,7 @@ import type { EnhancedLesson, LessonSource } from "./enhancedLessons";
 
 const sources: LessonSource[] = [
   { title: "Wiring Regulations Help", publisher: "Electrical Safety First", edition: "Current online technical guidance", jurisdiction: "United Kingdom", url: "https://www.electricalsafetyfirst.org.uk/resources-for-electricians/wiring-regulations-help/" },
-  { title: "Best Practice Guide 1 — Replacing a consumer unit", publisher: "Electrical Safety First", edition: "Issue 5.1", jurisdiction: "United Kingdom", url: "https://www.electricalsafetyfirst.org.uk/media/kfmn0jdt/best_practice-guide-1_issue-5-1.pdf" },
+  { title: "Best Practice Guide 1: Replacing a consumer unit", publisher: "Electrical Safety First", edition: "Issue 5.1", jurisdiction: "United Kingdom", url: "https://www.electricalsafetyfirst.org.uk/media/kfmn0jdt/best_practice-guide-1_issue-5-1.pdf" },
   { title: "Electrical standards and approved codes of practice", publisher: "HSE", edition: "Current web guidance", jurisdiction: "Great Britain", url: "https://www.hse.gov.uk/electricity/standards.htm" },
 ];
 type Draft = Omit<EnhancedLesson, "difficulty" | "sources" | "reviewDate" | "reviewStatus" | "localCode">;

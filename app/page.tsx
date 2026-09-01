@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ArrowRight, BookOpen, Cable, Calculator, FileText, GraduationCap, Workflow } from "lucide-react";
 
 /* ─────────────────────────────────────────────────────────────
-   "Who it's for" — real electrical illustrations, one per audience.
+   "Who it's for": real electrical illustrations, one per audience.
    Conductor colours follow the harmonised UK/EU scheme:
    brown = line, blue = neutral, green/yellow = earth, grey/black =
    further line conductors.
@@ -13,7 +13,7 @@ import { ArrowRight, BookOpen, Cable, Calculator, FileText, GraduationCap, Workf
 const COL = { core: "#F0A500", volt: "#00D4FF", gnd: "#34D399", hot: "#FF4444", L: "#7A4A2B", N: "#1E62D0", E: "#3FA34D", grey: "#8A8A8A", dim: "#888899", txt: "#F0F0F0" };
 const svgWrap = { display: "block", width: "100%", borderRadius: 10, background: "#0B0D11" } as const;
 
-/* Students — Ohm's law with a series resistor into a parallel pair, live meters */
+/* Students: Ohm's law with a series resistor into a parallel pair, live meters */
 function IlloStudents() {
   return (
     <svg viewBox="0 0 360 210" style={svgWrap} role="img" aria-label="Ohm's law circuit: battery, ammeter, resistors in series and parallel, voltmeter">
@@ -65,7 +65,7 @@ function IlloStudents() {
   );
 }
 
-/* Apprentices — double socket termination on a ring final */
+/* Apprentices: double socket termination on a ring final */
 function IlloApprentices() {
   return (
     <svg viewBox="0 0 360 210" style={svgWrap} role="img" aria-label="Double socket outlet terminated on a ring final circuit, showing line, neutral and earth conductors">
@@ -105,7 +105,7 @@ function IlloApprentices() {
   );
 }
 
-/* Electricians — consumer unit (distribution board) */
+/* Electricians: consumer unit (distribution board) */
 function IlloElectricians() {
   const ways = [
     { t: "6A", l: "Lighting", c: COL.core }, { t: "32A", l: "Ring 1", c: COL.core },
@@ -151,7 +151,7 @@ function IlloElectricians() {
   );
 }
 
-/* Engineers — three-phase distribution with derating to a motor */
+/* Engineers: three-phase distribution with derating to a motor */
 function IlloEngineers() {
   const phases = [{ c: COL.L, t: "L1" }, { c: "#1a1a1a", t: "L2" }, { c: COL.grey, t: "L3" }, { c: COL.N, t: "N" }];
   return (
@@ -191,7 +191,7 @@ function IlloEngineers() {
   );
 }
 
-/* Teachers — two-way (staircase) lighting circuit */
+/* Teachers: two-way (staircase) lighting circuit */
 function IlloTeachers() {
   return (
     <svg viewBox="0 0 360 210" style={svgWrap} role="img" aria-label="Two-way lighting circuit with two changeover switches, strappers and a lamp">
@@ -273,25 +273,25 @@ const FEATURES = [
   {
     icon: Workflow,
     color: "rgba(240,165,0,0.12)",
-    title: "Connected Design Workflow",
-    desc: "Carry one load through supply selection, cable sizing, voltage-drop checks, and a printable preliminary verdict.",
+    title: "Circuit design workflow",
+    desc: "Enter the load once, then check the supply, protective device, cable size and voltage drop. Print the result with its assumptions.",
   },
   {
     icon: FileText,
     color: "rgba(255,68,68,0.1)",
-    title: "Saved Work & Reports",
-    desc: "Keep calculation history on the current device and prepare clear calculation or design summaries for print.",
+    title: "Saved work and reports",
+    desc: "Keep calculation history on this device and print a clear record of each calculation or design check.",
   },
 ];
 
 const METHOD = [
   {
     title: "Standard formulas, shown",
-    desc: "Ohm's law, P = V·I, resistive networks, and cross-sectional sizing from conductor resistivity. Every calculator displays the equation it used — nothing is hidden or silently approximated.",
+    desc: "Each calculator shows the formula, substituted values and result. You can inspect the working before using it.",
   },
   {
     title: "Limits flagged, not assumed",
-    desc: "Voltage-drop results highlight the common 3% guideline. Always confirm the exact limit for your circuit type and standard — BS 7671, NEC, or the regulations that apply where you work.",
+    desc: "Voltage drop results show the applied limit. Confirm that limit against the circuit type and the regulations that apply to the installation.",
   },
   {
     title: "An aid, not a substitute",
@@ -302,12 +302,12 @@ const METHOD = [
 const WHO = [
   {
     role: "Students",
-    tagline: "Understand it — then prove it in the exam.",
+    tagline: "Learn the method. Check your answer.",
     illo: "students",
     points: [
-      "Work Ohm's law, power, series/parallel and Kirchhoff from first principles — every calculator shows the formula it used, so you learn the method, not just the answer.",
+      "Work through Ohm's law, power, series and parallel circuits, and Kirchhoff's laws from first principles. Each calculator shows its working.",
       "Follow structured courses from fundamentals to three-phase and cable sizing, each with worked examples and self-marking quizzes.",
-      "Check your homework instantly: enter your values and compare against the step-by-step working.",
+      "Enter your own values and compare your method with the displayed calculation steps.",
       "Practise with supplied examples that reflect common electrical scenarios while keeping assumptions visible.",
     ],
     links: [
@@ -317,11 +317,11 @@ const WHO = [
   },
   {
     role: "Apprentices",
-    tagline: "Answers between sign-offs, right on the tools.",
+    tagline: "Useful references for study and site work.",
     illo: "apprentices",
     points: [
-      "Look up conductor colour codes for the UK/EU, US and AU/NZ — including the legacy colours you'll still meet in older installations.",
-      "Follow the safe-isolation sequence step by step before you touch a circuit — prove, test, prove again.",
+      "Look up conductor colour codes for the UK/EU, US and AU/NZ: including the legacy colours you'll still meet in older installations.",
+      "Review the safe isolation sequence before work. Prove the tester, test the circuit, then prove the tester again.",
       "Get terminations right: ring vs radial, fused spurs, and the earth sleeving and back-box bonding that pass inspection.",
       "Size a cable or check a voltage drop on your phone while you're standing at the board.",
     ],
@@ -332,13 +332,13 @@ const WHO = [
   },
   {
     role: "Electricians",
-    tagline: "Check a circuit design — clearly.",
+    tagline: "Check the design and keep the working.",
     illo: "electricians",
     points: [
-      "Run the whole chain in the Circuit Designer: load → protective device → cable size with derating → voltage drop → a clear pass/fail.",
+      "Use the Circuit Designer to check the load, protective device, cable size, correction factors and voltage drop in sequence.",
       "Export a printable design summary straight into the job file or hand it to the customer.",
-      "Reference guides written the way the job is done — earthing systems, RCD types, loop-impedance testing.",
-      "Save and reuse calculations across a job, then export the lot as a PDF.",
+      "Reference guides written the way the job is done: earthing systems, RCD types, loop-impedance testing.",
+      "Save calculations on the device and print a record for the job file.",
     ],
     links: [
       { label: "Open the Circuit Designer →", href: "/design" },
@@ -351,7 +351,7 @@ const WHO = [
     illo: "engineers",
     points: [
       "Size conductors across four installation methods with ambient, grouping and thermal-insulation derating applied automatically.",
-      "Verify voltage drop against the limit for the circuit — single- or three-phase, editable to your requirement.",
+      "Verify voltage drop against the limit for the circuit: single- or three-phase, editable to your requirement.",
       "Correct power factor and check protection coverage with the individual calculators.",
       "Produce a documented design summary you can verify against your local wiring regulations before commissioning.",
     ],
@@ -365,7 +365,7 @@ const WHO = [
     tagline: "Show the working, not just the result.",
     illo: "teachers",
     points: [
-      "Demonstrate principles live — every calculator prints the formula and each step of the arithmetic.",
+      "Demonstrate principles live: every calculator prints the formula and each step of the arithmetic.",
       "Use accurate, standards-referenced guides as ready-made classroom reference material.",
       "Set problems and mark them against the built-in worked examples and quizzes.",
       "Cover the whole syllabus in one place: theory, wiring, protection, testing and three-phase.",
@@ -464,7 +464,7 @@ export default function HomePage() {
           From classroom to<br />construction site.
         </h2>
         <p className="section-sub reveal" ref={addReveal}>
-          One tool that grows with you — from your first circuit diagram to a documented job design. Pick where you are.
+          Choose the view that matches your work. The same formulas, diagrams and references remain available throughout.
         </p>
         <div className="who-wrap">
           <div className="who-tabs" role="tablist" aria-label="Who ElectraCore is for">
@@ -546,7 +546,7 @@ export default function HomePage() {
           <p className="section-label reveal" ref={addReveal}>Accuracy &amp; method</p>
           <h2 className="section-title reveal" ref={addReveal}>Calculations you can check.</h2>
           <p className="section-sub reveal" ref={addReveal}>
-            A professional tool earns trust by showing its working — not by hiding it. Here is exactly how ElectraCore treats every result.
+            Every result includes the method and assumptions needed to check it. Confirm the final design against the applicable regulations and product data.
           </p>
           <div className="feature-grid">
             {METHOD.map((m, i) => (

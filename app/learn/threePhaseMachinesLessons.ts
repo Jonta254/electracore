@@ -2,8 +2,8 @@ import type { EnhancedLesson, LessonSource } from "./enhancedLessons";
 
 type Draft = Omit<EnhancedLesson, "difficulty" | "sources" | "reviewDate" | "reviewStatus" | "localCode">;
 const sources: LessonSource[] = [
-  { title: "IEC 60034-30-1 — Efficiency classes of line-operated AC motors", publisher: "IEC", edition: "2025", jurisdiction: "International", url: "https://webstore.iec.ch/en/publication/91195" },
-  { title: "IEC 60076-3 — Power transformers: insulation and dielectric tests", publisher: "IEC", edition: "2013+A1:2018", jurisdiction: "International", url: "https://webstore.iec.ch/en/publication/601" },
+  { title: "IEC 60034-30-1: Efficiency classes of line-operated AC motors", publisher: "IEC", edition: "2025", jurisdiction: "International", url: "https://webstore.iec.ch/en/publication/91195" },
+  { title: "IEC 60076-3: Power transformers: insulation and dielectric tests", publisher: "IEC", edition: "2013+A1:2018", jurisdiction: "International", url: "https://webstore.iec.ch/en/publication/601" },
   { title: "The safe isolation of plant and equipment (HSG253)", publisher: "Health and Safety Executive", edition: "Second edition", jurisdiction: "Great Britain", url: "https://www.hse.gov.uk/pubns/priced/hsg253.pdf" },
 ];
 const localCode = "Confirm the current machinery, motor, transformer, control-panel, installation, EMC and energy-efficiency requirements; exact nameplate, manufacturer and coordination data; fault level, earthing, isolation, guarding and stored-energy controls. Training calculations do not authorise energisation, rewiring, paralleling or starter commissioning.";

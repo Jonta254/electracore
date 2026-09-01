@@ -2,8 +2,8 @@ import type { EnhancedLesson, LessonSource } from "./enhancedLessons";
 
 type Draft = Omit<EnhancedLesson, "difficulty" | "sources" | "reviewDate" | "reviewStatus" | "localCode">;
 const sources: LessonSource[] = [
-  { title: "IEC 60038 — IEC standard voltages", publisher: "IEC", edition: "2009+A1:2021", jurisdiction: "International", url: "https://webstore.iec.ch/en/publication/153" },
-  { title: "IEC 61921 — Low-voltage power-factor-correction banks", publisher: "IEC", edition: "2017", jurisdiction: "International", url: "https://webstore.iec.ch/en/publication/26596" },
+  { title: "IEC 60038: IEC standard voltages", publisher: "IEC", edition: "2009+A1:2021", jurisdiction: "International", url: "https://webstore.iec.ch/en/publication/153" },
+  { title: "IEC 61921: Low-voltage power-factor-correction banks", publisher: "IEC", edition: "2017", jurisdiction: "International", url: "https://webstore.iec.ch/en/publication/26596" },
   { title: "Harmonics and Power Quality Analysis webinar Q&A", publisher: "IET", edition: "Current online guidance", jurisdiction: "United Kingdom", url: "https://electrical.theiet.org/bs-7671-18th-edition-wiring-regulations/faqs/webinar-questions-and-answers/harmonics-and-power-quality-analysis-webinar/" },
 ];
 const localCode = "Confirm nominal voltage and frequency, source/earthing arrangement, conductor and protective-device duties, meter category and connection method, harmonic/resonance conditions, capacitor-bank product and discharge provisions, and the current local installation standard. Balanced 230/400 V examples are analytical models, not approval of a site design.";

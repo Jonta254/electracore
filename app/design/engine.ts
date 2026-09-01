@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────────────────────
-   ElectraCore — Circuit design engine (pure functions, no UI)
+   ElectraCore: Circuit design engine (pure functions, no UI)
 
    Sizes a copper conductor for a load through the real chain:
      load  →  design current (Ib)
@@ -11,7 +11,7 @@
    The current-carrying capacities and mV/A/m figures below are
    representative values for 70 °C thermoplastic (PVC) insulated
    copper for common installation methods. They exist to make the
-   workflow realistic — always verify the final design against the
+   workflow realistic: always verify the final design against the
    wiring regulations and cable data that apply to your installation.
 ────────────────────────────────────────────────────────────── */
 
@@ -46,21 +46,21 @@ export const METHODS: MethodDef[] = [
   {
     id: "E",
     label: "In free air / on cable tray",
-    hint: "Spaced from a surface with free air movement — perforated tray, ladder, or open air.",
+    hint: "Spaced from a surface with free air movement: perforated tray, ladder, or open air.",
     ccc: { 1: 17, 1.5: 22, 2.5: 30, 4: 40, 6: 51, 10: 70, 16: 94, 25: 119, 35: 148, 50: 180, 70: 232, 95: 282, 120: 328 },
   },
 ];
 
 export const METHOD_MAP: Record<string, MethodDef> = Object.fromEntries(METHODS.map((m) => [m.id, m]));
 
-/* Voltage drop — mV per amp per metre, single-phase two-core, copper 70 °C (representative) */
+/* Voltage drop: mV per amp per metre, single-phase two-core, copper 70 °C (representative) */
 export const MVAM: Record<number, number> = {
   1: 44, 1.5: 29, 2.5: 18, 4: 11, 6: 7.3, 10: 4.4, 16: 2.8, 25: 1.75, 35: 1.25, 50: 0.93, 70: 0.63, 95: 0.46, 120: 0.36,
 };
 /* Three-phase drop is measured line-to-line; mV/A/m ≈ single-phase × (√3 / 2). */
 const THREE_PHASE_FACTOR = Math.sqrt(3) / 2;
 
-/* ── Correction (derating) factors — representative ── */
+/* ── Correction (derating) factors: representative ── */
 export const AMBIENT_OPTIONS = [
   { c: 25, ca: 1.03 }, { c: 30, ca: 1.0 }, { c: 35, ca: 0.94 },
   { c: 40, ca: 0.87 }, { c: 45, ca: 0.79 }, { c: 50, ca: 0.71 }, { c: 55, ca: 0.61 },
@@ -85,7 +85,7 @@ export interface DesignInput {
   power: string;             // watts
   pf: string;                // power factor 0–1
   current: string;          // design current (if mode = current)
-  voltage: string;          // supply voltage (V) — 230 single / 400 three, editable
+  voltage: string;          // supply voltage (V): 230 single / 400 three, editable
   length: string;           // one-way run length (m)
   deviceOverride: number | null; // manual In, else auto
   method: string;           // reference method id
@@ -209,7 +209,7 @@ export function designCircuit(inp: DesignInput): DesignResult {
     });
   }
   if (finalSize == null) {
-    checks.push({ ok: false, label: "Within cable range", detail: "Load exceeds the representative table (max 120 mm²) — specialist design." });
+    checks.push({ ok: false, label: "Within cable range", detail: "Load exceeds the representative table (max 120 mm²): specialist design." });
   }
 
   return {

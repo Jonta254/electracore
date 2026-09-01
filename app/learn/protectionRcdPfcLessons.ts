@@ -8,7 +8,7 @@ const rcdSources: LessonSource[] = [
 ];
 const pfcSources: LessonSource[] = [
   { title: "Minimizing unnecessary live testing for initial verification", publisher: "IET Wiring Matters", edition: "Issue 105, May 2025", jurisdiction: "United Kingdom", url: "https://electrical.theiet.org/wiring-matters/years/2025/105-may-2025/minimizing-unnecessary-live-testing-for-initial-verification/" },
-  { title: "Best Practice Guide 7 — Test instrument accuracy and consistency", publisher: "Electrical Safety First", edition: "Issue 2.1", jurisdiction: "United Kingdom", url: "https://www.electricalsafetyfirst.org.uk/media/1ctagxqn/best-practice-guide-7-issue-2-1.pdf" },
+  { title: "Best Practice Guide 7: Test instrument accuracy and consistency", publisher: "Electrical Safety First", edition: "Issue 2.1", jurisdiction: "United Kingdom", url: "https://www.electricalsafetyfirst.org.uk/media/1ctagxqn/best-practice-guide-7-issue-2-1.pdf" },
   { title: "BS 7671:2018+A4:2026 model EICR schedule", publisher: "IET", edition: "Amendment 4:2026", jurisdiction: "United Kingdom", url: "https://electrical.theiet.org/media/jp2fl3ia/bs7671_eicr_a4.pdf" },
 ];
 const code = "Verify the current BS 7671 edition, exact device/product standard and manufacturer instructions, waveform and delay characteristics, supply data, instrument category/accuracy, safe live-testing method, and recorded circuit conditions. Nominal labels or a single displayed result do not establish protection.";

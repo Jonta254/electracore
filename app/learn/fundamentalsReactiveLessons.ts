@@ -1,7 +1,7 @@
 import type { EnhancedLesson, LessonSource } from "./enhancedLessons";
 
 const sources: LessonSource[] = [
-  { title: "University Physics Volume 2 — Capacitance, Inductance, and AC Circuits", publisher: "OpenStax", edition: "Current web edition", jurisdiction: "Physics reference", url: "https://openstax.org/books/university-physics-volume-2/pages/15-summary" },
+  { title: "University Physics Volume 2: Capacitance, Inductance, and AC Circuits", publisher: "OpenStax", edition: "Current web edition", jurisdiction: "Physics reference", url: "https://openstax.org/books/university-physics-volume-2/pages/15-summary" },
   { title: "The International System of Units (SI Brochure)", publisher: "BIPM", edition: "9th edition, updated 2026", jurisdiction: "International", url: "https://www.bipm.org/en/publications/si-brochure" },
 ];
 type Draft = Omit<EnhancedLesson, "difficulty" | "sources" | "reviewDate" | "reviewStatus" | "localCode">;

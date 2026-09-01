@@ -27,7 +27,7 @@ export interface EnhancedLesson {
 
 const commonSources: LessonSource[] = [
   { title: "The Feynman Lectures on Physics, Volume II", publisher: "Caltech", edition: "Online edition", jurisdiction: "Physics reference" },
-  { title: "International Electrotechnical Vocabulary — Electromagnetism", publisher: "IEC", edition: "Current edition must be confirmed", jurisdiction: "International" },
+  { title: "International Electrotechnical Vocabulary: Electromagnetism", publisher: "IEC", edition: "Current edition must be confirmed", jurisdiction: "International" },
 ];
 
 import { FUNDAMENTALS_GROUP_ONE } from "./fundamentalsGroupOne.ts";

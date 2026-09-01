@@ -2,7 +2,7 @@ import type { EnhancedLesson, LessonSource } from "./enhancedLessons";
 
 const sources: LessonSource[] = [
   { title: "The International System of Units (SI Brochure)", publisher: "BIPM", edition: "9th edition, updated 2026", jurisdiction: "International", url: "https://www.bipm.org/en/publications/si-brochure" },
-  { title: "SI Units — Electric Current", publisher: "NIST", edition: "Current web edition", jurisdiction: "United States / SI reference", url: "https://www.nist.gov/pml/owm/si-units-electric-current" },
+  { title: "SI Units: Electric Current", publisher: "NIST", edition: "Current web edition", jurisdiction: "United States / SI reference", url: "https://www.nist.gov/pml/owm/si-units-electric-current" },
   { title: "University Physics Volume 2", publisher: "OpenStax", edition: "Current web edition", jurisdiction: "Physics reference", url: "https://openstax.org/details/books/university-physics-volume-2" },
 ];
 

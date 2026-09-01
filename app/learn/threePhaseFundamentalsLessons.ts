@@ -2,7 +2,7 @@ import type { EnhancedLesson, LessonSource } from "./enhancedLessons";
 
 type Draft = Omit<EnhancedLesson, "difficulty" | "sources" | "reviewDate" | "reviewStatus" | "localCode">;
 const sources: LessonSource[] = [
-  { title: "IEC 60038 — IEC standard voltages", publisher: "IEC", edition: "2009+A1:2021", jurisdiction: "International", url: "https://webstore.iec.ch/en/publication/153" },
+  { title: "IEC 60038: IEC standard voltages", publisher: "IEC", edition: "2009+A1:2021", jurisdiction: "International", url: "https://webstore.iec.ch/en/publication/153" },
   { title: "Broken PEN", publisher: "IET Wiring Matters", edition: "Issue 84, 2021", jurisdiction: "United Kingdom", url: "https://electrical.theiet.org/wiring-matters/years/2021/84-march-2021/broken-pen/" },
   { title: "Minimizing unnecessary live testing for initial verification", publisher: "IET Wiring Matters", edition: "Issue 105, 2025", jurisdiction: "United Kingdom", url: "https://electrical.theiet.org/wiring-matters/years/2025/105-may-2025/minimizing-unnecessary-live-testing-for-initial-verification/" },
 ];

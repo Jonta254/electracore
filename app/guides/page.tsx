@@ -36,7 +36,7 @@ export default function GuidesPage() {
           <p className="section-label">Reference Library</p>
           <h1 className="section-title">Wiring Guides & References</h1>
           <p className="section-sub">
-            Practical guides written from the tools up — not from a textbook. Installation methods, colour codes, testing procedures, and safety practices.
+            Practical guides built around the work itself. Find installation methods, colour codes, test procedures and safety guidance without textbook filler.
           </p>
 
           {/* SEARCH */}

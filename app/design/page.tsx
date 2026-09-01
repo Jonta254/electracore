@@ -32,7 +32,7 @@ function CableCrossSection({ size, phase }: { size: number | null; phase: "singl
         </g>
       ))}
       <text x="78" y="146" textAnchor="middle" fontFamily="monospace" fontSize="9" fill="var(--text-mute)">
-        {size ? `${size} mm² copper` : "— select a load —"}
+        {size ? `${size} mm² copper` : "Select a load"}
       </text>
     </svg>
   );
@@ -53,14 +53,14 @@ export default function DesignPage() {
     ["Supply", `${inp.phase === "three" ? "Three-phase" : "Single-phase"} · ${inp.voltage} V`],
     ["Design current (Ib)", `${result.Ib.toFixed(1)} A`],
     ["Protective device (In)", `${result.In} A${inp.deviceOverride ? " (manual)" : " (auto)"}`],
-    ["Installation method", `${method.id} — ${method.label}`],
+    ["Installation method", `${method.id}: ${method.label}`],
     ["Derating factors", `Ca ${result.ca} · Cg ${result.cg} · Ci ${result.ci}  →  ${result.derate.toFixed(3)}`],
     ["Required tabulated capacity", `${result.requiredIt.toFixed(1)} A`],
-    ["Thermal minimum size", result.thermalSize ? `${result.thermalSize} mm²` : "—"],
-    ["Selected conductor", result.finalSize ? `${result.finalSize} mm² copper${result.vdLimited ? " (increased for voltage drop)" : ""}` : "—"],
-    ["Effective capacity (Iz)", result.IzEffective ? `${result.IzEffective.toFixed(1)} A` : "—"],
+    ["Thermal minimum size", result.thermalSize ? `${result.thermalSize} mm²` : "Not calculated"],
+    ["Selected conductor", result.finalSize ? `${result.finalSize} mm² copper${result.vdLimited ? " (increased for voltage drop)" : ""}` : "Not calculated"],
+    ["Effective capacity (Iz)", result.IzEffective ? `${result.IzEffective.toFixed(1)} A` : "Not calculated"],
     ["Run length", `${inp.length} m`],
-    ["Voltage drop", result.vd != null ? `${result.vd.toFixed(2)} V (${result.vdPct?.toFixed(2)}%)` : "—"],
+    ["Voltage drop", result.vd != null ? `${result.vd.toFixed(2)} V (${result.vdPct?.toFixed(2)}%)` : "Not calculated"],
   ] : [];
 
   return (
@@ -83,11 +83,11 @@ export default function DesignPage() {
           Verdict: {allPass ? "All checks pass" : anyFail ? "One or more checks require attention" : "Incomplete"}
         </div>
         <ul className="dz-report-checks">
-          {result.checks.map((c, i) => <li key={i}>{c.ok ? "PASS" : "REVIEW"} — {c.label}: {c.detail}</li>)}
+          {result.checks.map((c, i) => <li key={i}>{c.ok ? "PASS" : "REVIEW"}: {c.label}: {c.detail}</li>)}
         </ul>
         <div className="dz-report-foot">
           Representative figures for 70 °C thermoplastic (PVC) insulated copper. Typical voltage-drop guidance is around
-          3–5%. This summary is a design aid — verify every value against your local wiring regulations and the specific
+          3–5%. This summary is a design aid: verify every value against your local wiring regulations and the specific
           cable data before installation. ElectraCore.
         </div>
       </div>
@@ -114,8 +114,8 @@ export default function DesignPage() {
             <p className="section-label">Circuit Designer</p>
             <h1 className="dz-title">From load to a verified cable,<br /><span className="accent">in one flow.</span></h1>
             <p className="dz-sub">
-              Enter the load and the installation conditions. ElectraCore chains the whole calculation — design current,
-              protective device, cable size with derating, and voltage drop — and tells you whether it passes. Change any
+              Enter the load and the installation conditions. ElectraCore chains the whole calculation: design current,
+              protective device, cable size with derating, and voltage drop, then reports you whether it passes. Change any
               value and the result updates live.
             </p>
             <div className="dz-flow">
@@ -132,7 +132,7 @@ export default function DesignPage() {
         <div className="dz-layout dz-noprint">
           {/* INPUTS */}
           <div className="dz-inputs">
-            {/* Step 1 — Load */}
+            {/* Step 1: Load */}
             <section className="dz-card">
               <div className="dz-card-head"><span className="dz-step">1</span><h2>Load &amp; supply</h2></div>
               <div className="dz-seg">
@@ -157,7 +157,7 @@ export default function DesignPage() {
               </div>
             </section>
 
-            {/* Step 2 — Device */}
+            {/* Step 2: Device */}
             <section className="dz-card">
               <div className="dz-card-head"><span className="dz-step">2</span><h2>Protective device</h2></div>
               <p className="dz-note">Auto-selected as the smallest standard rating at or above the design current. Override if your design needs a specific device.</p>
@@ -171,7 +171,7 @@ export default function DesignPage() {
               </div>
             </section>
 
-            {/* Step 3 — Install conditions */}
+            {/* Step 3: Install conditions */}
             <section className="dz-card">
               <div className="dz-card-head"><span className="dz-step">3</span><h2>Installation conditions</h2></div>
               <label className="dz-field-label">Reference method</label>
@@ -212,7 +212,7 @@ export default function DesignPage() {
               ) : (
                 <>
                   <div className={`dz-verdict ${allPass ? "ok" : anyFail ? "no" : "wait"}`}>
-                    {allPass ? "PASS — Design passes" : anyFail ? "REVIEW — Needs attention" : "Working…"}
+                    {allPass ? "PASS: Design passes" : anyFail ? "REVIEW: Needs attention" : "Working…"}
                   </div>
 
                   <div className="dz-xsec">
@@ -220,7 +220,7 @@ export default function DesignPage() {
                   </div>
 
                   <div className="dz-headline">
-                    <div className="dz-headline-num">{result.finalSize ?? "—"}</div>
+                    <div className="dz-headline-num">{result.finalSize ?? "Not calculated"}</div>
                     <div className="dz-headline-unit">mm²</div>
                   </div>
                   <div className="dz-headline-sub">
@@ -231,8 +231,8 @@ export default function DesignPage() {
                   <div className="dz-metrics">
                     <Metric k="Design current" v={`${result.Ib.toFixed(1)} A`} />
                     <Metric k="Device" v={`${result.In} A`} />
-                    <Metric k="Iz (derated)" v={result.IzEffective ? `${result.IzEffective.toFixed(1)} A` : "—"} />
-                    <Metric k="Voltage drop" v={result.vdPct != null ? `${result.vdPct.toFixed(2)}%` : "—"} />
+                    <Metric k="Iz (derated)" v={result.IzEffective ? `${result.IzEffective.toFixed(1)} A` : "Not calculated"} />
+                    <Metric k="Voltage drop" v={result.vdPct != null ? `${result.vdPct.toFixed(2)}%` : "Not calculated"} />
                   </div>
 
                   <div className="dz-checks">
@@ -250,7 +250,7 @@ export default function DesignPage() {
                   <button className="dz-export" onClick={() => window.print()}>⎙ Export design summary (PDF)</button>
                   <p className="dz-disclaimer">
                     Representative figures for 70 °C PVC-insulated copper. A design aid, not a substitute for the
-                    regulations — verify every value against your local wiring regulations before installation.
+                    regulations: verify every value against your local wiring regulations before installation.
                   </p>
                 </>
               )}
@@ -360,7 +360,7 @@ export default function DesignPage() {
           .dz-result { position: static; }
         }
 
-        /* Print — only the summary */
+        /* Print: only the summary */
         .dz-report { display: none; }
         @media print {
           .nav, main, footer { display: none !important; }

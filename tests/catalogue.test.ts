@@ -13,6 +13,14 @@ const lessonExperienceSource = fs.readFileSync(new URL("../app/learn/[slug]/[les
 const lessonLayoutSource = fs.readFileSync(new URL("../app/learn/[slug]/[lessonId]/layout.tsx", import.meta.url), "utf8");
 const courseRouteSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
 
+function sourceFiles(directory: URL): URL[] {
+  return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const child = new URL(`${entry.name}${entry.isDirectory() ? "/" : ""}`, directory);
+    if (entry.isDirectory()) return sourceFiles(child);
+    return /\.tsx?$/.test(entry.name) ? [child] : [];
+  });
+}
+
 test("catalogue metadata covers every preserved course and matches lesson counts", () => {
   const courseBlocks = [...courseSource.matchAll(/^  "([^"]+)": \{([\s\S]*?)(?=^  "[^"]+": \{|^\};)/gm)];
   assert.equal(courseBlocks.length, 9);
@@ -37,6 +45,16 @@ test("professional learning routes contain no emoji controls or false video type
   assert.doesNotMatch(courseSource, /type: "video"/i);
 
 });
+
+test("customer-facing source avoids editorial em dashes", () => {
+  const appRoot = new URL("../app/", import.meta.url);
+
+  for (const file of sourceFiles(appRoot)) {
+    const source = fs.readFileSync(file, "utf8");
+    assert.equal(source.includes("—"), false, `${file.pathname} contains an editorial em dash`);
+  }
+});
+
 test("enhanced lesson reader exposes responsive orientation and print controls", () => {
   for (const section of ["Purpose", "Core theory", "Worked example", "Knowledge check", "Sources"]) {
     assert.ok(enhancedReaderSource.includes(`label: "${section}"`), `missing lesson section: ${section}`);

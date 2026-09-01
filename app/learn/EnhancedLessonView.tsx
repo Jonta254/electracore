@@ -104,10 +104,10 @@ function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonI
     );
   }
   const labels: Record<string, string> = {
-    l1: "ATOMIC CHARGE MODEL", l2: "CHARGE — COULOMBS AND CARRIERS", l3: "MATERIAL RESPONSE", l4: "CURRENT DIRECTION CONVENTIONS",
-    l6: "VOLTAGE — ENERGY PER CHARGE", l7: "CURRENT — CHARGE PER SECOND", l8: "RESISTANCE — MATERIAL + GEOMETRY", l9: "OHM'S LAW — ONE RELATIONSHIP, THREE FORMS",
-    l11: "SERIES — ONE CURRENT PATH", l12: "PARALLEL — COMMON VOLTAGE", l13: "SERIES-PARALLEL REDUCTION", l14: "DIVIDER RELATIONSHIPS",
-    l16: "KCL — CURRENT BALANCE", l17: "KVL — LOOP BALANCE", l18: "MESH AND NODAL VARIABLES", l20: "POWER — ENERGY RATE", l21: "ENERGY OVER TIME", l22: "CABLE LOSS AND EFFICIENCY",
+    l1: "ATOMIC CHARGE MODEL", l2: "CHARGE: COULOMBS AND CARRIERS", l3: "MATERIAL RESPONSE", l4: "CURRENT DIRECTION CONVENTIONS",
+    l6: "VOLTAGE: ENERGY PER CHARGE", l7: "CURRENT: CHARGE PER SECOND", l8: "RESISTANCE: MATERIAL + GEOMETRY", l9: "OHM'S LAW: ONE RELATIONSHIP, THREE FORMS",
+    l11: "SERIES: ONE CURRENT PATH", l12: "PARALLEL: COMMON VOLTAGE", l13: "SERIES-PARALLEL REDUCTION", l14: "DIVIDER RELATIONSHIPS",
+    l16: "KCL: CURRENT BALANCE", l17: "KVL: LOOP BALANCE", l18: "MESH AND NODAL VARIABLES", l20: "POWER: ENERGY RATE", l21: "ENERGY OVER TIME", l22: "CABLE LOSS AND EFFICIENCY",
     l24: "AC AND DC SYSTEMS", l25: "SINE-WAVE MEASURES", l26: "FREQUENCY AND PERIOD", l27: "PHASE RELATIONSHIPS", l28: "AC IMPEDANCE",
     l29: "CAPACITOR ENERGY", l30: "CAPACITIVE REACTANCE", l31: "INDUCTOR ENERGY", l32: "INDUCTIVE REACTANCE", l33: "FIRST-ORDER TRANSIENTS",
     l34: "MULTIMETER CONNECTIONS", l35: "CLAMP-METER FIELDS", l36: "OSCILLOSCOPE SCALES",
@@ -256,7 +256,7 @@ export function EnhancedLessonView({ lesson, courseSlug, lessonId }: { lesson: E
       <section id={`theory-${lessonId}`}>
         <h3>Core theory</h3>{lesson.theory.map(item => <p key={item}>{item}</p>)}
         <div className="terms-table-wrap"><table className="terms-table"><caption>Terms, symbols, and units</caption><thead><tr><th>Term</th><th>Meaning</th><th>Symbol</th><th>Unit</th></tr></thead>
-          <tbody>{lesson.terms.map(item => <tr key={item.term}><th scope="row">{item.term}</th><td>{item.meaning}</td><td>{item.symbol ?? "—"}</td><td>{item.unit ?? "—"}</td></tr>)}</tbody>
+          <tbody>{lesson.terms.map(item => <tr key={item.term}><th scope="row">{item.term}</th><td>{item.meaning}</td><td>{item.symbol ?? "Not applicable"}</td><td>{item.unit ?? "Not applicable"}</td></tr>)}</tbody>
         </table></div>
         {lesson.formula && <div className="lesson-formula"><code>{lesson.formula.expression}</code><p>{lesson.formula.explanation}</p><small>{lesson.formula.units}</small></div>}
       </section>
@@ -283,7 +283,7 @@ export function EnhancedLessonView({ lesson, courseSlug, lessonId }: { lesson: E
 
       <section id={`sources-${lessonId}`} className="lesson-sources">
         <h3>Sources and review</h3>
-        <ul>{lesson.sources.map(source => <li key={source.title}>{source.url ? <a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a> : source.title} — {source.publisher}; {source.edition}; {source.jurisdiction}</li>)}</ul>
+        <ul>{lesson.sources.map(source => <li key={source.title}>{source.url ? <a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a> : source.title}: {source.publisher}; {source.edition}; {source.jurisdiction}</li>)}</ul>
         <p>Content review date: {lesson.reviewDate}. Professional electrical review is pending.</p>
       </section>
         </article>
