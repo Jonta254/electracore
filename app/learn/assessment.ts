@@ -1,3 +1,5 @@
+export const ASSESSMENT_PASS_SCORE = 70;
+
 export function calculateAssessmentScore(correctIndexes: number[], answers: Record<number, number>): number {
   if (correctIndexes.length === 0) return 0;
   const correct = correctIndexes.filter((correctIndex, questionIndex) => answers[questionIndex] === correctIndex).length;

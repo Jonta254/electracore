@@ -9,7 +9,8 @@ import { LessonNotes } from "../LessonNotes";
 import { OPEN_PREVIEW_NOTICE, evaluateLearningAccess } from "../accessPolicy";
 import { isLessonIdForCourse } from "../courseTopology";
 import { calculateAssessmentScore } from "../assessment";
-import { loadEnhancedLesson } from "../enhancedLessonLoader";
+import type { AssessmentRecord } from "../progress";
+import { canMarkLessonComplete } from "../completionPolicy";
 
 /* ─── Course Database ─── */
 export const COURSES: Record<string, {
@@ -1703,7 +1704,7 @@ function LEDLuxDiagram() {
   );
 }
 
-export function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, previousLesson, nextLesson, onNavigate }: {
+export function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, previousLesson, nextLesson, onNavigate, enhancedLesson, exerciseComplete, assessmentRecord, onLearningStateChange }: {
   lesson: { id: string; title: string; duration: string; type: string };
   courseColor: string;
   courseSlug: string;
@@ -1711,38 +1712,27 @@ export function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, pr
   previousLesson?: Lesson;
   nextLesson?: Lesson;
   onNavigate: (lessonId: string) => void;
+  enhancedLesson?: EnhancedLesson;
+  exerciseComplete: boolean;
+  assessmentRecord?: AssessmentRecord;
+  onLearningStateChange: () => void;
 }) {
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [showSolution, setShowSolution] = useState(false);
-  const [exerciseComplete, setExerciseComplete] = useState(false);
-  const [enhancedLesson, setEnhancedLesson] = useState<EnhancedLesson | undefined>();
-  const [enhancedLoading, setEnhancedLoading] = useState(lesson.type === "lesson");
 
   const quizData = getAssessmentQuestions(lesson, courseSlug);
   const exerciseData = getExerciseForLesson(lesson.title, courseSlug);
   const lessonBody = getLessonBody(lesson.title, courseSlug, moduleTitle);
-  useEffect(() => {
-    let current = true;
-    if (lesson.type !== "lesson") {
-      setEnhancedLesson(undefined);
-      setEnhancedLoading(false);
-      return () => { current = false; };
+  const answerAssessmentQuestion = (questionIndex: number, optionIndex: number) => {
+    if (quizAnswers[questionIndex] !== undefined) return;
+    const next = { ...quizAnswers, [questionIndex]: optionIndex };
+    setQuizAnswers(next);
+    if (Object.keys(next).length === quizData.length) {
+      const score = calculateAssessmentScore(quizData.map(item => item.correct), next);
+      try { recordAssessment(localStorage, courseSlug, lesson.id, score); } catch {}
+      onLearningStateChange();
     }
-    setEnhancedLoading(true);
-    loadEnhancedLesson(courseSlug, lesson.id).then(value => {
-      if (current) {
-        setEnhancedLesson(value);
-        setEnhancedLoading(false);
-      }
-    }).catch(() => {
-      if (current) {
-        setEnhancedLesson(undefined);
-        setEnhancedLoading(false);
-      }
-    });
-    return () => { current = false; };
-  }, [courseSlug, lesson.id, lesson.type]);
-
+  };
   return (
     <div className="lesson-content-shell" style={{
       margin: "0 1.25rem 1rem",
@@ -1767,6 +1757,7 @@ export function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, pr
         /* QUIZ */
         <div style={{ padding: "1.25rem" }}>
           <p className="assessment-scope">{quizData.length === 1 ? "Knowledge checkpoint · 1 question" : `Final assessment · ${quizData.length} questions`}</p>
+          {assessmentRecord ? <div className="assessment-history" aria-label="Previous assessment performance"><span>Best score <strong>{assessmentRecord.bestScore}%</strong></span><span>Attempts <strong>{assessmentRecord.attempts}</strong></span></div> : <p className="assessment-history-empty">No completed attempts on this device.</p>}
           {quizData.map((question, questionIndex) => {
             const answer = quizAnswers[questionIndex];
             const showResult = answer !== undefined;
@@ -1776,17 +1767,7 @@ export function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, pr
                 {question.options.map((option, optionIndex) => {
                   const isSelected = answer === optionIndex;
                   const isCorrect = optionIndex === question.correct;
-                  return <button key={option} type="button" disabled={showResult} className={showResult ? isCorrect ? "correct" : isSelected ? "incorrect" : "" : ""} onClick={() => {
-                    setQuizAnswers(current => {
-                      if (current[questionIndex] !== undefined) return current;
-                      const next = { ...current, [questionIndex]: optionIndex };
-                      if (Object.keys(next).length === quizData.length) {
-                        const score = calculateAssessmentScore(quizData.map(item => item.correct), next);
-                        try { recordAssessment(localStorage, courseSlug, lesson.id, score); } catch {}
-                      }
-                      return next;
-                    });
-                  }}><span>{String.fromCharCode(65 + optionIndex)}.</span>{option}{showResult && isCorrect ? " Correct" : showResult && isSelected ? " Incorrect" : ""}</button>;
+                  return <button key={option} type="button" disabled={showResult} className={showResult ? isCorrect ? "correct" : isSelected ? "incorrect" : "" : ""} onClick={() => answerAssessmentQuestion(questionIndex, optionIndex)}><span>{String.fromCharCode(65 + optionIndex)}.</span>{option}{showResult && isCorrect ? " Correct" : showResult && isSelected ? " Incorrect" : ""}</button>;
                 })}
               </div>
               {showResult ? <p className="assessment-explanation"><strong>{answer === question.correct ? "Correct. " : "Review: "}</strong>{question.explanation}</p> : null}
@@ -1829,7 +1810,7 @@ export function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, pr
                 disabled={exerciseComplete}
                 onClick={() => {
                   try { recordExercise(localStorage, courseSlug, lesson.id); } catch {}
-                  setExerciseComplete(true);
+                  onLearningStateChange();
                 }}
               >
                 {exerciseComplete ? "Exercise marked complete" : "I have completed this exercise"}
@@ -1845,9 +1826,7 @@ export function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, pr
               {lessonBody.diagram}
             </div>
           )}
-          {enhancedLoading ? (
-            <div className="lesson-content-loading" role="status">Loading reviewed lesson content…</div>
-          ) : enhancedLesson ? (
+          {enhancedLesson ? (
             <EnhancedLessonView lesson={enhancedLesson} courseSlug={courseSlug} lessonId={lesson.id} />
           ) : (
             <>
@@ -1882,12 +1861,16 @@ export default function CoursePage({ slug }: { slug: string }) {
 
   const [expanded, setExpanded] = useState<Set<string>>(new Set(["m1"]));
   const [completed, setCompleted] = useState<Set<string>>(new Set());
+  const [assessmentRecords, setAssessmentRecords] = useState<Record<string, AssessmentRecord>>({});
+  const [completedExercises, setCompletedExercises] = useState<Set<string>>(new Set());
   const [activeLesson, setActiveLesson] = useState<string | null>(null);
 
   useEffect(() => {
     try {
       const saved = loadCourseLearning(localStorage, slug);
       setCompleted(new Set(saved.completedLessons));
+      setAssessmentRecords(saved.assessments);
+      setCompletedExercises(new Set(saved.completedExercises));
       if (saved.lastLessonId && isLessonIdForCourse(slug, saved.lastLessonId)) {
         setActiveLesson(saved.lastLessonId);
         const owner = course?.modules.find((mod) => mod.lessons.some((lesson) => lesson.id === saved.lastLessonId));
@@ -1898,11 +1881,19 @@ export default function CoursePage({ slug }: { slug: string }) {
     }
   }, [course, slug]);
 
-  const toggleComplete = (lessonId: string) => {
+  const toggleComplete = (lesson: Lesson) => {
+    const alreadyComplete = completed.has(lesson.id);
+    const requirementMet = canMarkLessonComplete({
+      type: lesson.type,
+      alreadyComplete,
+      exerciseComplete: completedExercises.has(lesson.id),
+      bestAssessmentScore: assessmentRecords[lesson.id]?.bestScore,
+    });
+    if (!alreadyComplete && !requirementMet) return;
     setCompleted(prev => {
       const next = new Set(prev);
-      if (next.has(lessonId)) next.delete(lessonId);
-      else next.add(lessonId);
+      if (next.has(lesson.id)) next.delete(lesson.id);
+      else next.add(lesson.id);
       try {
         const total = course?.modules.reduce((sum, mod) => sum + mod.lessons.length, 0) ?? 0;
         saveLessonCompletion(localStorage, slug, [...next], total);
@@ -2075,6 +2066,7 @@ export default function CoursePage({ slug }: { slug: string }) {
                           {mod.lessons.map((lesson, li) => {
                             const isDone = completed.has(lesson.id);
                             const isActive = activeLesson === lesson.id;
+                            const canMarkComplete = canMarkLessonComplete({ type: lesson.type, alreadyComplete: isDone, exerciseComplete: completedExercises.has(lesson.id), bestAssessmentScore: assessmentRecords[lesson.id]?.bestScore });
                             return (
                               <div key={lesson.id}>
                                 <div className={`lesson-item${isActive ? " active" : ""}${isDone ? " done" : ""}`}>
@@ -2082,9 +2074,10 @@ export default function CoursePage({ slug }: { slug: string }) {
                                     type="button"
                                     className="lesson-check"
                                     style={{ borderColor: isDone ? course.color : undefined, background: isDone ? course.color : undefined }}
-                                    onClick={() => toggleComplete(lesson.id)}
-                                    aria-label={`${isDone ? "Mark incomplete" : "Mark complete"}: ${lesson.title}`}
-                                    title={isDone ? "Mark incomplete" : "Mark complete"}
+                                    disabled={!canMarkComplete}
+                                    onClick={() => toggleComplete(lesson)}
+                                    aria-label={`${isDone ? "Mark incomplete" : canMarkComplete ? "Mark complete" : "Complete required activity first"}: ${lesson.title}`}
+                                    title={isDone ? "Mark incomplete" : canMarkComplete ? "Mark complete" : "Complete the exercise or pass the assessment first"}
                                   >
                                     {isDone && <span style={{ color: "#000", fontSize: "0.7rem", fontWeight: 900 }}>DONE</span>}
                                   </button>
@@ -2223,6 +2216,7 @@ export default function CoursePage({ slug }: { slug: string }) {
         .lesson-open { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex: 1; min-width: 0; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; text-align: left; }
         .lesson-left { display: flex; align-items: center; gap: 0.875rem; flex: 1; min-width: 0; }
         .lesson-check { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--border); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
+        .lesson-check:disabled { cursor: not-allowed; opacity: .4; }
         .lesson-type-icon { font-size: 0.75rem; flex-shrink: 0; width: 18px; text-align: center; }
         .lesson-title { font-size: 0.875rem; color: var(--text-dim); line-height: 1.4; }
         .lesson-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
+import { COURSE_LESSON_COUNTS } from "../app/learn/courseTopology.ts";
 
 const catalogueSource = fs.readFileSync(new URL("../app/learn/page.tsx", import.meta.url), "utf8");
 const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
@@ -8,6 +9,7 @@ const enhancedReaderSource = fs.readFileSync(new URL("../app/learn/EnhancedLesso
 const globalStyles = fs.readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
 const nextConfigSource = fs.readFileSync(new URL("../next.config.mjs", import.meta.url), "utf8");
 const lessonRouteSource = fs.readFileSync(new URL("../app/learn/[slug]/[lessonId]/page.tsx", import.meta.url), "utf8");
+const lessonExperienceSource = fs.readFileSync(new URL("../app/learn/[slug]/[lessonId]/LessonExperience.tsx", import.meta.url), "utf8");
 const lessonLayoutSource = fs.readFileSync(new URL("../app/learn/[slug]/[lessonId]/layout.tsx", import.meta.url), "utf8");
 const courseRouteSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
 
@@ -17,6 +19,7 @@ test("catalogue metadata covers every preserved course and matches lesson counts
   for (const [, slug, block] of courseBlocks) {
     const lessonCount = [...block.matchAll(/\{ id: "l\d+", title: "[^"]+", duration: "\d+min", type: "(?:lesson|quiz|exercise)" \}/g)].length;
     assert.match(catalogueSource, new RegExp(`"${slug}": \\{ lessons: ${lessonCount},`), `${slug} catalogue count is stale`);
+    assert.equal(COURSE_LESSON_COUNTS[slug as keyof typeof COURSE_LESSON_COUNTS], lessonCount, `${slug} route topology is stale`);
   }
 });
 
@@ -69,13 +72,13 @@ test("lesson controls are keyboard-native and production CSP is bounded", () => 
 test("every lesson opens on a stable route with syllabus and sequence navigation", () => {
   assert.match(courseSource, /href=\{`\/learn\/\$\{slug\}\/\$\{lesson\.id\}`\}/);
   assert.doesNotMatch(courseSource, /isActive && \(\s*<LessonContent/);
-  assert.match(lessonRouteSource, /aria-label="Course syllabus"/);
-  assert.match(lessonRouteSource, /aria-current=\{itemLesson\.id === lesson\.id \? "page"/);
-  assert.match(lessonRouteSource, /Lesson \{index \+ 1\} of \{lessons\.length\}/);
-  assert.match(lessonRouteSource, /previousLesson=\{lessons\[index - 1\]\}/);
-  assert.match(lessonRouteSource, /nextLesson=\{lessons\[index \+ 1\]\}/);
-  assert.match(lessonRouteSource, /id="lesson-jump"/);
-  assert.match(lessonRouteSource, /<optgroup key=\{item\.id\}/);
+  assert.match(lessonExperienceSource, /aria-label="Course syllabus"/);
+  assert.match(lessonExperienceSource, /aria-current=\{itemLesson\.id === lesson\.id \? "page"/);
+  assert.match(lessonExperienceSource, /Lesson \{index \+ 1\} of \{lessons\.length\}/);
+  assert.match(lessonExperienceSource, /previousLesson=\{lessons\[index - 1\]\}/);
+  assert.match(lessonExperienceSource, /nextLesson=\{lessons\[index \+ 1\]\}/);
+  assert.match(lessonExperienceSource, /id="lesson-jump"/);
+  assert.match(lessonExperienceSource, /<optgroup key=\{item\.id\}/);
   assert.match(courseSource, /className="course-primary-actions"/);
   assert.match(courseSource, /Continue learning/);
   assert.match(courseRouteSource, /if \(!isCourseSlug\(slug\)\) notFound\(\)/);
@@ -89,8 +92,11 @@ test("every lesson opens on a stable route with syllabus and sequence navigation
   assert.match(courseSource, /I have completed this exercise/);
   assert.match(courseSource, /Final assessment · \$\{quizData\.length\} questions/);
   assert.match(courseSource, /calculateAssessmentScore\(quizData\.map\(item => item\.correct\), next\)/);
-  assert.match(courseSource, /loadEnhancedLesson\(courseSlug, lesson\.id\)/);
-  assert.match(courseSource, /Loading reviewed lesson content/);
+  assert.match(lessonRouteSource, /enhancedLesson=\{getEnhancedLesson\(slug, lessonId\)\}/);
+  assert.doesNotMatch(courseSource, /Loading reviewed lesson content/);
+  assert.match(lessonExperienceSource, /ASSESSMENT_PASS_SCORE/);
+  assert.match(lessonExperienceSource, /completedExercises\.includes\(lesson\.id\)/);
+  assert.match(courseSource, /Previous assessment performance/);
 });
 
 test("lesson visuals are technical, labelled, and topic-routed", () => {
