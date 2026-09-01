@@ -66,6 +66,16 @@ export default function LessonPage({ params }: { params: Promise<{ slug: string;
       <div className="lesson-route-layout">
         <aside className="lesson-syllabus" aria-label="Course syllabus">
           <div className="lesson-syllabus-head"><strong>Course syllabus</strong><Link href={`/learn/${slug}`}>Course overview</Link></div>
+          <div className="lesson-mobile-jump">
+            <label htmlFor="lesson-jump">Jump to any lesson</label>
+            <select id="lesson-jump" value={lesson.id} onChange={(event) => goToLesson(event.target.value)}>
+              {course.modules.map((item, moduleIndex) => (
+                <optgroup key={item.id} label={`${moduleIndex + 1}. ${item.title}`}>
+                  {item.lessons.map((itemLesson) => <option key={itemLesson.id} value={itemLesson.id}>{itemLesson.title}</option>)}
+                </optgroup>
+              ))}
+            </select>
+          </div>
           <nav>
             {course.modules.map((item, moduleIndex) => (
               <details key={item.id} open={item.id === courseModule.id}>

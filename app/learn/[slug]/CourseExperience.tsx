@@ -1882,6 +1882,8 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
   const totalLessons = course.modules.reduce((a, m) => a + m.lessons.length, 0);
   const progressPct = Math.round((completed.size / totalLessons) * 100);
   const totalMinutes = course.modules.reduce((a, m) => a + m.lessons.reduce((b, l) => b + parseInt(l.duration), 0), 0);
+  const firstLessonId = course.modules[0]?.lessons[0]?.id;
+  const primaryLessonId = activeLesson ?? firstLessonId;
   return (
     <>
       <main style={{ paddingTop: "64px" }}>
@@ -1972,6 +1974,19 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                   <h2>Course curriculum</h2>
                   <p>{completed.size} of {totalLessons} lessons complete. Progress is stored on this device.</p>
                 </div>
+                {primaryLessonId ? (
+                  <div className="course-primary-actions">
+                    <Link href={`/learn/${slug}/${primaryLessonId}`}>{activeLesson ? "Continue learning" : "Start course"}<span aria-hidden="true">→</span></Link>
+                    <span>{activeLesson ? "Resume where you stopped" : `Begin with ${course.modules[0].lessons[0].title}`}</span>
+                  </div>
+                ) : null}
+                <details className="course-mobile-details">
+                  <summary>Course goals and prerequisites</summary>
+                  <h2>What you&apos;ll learn</h2>
+                  <ul>{course.outcomes.map((outcome) => <li key={outcome}>{outcome}</li>)}</ul>
+                  <h2>Before you begin</h2>
+                  <ul>{course.prerequisites.map((item) => <li key={item}>{item}</li>)}</ul>
+                </details>
                 <div className="curriculum-controls">
                   {activeLesson && <Link className="curriculum-continue" href={`/learn/${slug}/${activeLesson}`}>Continue current lesson</Link>}
                   <button type="button" onClick={() => setExpanded(new Set(course.modules.map((module) => module.id)))}>Expand all</button>
@@ -2122,6 +2137,10 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
         .course-page-intro { font-size: 1rem; color: var(--text-dim); line-height: 1.75; margin-bottom: 1.5rem; max-width: 580px; }
         .course-meta-row { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
         .course-meta-item { display: flex; align-items: center; gap: 5px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-dim); }
+        .course-primary-actions { display: flex; align-items: center; gap: 1rem; margin: .25rem 0 1.5rem; }
+        .course-primary-actions a { display: inline-flex; align-items: center; justify-content: space-between; gap: 2rem; min-width: 190px; min-height: 44px; padding: 0 1rem; border-radius: 8px; background: ${course.color}; color: #08090b; text-decoration: none; font-weight: 850; }
+        .course-primary-actions > span { color: var(--text-mute); font-size: .76rem; }
+        .course-mobile-details { display: none; }
         .course-progress-section { padding: 1rem; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); }
         .course-progress-track { height: 4px; border-radius: 100px; background: var(--border); overflow: hidden; }
         .course-progress-fill-bar { height: 100%; border-radius: 100px; transition: width 0.5s ease; }
@@ -2133,6 +2152,13 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
         .curriculum-layout { display: grid; grid-template-columns: 1fr 280px; gap: 3rem; align-items: start; }
         @media (max-width: 900px) { .curriculum-layout { grid-template-columns: 1fr; } .curriculum-sidebar { display: none; } }
         .modules-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .curriculum-heading { display: flex; align-items: end; justify-content: space-between; gap: 1.5rem; margin-bottom: 1.25rem; }
+        .curriculum-kicker { margin: 0 0 .3rem; color: ${course.color}; font: 750 .68rem 'JetBrains Mono',monospace; letter-spacing: .09em; text-transform: uppercase; }
+        .curriculum-heading h2 { margin: 0 0 .35rem; font-size: 1.4rem; }
+        .curriculum-heading p:not(.curriculum-kicker) { margin: 0; color: var(--text-mute); font-size: .8rem; }
+        .curriculum-controls { display: flex; gap: .5rem; flex-wrap: wrap; justify-content: flex-end; }
+        .curriculum-controls button { min-height: 38px; padding: 0 .8rem; border: 1px solid var(--border); border-radius: 8px; background: var(--bg2); color: var(--text-dim); cursor: pointer; font-size: .75rem; font-weight: 700; }
+        .curriculum-controls button:hover { border-color: ${course.color}66; color: var(--text); }
         .module-item { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
         .module-header { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; background: var(--bg2); border: none; cursor: pointer; text-align: left; transition: background 0.2s; }
         .module-header:hover { background: var(--bg3); }
@@ -2160,6 +2186,24 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
         .progress-stats { display: flex; flex-direction: column; gap: 0.6rem; }
         .progress-stat-row { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
         .progress-stat-row:last-child { border-bottom: none; }
+        @media (max-width: 900px) {
+          .course-page-hero { padding: 2.5rem 0 2.25rem; }
+          .course-mobile-details { display: block; margin-top: 1rem; padding: .8rem 1rem; border: 1px solid var(--border); border-radius: 10px; background: var(--bg2); }
+          .course-mobile-details summary { cursor: pointer; color: var(--text); font-size: .82rem; font-weight: 750; }
+          .course-mobile-details h2 { margin: 1rem 0 .45rem; color: ${course.color}; font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; }
+          .course-mobile-details ul { margin: 0; padding-left: 1.15rem; color: var(--text-dim); font-size: .78rem; line-height: 1.6; }
+          .curriculum-heading { align-items: stretch; flex-direction: column; }
+          .curriculum-controls { justify-content: flex-start; }
+        }
+        @media (max-width: 520px) {
+          .course-primary-actions { align-items: stretch; flex-direction: column; gap: .55rem; }
+          .course-primary-actions a { width: 100%; }
+          .course-meta-row { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .65rem; }
+          .curriculum-controls { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
+          .curriculum-controls .curriculum-continue { grid-column: 1/-1; justify-content: center; }
+          .module-header { padding-inline: .9rem; }
+          .module-title { font-size: .86rem; }
+        }
       `}</style>
     </>
   );

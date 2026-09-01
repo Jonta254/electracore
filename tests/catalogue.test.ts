@@ -72,6 +72,10 @@ test("every lesson opens on a stable route with syllabus and sequence navigation
   assert.match(lessonRouteSource, /Lesson \{index \+ 1\} of \{lessons\.length\}/);
   assert.match(lessonRouteSource, /previousLesson=\{lessons\[index - 1\]\}/);
   assert.match(lessonRouteSource, /nextLesson=\{lessons\[index \+ 1\]\}/);
+  assert.match(lessonRouteSource, /id="lesson-jump"/);
+  assert.match(lessonRouteSource, /<optgroup key=\{item\.id\}/);
+  assert.match(courseSource, /className="course-primary-actions"/);
+  assert.match(courseSource, /Continue learning/);
 });
 
 test("lesson visuals are technical, labelled, and topic-routed", () => {
