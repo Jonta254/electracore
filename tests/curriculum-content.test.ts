@@ -11,7 +11,7 @@ test("enhanced fundamentals preserve the verified checkpoint lesson IDs", () => 
 });
 
 test("course inventory contains 9 courses and 280 uniquely addressable lessons", () => {
-  const source = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const source = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const courseBlocks = [...source.matchAll(/^  "([^"]+)": \{([\s\S]*?)(?=^  "[^"]+": \{|^\};)/gm)];
   assert.equal(courseBlocks.length, 9);
   let total = 0;
@@ -54,7 +54,7 @@ test("every enhanced lesson has sources, review state, safety, and local context
 });
 
 test("all inline quiz correct-answer indexes are within their option arrays", () => {
-  const source = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const source = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const blocks = [...source.matchAll(/options:\s*\[([^\]]+)\],\s*correct:\s*(\d+)/g)];
   assert.ok(blocks.length >= 5);
   for (const block of blocks) {
@@ -75,7 +75,7 @@ test("first fundamentals group has truthful review evidence", () => {
 });
 
 test("fundamentals module quiz and circuit practice do not use generic fallbacks", () => {
-  const source = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const source = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   assert.match(source, /slug === "electrical-fundamentals" && t\.includes\("module quiz"\)/);
   assert.match(source, /t\.includes\("circuit analysis practice"\)/);
   assert.match(source, /Branch currents are 4\/6 = 0\.667 A and 4\/3 = 1\.333 A/);
@@ -83,21 +83,21 @@ test("fundamentals module quiz and circuit practice do not use generic fallbacks
 test("second fundamentals group has review evidence and no generic assessments", () => {
   for (let id = 16; id <= 23; id += 1) assert.ok(LESSON_REVIEWS[`electrical-fundamentals:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 18);
-  const source = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const source = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   assert.match(source, /slug === "electrical-fundamentals" && t\.includes\("power quiz"\)/);
   assert.match(source, /t\.includes\("kirchhoff's law problems"\)/);
 });
 test("remaining fundamentals group is fully recorded and assessment-specific", () => {
   for (let id = 24; id <= 37; id += 1) assert.ok(LESSON_REVIEWS[`electrical-fundamentals:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 31);
-  const source = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const source = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   assert.match(source, /slug === "electrical-fundamentals" && t\.includes\("final assessment"\)/);
   assert.match(source, /XC ≈ 31\.8 Ω; current leads voltage by 90°/);
 });
 test("first domestic wiring group has course-specific content and review evidence", () => {
   for (let id = 1; id <= 10; id += 1) assert.ok(LESSON_REVIEWS[`domestic-wiring:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 39);
-  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /slug === "domestic-wiring" && t\.includes\("module quiz"\)/);
   assert.match(courseSource, /_slug === "domestic-wiring" && t\.includes\("wiring practice problems"\)/);
@@ -106,7 +106,7 @@ test("first domestic wiring group has course-specific content and review evidenc
 test("domestic lighting and earthing group has specific content and assessment coverage", () => {
   for (let id = 11; id <= 21; id += 1) assert.ok(LESSON_REVIEWS[`domestic-wiring:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 48);
-  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /t\.includes\("lighting circuit quiz"\)/);
   assert.match(courseSource, /t\.includes\("bonding quiz"\)/);
@@ -116,7 +116,7 @@ test("domestic lighting and earthing group has specific content and assessment c
 test("domestic special-locations and cable-routing group is specific and reviewed", () => {
   for (let id = 22; id <= 30; id += 1) assert.ok(LESSON_REVIEWS[`domestic-wiring:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 56);
-  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /t\.includes\("depths and zones quiz"\)/);
   assert.match(viewSource, /SPECIAL-LOCATION RISK LAYERS/);
@@ -125,7 +125,7 @@ test("domestic special-locations and cable-routing group is specific and reviewe
 test("domestic fault-finding and regulation group completes the course specifically", () => {
   for (let id = 31; id <= 39; id += 1) assert.ok(LESSON_REVIEWS[`domestic-wiring:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 63);
-  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /_slug === "domestic-wiring" && t\.includes\("fault finding case studies"\)/);
   assert.match(courseSource, /slug === "domestic-wiring" && t\.includes\("final assessment"\)/);
@@ -135,7 +135,7 @@ test("domestic fault-finding and regulation group completes the course specifica
 test("first protection group has specific devices, loop content, and assessments", () => {
   for (let id = 1; id <= 10; id += 1) assert.ok(LESSON_REVIEWS[`protection-fault-analysis:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 71);
-  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /slug === "protection-fault-analysis" && t\.includes\("device selection quiz"\)/);
   assert.match(courseSource, /_slug === "protection-fault-analysis" && t\.includes\("zs calculation exercises"\)/);
@@ -145,7 +145,7 @@ test("first protection group has specific devices, loop content, and assessments
 test("protection RCD and PFC group has specific content and assessment coverage", () => {
   for (let id = 11; id <= 20; id += 1) assert.ok(LESSON_REVIEWS[`protection-fault-analysis:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 79);
-  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /t\.includes\("rcd selection quiz"\)/);
   assert.match(courseSource, /t\.includes\("pfc worked problems"\)/);
@@ -155,7 +155,7 @@ test("protection RCD and PFC group has specific content and assessment coverage"
 test("protection coordination and testing group completes the course specifically", () => {
   for (let id = 21; id <= 29; id += 1) assert.ok(LESSON_REVIEWS[`protection-fault-analysis:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 86);
-  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /t\.includes\("discrimination case study"\)/);
   assert.match(courseSource, /slug === "protection-fault-analysis" && t\.includes\("final assessment"\)/);
@@ -165,7 +165,7 @@ test("protection coordination and testing group completes the course specificall
 test("three-phase fundamentals and star group is specific and reviewed", () => {
   for (let id = 1; id <= 9; id += 1) assert.ok(LESSON_REVIEWS[`three-phase-systems:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 93);
-  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /slug === "three-phase-systems" && t\.includes\("phase fundamentals quiz"\)/);
   assert.match(courseSource, /_slug === "three-phase-systems" && t\.includes\("star circuit analysis problems"\)/);
@@ -175,7 +175,7 @@ test("three-phase fundamentals and star group is specific and reviewed", () => {
 test("three-phase delta and power group is specific and reviewed", () => {
   for (let id = 10; id <= 18; id += 1) assert.ok(LESSON_REVIEWS[`three-phase-systems:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 100);
-  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /_slug === "three-phase-systems" && t\.includes\("delta circuit analysis problems"\)/);
   assert.match(courseSource, /slug === "three-phase-systems" && t\.includes\("three-phase power quiz"\)/);
@@ -185,7 +185,7 @@ test("three-phase delta and power group is specific and reviewed", () => {
 test("three-phase motors and transformers group completes the course specifically", () => {
   for (let id = 19; id <= 28; id += 1) assert.ok(LESSON_REVIEWS[`three-phase-systems:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 108);
-  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /slug === "three-phase-systems" && t\.includes\("transformer quiz"\)/);
   assert.match(courseSource, /slug === "three-phase-systems" && t\.includes\("final assessment"\)/);
@@ -195,7 +195,7 @@ test("three-phase motors and transformers group completes the course specificall
 test("cable capacity and derating group is specific and reviewed", () => {
   for (let id = 1; id <= 10; id += 1) assert.ok(LESSON_REVIEWS[`cable-sizing:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 116);
-  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /_slug === "cable-sizing" && t\.includes\("ccc selection problems"\)/);
   assert.match(courseSource, /_slug === "cable-sizing" && t\.includes\("applying multiple correction factors"\)/);
@@ -205,7 +205,7 @@ test("cable capacity and derating group is specific and reviewed", () => {
 test("cable voltage drop and SWA group is specific and reviewed", () => {
   for (let id = 11; id <= 20; id += 1) assert.ok(LESSON_REVIEWS[`cable-sizing:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 124);
-  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /_slug === "cable-sizing" && t\.includes\("voltage drop problems set"\)/);
   assert.match(courseSource, /_slug === "cable-sizing" && t\.includes\("swa sizing exercise"\)/);
@@ -215,7 +215,7 @@ test("cable voltage drop and SWA group is specific and reviewed", () => {
 test("cable fire systems and final design group completes the course", () => {
   for (let id = 21; id <= 28; id += 1) assert.ok(LESSON_REVIEWS[`cable-sizing:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 130);
-  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /slug === "cable-sizing" && t\.includes\("fire cable quiz"\)/);
   assert.match(courseSource, /slug === "cable-sizing" && t\.includes\("final assessment"\)/);
@@ -225,7 +225,7 @@ test("cable fire systems and final design group completes the course", () => {
 test("solar PV physics and array design group is specific and reviewed", () => {
   for (let id = 1; id <= 10; id += 1) assert.ok(LESSON_REVIEWS[`solar-pv:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 138);
-  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /slug === "solar-pv" && t\.includes\("pv physics quiz"\)/);
   assert.match(courseSource, /_slug === "solar-pv" && t\.includes\("system sizing design exercise"\)/);
@@ -235,7 +235,7 @@ test("solar PV physics and array design group is specific and reviewed", () => {
 test("solar inverter and battery group is specific and reviewed", () => {
   for (let id = 11; id <= 20; id += 1) assert.ok(LESSON_REVIEWS[`solar-pv:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 146);
-  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /slug === "solar-pv" && t\.includes\("inverter quiz"\)/);
   assert.match(courseSource, /_slug === "solar-pv" && t\.includes\("battery sizing exercise"\)/);
@@ -245,7 +245,7 @@ test("solar inverter and battery group is specific and reviewed", () => {
 test("solar grid connection and commissioning group completes the course", () => {
   for (let id = 21; id <= 29; id += 1) assert.ok(LESSON_REVIEWS[`solar-pv:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 153);
-  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /slug === "solar-pv" && t\.includes\("grid connection quiz"\)/);
   assert.match(courseSource, /slug === "solar-pv" && t\.includes\("final assessment"\)/);
@@ -255,7 +255,7 @@ test("solar grid connection and commissioning group completes the course", () =>
 test("industrial starters and overload protection group is specific and reviewed", () => {
   for (let id = 1; id <= 10; id += 1) assert.ok(LESSON_REVIEWS[`industrial-control:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 161);
-  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+  const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
   const viewSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
   assert.match(courseSource, /slug === "industrial-control" && t\.includes\("motor starter quiz"\)/);
   assert.match(courseSource, /_slug === "industrial-control" && t\.includes\("contactor circuit problems"\)/);
@@ -265,7 +265,7 @@ test("industrial starters and overload protection group is specific and reviewed
 test("industrial diagrams and safety systems group is specific and reviewed", () => {
   for (let id = 11; id <= 20; id += 1) assert.ok(LESSON_REVIEWS[`industrial-control:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length >= 169);
-  const s=fs.readFileSync(new URL("../app/learn/[slug]/page.tsx",import.meta.url),"utf8");
+  const s=fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx",import.meta.url),"utf8");
   const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");
   assert.match(s,/_slug === "industrial-control" && t\.includes\("diagram reading exercises"\)/);
   assert.match(s,/slug === "industrial-control" && t\.includes\("safety systems quiz"\)/);
@@ -274,12 +274,12 @@ test("industrial diagrams and safety systems group is specific and reviewed", ()
 test("industrial PLC and panel group completes the course specifically", () => {
   for (let id=21;id<=30;id+=1) assert.ok(LESSON_REVIEWS[`industrial-control:l${id}`]);
   assert.ok(Object.keys(ENHANCED_LESSONS).length>=177);
-  const s=fs.readFileSync(new URL("../app/learn/[slug]/page.tsx",import.meta.url),"utf8"); const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");
+  const s=fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx",import.meta.url),"utf8"); const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");
   assert.match(s,/_slug === "industrial-control" && t\.includes\("writing a simple motor control program"\)/); assert.match(s,/slug === "industrial-control" && t\.includes\("final assessment"\)/); assert.match(v,/PLC SCAN AND LADDER STATE/); assert.match(v,/PANEL DESIGN AND COMMISSIONING/);
 });
-test("inspection preparation and continuity group is specific and reviewed",()=>{for(let id=1;id<=10;id+=1)assert.ok(LESSON_REVIEWS[`inspection-testing:l${id}`]);assert.ok(Object.keys(ENHANCED_LESSONS).length>=185);const s=fs.readFileSync(new URL("../app/learn/[slug]/page.tsx",import.meta.url),"utf8");const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");assert.match(s,/slug === "inspection-testing" && t\.includes\("preparation quiz"\)/);assert.match(s,/_slug === "inspection-testing" && t\.includes\("continuity exercise"\)/);assert.match(v,/SAFE TEST SEQUENCE AND EVIDENCE/);assert.match(v,/CONTINUITY TOPOLOGY AND PATTERN/);});
-test("inspection IR and loop group is specific and reviewed",()=>{for(let id=11;id<=20;id+=1)assert.ok(LESSON_REVIEWS[`inspection-testing:l${id}`]);assert.ok(Object.keys(ENHANCED_LESSONS).length>=193);const s=fs.readFileSync(new URL("../app/learn/[slug]/page.tsx",import.meta.url),"utf8");const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");assert.match(s,/slug === "inspection-testing" && t\.includes\("ir testing quiz"\)/);assert.match(s,/_slug === "inspection-testing" && t\.includes\("zs measurement exercise"\)/);assert.match(v,/INSULATION TEST BOUNDARY AND LEAKAGE/);assert.match(v,/EARTH-FAULT LOOP AND DISCONNECTION/);});
-test("inspection RCD polarity and PFC group is specific and reviewed",()=>{for(let id=21;id<=29;id+=1)assert.ok(LESSON_REVIEWS[`inspection-testing:l${id}`]);assert.ok(Object.keys(ENHANCED_LESSONS).length>=200);const s=fs.readFileSync(new URL("../app/learn/[slug]/page.tsx",import.meta.url),"utf8");const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");assert.match(s,/slug === "inspection-testing" && t\.includes\("rcd testing quiz"\)/);assert.match(s,/slug === "inspection-testing" && t\.includes\("polarity and pfc quiz"\)/);assert.match(v,/RCD FIELD VERIFICATION/);assert.match(v,/POLARITY AND PROSPECTIVE FAULT CURRENT/);});
-test("inspection certification group completes the course specifically",()=>{for(let id=30;id<=36;id+=1)assert.ok(LESSON_REVIEWS[`inspection-testing:l${id}`]);assert.ok(Object.keys(ENHANCED_LESSONS).length>=204);const s=fs.readFileSync(new URL("../app/learn/[slug]/page.tsx",import.meta.url),"utf8");const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");assert.match(s,/_slug === "inspection-testing" && t\.includes\("eicr coding exercise"\)/);assert.match(s,/_slug === "inspection-testing" && t\.includes\("full mock test schedule"\)/);assert.match(s,/slug === "inspection-testing" && t\.includes\("final written assessment"\)/);assert.match(v,/CERTIFICATION AND CONDITION CODING/);assert.match(v,/FULL VERIFICATION EVIDENCE/);});
-test("LED technology and drivers group is specific and reviewed",()=>{for(let id=1;id<=10;id+=1)assert.ok(LESSON_REVIEWS[`led-lighting:l${id}`]);assert.ok(Object.keys(ENHANCED_LESSONS).length>=212);const s=fs.readFileSync(new URL("../app/learn/[slug]/page.tsx",import.meta.url),"utf8");const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");assert.match(s,/slug === "led-lighting" && t\.includes\("led technology quiz"\)/);assert.match(s,/slug === "led-lighting" && t\.includes\("driver circuit quiz"\)/);assert.match(v,/LED JUNCTION LIGHT AND HEAT PATH/);assert.match(v,/DRIVER OUTPUT AND CONTROL WINDOW/);});
-test("LED emergency design and controls group completes all curriculum",()=>{for(let id=11;id<=24;id+=1)assert.ok(LESSON_REVIEWS[`led-lighting:l${id}`]);assert.equal(Object.keys(ENHANCED_LESSONS).length,223);assert.equal(Object.keys(LESSON_REVIEWS).length,280);const s=fs.readFileSync(new URL("../app/learn/[slug]/page.tsx",import.meta.url),"utf8");const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");assert.match(s,/slug === "led-lighting" && t\.includes\("emergency lighting quiz"\)/);assert.match(s,/_slug === "led-lighting" && t\.includes\("lux calculation worked example"\)/);assert.match(s,/slug === "led-lighting" && t\.includes\("final assessment"\)/);assert.match(v,/EMERGENCY LIGHTING FAILURE PATH/);assert.match(v,/MAINTAINED ILLUMINANCE DESIGN/);assert.match(v,/COLOUR GLARE AND SMART CONTROL/);});
+test("inspection preparation and continuity group is specific and reviewed",()=>{for(let id=1;id<=10;id+=1)assert.ok(LESSON_REVIEWS[`inspection-testing:l${id}`]);assert.ok(Object.keys(ENHANCED_LESSONS).length>=185);const s=fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx",import.meta.url),"utf8");const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");assert.match(s,/slug === "inspection-testing" && t\.includes\("preparation quiz"\)/);assert.match(s,/_slug === "inspection-testing" && t\.includes\("continuity exercise"\)/);assert.match(v,/SAFE TEST SEQUENCE AND EVIDENCE/);assert.match(v,/CONTINUITY TOPOLOGY AND PATTERN/);});
+test("inspection IR and loop group is specific and reviewed",()=>{for(let id=11;id<=20;id+=1)assert.ok(LESSON_REVIEWS[`inspection-testing:l${id}`]);assert.ok(Object.keys(ENHANCED_LESSONS).length>=193);const s=fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx",import.meta.url),"utf8");const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");assert.match(s,/slug === "inspection-testing" && t\.includes\("ir testing quiz"\)/);assert.match(s,/_slug === "inspection-testing" && t\.includes\("zs measurement exercise"\)/);assert.match(v,/INSULATION TEST BOUNDARY AND LEAKAGE/);assert.match(v,/EARTH-FAULT LOOP AND DISCONNECTION/);});
+test("inspection RCD polarity and PFC group is specific and reviewed",()=>{for(let id=21;id<=29;id+=1)assert.ok(LESSON_REVIEWS[`inspection-testing:l${id}`]);assert.ok(Object.keys(ENHANCED_LESSONS).length>=200);const s=fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx",import.meta.url),"utf8");const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");assert.match(s,/slug === "inspection-testing" && t\.includes\("rcd testing quiz"\)/);assert.match(s,/slug === "inspection-testing" && t\.includes\("polarity and pfc quiz"\)/);assert.match(v,/RCD FIELD VERIFICATION/);assert.match(v,/POLARITY AND PROSPECTIVE FAULT CURRENT/);});
+test("inspection certification group completes the course specifically",()=>{for(let id=30;id<=36;id+=1)assert.ok(LESSON_REVIEWS[`inspection-testing:l${id}`]);assert.ok(Object.keys(ENHANCED_LESSONS).length>=204);const s=fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx",import.meta.url),"utf8");const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");assert.match(s,/_slug === "inspection-testing" && t\.includes\("eicr coding exercise"\)/);assert.match(s,/_slug === "inspection-testing" && t\.includes\("full mock test schedule"\)/);assert.match(s,/slug === "inspection-testing" && t\.includes\("final written assessment"\)/);assert.match(v,/CERTIFICATION AND CONDITION CODING/);assert.match(v,/FULL VERIFICATION EVIDENCE/);});
+test("LED technology and drivers group is specific and reviewed",()=>{for(let id=1;id<=10;id+=1)assert.ok(LESSON_REVIEWS[`led-lighting:l${id}`]);assert.ok(Object.keys(ENHANCED_LESSONS).length>=212);const s=fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx",import.meta.url),"utf8");const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");assert.match(s,/slug === "led-lighting" && t\.includes\("led technology quiz"\)/);assert.match(s,/slug === "led-lighting" && t\.includes\("driver circuit quiz"\)/);assert.match(v,/LED JUNCTION LIGHT AND HEAT PATH/);assert.match(v,/DRIVER OUTPUT AND CONTROL WINDOW/);});
+test("LED emergency design and controls group completes all curriculum",()=>{for(let id=11;id<=24;id+=1)assert.ok(LESSON_REVIEWS[`led-lighting:l${id}`]);assert.equal(Object.keys(ENHANCED_LESSONS).length,223);assert.equal(Object.keys(LESSON_REVIEWS).length,280);const s=fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx",import.meta.url),"utf8");const v=fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx",import.meta.url),"utf8");assert.match(s,/slug === "led-lighting" && t\.includes\("emergency lighting quiz"\)/);assert.match(s,/_slug === "led-lighting" && t\.includes\("lux calculation worked example"\)/);assert.match(s,/slug === "led-lighting" && t\.includes\("final assessment"\)/);assert.match(v,/EMERGENCY LIGHTING FAILURE PATH/);assert.match(v,/MAINTAINED ILLUMINANCE DESIGN/);assert.match(v,/COLOUR GLARE AND SMART CONTROL/);});

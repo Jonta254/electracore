@@ -1,6 +1,6 @@
 import fs from "node:fs";
 const read = (path) => fs.readFileSync(new URL(path, import.meta.url), "utf8");
-const source = read("../app/learn/[slug]/page.tsx");
+const source = read("../app/learn/[slug]/CourseExperience.tsx");
 const enhancementSource = read("../app/learn/enhancedLessons.ts") + read("../app/learn/fundamentalsGroupOne.ts") + read("../app/learn/fundamentalsGroupTwo.ts")
   + read("../app/learn/fundamentalsAcLessons.ts")
   + read("../app/learn/fundamentalsReactiveLessons.ts")

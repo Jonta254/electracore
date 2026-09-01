@@ -3,10 +3,11 @@ import fs from "node:fs";
 import test from "node:test";
 
 const catalogueSource = fs.readFileSync(new URL("../app/learn/page.tsx", import.meta.url), "utf8");
-const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/page.tsx", import.meta.url), "utf8");
+const courseSource = fs.readFileSync(new URL("../app/learn/[slug]/CourseExperience.tsx", import.meta.url), "utf8");
 const enhancedReaderSource = fs.readFileSync(new URL("../app/learn/EnhancedLessonView.tsx", import.meta.url), "utf8");
 const globalStyles = fs.readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
 const nextConfigSource = fs.readFileSync(new URL("../next.config.mjs", import.meta.url), "utf8");
+const lessonRouteSource = fs.readFileSync(new URL("../app/learn/[slug]/[lessonId]/page.tsx", import.meta.url), "utf8");
 
 test("catalogue metadata covers every preserved course and matches lesson counts", () => {
   const courseBlocks = [...courseSource.matchAll(/^  "([^"]+)": \{([\s\S]*?)(?=^  "[^"]+": \{|^\};)/gm)];
@@ -53,11 +54,31 @@ test("lesson reader styles preserve reading measure, mobile navigation, and prin
 
 test("lesson controls are keyboard-native and production CSP is bounded", () => {
   assert.match(courseSource, /className="lesson-open"/);
-  assert.match(courseSource, /aria-expanded=\{isActive\}/);
+  assert.match(courseSource, /aria-current=\{isActive \? "page"/);
+  assert.match(courseSource, /href=\{`\/learn\/\$\{slug\}\/\$\{lesson\.id\}`\}/);
   assert.doesNotMatch(courseSource, /className=\{`lesson-item[\s\S]{0,180}onClick=/);
   assert.match(nextConfigSource, /NODE_ENV === 'development'/);
   assert.match(nextConfigSource, /"connect-src 'self'"/);
   assert.match(nextConfigSource, /"object-src 'none'"/);
   assert.doesNotMatch(nextConfigSource, /"connect-src 'self' https:"/);
   assert.doesNotMatch(nextConfigSource, /"img-src 'self' data: blob: https:"/);
+});
+
+test("every lesson opens on a stable route with syllabus and sequence navigation", () => {
+  assert.match(courseSource, /href=\{`\/learn\/\$\{slug\}\/\$\{lesson\.id\}`\}/);
+  assert.doesNotMatch(courseSource, /isActive && \(\s*<LessonContent/);
+  assert.match(lessonRouteSource, /aria-label="Course syllabus"/);
+  assert.match(lessonRouteSource, /aria-current=\{itemLesson\.id === lesson\.id \? "page"/);
+  assert.match(lessonRouteSource, /Lesson \{index \+ 1\} of \{lessons\.length\}/);
+  assert.match(lessonRouteSource, /previousLesson=\{lessons\[index - 1\]\}/);
+  assert.match(lessonRouteSource, /nextLesson=\{lessons\[index \+ 1\]\}/);
+});
+
+test("lesson visuals are technical, labelled, and topic-routed", () => {
+  assert.match(enhancedReaderSource, /function QuantityDiagram/);
+  assert.match(enhancedReaderSource, /role="img" aria-labelledby=/);
+  for (const visual of ["RING, SPUR, AND RADIAL TOPOLOGY", "EARTH-FAULT LOOP AND ADS", "MOTOR STARTER POWER AND CONTROL", "PV I-V CURVE AND OPERATING POINTS", "MULTIMETER CONNECTIONS"]) {
+    assert.ok(enhancedReaderSource.includes(visual), `missing technical visual: ${visual}`);
+  }
+  assert.doesNotMatch(enhancedReaderSource, /<Image|lesson-field-visual/);
 });
