@@ -7,7 +7,10 @@ export const OPEN_PREVIEW_NOTICE = "Open learning preview: all current learning 
 export interface LearningAccessRequest {
   resource: LearningResourceKind;
   premium?: boolean;
-  hasEntitlement?: boolean;
+}
+
+export interface TrustedLearningAccessContext {
+  entitlement: "verified" | "none";
 }
 
 export interface LearningAccessDecision {
@@ -21,6 +24,7 @@ export interface LearningAccessDecision {
 export function evaluateLearningAccess(
   request: LearningAccessRequest,
   mode: LearningAccessMode = LEARNING_ACCESS_MODE,
+  trustedContext: TrustedLearningAccessContext = { entitlement: "none" },
 ): LearningAccessDecision {
   if (mode === "open-preview") {
     return { allowed: true, mode, reason: "open-preview", shouldStartCheckout: false, shouldCreatePaymentRecord: false };
@@ -28,12 +32,16 @@ export function evaluateLearningAccess(
   if (mode === "mixed" && !request.premium) {
     return { allowed: true, mode, reason: "open-resource", shouldStartCheckout: false, shouldCreatePaymentRecord: false };
   }
-  if (request.hasEntitlement) {
+  if (trustedContext.entitlement === "verified") {
     return { allowed: true, mode, reason: "entitled", shouldStartCheckout: false, shouldCreatePaymentRecord: false };
   }
   return { allowed: false, mode, reason: "payment-required", shouldStartCheckout: false, shouldCreatePaymentRecord: false };
 }
 
-export function canAccessLearning(request: LearningAccessRequest, mode: LearningAccessMode = LEARNING_ACCESS_MODE) {
-  return evaluateLearningAccess(request, mode).allowed;
+export function canAccessLearning(
+  request: LearningAccessRequest,
+  mode: LearningAccessMode = LEARNING_ACCESS_MODE,
+  trustedContext?: TrustedLearningAccessContext,
+) {
+  return evaluateLearningAccess(request, mode, trustedContext).allowed;
 }

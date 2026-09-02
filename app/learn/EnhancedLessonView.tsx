@@ -2,10 +2,63 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { EnhancedLesson } from "./enhancedLessons";
+import { getProfessionalApproval } from "./contentApproval";
+
+function DomesticLightingDiagram({ lessonId }: { lessonId: string }) {
+  const titleId = `diagram-domestic-wiring-${lessonId}`;
+  if (lessonId === "l11") return (
+    <svg className="enhanced-diagram" viewBox="0 0 640 230" role="img" aria-labelledby={titleId}>
+      <title id={titleId}>Loop-in ceiling point with permanent line, switched line, neutral, and CPC paths</title>
+      <text x="22" y="26" className="diagram-kicker">LOOP-IN CEILING POINT</text>
+      <rect x="35" y="58" width="105" height="120" rx="8" className="diagram-source"/><text x="87" y="96" className="diagram-value">SUPPLY</text><text x="87" y="120" className="diagram-note">L · N · CPC</text>
+      <rect x="245" y="58" width="145" height="120" rx="8" className="diagram-load"/><text x="317" y="92" className="diagram-value">CEILING POINT</text><text x="317" y="116" className="diagram-note">line loop · neutral loop</text><text x="317" y="140" className="diagram-note">lamp · CPC terminal</text>
+      <rect x="500" y="84" width="105" height="70" rx="8" className="diagram-source"/><text x="552" y="115" className="diagram-value">SWITCH</text><text x="552" y="137" className="diagram-note">COM · L1</text>
+      <path d="M140 78 H245 M140 112 H245 M140 150 H245 M390 78 H480 V98 H500 M500 140 H455 V158 H390" fill="none" className="diagram-wire"/>
+      <text x="190" y="70" className="diagram-note">permanent line</text><text x="190" y="105" className="diagram-note">neutral</text><text x="190" y="170" className="diagram-note">CPC</text><text x="450" y="180" className="diagram-note">switched line return</text>
+    </svg>
+  );
+  if (lessonId === "l12") return (
+    <svg className="enhanced-diagram" viewBox="0 0 640 220" role="img" aria-labelledby={titleId}>
+      <title id={titleId}>One-way lighting circuit with the switch in the line conductor</title><text x="22" y="26" className="diagram-kicker">ONE-WAY LIGHTING CIRCUIT</text>
+      <text x="40" y="72" className="diagram-note">permanent line</text><line x1="40" y1="88" x2="220" y2="88" className="diagram-wire"/>
+      <circle cx="238" cy="88" r="5" className="diagram-charge"/><circle cx="318" cy="88" r="5" className="diagram-charge"/><line x1="238" y1="88" x2="305" y2="58" className="diagram-thick"/><text x="278" y="48" className="diagram-note">one-pole switch</text>
+      <line x1="318" y1="88" x2="490" y2="88" className="diagram-wire"/><circle cx="525" cy="88" r="34" className="diagram-load"/><path d="M505 68 L545 108 M545 68 L505 108" className="diagram-thin"/><text x="525" y="138" className="diagram-note">lamp</text>
+      <line x1="525" y1="122" x2="525" y2="176" className="diagram-wire"/><line x1="525" y1="176" x2="40" y2="176" className="diagram-wire"/><text x="220" y="168" className="diagram-note">neutral return</text><text x="395" y="78" className="diagram-note">switched line</text>
+    </svg>
+  );
+  if (lessonId === "l13") return (
+    <svg className="enhanced-diagram" viewBox="0 0 640 250" role="img" aria-labelledby={titleId}>
+      <title id={titleId}>Two-way lighting circuit with two changeover switches and two strappers</title><text x="22" y="26" className="diagram-kicker">TWO-WAY CHANGEOVER CIRCUIT</text>
+      <text x="30" y="126" className="diagram-note">permanent line</text><line x1="30" y1="140" x2="130" y2="140" className="diagram-wire"/>
+      <circle cx="140" cy="140" r="6" className="diagram-charge"/><text x="140" y="164" className="diagram-note">COM</text><circle cx="210" cy="82" r="6" className="diagram-charge"/><circle cx="210" cy="198" r="6" className="diagram-charge"/><text x="210" y="67" className="diagram-note">L1</text><text x="210" y="220" className="diagram-note">L2</text><line x1="140" y1="140" x2="205" y2="84" className="diagram-thick"/>
+      <line x1="210" y1="82" x2="430" y2="82" className="diagram-wire"/><line x1="210" y1="198" x2="430" y2="198" className="diagram-wire"/><text x="320" y="70" className="diagram-note">strapper 1</text><text x="320" y="220" className="diagram-note">strapper 2</text>
+      <circle cx="430" cy="82" r="6" className="diagram-charge"/><circle cx="430" cy="198" r="6" className="diagram-charge"/><text x="430" y="67" className="diagram-note">L1</text><text x="430" y="220" className="diagram-note">L2</text><circle cx="500" cy="140" r="6" className="diagram-charge"/><text x="500" y="164" className="diagram-note">COM</text><line x1="435" y1="84" x2="500" y2="140" className="diagram-thick"/>
+      <line x1="506" y1="140" x2="575" y2="140" className="diagram-wire"/><circle cx="595" cy="140" r="19" className="diagram-load"/><path d="M582 127 L608 153 M608 127 L582 153" className="diagram-thin"/><text x="565" y="185" className="diagram-note">switched line to lamp</text>
+    </svg>
+  );
+  if (lessonId === "l14") return (
+    <svg className="enhanced-diagram" viewBox="0 0 640 250" role="img" aria-labelledby={titleId}>
+      <title id={titleId}>Intermediate lighting circuit with crossed strapper paths between two-way end switches</title><text x="22" y="26" className="diagram-kicker">INTERMEDIATE CROSSOVER CIRCUIT</text>
+      <rect x="30" y="72" width="130" height="130" rx="8" className="diagram-source"/><text x="95" y="110" className="diagram-value">2-WAY END</text><text x="95" y="138" className="diagram-note">COM · L1 · L2</text>
+      <rect x="255" y="72" width="130" height="130" rx="8" className="diagram-load"/><text x="320" y="110" className="diagram-value">INTERMEDIATE</text><text x="320" y="138" className="diagram-note">straight / crossed</text><path d="M275 160 L365 190 M275 190 L365 160" className="diagram-thick"/>
+      <rect x="480" y="72" width="130" height="130" rx="8" className="diagram-source"/><text x="545" y="110" className="diagram-value">2-WAY END</text><text x="545" y="138" className="diagram-note">L1 · L2 · COM</text>
+      <line x1="160" y1="100" x2="255" y2="100" className="diagram-wire"/><line x1="160" y1="180" x2="255" y2="180" className="diagram-wire"/><line x1="385" y1="100" x2="480" y2="100" className="diagram-wire"/><line x1="385" y1="180" x2="480" y2="180" className="diagram-wire"/><text x="207" y="91" className="diagram-note">strapper pair</text><text x="432" y="91" className="diagram-note">strapper pair</text>
+    </svg>
+  );
+  if (lessonId === "l15") return (
+    <svg className="enhanced-diagram" viewBox="0 0 640 210" role="img" aria-labelledby={titleId}>
+      <title id={titleId}>LED dimmer compatibility verification path</title><text x="22" y="26" className="diagram-kicker">LED DIMMER COMPATIBILITY</text>
+      {[[35,"DIMMER","declared LED range"],[235,"DRIVER","control method · inrush"],[435,"LED LOAD","quantity · watts · thermal"]].map(([x,label,note]) => <g key={String(label)}><rect x={Number(x)} y="66" width="170" height="82" rx="8" className="diagram-source"/><text x={Number(x)+85} y="99" className="diagram-value">{label}</text><text x={Number(x)+85} y="124" className="diagram-note">{note}</text></g>)}
+      <line x1="205" y1="107" x2="235" y2="107" className="diagram-wire"/><line x1="405" y1="107" x2="435" y2="107" className="diagram-wire"/><text x="320" y="178" className="diagram-note">use the exact manufacturers' compatibility data and installation limits</text>
+    </svg>
+  );
+  return null;
+}
 
 function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonId: string }) {
   if (courseSlug === "domestic-wiring") {
     const lessonNumber = Number(lessonId.slice(1));
+    if (lessonNumber >= 11 && lessonNumber <= 15) return <DomesticLightingDiagram lessonId={lessonId} />;
     const label = lessonNumber <= 4
       ? "CONSUMER UNIT PROTECTION PATHS"
       : lessonNumber <= 10
@@ -187,6 +240,7 @@ function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonI
 }
 
 export function EnhancedLessonView({ lesson, courseSlug, lessonId }: { lesson: EnhancedLesson; courseSlug: string; lessonId: string }) {
+  const professionalApproval = getProfessionalApproval(`${courseSlug}:${lessonId}`);
   const sections = useMemo(() => [
     { id: `purpose-${lessonId}`, label: "Purpose" },
     { id: `theory-${lessonId}`, label: "Core theory" },
@@ -244,7 +298,7 @@ export function EnhancedLessonView({ lesson, courseSlug, lessonId }: { lesson: E
         <article className="lesson-reading-column">
 
       <section id={`purpose-${lessonId}`}>
-        <div className="lesson-meta-line"><span>{lesson.difficulty}</span><span>Review: {lesson.reviewStatus === "professional-review-pending" ? "expert review pending" : "reviewed"}</span></div>
+        <div className="lesson-meta-line"><span>{lesson.difficulty}</span><span>Review: {professionalApproval ? "professionally reviewed" : "professional review pending"}</span></div>
         <h3>Purpose</h3><p>{lesson.purpose}</p>
         <div className="lesson-callout remember"><strong>Before you begin</strong><span>{lesson.prerequisites.join(" · ")}</span></div>
         <h3>Learning objectives</h3><ul>{lesson.objectives.map(item => <li key={item}>{item}</li>)}</ul>
@@ -283,8 +337,10 @@ export function EnhancedLessonView({ lesson, courseSlug, lessonId }: { lesson: E
 
       <section id={`sources-${lessonId}`} className="lesson-sources">
         <h3>Sources and review</h3>
-        <ul>{lesson.sources.map(source => <li key={source.title}>{source.url ? <a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a> : source.title}: {source.publisher}; {source.edition}; {source.jurisdiction}</li>)}</ul>
-        <p>Content review date: {lesson.reviewDate}. Professional electrical review is pending.</p>
+        <ul>{lesson.sources.map(source => <li key={source.title}>{source.url ? <a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a> : source.title}: {source.publisher}; {source.edition}; {source.jurisdiction}{source.accessedOn ? `; accessed ${source.accessedOn}` : ""}</li>)}</ul>
+        {professionalApproval
+          ? <p>Professionally reviewed by {professionalApproval.reviewerName}, {professionalApproval.reviewerCredential}, on {professionalApproval.approvedOn}.</p>
+          : <p>Editorial review date: {lesson.reviewDate}. Professional electrical review is pending.</p>}
       </section>
         </article>
       </div>

@@ -19,13 +19,18 @@ test("open-preview grants every learning resource without payment side effects",
 
 test("future paid mode denies protected access and permits genuine entitlements", () => {
   assert.equal(canAccessLearning({ resource: "lesson", premium: true }, "paid"), false);
-  assert.equal(canAccessLearning({ resource: "lesson", premium: true, hasEntitlement: true }, "paid"), true);
+  assert.equal(canAccessLearning({ resource: "lesson", premium: true }, "paid", { entitlement: "verified" }), true);
+});
+
+test("caller-controlled fields cannot impersonate a payment entitlement", () => {
+  const untrusted = { resource: "lesson" as const, premium: true, hasEntitlement: true };
+  assert.equal(canAccessLearning(untrusted, "paid"), false);
 });
 
 test("future mixed mode distinguishes open and premium content", () => {
   assert.equal(canAccessLearning({ resource: "course", premium: false }, "mixed"), true);
   assert.equal(canAccessLearning({ resource: "course", premium: true }, "mixed"), false);
-  assert.equal(canAccessLearning({ resource: "course", premium: true, hasEntitlement: true }, "mixed"), true);
+  assert.equal(canAccessLearning({ resource: "course", premium: true }, "mixed", { entitlement: "verified" }), true);
 });
 
 test("access evaluation never starts checkout or creates payment records", () => {

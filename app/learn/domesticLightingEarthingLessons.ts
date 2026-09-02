@@ -6,6 +6,7 @@ const lightingSources: LessonSource[] = [
   { title: "Best Practice Guide 9: Safe installation of retrofit LED lamps", publisher: "Electrical Safety First", edition: "Current online issue", jurisdiction: "United Kingdom", url: "https://www.electricalsafetyfirst.org.uk/media/1206/best-practice-guide-9.pdf" },
   { title: "Mythbuster #5: Will any old terminal block do?", publisher: "IET Wiring Matters", edition: "2020", jurisdiction: "United Kingdom", url: "https://electrical.theiet.org/wiring-matters/years/2020/79-march-2020/mythbuster-5-will-any-old-terminal-block-do/" },
   { title: "Electrical safety: Approved Document P", publisher: "UK Government", edition: "Current online edition", jurisdiction: "England", url: "https://www.gov.uk/government/publications/electrical-safety-approved-document-p" },
+  { title: "16AX switches and intermediate switch installation manual", publisher: "Hager", edition: "WGML1XX/WGCXL1XX, April 2019", jurisdiction: "Manufacturer wiring instructions", url: "https://assets.hager.com/step-content/P/HA_22832252/Document/std.lang.all/WGML1XX-WGCXL1XX_SWITCH-INTERMEDIATE-SWITCH_EN_2019-04_MANU.pdf", accessedOn: "2026-09-02" },
 ];
 
 const earthingSources: LessonSource[] = [

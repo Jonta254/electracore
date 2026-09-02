@@ -1,7 +1,7 @@
 export interface LessonTerm { term: string; meaning: string; symbol?: string; unit?: string; }
 export interface WorkedStep { label: string; detail: string; }
 export interface KnowledgeCheck { question: string; answer: string; feedback: string; }
-export interface LessonSource { title: string; publisher: string; edition: string; jurisdiction: string; url?: string; }
+export interface LessonSource { title: string; publisher: string; edition: string; jurisdiction: string; url?: string; accessedOn?: string; }
 
 export interface EnhancedLesson {
   purpose: string;

@@ -268,7 +268,7 @@ const FEATURES = [
     icon: GraduationCap,
     color: "rgba(168,85,247,0.12)",
     title: "Structured Learning",
-    desc: "Nine courses contain 280 reviewed lessons with worked examples, checks, exercises, and sources.",
+    desc: "Nine courses contain 280 structured lessons with worked examples, checks, exercises, sources, and visible review status.",
   },
   {
     icon: Workflow,
@@ -587,7 +587,7 @@ export default function HomePage() {
         <div className="price-grid">
           {[
             { title: "Calculate", desc: "Eight calculators with units, visible working, saved history, and printable results.", href: "/calculate", cta: "Open calculators" },
-            { title: "Learn", desc: "Nine courses and 280 reviewed lessons with checks, exercises, sources, and device-local progress.", href: "/learn", cta: "Browse courses" },
+            { title: "Learn", desc: "Nine courses and 280 structured lessons with checks, exercises, sources, visible review status, and device-local progress.", href: "/learn", cta: "Browse courses" },
             { title: "Design", desc: "A connected preliminary workflow for load current, protection, cable capacity, and voltage drop.", href: "/design", cta: "Open designer" },
           ].map((item, i) => (
             <div key={item.title} className="price-card reveal" ref={addReveal} style={{ transitionDelay: `${i * 0.08}s` }}>

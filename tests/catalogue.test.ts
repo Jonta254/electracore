@@ -123,5 +123,8 @@ test("lesson visuals are technical, labelled, and topic-routed", () => {
   for (const visual of ["RING, SPUR, AND RADIAL TOPOLOGY", "EARTH-FAULT LOOP AND ADS", "MOTOR STARTER POWER AND CONTROL", "PV I-V CURVE AND OPERATING POINTS", "MULTIMETER CONNECTIONS"]) {
     assert.ok(enhancedReaderSource.includes(visual), `missing technical visual: ${visual}`);
   }
+  for (const label of ["TWO-WAY CHANGEOVER CIRCUIT", "COM", "L1", "L2", "strapper 1", "strapper 2", "INTERMEDIATE CROSSOVER CIRCUIT"]) {
+    assert.ok(enhancedReaderSource.includes(label), `missing lesson-specific wiring label: ${label}`);
+  }
   assert.doesNotMatch(enhancedReaderSource, /<Image|lesson-field-visual/);
 });

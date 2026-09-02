@@ -25,6 +25,7 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
+  agentRules: false,
   turbopack: { root: process.cwd() },
   async headers() {
     return [{ source: '/(.*)', headers: securityHeaders }];

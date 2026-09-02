@@ -636,7 +636,7 @@ html, body { max-width: 100%; overflow-x: clip; }
 @media(max-width:900px){
   .lesson-route-layout { grid-template-columns: 1fr; }
   .lesson-syllabus { position: static; max-height: none; border-right: 0; border-bottom: 1px solid var(--border); }
-  .lesson-syllabus nav details:not([open]) { display: none; }
+  .lesson-syllabus nav { display: none; }
   .lesson-mobile-jump { display: grid; gap: .4rem; padding: .8rem 1rem; border-bottom: 1px solid var(--border); }
   .lesson-mobile-jump label { color: var(--text-mute); font: 700 .62rem 'JetBrains Mono',monospace; letter-spacing: .08em; text-transform: uppercase; }
   .lesson-mobile-jump select { width: 100%; min-height: 42px; padding: 0 .7rem; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-size: .78rem; }
