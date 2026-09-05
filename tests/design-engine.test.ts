@@ -37,3 +37,18 @@ test("rejects invalid inputs and flags an undersized manual device", () => {
   const result = designCircuit({ ...base, mode: "current", current: "40", deviceOverride: 32 });
   assert.equal(result.checks[0].ok, false);
 });
+
+test("fails closed outside the supported device range", () => {
+  const result = designCircuit({ ...base, mode: "current", current: "126" });
+  assert.equal(result.valid, false);
+  assert.match(result.message ?? "", /exceeds the supported automatic-device range/);
+  assert.equal(result.In, 0);
+});
+
+test("rejects missing, non-finite, and out-of-range voltage-drop limits", () => {
+  for (const vdLimitPct of ["", "0", "-1", "101", "Infinity", "5 percent"]) {
+    const result = designCircuit({ ...base, vdLimitPct });
+    assert.equal(result.valid, false, `accepted ${vdLimitPct}`);
+    assert.match(result.message ?? "", /voltage-drop limit/);
+  }
+});

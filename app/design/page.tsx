@@ -1,7 +1,6 @@
 "use client";
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { ElectraCoreLogoMark } from "../components/Logo";
 import {
   designCircuit, DEVICE_RATINGS, METHODS, AMBIENT_OPTIONS, GROUPING_OPTIONS,
   INSULATION_OPTIONS, METHOD_MAP, type DesignInput,
@@ -80,7 +79,7 @@ export default function DesignPage() {
           </tbody>
         </table>
         <div className="dz-report-verdict">
-          Verdict: {allPass ? "All checks pass" : anyFail ? "One or more checks require attention" : "Incomplete"}
+          Screening: {allPass ? "Listed checks pass" : anyFail ? "One or more listed checks require attention" : "Incomplete"}
         </div>
         <ul className="dz-report-checks">
           {result.checks.map((c, i) => <li key={i}>{c.ok ? "PASS" : "REVIEW"}: {c.label}: {c.detail}</li>)}
@@ -92,34 +91,20 @@ export default function DesignPage() {
         </div>
       </div>
 
-      <nav className="nav dz-noprint">
-        <Link href="/" className="nav-logo">
-          <ElectraCoreLogoMark size={32} />
-          <span className="nav-logo-text">ElectraCore</span>
-        </Link>
-        <div className="nav-links">
-          <Link href="/design" className="nav-link" style={{ color: "var(--core)" }}>Design</Link>
-          <Link href="/calculate" className="nav-link">Calculate</Link>
-          <Link href="/guides" className="nav-link">Guides</Link>
-          <Link href="/learn" className="nav-link">Learn</Link>
-        </div>
-        <Link href="/calculate" className="nav-cta">Quick Tools</Link>
-      </nav>
-
       <main style={{ paddingTop: "64px" }}>
         {/* HERO */}
         <div className="dz-hero dz-noprint">
           <div className="dz-hero-glow" />
           <div className="dz-hero-inner">
             <p className="section-label">Circuit Designer</p>
-            <h1 className="dz-title">From load to a verified cable,<br /><span className="accent">in one flow.</span></h1>
+            <h1 className="dz-title">Screen a preliminary cable size,<br /><span className="accent">with visible working.</span></h1>
             <p className="dz-sub">
               Enter the load and the installation conditions. ElectraCore chains the whole calculation: design current,
-              protective device, cable size with derating, and voltage drop, then reports you whether it passes. Change any
-              value and the result updates live.
+              protective device, representative cable capacity with derating, and voltage drop. It does not verify fault
+              protection, disconnection time, energy withstand, earthing, terminals, or manufacturer data.
             </p>
             <div className="dz-flow">
-              {["Load", "Device", "Cable size", "Voltage drop", "Verdict"].map((s, i) => (
+              {["Load", "Device", "Cable size", "Voltage drop", "Screening"].map((s, i) => (
                 <span key={s} className="dz-flow-node">
                   <span className="dz-flow-dot">{i + 1}</span>{s}
                   {i < 4 && <span className="dz-flow-arrow">→</span>}
@@ -135,13 +120,13 @@ export default function DesignPage() {
             {/* Step 1: Load */}
             <section className="dz-card">
               <div className="dz-card-head"><span className="dz-step">1</span><h2>Load &amp; supply</h2></div>
-              <div className="dz-seg">
-                <button className={inp.phase === "single" ? "on" : ""} onClick={() => setInp((p) => ({ ...p, phase: "single", voltage: "230" }))}>Single-phase</button>
-                <button className={inp.phase === "three" ? "on" : ""} onClick={() => setInp((p) => ({ ...p, phase: "three", voltage: "400" }))}>Three-phase</button>
+              <div className="dz-seg" role="group" aria-label="Supply phase">
+                <button aria-pressed={inp.phase === "single"} className={inp.phase === "single" ? "on" : ""} onClick={() => setInp((p) => ({ ...p, phase: "single", voltage: "230" }))}>Single-phase</button>
+                <button aria-pressed={inp.phase === "three"} className={inp.phase === "three" ? "on" : ""} onClick={() => setInp((p) => ({ ...p, phase: "three", voltage: "400" }))}>Three-phase</button>
               </div>
-              <div className="dz-seg dz-seg-sm">
-                <button className={inp.mode === "power" ? "on" : ""} onClick={() => set("mode", "power")}>Enter power</button>
-                <button className={inp.mode === "current" ? "on" : ""} onClick={() => set("mode", "current")}>Enter current</button>
+              <div className="dz-seg dz-seg-sm" role="group" aria-label="Load input mode">
+                <button aria-pressed={inp.mode === "power"} className={inp.mode === "power" ? "on" : ""} onClick={() => set("mode", "power")}>Enter power</button>
+                <button aria-pressed={inp.mode === "current"} className={inp.mode === "current" ? "on" : ""} onClick={() => set("mode", "current")}>Enter current</button>
               </div>
               <div className="dz-grid">
                 {inp.mode === "power" ? (
@@ -161,12 +146,12 @@ export default function DesignPage() {
             <section className="dz-card">
               <div className="dz-card-head"><span className="dz-step">2</span><h2>Protective device</h2></div>
               <p className="dz-note">Auto-selected as the smallest standard rating at or above the design current. Override if your design needs a specific device.</p>
-              <div className="dz-chips">
-                <button className={inp.deviceOverride === null ? "on" : ""} onClick={() => set("deviceOverride", null)}>
+              <div className="dz-chips" role="group" aria-label="Protective device rating">
+                <button aria-pressed={inp.deviceOverride === null} className={inp.deviceOverride === null ? "on" : ""} onClick={() => set("deviceOverride", null)}>
                   Auto{result.valid ? ` (${result.deviceAuto} A)` : ""}
                 </button>
                 {DEVICE_RATINGS.map((r) => (
-                  <button key={r} className={inp.deviceOverride === r ? "on" : ""} onClick={() => set("deviceOverride", r)}>{r} A</button>
+                  <button key={r} aria-pressed={inp.deviceOverride === r} className={inp.deviceOverride === r ? "on" : ""} onClick={() => set("deviceOverride", r)}>{r} A</button>
                 ))}
               </div>
             </section>
@@ -175,9 +160,9 @@ export default function DesignPage() {
             <section className="dz-card">
               <div className="dz-card-head"><span className="dz-step">3</span><h2>Installation conditions</h2></div>
               <label className="dz-field-label">Reference method</label>
-              <div className="dz-method-list">
+              <div className="dz-method-list" role="group" aria-label="Reference installation method">
                 {METHODS.map((m) => (
-                  <button key={m.id} className={`dz-method${inp.method === m.id ? " on" : ""}`} onClick={() => set("method", m.id)}>
+                  <button key={m.id} aria-pressed={inp.method === m.id} className={`dz-method${inp.method === m.id ? " on" : ""}`} onClick={() => set("method", m.id)}>
                     <span className="dz-method-id">{m.id}</span>
                     <span className="dz-method-body"><strong>{m.label}</strong><span>{m.hint}</span></span>
                   </button>
@@ -203,7 +188,7 @@ export default function DesignPage() {
 
           {/* LIVE RESULT */}
           <aside className="dz-result">
-            <div className={`dz-result-card${allPass ? " pass" : anyFail ? " fail" : ""}`}>
+            <div className={`dz-result-card${allPass ? " pass" : anyFail ? " fail" : ""}`} aria-live="polite">
               {!result.valid ? (
                 <div className="dz-empty">
                   <div className="dz-empty-icon">NO RESULT</div>
@@ -212,7 +197,7 @@ export default function DesignPage() {
               ) : (
                 <>
                   <div className={`dz-verdict ${allPass ? "ok" : anyFail ? "no" : "wait"}`}>
-                    {allPass ? "PASS: Design passes" : anyFail ? "REVIEW: Needs attention" : "Working…"}
+                    {allPass ? "SCREENED: Listed checks pass" : anyFail ? "REVIEW: Listed check failed" : "Working…"}
                   </div>
 
                   <div className="dz-xsec">

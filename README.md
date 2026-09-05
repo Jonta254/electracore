@@ -22,7 +22,7 @@ The current application provides:
 
 - Eight calculators covering Ohm's law, power, voltage drop, resistor networks, LED resistors, power factor, cable sizing, and voltage dividers.
 - A connected single- and three-phase design workflow for load current, protective-device selection, derating, thermal capacity, and voltage drop.
-- Nine courses containing 280 individually reviewed lessons.
+- Nine courses containing 280 lessons with recorded editorial, source, calculation, or assessment checks. Enhanced technical lessons remain pending credentialed professional approval.
 - Nine reference guides with technical diagrams and print-friendly views.
 - Device-local learning progress and calculation history.
 - Printable calculation and design summaries.
@@ -52,13 +52,14 @@ Open http://localhost:3000.
 npm run verify
 ~~~
 
-The verification pipeline runs ESLint, TypeScript, 52 automated tests, and a production build. Tests cover calculation utilities, circuit sizing, curriculum topology and assessment mappings, access-policy behavior, and defensive progress persistence.
+The verification pipeline runs ESLint, TypeScript, the complete automated test suite, and a production build. Tests cover calculation utilities, circuit sizing, curriculum topology and assessment mappings, access-policy behavior, and defensive local persistence.
 
 ## Browser data
 
 ElectraCore stores saved work on the current device. Existing storage contracts remain supported:
 
-- electracore.calc.history.v1
+- electracore.calc.history.v1 (read-only legacy migration source)
+- electracore.calc.history.v2
 - ec-progress
 - ec-completed-{courseSlug}
 - electracore.learning.v2

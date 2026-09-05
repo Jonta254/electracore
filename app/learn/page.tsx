@@ -696,7 +696,7 @@ export default function LearnPage() {
                   <div><dt>Prerequisite</dt><dd>{detail.prerequisites}</dd></div>
                 </dl>
                 <ul className="catalogue-skills" aria-label="Main skills">{detail.skills.map((skill) => <li key={skill}>{skill}</li>)}</ul>
-                <div className="catalogue-review"><ShieldCheck size={16} aria-hidden="true" /><span>Curriculum reviewed; professional electrical review remains pending where identified.</span></div>
+                <div className="catalogue-review"><ShieldCheck size={16} aria-hidden="true" /><span>Editorial and calculation checks are recorded. No credentialed professional approval is currently recorded.</span></div>
                 <div className="catalogue-progress"><div><span>{courseProgress === 0 ? "Not started" : courseProgress === 100 ? "Completed" : "In progress"}</span><strong>{courseProgress}%</strong></div><div className="catalogue-progress-track"><span style={{ width: courseProgress + "%" }} /></div></div>
               </div>
               <div className="catalogue-course-action">

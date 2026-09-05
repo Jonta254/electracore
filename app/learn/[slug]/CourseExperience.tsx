@@ -1489,7 +1489,11 @@ function ThreePhaseWaveDiagram() {
       <line x1="20" y1="70" x2="280" y2="70" stroke="rgba(255,255,255,0.1)" strokeWidth="0.6" />
       {phases.map((w, wi) => {
         const pts: string[] = [];
-        for (let x = 0; x <= 260; x += 4) { const a = (x / 260) * 4 * Math.PI + w.ph * Math.PI / 180; pts.push(`${x + 20},${70 - Math.sin(a) * 34}`); }
+        for (let x = 0; x <= 260; x += 4) {
+          const a = (x / 260) * 4 * Math.PI + w.ph * Math.PI / 180;
+          const y = Number((70 - Math.sin(a) * 34).toFixed(3));
+          pts.push(`${x + 20},${y}`);
+        }
         return <polyline key={wi} points={pts.join(" ")} fill="none" stroke={w.c} strokeWidth="1.6" opacity="0.9" />;
       })}
       <text x="24" y="150" fontFamily="monospace" fontSize="8" fill={LD.d}>L1 · L2 · L3</text>
@@ -1552,7 +1556,11 @@ function VoltageDropRunDiagram() {
 
 function ACWaveDiagram() {
   const pts: string[] = [];
-  for (let x = 0; x <= 300; x += 3) { const a = (x / 300) * 4 * Math.PI; pts.push(`${x + 40},${80 - Math.sin(a) * 44}`); }
+  for (let x = 0; x <= 300; x += 3) {
+    const a = (x / 300) * 4 * Math.PI;
+    const y = Number((80 - Math.sin(a) * 44).toFixed(3));
+    pts.push(`${x + 40},${y}`);
+  }
   return (
     <svg viewBox="0 0 400 160" style={ldWrap} role="img" aria-label="AC sine wave with peak and RMS values">
       <text x="14" y="16" fontFamily="monospace" fontSize="9" fill={LD.v} opacity="0.6">AC · PEAK, RMS &amp; PERIOD</text>

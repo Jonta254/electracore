@@ -1,8 +1,30 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import type { EnhancedLesson } from "./enhancedLessons";
 import { getProfessionalApproval } from "./contentApproval";
+
+const LESSON_CONTEXT_MEDIA: Record<string, { src: string; alt: string; caption: string }> = {
+  "electrical-fundamentals": { src: "/lesson-context-measurement-v1.png", alt: "Illustrative de-energized training bench with a digital multimeter, two-pole tester, clamp meter, guarded probes, and enclosed distribution board", caption: "Measurement instruments and an enclosed training board in a de-energized laboratory context." },
+  "domestic-wiring": { src: "/lesson-context-measurement-v1.png", alt: "Illustrative de-energized training bench with test instruments and an enclosed small distribution board", caption: "A protected training-board context for studying domestic circuits, devices, and verification." },
+  "protection-fault-analysis": { src: "/lesson-context-measurement-v1.png", alt: "Illustrative de-energized protection and testing bench with meters, guarded probes, and enclosed devices", caption: "Protection and measurement equipment shown only as a de-energized training context." },
+  "cable-sizing": { src: "/lesson-context-industrial-v1.png", alt: "Illustrative de-energized control panel with protected devices, terminal blocks, wireways, and a disconnected motor", caption: "A controlled panel environment showing why cable selection depends on equipment, routing, and termination context." },
+  "three-phase-systems": { src: "/lesson-context-industrial-v1.png", alt: "Illustrative de-energized industrial control panel beside a disconnected three-phase motor", caption: "Three-phase motor and control equipment in an isolated vocational training environment." },
+  "industrial-control": { src: "/lesson-context-industrial-v1.png", alt: "Illustrative de-energized industrial panel containing contactors, overloads, terminal blocks, wireways, and a compact PLC", caption: "Industrial-control components arranged in a protected, de-energized training panel." },
+  "inspection-testing": { src: "/lesson-context-measurement-v1.png", alt: "Illustrative de-energized inspection bench with several electrical test instruments and guarded leads", caption: "Typical instrument categories presented as context; selection and use still require exact ratings, procedures, and competence." },
+  "solar-pv": { src: "/lesson-context-solar-v1.png", alt: "Illustrative isolated solar training rig with two PV modules, enclosed inverter, isolator, distribution enclosure, and protected battery unit", caption: "A small isolated PV training rig showing the major system areas without serving as a wiring diagram." },
+  "led-lighting": { src: "/lesson-context-lighting-v1.png", alt: "Illustrative de-energized lighting laboratory bench with LED modules, enclosed driver, emergency luminaire, optics, heat sinks, and a light meter", caption: "Lighting components arranged for visual comparison in a de-energized laboratory context." },
+};
+
+function LessonContextImage({ courseSlug }: { courseSlug: string }) {
+  const media = LESSON_CONTEXT_MEDIA[courseSlug];
+  if (!media) return null;
+  return <figure className="lesson-context-media">
+    <div className="lesson-context-frame"><Image src={media.src} alt={media.alt} width={1536} height={1024} sizes="(max-width: 760px) calc(100vw - 1.5rem), 68ch" quality={75} /></div>
+    <figcaption><span>Context image</span>{media.caption} AI-created editorial illustration; not installation or test guidance.</figcaption>
+  </figure>;
+}
 
 function DomesticLightingDiagram({ lessonId }: { lessonId: string }) {
   const titleId = `diagram-domestic-wiring-${lessonId}`;
@@ -305,6 +327,7 @@ export function EnhancedLessonView({ lesson, courseSlug, lessonId }: { lesson: E
         <p className="lesson-introduction">{lesson.introduction}</p>
       </section>
 
+      <LessonContextImage courseSlug={courseSlug} />
       <QuantityDiagram courseSlug={courseSlug} lessonId={lessonId} />
 
       <section id={`theory-${lessonId}`}>

@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { ElectraCoreLogoMark } from "../components/Logo";
 import { GUIDES } from "./content";
 
 const CATEGORIES = ["All", "Wiring", "Safety", "Testing", "Calculations", "Standards"];
@@ -17,20 +16,6 @@ export default function GuidesPage() {
 
   return (
     <>
-      <nav className="nav">
-        <Link href="/" className="nav-logo">
-          <ElectraCoreLogoMark size={32} />
-          <span className="nav-logo-text">ElectraCore</span>
-        </Link>
-        <div className="nav-links">
-          <Link href="/design" className="nav-link">Design</Link>
-          <Link href="/calculate" className="nav-link">Calculate</Link>
-          <Link href="/guides" className="nav-link" style={{ color: "var(--core)" }}>Guides</Link>
-          <Link href="/learn" className="nav-link">Learn</Link>
-        </div>
-        <Link href="/calculate" className="nav-cta">Open Calculator</Link>
-      </nav>
-
       <main style={{ paddingTop: "80px" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "3rem 1.5rem 2rem" }}>
           <p className="section-label">Reference Library</p>
@@ -41,6 +26,7 @@ export default function GuidesPage() {
 
           {/* SEARCH */}
           <input
+            aria-label="Search reference guides"
             className="form-input"
             type="text"
             placeholder="Search guides..."
@@ -50,14 +36,14 @@ export default function GuidesPage() {
           />
 
           {/* CATEGORY TABS */}
-          <div className="tabs">
+          <div className="tabs" role="group" aria-label="Guide category">
             {CATEGORIES.map((c) => (
-              <button key={c} className={`tab ${cat === c ? "active" : ""}`} onClick={() => setCat(c)}>{c}</button>
+              <button key={c} aria-pressed={cat === c} className={`tab ${cat === c ? "active" : ""}`} onClick={() => setCat(c)}>{c}</button>
             ))}
           </div>
 
           {/* RESULTS COUNT */}
-          <p style={{ fontSize: "0.85rem", color: "var(--text-mute)", marginBottom: "2rem" }}>
+          <p role="status" style={{ fontSize: "0.85rem", color: "var(--text-mute)", marginBottom: "2rem" }}>
             {filtered.length} guide{filtered.length !== 1 ? "s" : ""}
           </p>
 

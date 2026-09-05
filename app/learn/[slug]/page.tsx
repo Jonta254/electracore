@@ -3,8 +3,6 @@ import { notFound } from "next/navigation";
 import { isCourseSlug } from "../courseTopology";
 import { COURSE_LESSON_COUNTS } from "../courseTopology";
 
-export const dynamicParams = false;
-
 export function generateStaticParams() {
   return Object.keys(COURSE_LESSON_COUNTS).map(slug => ({ slug }));
 }

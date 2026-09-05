@@ -101,8 +101,8 @@ test("every lesson opens on a stable route with syllabus and sequence navigation
   assert.match(courseSource, /Continue learning/);
   assert.match(courseRouteSource, /if \(!isCourseSlug\(slug\)\) notFound\(\)/);
   assert.match(lessonLayoutSource, /if \(!isLessonIdForCourse\(slug, lessonId\)\) notFound\(\)/);
-  assert.match(courseRouteSource, /export const dynamicParams = false/);
-  assert.match(lessonLayoutSource, /export const dynamicParams = false/);
+  assert.match(courseRouteSource, /if \(!isCourseSlug\(slug\)\) notFound\(\)/);
+  assert.match(lessonLayoutSource, /if \(!isLessonIdForCourse\(slug, lessonId\)\) notFound\(\)/);
   assert.match(courseSource, /isLessonIdForCourse\(slug, saved\.lastLessonId\)/);
   assert.match(courseSource, /aria-expanded=\{isOpen\}/);
   assert.match(courseSource, /aria-controls=\{`module-lessons-\$\{mod\.id\}`\}/);
@@ -126,5 +126,7 @@ test("lesson visuals are technical, labelled, and topic-routed", () => {
   for (const label of ["TWO-WAY CHANGEOVER CIRCUIT", "COM", "L1", "L2", "strapper 1", "strapper 2", "INTERMEDIATE CROSSOVER CIRCUIT"]) {
     assert.ok(enhancedReaderSource.includes(label), `missing lesson-specific wiring label: ${label}`);
   }
-  assert.doesNotMatch(enhancedReaderSource, /<Image|lesson-field-visual/);
+  assert.doesNotMatch(enhancedReaderSource, /lesson-field-visual/);
+  assert.match(enhancedReaderSource, /<QuantityDiagram courseSlug=\{courseSlug\} lessonId=\{lessonId\}/);
+  assert.match(enhancedReaderSource, /Context image/);
 });

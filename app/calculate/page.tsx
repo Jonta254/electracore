@@ -1,11 +1,17 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ElectraCoreLogoMark } from "../components/Logo";
+import { Activity, Cable as CableIcon, CircuitBoard, Gauge, Lightbulb, Network, Sigma, Zap, type LucideIcon } from "lucide-react";
+import { CALC_HISTORY_KEY, LEGACY_CALC_HISTORY_KEY, MAX_CALC_HISTORY, parseCalculationHistory, serializeCalculationHistory, type CalculationHistoryEntry } from "./history";
 
 type CalcResult = { value: string; unit: string; note?: string; error?: boolean } | null;
 
 const err = (note: string): CalcResult => ({ value: "Error", unit: "", note, error: true });
+const numeric = (value: string): number => {
+  if (value.trim() === "") return NaN;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : NaN;
+};
 
 /* ── individual calculators ─────────────────────────────
    Each returns the computed value, its unit, and a note that
@@ -14,7 +20,8 @@ const err = (note: string): CalcResult => ({ value: "Error", unit: "", note, err
    instead of silently returning Infinity or NaN.
 ──────────────────────────────────────────────────────── */
 function ohmsLaw(v: string, i: string, r: string): CalcResult {
-  const V = parseFloat(v), I = parseFloat(i), R = parseFloat(r);
+  const V = numeric(v), I = numeric(i), R = numeric(r);
+  if ((!isNaN(V) && V < 0) || (!isNaN(I) && I < 0) || (!isNaN(R) && R < 0)) return err("Voltage, current, and resistance must not be negative.");
   if (!isNaN(V) && !isNaN(I)) {
     if (I === 0) return err("Current cannot be zero when solving for resistance.");
     return { value: (V / I).toFixed(3), unit: "Ω", note: "R = V ÷ I" };
@@ -28,18 +35,20 @@ function ohmsLaw(v: string, i: string, r: string): CalcResult {
 }
 
 function powerCalc(v: string, i: string): CalcResult {
-  const V = parseFloat(v), I = parseFloat(i);
+  const V = numeric(v), I = numeric(i);
   if (isNaN(V) || isNaN(I)) return null;
+  if (V < 0 || I < 0) return err("Voltage and current must not be negative.");
   return { value: (V * I).toFixed(2), unit: "W", note: "P = V × I" };
 }
 
 function voltageDrop(v: string, i: string, len: string, res: string): CalcResult {
-  const I = parseFloat(i), L = parseFloat(len), R = parseFloat(res);
+  const I = numeric(i), L = numeric(len), R = numeric(res);
   if (isNaN(I) || isNaN(L) || isNaN(R)) return null;
   if (I < 0 || L < 0 || R < 0) return err("Current, length, and resistance must be positive.");
   // R is per-conductor mΩ/m; ×2 accounts for the go-and-return path (single phase).
   const drop = (2 * I * L * R) / 1000;
-  const supply = parseFloat(v);
+  const supply = numeric(v);
+  if (!isNaN(supply) && supply <= 0) return err("Supply voltage must be greater than zero.");
   const pct = supply ? ((drop / supply) * 100) : null;
   return {
     value: drop.toFixed(3),
@@ -51,7 +60,7 @@ function voltageDrop(v: string, i: string, len: string, res: string): CalcResult
 }
 
 function resistorSeriesParallel(r1: string, r2: string, r3: string, mode: "series" | "parallel"): CalcResult {
-  const vals = [r1, r2, r3].map(parseFloat).filter((n) => !isNaN(n));
+  const vals = [r1, r2, r3].map(numeric).filter((n) => !isNaN(n));
   if (vals.length < 2) return null;
   if (vals.some((n) => n < 0)) return err("Resistance values must be positive.");
   if (mode === "series") {
@@ -63,7 +72,7 @@ function resistorSeriesParallel(r1: string, r2: string, r3: string, mode: "serie
 }
 
 function ledResistor(supply: string, vf: string, ifma: string): CalcResult {
-  const Vs = parseFloat(supply), Vf = parseFloat(vf), If = parseFloat(ifma);
+  const Vs = numeric(supply), Vf = numeric(vf), If = numeric(ifma);
   if (isNaN(Vs) || isNaN(Vf) || isNaN(If)) return null;
   if (If <= 0) return err("Forward current must be greater than zero.");
   const R = (Vs - Vf) / (If / 1000);
@@ -77,9 +86,10 @@ function ledResistor(supply: string, vf: string, ifma: string): CalcResult {
 }
 
 function powerFactor(kw: string, kva: string): CalcResult {
-  const KW = parseFloat(kw), KVA = parseFloat(kva);
+  const KW = numeric(kw), KVA = numeric(kva);
   if (isNaN(KW) || isNaN(KVA)) return null;
   if (KVA <= 0) return err("Apparent power (kVA) must be greater than zero.");
+  if (KW < 0) return err("Real power (kW) must not be negative.");
   if (KW > KVA) return err("Real power (kW) cannot exceed apparent power (kVA).");
   const pf = KW / KVA;
   return {
@@ -90,7 +100,7 @@ function powerFactor(kw: string, kva: string): CalcResult {
 }
 
 function cableSizing(i: string, vd: string, len: string): CalcResult {
-  const I = parseFloat(i), VD = parseFloat(vd), L = parseFloat(len);
+  const I = numeric(i), VD = numeric(vd), L = numeric(len);
   if (isNaN(I) || isNaN(VD) || isNaN(L)) return null;
   if (VD <= 0) return err("Allowable voltage drop must be greater than zero.");
   if (I < 0 || L < 0) return err("Current and length must be positive.");
@@ -107,9 +117,10 @@ function cableSizing(i: string, vd: string, len: string): CalcResult {
 }
 
 function dividerVoltage(vin: string, r1: string, r2: string): CalcResult {
-  const Vin = parseFloat(vin), R1 = parseFloat(r1), R2 = parseFloat(r2);
+  const Vin = numeric(vin), R1 = numeric(r1), R2 = numeric(r2);
   if (isNaN(Vin) || isNaN(R1) || isNaN(R2)) return null;
   if (R1 < 0 || R2 < 0) return err("Resistance values must be positive.");
+  if (Vin < 0) return err("Input voltage must not be negative.");
   if (R1 + R2 === 0) return err("R1 and R2 cannot both be zero.");
   const vout = Vin * (R2 / (R1 + R2));
   return { value: vout.toFixed(3), unit: "V", note: "Vout = Vin × R2 ÷ (R1 + R2) · unloaded (no load current drawn)" };
@@ -118,7 +129,7 @@ function dividerVoltage(vin: string, r1: string, r2: string): CalcResult {
 /* ── Types ─────────────────────────────────────────── */
 interface CalcField { id: string; label: string; placeholder: string; unit: string; }
 interface CalcDef {
-  id: string; title: string; desc: string; icon: string;
+  id: string; title: string; desc: string; icon: LucideIcon;
   fields: CalcField[];
   extra?: { id: string; label: string; options: string[] };
   compute: (vals: Record<string, string>) => CalcResult;
@@ -126,7 +137,7 @@ interface CalcDef {
 
 const CALCS: CalcDef[] = [
   {
-    id: "ohms", title: "Ohm's Law", icon: "V/I", desc: "Fill any two fields: the third is calculated automatically.",
+    id: "ohms", title: "Ohm's Law", icon: Zap, desc: "Fill any two fields: the third is calculated automatically.",
     fields: [
       { id: "v", label: "Voltage", placeholder: "e.g. 230", unit: "V" },
       { id: "i", label: "Current", placeholder: "e.g. 10", unit: "A" },
@@ -135,7 +146,7 @@ const CALCS: CalcDef[] = [
     compute: (vals) => ohmsLaw(vals.v, vals.i, vals.r),
   },
   {
-    id: "power", title: "Power (P = VI)", icon: "W", desc: "Calculate power from voltage and current.",
+    id: "power", title: "Power (P = VI)", icon: Activity, desc: "Calculate power from voltage and current.",
     fields: [
       { id: "v", label: "Voltage", placeholder: "230", unit: "V" },
       { id: "i", label: "Current", placeholder: "10", unit: "A" },
@@ -143,7 +154,7 @@ const CALCS: CalcDef[] = [
     compute: (vals) => powerCalc(vals.v, vals.i),
   },
   {
-    id: "vdrop", title: "Voltage Drop", icon: "ΔV", desc: "Single-phase drop across a cable run. The common limit is 3% of supply.",
+    id: "vdrop", title: "Voltage Drop", icon: Gauge, desc: "Single-phase drop across a cable run. The common limit is 3% of supply.",
     fields: [
       { id: "v", label: "Supply Voltage", placeholder: "230", unit: "V" },
       { id: "i", label: "Load Current", placeholder: "16", unit: "A" },
@@ -153,7 +164,7 @@ const CALCS: CalcDef[] = [
     compute: (vals) => voltageDrop(vals.v, vals.i, vals.len, vals.res),
   },
   {
-    id: "res", title: "Resistors in Series / Parallel", icon: "R∥", desc: "Total resistance of a two- or three-resistor network.",
+    id: "res", title: "Resistors in Series / Parallel", icon: Network, desc: "Total resistance of a two- or three-resistor network.",
     fields: [
       { id: "r1", label: "R1", placeholder: "100", unit: "Ω" },
       { id: "r2", label: "R2", placeholder: "220", unit: "Ω" },
@@ -163,7 +174,7 @@ const CALCS: CalcDef[] = [
     compute: (vals) => resistorSeriesParallel(vals.r1, vals.r2, vals.r3, (vals.mode || "series") as "series" | "parallel"),
   },
   {
-    id: "led", title: "LED Resistor", icon: "LED", desc: "Series resistor value to drive an LED safely.",
+    id: "led", title: "LED Resistor", icon: Lightbulb, desc: "Series resistor value to drive an LED safely.",
     fields: [
       { id: "supply", label: "Supply Voltage", placeholder: "12", unit: "V" },
       { id: "vf", label: "LED Forward Voltage", placeholder: "2.1", unit: "V" },
@@ -172,7 +183,7 @@ const CALCS: CalcDef[] = [
     compute: (vals) => ledResistor(vals.supply, vals.vf, vals.ifma),
   },
   {
-    id: "pf", title: "Power Factor", icon: "PF", desc: "Power factor from real (kW) and apparent (kVA) power.",
+    id: "pf", title: "Power Factor", icon: Sigma, desc: "Power factor from real (kW) and apparent (kVA) power.",
     fields: [
       { id: "kw", label: "Real Power", placeholder: "18", unit: "kW" },
       { id: "kva", label: "Apparent Power", placeholder: "22", unit: "kVA" },
@@ -180,7 +191,7 @@ const CALCS: CalcDef[] = [
     compute: (vals) => powerFactor(vals.kw, vals.kva),
   },
   {
-    id: "cable", title: "Cable Sizing", icon: "mm²", desc: "Minimum copper cross-section limited by voltage drop.",
+    id: "cable", title: "Cable Sizing", icon: CableIcon, desc: "Minimum copper cross-section limited by voltage drop.",
     fields: [
       { id: "i", label: "Load Current", placeholder: "32", unit: "A" },
       { id: "vd", label: "Max Allowable Voltage Drop", placeholder: "6.9", unit: "V" },
@@ -189,7 +200,7 @@ const CALCS: CalcDef[] = [
     compute: (vals) => cableSizing(vals.i, vals.vd, vals.len),
   },
   {
-    id: "divider", title: "Voltage Divider", icon: "Vout", desc: "Output voltage from a resistive divider (no load).",
+    id: "divider", title: "Voltage Divider", icon: CircuitBoard, desc: "Output voltage from a resistive divider (no load).",
     fields: [
       { id: "vin", label: "Input Voltage", placeholder: "12", unit: "V" },
       { id: "r1", label: "R1 (top)", placeholder: "10000", unit: "Ω" },
@@ -200,16 +211,7 @@ const CALCS: CalcDef[] = [
 ];
 
 /* ── Calculation history (persisted locally) ────────── */
-interface HistEntry {
-  id: string;
-  calc: string;
-  inputs: string;
-  value: string;
-  unit: string;
-  note?: string;
-  ts: number;
-}
-const LS_KEY = "electracore.calc.history.v1";
+type HistEntry = CalculationHistoryEntry;
 
 function newId(): string {
   try {
@@ -262,7 +264,7 @@ function CalcBlock({ calc, onSave }: { calc: CalcDef; onSave: (e: Omit<HistEntry
   return (
     <div className="calc-card" id={calc.id}>
       <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.5rem" }}>
-        <span style={{ fontSize: "1.5rem" }} aria-hidden>{calc.icon}</span>
+        <span className="calc-tool-icon" aria-hidden><calc.icon size={24} strokeWidth={1.8} /></span>
         <div className="calc-title">{calc.title}</div>
       </div>
       <div className="calc-desc">{calc.desc}</div>
@@ -279,6 +281,8 @@ function CalcBlock({ calc, onSave }: { calc: CalcDef; onSave: (e: Omit<HistEntry
                 className="form-input"
                 type="number"
                 inputMode="decimal"
+                min="0"
+                step="any"
                 placeholder={f.placeholder}
                 value={vals[f.id]}
                 onChange={(e) => setVals((prev) => ({ ...prev, [f.id]: e.target.value }))}
@@ -401,27 +405,28 @@ function HistoryPanel({ history, onRemove, onClear, onExport }: { history: HistE
 }
 
 export default function CalculatePage() {
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const [activeId, setActiveId] = useState<string | null>("ohms");
   const [history, setHistory] = useState<HistEntry[]>([]);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     try {
-      const raw = localStorage.getItem(LS_KEY);
-      if (raw) setHistory(JSON.parse(raw));
+      const current = localStorage.getItem(CALC_HISTORY_KEY);
+      const legacy = current ? null : localStorage.getItem(LEGACY_CALC_HISTORY_KEY);
+      setHistory(parseCalculationHistory(current ?? legacy));
     } catch { /* corrupt or unavailable storage: start empty */ }
   }, []);
 
   useEffect(() => {
     if (!mounted) return;
     try {
-      localStorage.setItem(LS_KEY, JSON.stringify(history));
+      localStorage.setItem(CALC_HISTORY_KEY, serializeCalculationHistory(history));
     } catch { /* storage full or blocked: keep in memory */ }
   }, [history, mounted]);
 
   const addEntry = (e: Omit<HistEntry, "id" | "ts">) =>
-    setHistory((prev) => [{ ...e, id: newId(), ts: Date.now() }, ...prev].slice(0, 50));
+    setHistory((prev) => [{ ...e, id: newId(), ts: Date.now() }, ...prev].slice(0, MAX_CALC_HISTORY));
   const removeEntry = (id: string) => setHistory((prev) => prev.filter((e) => e.id !== id));
   const clearAll = () => setHistory([]);
 
@@ -464,20 +469,6 @@ export default function CalculatePage() {
         </div>
       </div>
 
-      <nav className="nav">
-        <Link href="/" className="nav-logo">
-          <ElectraCoreLogoMark size={32} />
-          <span className="nav-logo-text">ElectraCore</span>
-        </Link>
-        <div className="nav-links">
-          <Link href="/design" className="nav-link">Design</Link>
-          <Link href="/calculate" className="nav-link" style={{ color: "var(--core)" }}>Calculate</Link>
-          <Link href="/guides" className="nav-link">Guides</Link>
-          <Link href="/learn" className="nav-link">Learn</Link>
-        </div>
-        <Link href="/" className="btn-ghost" style={{ padding: "0.4rem 1rem", fontSize: "0.85rem" }}>← Home</Link>
-      </nav>
-
       <main style={{ paddingTop: "80px" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "3rem 1.5rem 1.5rem" }}>
           <p className="section-label">Calculators</p>
@@ -488,23 +479,24 @@ export default function CalculatePage() {
           </p>
 
           <Link href="/design" className="calc-designer-banner">
-            <div className="calc-designer-icon" aria-hidden>DESIGN</div>
+            <div className="calc-designer-icon" aria-hidden><CircuitBoard size={34} strokeWidth={1.5} /></div>
             <div className="calc-designer-copy">
               <div className="calc-designer-title">Need the whole circuit, not one number?</div>
-              <div className="calc-designer-sub">Open the Circuit Designer: load → device → cable size → voltage drop → pass/fail, with a printable summary.</div>
+              <div className="calc-designer-sub">Open the preliminary screening workflow: load → device → representative cable size → voltage drop → listed checks, with a printable summary.</div>
             </div>
             <span className="calc-designer-go">Open Designer →</span>
           </Link>
 
           <div className="tabs" style={{ marginBottom: "0.5rem" }}>
-            <button className={`tab ${!activeId ? "active" : ""}`} onClick={() => setActiveId(null)}>All ({CALCS.length})</button>
+            <button className={`tab ${!activeId ? "active" : ""}`} aria-pressed={!activeId} onClick={() => setActiveId(null)}>All ({CALCS.length})</button>
             {CALCS.map((c) => (
               <button
                 key={c.id}
                 className={`tab ${activeId === c.id ? "active" : ""}`}
+                aria-pressed={activeId === c.id}
                 onClick={() => setActiveId(activeId === c.id ? null : c.id)}
               >
-                {c.icon} {c.title}
+                <c.icon size={16} strokeWidth={1.8} aria-hidden="true" /> {c.title}
               </button>
             ))}
           </div>

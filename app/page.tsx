@@ -404,7 +404,7 @@ export default function HomePage() {
     <>
       {/* HERO */}
       <section className="hero">
-        <Image className="hero-photo" src="/electracore-lab-multimeter.jpg" alt="Digital multimeter and test leads arranged on an electrical laboratory bench" fill priority sizes="100vw" />
+        <Image className="hero-photo" src="/electracore-training-bench-v2.png" alt="Illustrative electrical training bench with a digital multimeter, enclosed distribution board, cable, and insulated hand tools" fill priority sizes="100vw" />
         <div className="hero-overlay" />
         <div className="hero-content">
           <p className="hero-badge">Electrical learning, calculation and circuit tools</p>
@@ -421,7 +421,7 @@ export default function HomePage() {
             <div className="hero-stat"><dt className="hero-stat-num">8</dt><dd className="hero-stat-label">Calculators</dd></div>
             <div className="hero-stat"><dt className="hero-stat-num">9</dt><dd className="hero-stat-label">References</dd></div>
           </dl>
-          <p className="hero-credit">Laboratory multimeter photograph: Aldestyo, CC0 1.0, via Wikimedia Commons.</p>
+          <p className="hero-credit">AI-created editorial illustration. Equipment arrangement is illustrative, de-energized, and not installation guidance.</p>
         </div>
       </section>
 

@@ -21,7 +21,7 @@
   --border-glow: rgba(240,165,0,0.25);
   --text: #F0F0F0;
   --text-dim: #888899;
-  --text-mute: #555566;
+  --text-mute: #9292A3;
   --radius: 12px;
   --radius-sm: 8px;
 }
@@ -202,6 +202,7 @@ body {
   border: 1px solid var(--border); background: transparent;
   color: var(--text-dim); font-size: 0.875rem; font-weight: 600;
   cursor: pointer; transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 0.45rem;
 }
 .tab:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
 .tab.active {
@@ -213,6 +214,12 @@ body {
 .calc-card {
   background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 2rem;
+}
+.calc-tool-icon {
+  width: 42px; height: 42px; border-radius: 12px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--core); background: rgba(var(--core-rgb), 0.1);
+  border: 1px solid rgba(var(--core-rgb), 0.22);
 }
 .calc-title { font-size: 1.25rem; font-weight: 800; margin-bottom: 0.4rem; }
 .calc-desc { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 2rem; }
@@ -455,6 +462,11 @@ html, body { max-width: 100%; overflow-x: clip; }
 .lesson-meta-line { display: flex; flex-wrap: wrap; gap: .5rem 1rem; font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--text-mute); }
 .lesson-introduction { color: var(--text); font-size: 1rem; border-left: 2px solid var(--core); padding-left: 1rem; margin-top: 1.25rem; }
 .enhanced-diagram { width: 100%; min-width: 0; display: block; margin: 1.25rem 0; background: #0B0D11; border: 1px solid var(--border); border-radius: 8px; }
+.lesson-context-media { margin: 1.5rem 0 1.15rem; }
+.lesson-context-frame { position: relative; overflow: hidden; aspect-ratio: 3 / 2; border: 1px solid var(--border); border-radius: 12px; background: #0B0D11; }
+.lesson-context-frame img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; }
+.lesson-context-media figcaption { display: flex; gap: .55rem; align-items: baseline; margin-top: .65rem; color: var(--text-mute); font-size: .72rem; line-height: 1.55; }
+.lesson-context-media figcaption span { flex: none; color: var(--core); font: 700 .64rem 'JetBrains Mono',monospace; letter-spacing: .06em; text-transform: uppercase; }
 .diagram-kicker { fill: #F0A500; font: 10px 'JetBrains Mono', monospace; letter-spacing: 1px; }
 .diagram-value { fill: #F0F0F0; font: 700 15px 'JetBrains Mono', monospace; text-anchor: middle; }
 .diagram-note { fill: #888899; font: 11px 'JetBrains Mono', monospace; text-anchor: middle; }
@@ -554,6 +566,9 @@ html, body { max-width: 100%; overflow-x: clip; }
   .enhanced-lesson { font-size: .96rem; }
   .lesson-content-shell { margin-inline: 0 !important; border-inline: 0 !important; border-radius: 0 !important; }
   .lesson-reading-body { padding-inline: .75rem !important; }
+  .lesson-context-frame { border-radius: 8px; aspect-ratio: 4 / 3; }
+  .lesson-context-media figcaption { display: block; font-size: .7rem; }
+  .lesson-context-media figcaption span { display: block; margin-bottom: .2rem; }
 }
 
 @media print {
@@ -561,7 +576,8 @@ html, body { max-width: 100%; overflow-x: clip; }
   .lesson-reader-layout { display: block; }
   .lesson-reading-column { max-width: none; }
   .enhanced-lesson { color: #222; font-size: 10pt; }
-  .enhanced-lesson section,.lesson-formula,.lesson-callout,.enhanced-diagram { break-inside: avoid; }
+  .enhanced-lesson section,.lesson-formula,.lesson-callout,.enhanced-diagram,.lesson-context-media { break-inside: avoid; }
+  .lesson-context-media figcaption { color: #444; }
 }
 .hero .hero-stat-num { font-size:1.45rem; font-weight:850; color:var(--text); }
 .hero-credit { margin-top:1rem; color:#98A4AC; font-size:.7rem; }

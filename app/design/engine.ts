@@ -116,7 +116,11 @@ export interface DesignResult {
   checks: Check[];
 }
 
-function num(s: string): number { const n = parseFloat(s); return isNaN(n) ? NaN : n; }
+function num(s: string): number {
+  if (s.trim() === "") return NaN;
+  const n = Number(s);
+  return Number.isFinite(n) ? n : NaN;
+}
 
 export function designCircuit(inp: DesignInput): DesignResult {
   const empty: DesignResult = {
@@ -145,7 +149,10 @@ export function designCircuit(inp: DesignInput): DesignResult {
   if (isNaN(L) || L <= 0) return { ...empty, message: "Enter the cable run length." };
 
   /* Protective device In */
-  const deviceAuto = DEVICE_RATINGS.find((r) => r >= Ib) ?? DEVICE_RATINGS[DEVICE_RATINGS.length - 1];
+  const deviceAuto = DEVICE_RATINGS.find((r) => r >= Ib) ?? null;
+  if (deviceAuto == null) {
+    return { ...empty, Ib, message: `Design current ${Ib.toFixed(1)} A exceeds the supported automatic-device range (maximum 125 A). Use a competent designer and verified manufacturer data.` };
+  }
   const In = inp.deviceOverride ?? deviceAuto;
 
   /* Derating */
@@ -162,7 +169,10 @@ export function designCircuit(inp: DesignInput): DesignResult {
 
   /* Voltage drop, and bump size until within the limit */
   const vdLimit = num(inp.vdLimitPct);
-  const vdLimitPct = isNaN(vdLimit) || vdLimit <= 0 ? 5 : vdLimit;
+  if (isNaN(vdLimit) || vdLimit <= 0 || vdLimit > 100) {
+    return { ...empty, Ib, In, deviceAuto, message: "Enter a voltage-drop limit greater than 0% and no more than 100%." };
+  }
+  const vdLimitPct = vdLimit;
 
   const vdFor = (size: number): { vd: number; pct: number } => {
     const mvam = MVAM[size] * (inp.phase === "three" ? THREE_PHASE_FACTOR : 1);

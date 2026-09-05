@@ -1,8 +1,6 @@
 import { notFound } from "next/navigation";
 import { COURSE_LESSON_COUNTS, isLessonIdForCourse } from "../../courseTopology";
 
-export const dynamicParams = false;
-
 export function generateStaticParams() {
   return Object.entries(COURSE_LESSON_COUNTS).flatMap(([slug, count]) =>
     Array.from({ length: count }, (_, index) => ({ slug, lessonId: `l${index + 1}` })),
