@@ -48,3 +48,21 @@ test("all registered lesson context assets exist", () => {
     assert.equal(fs.existsSync(new URL(`../public/lesson-context-${name}-v1.png`, import.meta.url)), true, `missing ${name} context asset`);
   }
 });
+
+test("instruction diagrams retain critical engineering qualifications", () => {
+  const course = read("../app/learn/[slug]/CourseExperience.tsx");
+  assert.match(course, /MCB OPERATING REGIONS · SCHEMATIC ONLY/);
+  assert.match(course, /manufacturer time-current curve for coordination/);
+  assert.match(course, /RMS is an equivalent heating value/);
+  assert.match(course, /select cable with tabulated capacity ≥ It/);
+  assert.match(course, /OL NC/);
+  assert.match(course, /KM1 aux NO \(seal-in\)/);
+  assert.match(course, /Eav = N·F·UF·MF/);
+  assert.match(course, /optional compatible storage port/);
+  assert.match(course, /Δ: Iʟ=√3·Iₚ/);
+  assert.match(course, /SIMPLIFIED CHARGE MODEL/);
+  assert.match(course, /time limit depends on device type and test current/);
+  assert.match(course, /BEFORE ENERGIZATION \(WHERE RELEVANT\)/);
+  assert.match(course, /METHOD \/ SYSTEM DEPENDENT/);
+  assert.doesNotMatch(course, /30mA trips &lt;300 ms/);
+});

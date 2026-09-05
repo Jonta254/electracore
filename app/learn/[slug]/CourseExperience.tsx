@@ -1407,7 +1407,8 @@ function RCDBalanceDiagram() {
       <line x1="110" y1="42" x2="110" y2="26" stroke={LD.p} strokeWidth="1.4" /><rect x="86" y="8" width="48" height="18" rx="4" fill="rgba(168,85,247,0.12)" stroke={LD.p} strokeWidth="1" /><text x="110" y="21" textAnchor="middle" fontFamily="monospace" fontSize="7" fill={LD.p}>TRIP</text>
       <text x="240" y="66" fontFamily="monospace" fontSize="9" fill={LD.g}>healthy: I(L)=I(N)</text>
       <text x="240" y="86" fontFamily="monospace" fontSize="9" fill={LD.h}>fault: ΔI ≥ IΔn</text>
-      <text x="240" y="106" fontFamily="monospace" fontSize="8" fill={LD.d}>30mA trips &lt;300 ms</text>
+      <text x="226" y="106" fontFamily="monospace" fontSize="7" fill={LD.d}>time limit depends on device type and test current</text>
+      <text x="226" y="122" fontFamily="monospace" fontSize="7" fill={LD.d}>verify current rules and manufacturer instructions</text>
     </svg>
   );
 }
@@ -1502,7 +1503,8 @@ function ThreePhaseWaveDiagram() {
         {[[0, -18], [-16, 9], [16, 9]].map(([x, y], i) => (<line key={i} x1="0" y1="0" x2={x} y2={y} stroke={[LD.h, LD.c, LD.v][i]} strokeWidth="2" />))}
         <circle cx="0" cy="0" r="3" fill={LD.p} /><text x="0" y="26" textAnchor="middle" fontFamily="monospace" fontSize="7" fill={LD.d}>STAR</text>
       </g>
-      <text x="300" y="92" fontFamily="monospace" fontSize="8" fill={LD.t}>Vʟ=√3·Vₚ</text>
+      <text x="288" y="91" fontFamily="monospace" fontSize="7.5" fill={LD.t}>Y: Vʟ=√3·Vₚ</text>
+      <text x="288" y="103" fontFamily="monospace" fontSize="7.5" fill={LD.t}>Δ: Iʟ=√3·Iₚ</text>
       {/* delta */}
       <g transform="translate(320,118)">
         <polygon points="0,-16 -15,8 15,8" fill="none" stroke={LD.p} strokeWidth="1.4" />
@@ -1515,11 +1517,11 @@ function ThreePhaseWaveDiagram() {
 function MCBCurveDiagram() {
   return (
     <svg viewBox="0 0 400 160" style={ldWrap} role="img" aria-label="MCB trip curves for types B, C and D">
-      <text x="14" y="16" fontFamily="monospace" fontSize="9" fill={LD.c} opacity="0.6">MCB MAGNETIC TRIP · ×In</text>
+      <text x="14" y="16" fontFamily="monospace" fontSize="9" fill={LD.c} opacity="0.6">MCB OPERATING REGIONS · SCHEMATIC ONLY</text>
       {/* axes */}
       <line x1="40" y1="28" x2="40" y2="120" stroke={LD.d} strokeWidth="1" /><line x1="40" y1="120" x2="380" y2="120" stroke={LD.d} strokeWidth="1" />
-      <text x="8" y="40" fontFamily="monospace" fontSize="7" fill={LD.d}>time</text>
-      <text x="360" y="134" fontFamily="monospace" fontSize="7" fill={LD.d}>current →</text>
+      <text x="8" y="40" fontFamily="monospace" fontSize="7" fill={LD.d}>time ↓</text>
+      <text x="340" y="134" fontFamily="monospace" fontSize="7" fill={LD.d}>multiple of In →</text>
       {/* thermal curve */}
       <path d="M60 34 C 110 40, 150 70, 170 118" fill="none" stroke={LD.g} strokeWidth="1.6" opacity="0.8" />
       <text x="64" y="46" fontFamily="monospace" fontSize="7" fill={LD.g}>thermal (overload)</text>
@@ -1530,7 +1532,7 @@ function MCBCurveDiagram() {
           <text x={b.x} y={100 - i * 12} fontFamily="monospace" fontSize="7.5" fill={b.c}>{b.t}</text>
         </g>
       ))}
-      <text x="150" y="150" fontFamily="monospace" fontSize="8" fill={LD.t} opacity="0.8">higher inrush → higher curve</text>
+      <text x="92" y="150" fontFamily="monospace" fontSize="7.5" fill={LD.t} opacity="0.8">use the manufacturer time-current curve for coordination</text>
     </svg>
   );
 }
@@ -1568,9 +1570,10 @@ function ACWaveDiagram() {
       <polyline points={pts.join(" ")} fill="none" stroke={LD.v} strokeWidth="1.8" />
       {/* peak */}
       <line x1="40" y1="36" x2="356" y2="36" stroke={LD.c} strokeWidth="0.8" strokeDasharray="3 3" opacity="0.6" /><text x="360" y="39" fontFamily="monospace" fontSize="8" fill={LD.c}>Vₚₖ</text>
-      {/* rms 0.707 */}
-      <line x1="40" y1="49" x2="356" y2="49" stroke={LD.g} strokeWidth="0.8" strokeDasharray="3 3" opacity="0.7" /><text x="360" y="52" fontFamily="monospace" fontSize="8" fill={LD.g}>Vᵣₘₛ</text>
-      <text x="60" y="140" fontFamily="monospace" fontSize="9" fill={LD.t} opacity="0.85">Vᵣₘₛ = Vₚₖ / √2   ·   T = 1/f</text>
+      {/* RMS is an equivalent heating value, not a second instantaneous waveform. */}
+      <line x1="24" y1="80" x2="24" y2="49" stroke={LD.g} strokeWidth="1.2" /><path d="M20 53 L24 49 L28 53 M20 76 L24 80 L28 76" fill="none" stroke={LD.g} strokeWidth="1" />
+      <text x="30" y="58" fontFamily="monospace" fontSize="7" fill={LD.g}>RMS magnitude</text>
+      <text x="54" y="140" fontFamily="monospace" fontSize="8.5" fill={LD.t} opacity="0.85">sine wave: Vᵣₘₛ = Vₚₖ / √2   ·   T = 1/f</text>
     </svg>
   );
 }
@@ -1579,17 +1582,17 @@ function CableDeratingDiagram() {
   return (
     <svg viewBox="0 0 400 160" style={ldWrap} role="img" aria-label="Cable current capacity reduced by derating factors">
       <text x="14" y="18" fontFamily="monospace" fontSize="9" fill={LD.v} opacity="0.6">DERATING · TABULATED → EFFECTIVE</text>
-      {[{ x: 20, t: "Iz(tab)", s: "table", c: LD.v }, { x: 118, t: "× Ca", s: "ambient", c: LD.c }, { x: 196, t: "× Cg", s: "grouping", c: LD.c }, { x: 274, t: "× Ci", s: "insul.", c: LD.c }].map((b, i) => (
+      {[{ x: 20, t: "In", s: "device", c: LD.v }, { x: 104, t: "÷ Ca", s: "ambient", c: LD.c }, { x: 182, t: "÷ Cg", s: "grouping", c: LD.c }, { x: 260, t: "÷ Ci", s: "insul.", c: LD.c }].map((b, i) => (
         <g key={i}>
           <rect x={b.x} y="52" width="72" height="40" rx="5" fill="#12151A" stroke={b.c} strokeWidth="1.1" />
           <text x={b.x + 36} y="72" textAnchor="middle" fontFamily="monospace" fontSize="10" fill={b.c}>{b.t}</text>
           <text x={b.x + 36} y="86" textAnchor="middle" fontFamily="monospace" fontSize="7" fill={LD.d}>{b.s}</text>
-          {i < 3 && <text x={b.x + 80} y="76" fontFamily="monospace" fontSize="11" fill={LD.d}>×</text>}
+          {i < 3 && <text x={b.x + 76} y="76" fontFamily="monospace" fontSize="11" fill={LD.d}>→</text>}
         </g>
       ))}
-      <text x="352" y="76" fontFamily="monospace" fontSize="12" fill={LD.g}>≥ It</text>
+      <text x="340" y="76" fontFamily="monospace" fontSize="10" fill={LD.g}>= It</text>
       <rect x="60" y="112" width="280" height="30" rx="5" fill="rgba(52,211,153,0.05)" stroke="rgba(52,211,153,0.2)" strokeWidth="0.7" />
-      <text x="200" y="131" textAnchor="middle" fontFamily="monospace" fontSize="9" fill={LD.t}>It = In ÷ (Ca × Cg × Ci)   ·   pick next size up</text>
+      <text x="200" y="131" textAnchor="middle" fontFamily="monospace" fontSize="8.5" fill={LD.t}>select cable with tabulated capacity ≥ It; include all applicable factors</text>
     </svg>
   );
 }
@@ -1611,6 +1614,7 @@ function PVSystemDiagram() {
       {/* battery */}
       <rect x="140" y="104" width="70" height="24" rx="4" fill="#0A1010" stroke={LD.g} strokeWidth="0.9" /><text x="175" y="120" textAnchor="middle" fontFamily="monospace" fontSize="7" fill={LD.g}>BATTERY</text>
       <line x1="175" y1="82" x2="175" y2="104" stroke={LD.p} strokeWidth="1" strokeDasharray="3 2" opacity="0.6" />
+      <text x="218" y="118" fontFamily="monospace" fontSize="6.5" fill={LD.d}>optional compatible storage port</text>
       <text x="60" y="150" fontFamily="monospace" fontSize="8" fill={LD.t} opacity="0.8">string V within inverter MPPT window at coldest temp</text>
     </svg>
   );
@@ -1624,15 +1628,16 @@ function DOLStarterDiagram() {
       <line x1="360" y1="28" x2="360" y2="130" stroke={LD.t} strokeWidth="1.4" opacity="0.4" /><text x="352" y="26" fontFamily="monospace" fontSize="7" fill={LD.d}>N</text>
       {/* stop NC */}
       <line x1="30" y1="52" x2="70" y2="52" stroke={LD.c} strokeWidth="1.6" /><line x1="70" y1="46" x2="70" y2="58" stroke={LD.h} strokeWidth="1.4" /><line x1="82" y1="46" x2="82" y2="58" stroke={LD.h} strokeWidth="1.4" /><line x1="70" y1="52" x2="82" y2="46" stroke={LD.h} strokeWidth="1.2"/><text x="66" y="70" fontFamily="monospace" fontSize="7" fill={LD.d}>STOP</text>
-      {/* start NO */}
-      <line x1="82" y1="52" x2="120" y2="52" stroke={LD.c} strokeWidth="1.6" /><rect x="120" y="46" width="16" height="12" fill="none" stroke={LD.g} strokeWidth="1.4" /><text x="118" y="70" fontFamily="monospace" fontSize="7" fill={LD.d}>START</text>
+      {/* overload NC and start NO */}
+      <line x1="82" y1="52" x2="102" y2="52" stroke={LD.c} strokeWidth="1.6" /><line x1="102" y1="46" x2="102" y2="58" stroke={LD.h} strokeWidth="1.2" /><line x1="114" y1="46" x2="114" y2="58" stroke={LD.h} strokeWidth="1.2" /><line x1="102" y1="52" x2="114" y2="46" stroke={LD.h} strokeWidth="1" /><text x="100" y="72" fontFamily="monospace" fontSize="6.5" fill={LD.d}>OL NC</text>
+      <line x1="114" y1="52" x2="132" y2="52" stroke={LD.c} strokeWidth="1.6" /><line x1="132" y1="46" x2="132" y2="58" stroke={LD.g} strokeWidth="1.2" /><line x1="144" y1="46" x2="144" y2="58" stroke={LD.g} strokeWidth="1.2" /><text x="128" y="72" fontFamily="monospace" fontSize="6.5" fill={LD.d}>START NO</text>
       {/* coil */}
-      <line x1="136" y1="52" x2="300" y2="52" stroke={LD.c} strokeWidth="1.6" /><circle cx="316" cy="52" r="12" fill="rgba(240,165,0,0.12)" stroke={LD.c} strokeWidth="1.4" /><text x="316" y="56" textAnchor="middle" fontFamily="monospace" fontSize="9" fill={LD.c}>M</text><line x1="328" y1="52" x2="360" y2="52" stroke={LD.c} strokeWidth="1.6" />
+      <line x1="144" y1="52" x2="300" y2="52" stroke={LD.c} strokeWidth="1.6" /><circle cx="316" cy="52" r="12" fill="rgba(240,165,0,0.12)" stroke={LD.c} strokeWidth="1.4" /><text x="316" y="56" textAnchor="middle" fontFamily="monospace" fontSize="9" fill={LD.c}>KM1</text><line x1="328" y1="52" x2="360" y2="52" stroke={LD.c} strokeWidth="1.6" />
       {/* hold-in aux */}
-      <line x1="82" y1="52" x2="82" y2="90" stroke={LD.c} strokeWidth="1.4" /><rect x="112" y="84" width="16" height="12" fill="rgba(240,165,0,0.1)" stroke={LD.c} strokeWidth="1.2" /><line x1="82" y1="90" x2="112" y2="90" stroke={LD.c} strokeWidth="1.4" /><line x1="128" y1="90" x2="136" y2="90" stroke={LD.c} strokeWidth="1.4" /><line x1="136" y1="90" x2="136" y2="52" stroke={LD.c} strokeWidth="1.4" /><text x="98" y="108" fontFamily="monospace" fontSize="7" fill={LD.d}>M aux (hold-in)</text>
+      <line x1="114" y1="52" x2="114" y2="90" stroke={LD.c} strokeWidth="1.4" /><line x1="132" y1="84" x2="132" y2="96" stroke={LD.c} strokeWidth="1.2" /><line x1="144" y1="84" x2="144" y2="96" stroke={LD.c} strokeWidth="1.2" /><line x1="114" y1="90" x2="132" y2="90" stroke={LD.c} strokeWidth="1.4" /><line x1="144" y1="90" x2="154" y2="90" stroke={LD.c} strokeWidth="1.4" /><line x1="154" y1="90" x2="154" y2="52" stroke={LD.c} strokeWidth="1.4" /><text x="118" y="108" fontFamily="monospace" fontSize="7" fill={LD.d}>KM1 aux NO (seal-in)</text>
       {/* motor */}
       <circle cx="316" cy="118" r="12" fill="rgba(168,85,247,0.1)" stroke={LD.p} strokeWidth="1.3" /><text x="316" y="122" textAnchor="middle" fontFamily="monospace" fontSize="8" fill={LD.p}>3~</text>
-      <text x="200" y="140" fontFamily="monospace" fontSize="8" fill={LD.t} opacity="0.75">latching start/stop with overload protection</text>
+      <text x="134" y="140" fontFamily="monospace" fontSize="8" fill={LD.t} opacity="0.75">control rung shown; power poles and motor protection are separate</text>
     </svg>
   );
 }
@@ -1640,7 +1645,7 @@ function DOLStarterDiagram() {
 function AtomDiagram() {
   return (
     <svg viewBox="0 0 400 160" style={ldWrap} role="img" aria-label="Atom with electron shells and drifting free electron">
-      <text x="14" y="16" fontFamily="monospace" fontSize="9" fill={LD.c} opacity="0.6">CHARGE FLOW · I = Q / t</text>
+      <text x="14" y="16" fontFamily="monospace" fontSize="9" fill={LD.c} opacity="0.6">SIMPLIFIED CHARGE MODEL · I = Q / t</text>
       <circle cx="90" cy="82" r="10" fill={LD.h} opacity="0.7" /><text x="90" y="86" textAnchor="middle" fontFamily="monospace" fontSize="8" fill={LD.t}>+</text>
       <ellipse cx="90" cy="82" rx="34" ry="34" fill="none" stroke={LD.v} strokeWidth="0.8" opacity="0.5" />
       <ellipse cx="90" cy="82" rx="52" ry="24" fill="none" stroke={LD.v} strokeWidth="0.8" opacity="0.4" transform="rotate(30 90 82)" />
@@ -1671,25 +1676,25 @@ function EarthingMiniDiagram() {
       <line x1="253" y1="78" x2="330" y2="78" stroke={LD.d} strokeWidth="1.6" /><text x="334" y="81" fontFamily="monospace" fontSize="7" fill={LD.d}>N</text>
       {/* electrode */}
       <line x1="360" y1="66" x2="360" y2="112" stroke={LD.g} strokeWidth="1.6" /><line x1="352" y1="112" x2="368" y2="112" stroke={LD.g} strokeWidth="2" /><line x1="355" y1="116" x2="365" y2="116" stroke={LD.g} strokeWidth="1.5" /><line x1="357" y1="120" x2="363" y2="120" stroke={LD.g} strokeWidth="1.2" />
-      <text x="300" y="134" fontFamily="monospace" fontSize="7.5" fill={LD.d}>own electrode → RCD required</text>
+      <text x="274" y="134" fontFamily="monospace" fontSize="7.5" fill={LD.d}>installation electrode; verify ADS and RCD requirements</text>
     </svg>
   );
 }
 
 function TestSequenceDiagram() {
-  const dead = ["Continuity", "Insulation R", "Polarity"];
-  const live = ["Ze / Zs", "RCD trip"];
+  const dead = ["Protective-conductor continuity", "Ring continuity (if present)", "Insulation resistance", "Polarity"];
+  const conditional = ["Earth electrode (if present)", "Ze / Zs or verified enquiry", "RCD operation", "Phase sequence / function"];
   return (
-    <svg viewBox="0 0 400 160" style={ldWrap} role="img" aria-label="Inspection and testing sequence, dead tests then live tests">
-      <text x="14" y="16" fontFamily="monospace" fontSize="9" fill={LD.v} opacity="0.6">TEST SEQUENCE · DEAD → LIVE</text>
-      <rect x="20" y="30" width="180" height="110" rx="6" fill="rgba(52,211,153,0.05)" stroke={LD.g} strokeWidth="0.9" />
-      <text x="30" y="48" fontFamily="monospace" fontSize="8" fill={LD.g}>DEAD (isolated)</text>
-      {dead.map((t, i) => (<g key={i}><rect x="34" y={58 + i * 24} width="150" height="18" rx="4" fill="#12151A" stroke={LD.g} strokeWidth="0.8" /><text x="44" y={70 + i * 24} fontFamily="monospace" fontSize="8" fill={LD.t}>{i + 1}. {t}</text></g>))}
-      <polygon points="204,84 224,84 214,94 224,84 214,74" fill={LD.d} />
-      <rect x="228" y="30" width="150" height="110" rx="6" fill="rgba(255,68,68,0.05)" stroke={LD.h} strokeWidth="0.9" />
-      <text x="238" y="48" fontFamily="monospace" fontSize="8" fill={LD.h}>LIVE (energised)</text>
-      {live.map((t, i) => (<g key={i}><rect x="242" y={58 + i * 24} width="124" height="18" rx="4" fill="#12151A" stroke={LD.h} strokeWidth="0.8" /><text x="252" y={70 + i * 24} fontFamily="monospace" fontSize="8" fill={LD.t}>{i + 4}. {t}</text></g>))}
-      <text x="242" y="128" fontFamily="monospace" fontSize="7.5" fill={LD.d}>never live-test before dead tests pass</text>
+    <svg viewBox="0 0 480 190" style={ldWrap} role="img" aria-label="Typical initial verification sequence: relevant tests before energization, followed by method-dependent and functional verification">
+      <text x="14" y="16" fontFamily="monospace" fontSize="9" fill={LD.v} opacity="0.6">INITIAL VERIFICATION · SELECT TESTS FOR THE INSTALLATION</text>
+      <rect x="16" y="30" width="216" height="126" rx="6" fill="rgba(52,211,153,0.05)" stroke={LD.g} strokeWidth="0.9" />
+      <text x="26" y="48" fontFamily="monospace" fontSize="8" fill={LD.g}>BEFORE ENERGIZATION (WHERE RELEVANT)</text>
+      {dead.map((t, i) => (<g key={t}><rect x="26" y={58 + i * 22} width="196" height="17" rx="4" fill="#12151A" stroke={LD.g} strokeWidth="0.7" /><text x="34" y={70 + i * 22} fontFamily="monospace" fontSize="7.2" fill={LD.t}>{i + 1}. {t}</text></g>))}
+      <polygon points="236,89 250,95 236,101" fill={LD.d} />
+      <rect x="254" y="30" width="210" height="126" rx="6" fill="rgba(240,165,0,0.05)" stroke={LD.c} strokeWidth="0.9" />
+      <text x="264" y="48" fontFamily="monospace" fontSize="8" fill={LD.c}>METHOD / SYSTEM DEPENDENT</text>
+      {conditional.map((t, i) => (<g key={t}><rect x="264" y={58 + i * 22} width="190" height="17" rx="4" fill="#12151A" stroke={LD.c} strokeWidth="0.7" /><text x="272" y={70 + i * 22} fontFamily="monospace" fontSize="7.2" fill={LD.t}>{i + 5}. {t}</text></g>))}
+      <text x="18" y="176" fontFamily="monospace" fontSize="7" fill={LD.d}>Typical order only: stop on unsatisfactory results; use the current procedure, instrument instructions, and risk controls.</text>
     </svg>
   );
 }
@@ -1705,7 +1710,7 @@ function LEDLuxDiagram() {
       {/* work plane */}
       <line x1="80" y1="120" x2="310" y2="120" stroke={LD.g} strokeWidth="2" /><text x="150" y="136" fontFamily="monospace" fontSize="8" fill={LD.g}>work plane · area A</text>
       <rect x="300" y="46" width="90" height="60" rx="5" fill="rgba(0,212,255,0.05)" stroke="rgba(0,212,255,0.2)" strokeWidth="0.7" />
-      <text x="345" y="66" textAnchor="middle" fontFamily="monospace" fontSize="8" fill={LD.t}>E = F·UF·MF</text>
+      <text x="345" y="66" textAnchor="middle" fontFamily="monospace" fontSize="8" fill={LD.t}>Eav = N·F·UF·MF</text>
       <text x="345" y="80" textAnchor="middle" fontFamily="monospace" fontSize="8" fill={LD.t}>÷ A</text>
       <text x="345" y="98" textAnchor="middle" fontFamily="monospace" fontSize="7" fill={LD.d}>lux (lm/m²)</text>
     </svg>
