@@ -21,7 +21,7 @@ function LessonContextImage({ courseSlug }: { courseSlug: string }) {
   const media = LESSON_CONTEXT_MEDIA[courseSlug];
   if (!media) return null;
   return <figure className="lesson-context-media">
-    <div className="lesson-context-frame"><Image src={media.src} alt={media.alt} width={1536} height={1024} sizes="(max-width: 760px) calc(100vw - 1.5rem), 68ch" quality={75} /></div>
+    <div className="lesson-context-frame"><Image src={media.src} alt={media.alt} width={1536} height={1024} sizes="(max-width: 760px) calc(100vw - 1.5rem), 68ch" quality={75} loading="eager" /></div>
     <figcaption><span>Context image</span>{media.caption} AI-created editorial illustration; not installation or test guidance.</figcaption>
   </figure>;
 }
@@ -261,7 +261,10 @@ function QuantityDiagram({ courseSlug, lessonId }: { courseSlug: string; lessonI
   );
 }
 
-export function EnhancedLessonView({ lesson, courseSlug, lessonId }: { lesson: EnhancedLesson; courseSlug: string; lessonId: string }) {
+const escapeHtml = (value: string) => value.replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character] ?? character);
+const handoutName = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+export function EnhancedLessonView({ lesson, courseSlug, lessonId, lessonTitle }: { lesson: EnhancedLesson; courseSlug: string; lessonId: string; lessonTitle: string }) {
   const professionalApproval = getProfessionalApproval(`${courseSlug}:${lessonId}`);
   const sections = useMemo(() => [
     { id: `purpose-${lessonId}`, label: "Purpose" },
@@ -272,6 +275,49 @@ export function EnhancedLessonView({ lesson, courseSlug, lessonId }: { lesson: E
   ], [lessonId]);
   const [activeSection, setActiveSection] = useState(sections[0].id);
   const [readingProgress, setReadingProgress] = useState(0);
+
+  const downloadHandout = () => {
+    const article = document.querySelector(`#lesson-reader-${CSS.escape(lessonId)} .lesson-reading-column`);
+    if (!(article instanceof HTMLElement)) return;
+    const copy = article.cloneNode(true) as HTMLElement;
+    copy.querySelector(".lesson-print-header")?.remove();
+    copy.querySelector(".lesson-print-footer")?.remove();
+    copy.querySelectorAll(".lesson-print-answer").forEach(answer => answer.remove());
+    copy.querySelectorAll("details").forEach(detail => detail.setAttribute("open", ""));
+    copy.querySelectorAll("a[href]").forEach(anchor => anchor.setAttribute("href", new URL(anchor.getAttribute("href") ?? "", window.location.href).href));
+    const sourceImages = [...article.querySelectorAll("img")];
+    const copiedImages = [...copy.querySelectorAll("img")];
+    copiedImages.forEach((image, index) => {
+      const source = sourceImages[index];
+      const absoluteSource = source?.currentSrc || source?.src || image.src;
+      try {
+        if (!source?.complete || !source.naturalWidth) throw new Error("Image is not ready");
+        const canvas = document.createElement("canvas");
+        canvas.width = source.naturalWidth;
+        canvas.height = source.naturalHeight;
+        canvas.getContext("2d")?.drawImage(source, 0, 0);
+        image.src = canvas.toDataURL("image/jpeg", 0.9);
+      } catch {
+        image.src = new URL(absoluteSource, window.location.href).href;
+      }
+      image.removeAttribute("srcset");
+      image.removeAttribute("sizes");
+    });
+    const courseTitle = courseSlug.split("-").map(word => word[0].toUpperCase() + word.slice(1)).join(" ");
+    const title = `${courseTitle}: ${lessonTitle}`;
+    const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)}</title><style>
+      @page{size:A4 portrait;margin:16mm 15mm 18mm}*{box-sizing:border-box}body{margin:0;color:#17191d;background:#fff;font:10.5pt/1.55 Arial,sans-serif}main{max-width:180mm;margin:auto}.handout-head{border-bottom:2px solid #b97800;margin-bottom:8mm;padding-bottom:5mm}.brand{color:#9a6100;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.handout-head h1{font-size:20pt;line-height:1.18;margin:2mm 0}.meta{color:#50545b;font-size:8.5pt}.lesson-print-header{display:none}h3{font-size:13pt;line-height:1.25;margin:7mm 0 2mm;break-after:avoid}p,li{orphans:3;widows:3}ul,ol{padding-left:6mm}.lesson-context-frame img{display:block;width:100%;height:auto;max-height:105mm;object-fit:cover}.lesson-context-media,.enhanced-diagram,.lesson-callout,.lesson-formula,.terms-table-wrap,.worked-steps{break-inside:avoid}.enhanced-diagram{display:block;width:100%;height:auto;background:#0a0c10;border-radius:2mm;margin:5mm 0}.lesson-context-media{margin:6mm 0}.lesson-context-media figcaption{color:#4c5158;font-size:8pt;margin-top:2mm}.lesson-context-media figcaption span{color:#9a6100;font-weight:700;margin-right:2mm;text-transform:uppercase}.lesson-callout{border-left:1mm solid #777;background:#f4f5f6;padding:3mm 4mm;margin:4mm 0}.lesson-callout.safety,.lesson-callout.mistake{border-color:#b42318}.lesson-callout.local{border-color:#b97800}.lesson-callout.example{border-color:#147d64}.lesson-callout.remember{border-color:#087a91}.lesson-callout strong{display:block;margin-bottom:1mm}.lesson-formula{border-block:.4mm solid #b97800;padding:4mm;margin:4mm 0}.lesson-formula code{font-size:12pt;color:#704800;overflow-wrap:anywhere}.terms-table{width:100%;border-collapse:collapse;font-size:8.5pt}.terms-table caption{text-align:left;font-weight:700;margin-bottom:2mm}.terms-table th,.terms-table td{border:.25mm solid #b9bdc3;padding:2mm;text-align:left;vertical-align:top}.terms-table thead{display:table-header-group}.worked-answer{border-left:1mm solid #147d64;padding:2mm 3mm;font-weight:700}.lesson-sources{border-top:.3mm solid #888;margin-top:8mm;font-size:8pt}.lesson-sources a{color:#164e63;overflow-wrap:anywhere}.lesson-sources a::after{content:" (" attr(href) ")";font-size:7pt;color:#555}.lesson-check-detail>summary{font-weight:700}.lesson-check-detail>*{display:block!important}.handout-foot{border-top:.3mm solid #aaa;margin-top:8mm;padding-top:3mm;color:#555;font-size:7.5pt}a{color:inherit}@media print{main{max-width:none}.handout-download-note{display:none}}
+    </style></head><body><main><header class="handout-head"><div class="brand">ElectraCore lesson handout</div><h1>${escapeHtml(lessonTitle)}</h1><div class="meta">${escapeHtml(courseTitle)} · Lesson ${escapeHtml(lessonId.replace(/^l/, ""))} · ${escapeHtml(lesson.difficulty)} · Editorial review ${escapeHtml(lesson.reviewDate)}</div></header>${copy.innerHTML}<footer class="handout-foot">Educational material for learning and preliminary checks. It does not replace competent design, installation, inspection, or current local requirements.<br>Source lesson: ${escapeHtml(window.location.href)}</footer></main></body></html>`;
+    const url = URL.createObjectURL(new Blob([html], { type: "text/html;charset=utf-8" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `electracore-${handoutName(courseSlug)}-${handoutName(lessonId)}-${handoutName(lessonTitle)}.html`;
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 30_000);
+  };
 
   useEffect(() => {
     const root = document.getElementById(`lesson-reader-${lessonId}`);
@@ -313,11 +359,12 @@ export function EnhancedLessonView({ lesson, courseSlug, lessonId }: { lesson: E
       <div className="lesson-reading-progress" aria-hidden="true"><span style={{ width: `${readingProgress}%` }} /></div>
       <div className="lesson-mobile-tools">
         <details className="lesson-mobile-contents"><summary>Lesson contents <span>{Math.round(readingProgress)}%</span></summary>{contents("lesson-toc-mobile")}</details>
-        <button type="button" onClick={() => window.print()}>Print lesson</button>
+        <div className="lesson-mobile-actions"><button type="button" onClick={() => window.print()}>Print / PDF</button><button type="button" onClick={downloadHandout}>Download</button></div>
       </div>
       <div className="lesson-reader-layout">
-        <aside className="lesson-reader-rail">{contents("lesson-toc")}<button type="button" onClick={() => window.print()}>Print lesson</button><span>{Math.round(readingProgress)}% read</span></aside>
+        <aside className="lesson-reader-rail">{contents("lesson-toc")}<button type="button" onClick={() => window.print()}>Print / save PDF</button><button type="button" onClick={downloadHandout}>Download handout</button><span>{Math.round(readingProgress)}% read</span></aside>
         <article className="lesson-reading-column">
+      <header className="lesson-print-header"><span>ElectraCore lesson handout</span><h1>{lessonTitle}</h1><p>{courseSlug.split("-").map(word => word[0].toUpperCase() + word.slice(1)).join(" ")} · Lesson {lessonId.replace(/^l/, "")} · {lesson.difficulty}</p></header>
 
       <section id={`purpose-${lessonId}`}>
         <div className="lesson-meta-line"><span>{lesson.difficulty}</span><span>Review: {professionalApproval ? "professionally reviewed" : "professional review pending"}</span></div>
@@ -354,6 +401,7 @@ export function EnhancedLessonView({ lesson, courseSlug, lessonId }: { lesson: E
       <section id={`check-${lessonId}`}>
         <h3>Knowledge check</h3>
         <details className="lesson-check-detail"><summary>{lesson.knowledgeCheck.question}</summary><p><strong>{lesson.knowledgeCheck.answer}.</strong> {lesson.knowledgeCheck.feedback}</p></details>
+        <p className="lesson-print-answer"><strong>Answer: {lesson.knowledgeCheck.answer}.</strong> {lesson.knowledgeCheck.feedback}</p>
         <h3>Practical exercise</h3><p>{lesson.practicalExercise}</p>
         <h3>Summary</h3><ul>{lesson.summary.map(item => <li key={item}>{item}</li>)}</ul>
       </section>
@@ -365,6 +413,7 @@ export function EnhancedLessonView({ lesson, courseSlug, lessonId }: { lesson: E
           ? <p>Professionally reviewed by {professionalApproval.reviewerName}, {professionalApproval.reviewerCredential}, on {professionalApproval.approvedOn}.</p>
           : <p>Editorial review date: {lesson.reviewDate}. Professional electrical review is pending.</p>}
       </section>
+      <footer className="lesson-print-footer">Educational material for learning and preliminary checks. Verify current local requirements and exact equipment instructions. This lesson does not replace competent professional work.</footer>
         </article>
       </div>
     </div>

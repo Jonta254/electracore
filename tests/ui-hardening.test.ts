@@ -66,3 +66,20 @@ test("instruction diagrams retain critical engineering qualifications", () => {
   assert.match(course, /METHOD \/ SYSTEM DEPENDENT/);
   assert.doesNotMatch(course, /30mA trips &lt;300 ms/);
 });
+
+test("lesson handouts support structured print and self-contained download", () => {
+  const lesson = read("../app/learn/EnhancedLessonView.tsx");
+  const course = read("../app/learn/[slug]/CourseExperience.tsx");
+  const css = read("../app/globals.css");
+  assert.match(course, /lessonTitle=\{lesson\.title\}/);
+  assert.match(lesson, /Download handout/);
+  assert.match(lesson, /new Blob\(\[html\], \{ type: "text\/html;charset=utf-8" \}\)/);
+  assert.match(lesson, /canvas\.toDataURL\("image\/jpeg", 0\.9\)/);
+  assert.match(lesson, /copy\.querySelectorAll\("details"\)/);
+  assert.match(lesson, /lesson-print-header/);
+  assert.match(lesson, /Print \/ save PDF/);
+  assert.match(css, /@page \{ size: A4 portrait; margin: 16mm 15mm 18mm; \}/);
+  assert.match(css, /break-inside: avoid-page/);
+  assert.match(css, /\.terms-table thead \{ display: table-header-group; \}/);
+  assert.match(css, /\.lesson-sources a\[href\]::after/);
+});

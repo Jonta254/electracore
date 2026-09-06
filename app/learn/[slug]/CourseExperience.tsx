@@ -1755,7 +1755,7 @@ export function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, pr
       overflow: "hidden",
     }}>
       {/* Lesson type header */}
-      <div style={{
+      <div className="lesson-type-strip" style={{
         padding: "0.75rem 1.25rem",
         borderBottom: "1px solid rgba(255,255,255,0.06)",
         display: "flex", alignItems: "center", gap: 10,
@@ -1835,12 +1835,12 @@ export function LessonContent({ lesson, courseColor, courseSlug, moduleTitle, pr
         /* READING LESSON */
         <div className="lesson-reading-body" style={{ padding: "1.25rem" }}>
           {lessonBody.diagram && (
-            <div style={{ marginBottom: "1rem", borderRadius: 8, overflow: "hidden", border: "1px solid rgba(255,255,255,0.06)" }}>
+            <div className="lesson-legacy-diagram" style={{ marginBottom: "1rem", borderRadius: 8, overflow: "hidden", border: "1px solid rgba(255,255,255,0.06)" }}>
               {lessonBody.diagram}
             </div>
           )}
           {enhancedLesson ? (
-            <EnhancedLessonView lesson={enhancedLesson} courseSlug={courseSlug} lessonId={lesson.id} />
+            <EnhancedLessonView lesson={enhancedLesson} courseSlug={courseSlug} lessonId={lesson.id} lessonTitle={lesson.title} />
           ) : (
             <>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
