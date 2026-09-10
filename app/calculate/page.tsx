@@ -22,6 +22,7 @@ const numeric = (value: string): number => {
 function ohmsLaw(v: string, i: string, r: string): CalcResult {
   const V = numeric(v), I = numeric(i), R = numeric(r);
   if ((!isNaN(V) && V < 0) || (!isNaN(I) && I < 0) || (!isNaN(R) && R < 0)) return err("Voltage, current, and resistance must not be negative.");
+  if ([V, I, R].filter((value) => !isNaN(value)).length > 2) return err("Enter exactly two values and leave the value to calculate blank.");
   if (!isNaN(V) && !isNaN(I)) {
     if (I === 0) return err("Current cannot be zero when solving for resistance.");
     return { value: (V / I).toFixed(3), unit: "Ω", note: "R = V ÷ I" };
@@ -95,7 +96,7 @@ function powerFactor(kw: string, kva: string): CalcResult {
   return {
     value: pf.toFixed(3),
     unit: "PF",
-    note: pf < 0.85 ? "Review: below 0.85: correction capacitors are usually worthwhile" : "Acceptable power factor (PF = kW ÷ kVA)",
+    note: pf < 0.85 ? "Review: below 0.85. Check utility requirements, load characteristics, harmonics, and a competent correction design before adding equipment." : "Power factor result (PF = kW ÷ kVA). Confirm the required threshold for the installation.",
   };
 }
 

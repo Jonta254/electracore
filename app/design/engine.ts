@@ -148,21 +148,30 @@ export function designCircuit(inp: DesignInput): DesignResult {
   if (isNaN(V) || V <= 0) return { ...empty, message: "Enter the supply voltage." };
   if (isNaN(L) || L <= 0) return { ...empty, message: "Enter the cable run length." };
 
+  const method = METHOD_MAP[inp.method];
+  const ambient = AMBIENT_OPTIONS.find((option) => option.c === inp.ambientC);
+  const grouping = GROUPING_OPTIONS.find((option) => option.n === inp.groupN);
+  const insulation = INSULATION_OPTIONS.find((option) => option.id === inp.insulationId);
+  if (!method || !ambient || !grouping || !insulation) {
+    return { ...empty, Ib, message: "Select valid installation and derating options." };
+  }
+
   /* Protective device In */
   const deviceAuto = DEVICE_RATINGS.find((r) => r >= Ib) ?? null;
   if (deviceAuto == null) {
     return { ...empty, Ib, message: `Design current ${Ib.toFixed(1)} A exceeds the supported automatic-device range (maximum 125 A). Use a competent designer and verified manufacturer data.` };
   }
+  if (inp.deviceOverride !== null && !DEVICE_RATINGS.includes(inp.deviceOverride as (typeof DEVICE_RATINGS)[number])) {
+    return { ...empty, Ib, deviceAuto, message: "Select a supported protective-device rating." };
+  }
   const In = inp.deviceOverride ?? deviceAuto;
 
   /* Derating */
-  const ca = AMBIENT_OPTIONS.find((a) => a.c === inp.ambientC)?.ca ?? 1;
-  const cg = GROUPING_OPTIONS.find((g) => g.n === inp.groupN)?.cg ?? 1;
-  const ci = INSULATION_OPTIONS.find((i) => i.id === inp.insulationId)?.ci ?? 1;
+  const ca = ambient.ca;
+  const cg = grouping.cg;
+  const ci = insulation.ci;
   const derate = ca * cg * ci;
   const requiredIt = In / derate;
-
-  const method = METHOD_MAP[inp.method] ?? METHODS[0];
 
   /* Thermal size: smallest whose derated capacity ≥ In  (i.e. tabulated ≥ In/derate) */
   const thermalSize = SIZES.find((s) => method.ccc[s] >= requiredIt) ?? null;

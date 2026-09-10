@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, BookOpen, Cable, Calculator, FileText, GraduationCap, Workflow } from "lucide-react";
@@ -400,8 +400,22 @@ export default function HomePage() {
     if (el && !revealRefs.current.includes(el)) revealRefs.current.push(el);
   };
 
+  const selectWhoWithKeyboard = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    const last = WHO.length - 1;
+    const next = event.key === "ArrowRight" || event.key === "ArrowDown"
+      ? (index + 1) % WHO.length
+      : event.key === "ArrowLeft" || event.key === "ArrowUp"
+        ? (index - 1 + WHO.length) % WHO.length
+        : event.key === "Home" ? 0 : event.key === "End" ? last : null;
+    if (next === null) return;
+    event.preventDefault();
+    setActiveWho(next);
+    document.getElementById(`who-tab-${next}`)?.focus();
+  };
+
   return (
     <>
+      <main>
       {/* HERO */}
       <section className="hero">
         <Image className="hero-photo" src="/electracore-training-bench-v2.png" alt="Illustrative electrical training bench with a digital multimeter, enclosed distribution board, cable, and insulated hand tools" fill priority sizes="100vw" />
@@ -471,9 +485,13 @@ export default function HomePage() {
             {WHO.map((w, i) => (
               <button
                 key={i}
+                id={`who-tab-${i}`}
                 role="tab"
                 aria-selected={activeWho === i}
+                aria-controls="who-panel"
+                tabIndex={activeWho === i ? 0 : -1}
                 onClick={() => setActiveWho(i)}
+                onKeyDown={(event) => selectWhoWithKeyboard(event, i)}
                 className={`who-tab${activeWho === i ? " active" : ""}`}
               >
                 <span className="who-tab-role">{w.role}</span>
@@ -482,7 +500,7 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="who-panel" role="tabpanel">
+          <div id="who-panel" className="who-panel" role="tabpanel" aria-labelledby={`who-tab-${activeWho}`} tabIndex={0}>
             {(() => {
               const w = WHO[activeWho];
               const Illo = ILLO[w.illo];
@@ -600,6 +618,7 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+      </main>
       {/* FOOTER */}
       <footer style={{ borderTop: "1px solid var(--border)", padding: "3rem 1.5rem", marginTop: "2rem" }}>
         <div className="footer">

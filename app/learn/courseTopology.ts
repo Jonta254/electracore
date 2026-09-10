@@ -12,6 +12,18 @@ export const COURSE_LESSON_COUNTS = {
 
 export type CourseSlug = keyof typeof COURSE_LESSON_COUNTS;
 
+export const COURSE_TITLES: Record<CourseSlug, string> = {
+  "electrical-fundamentals": "Electrical Fundamentals",
+  "domestic-wiring": "Domestic Wiring",
+  "protection-fault-analysis": "Protection & Fault Analysis",
+  "three-phase-systems": "Three-Phase Systems",
+  "cable-sizing": "Cable Sizing & Installation",
+  "solar-pv": "Solar PV & Renewables",
+  "industrial-control": "Industrial Control & PLCs",
+  "inspection-testing": "Inspection & Testing",
+  "led-lighting": "LED & Lighting Design",
+};
+
 export function isCourseSlug(value: string): value is CourseSlug {
   return Object.hasOwn(COURSE_LESSON_COUNTS, value);
 }

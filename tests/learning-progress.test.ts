@@ -69,3 +69,12 @@ test("drops malformed assessment records without damaging valid progress", () =>
   assert.deepEqual(Object.keys(course.assessments), ["valid"]);
   assert.deepEqual(course.completedLessons, ["l1"]);
 });
+
+test("rejects invalid assessment scores and caps legacy progress", () => {
+  const storage = new MemoryStorage();
+  for (const score of [-1, 101, Number.NaN, Number.POSITIVE_INFINITY]) {
+    assert.throws(() => recordAssessment(storage, "course", "l1", score), RangeError);
+  }
+  saveLessonCompletion(storage, "course", ["l1", "l2", "l3"], 2);
+  assert.equal(JSON.parse(storage.getItem("ec-progress") ?? "{}").course, 100);
+});

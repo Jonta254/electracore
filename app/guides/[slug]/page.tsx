@@ -1,7 +1,6 @@
 "use client";
 import React, { use } from "react";
 import Link from "next/link";
-import { ElectraCoreLogoMark } from "../../components/Logo";
 import { GUIDE_MAP, GUIDES, type Block } from "../content";
 import { getGuideReview } from "../review";
 
@@ -126,20 +125,6 @@ export default function GuidePage({ params }: { params: Promise<{ slug: string }
 
   return (
     <>
-      <nav className="nav g-noprint">
-        <Link href="/" className="nav-logo">
-          <ElectraCoreLogoMark size={32} />
-          <span className="nav-logo-text">ElectraCore</span>
-        </Link>
-        <div className="nav-links">
-          <Link href="/design" className="nav-link">Design</Link>
-          <Link href="/calculate" className="nav-link">Calculate</Link>
-          <Link href="/guides" className="nav-link" style={{ color: "var(--core)" }}>← All Guides</Link>
-          <Link href="/learn" className="nav-link">Learn</Link>
-        </div>
-        <Link href="/calculate" className="nav-cta">Open Calculator</Link>
-      </nav>
-
       <main style={{ paddingTop: "80px" }}>
         <article className="g-article">
           {/* HEADER */}

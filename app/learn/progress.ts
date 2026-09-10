@@ -82,13 +82,16 @@ export function saveLessonCompletion(storage: StorageLike, slug: string, complet
   storage.setItem(`ec-completed-${slug}`, JSON.stringify(unique));
   const legacyProgress = parseJson(storage.getItem("ec-progress"));
   const progress = legacyProgress && typeof legacyProgress === "object" ? legacyProgress as Record<string, number> : {};
-  progress[slug] = totalLessons > 0 ? Math.round((unique.length / totalLessons) * 100) : 0;
+  progress[slug] = totalLessons > 0 ? Math.min(100, Math.round((unique.length / totalLessons) * 100)) : 0;
   storage.setItem("ec-progress", JSON.stringify(progress));
 }
 export function saveLastLesson(storage: StorageLike, slug: string, lessonId: string) {
   updateCourse(storage, slug, course => ({ ...course, lastLessonId: lessonId }));
 }
 export function recordAssessment(storage: StorageLike, slug: string, lessonId: string, score: number) {
+  if (!Number.isFinite(score) || score < 0 || score > 100) {
+    throw new RangeError("Assessment score must be a finite number from 0 to 100.");
+  }
   updateCourse(storage, slug, course => {
     const previous = course.assessments[lessonId];
     return {

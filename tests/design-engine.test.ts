@@ -52,3 +52,24 @@ test("rejects missing, non-finite, and out-of-range voltage-drop limits", () => 
     assert.match(result.message ?? "", /voltage-drop limit/);
   }
 });
+
+test("fails closed for unknown installation and derating options", () => {
+  for (const input of [
+    { ...base, method: "unknown" },
+    { ...base, ambientC: 999 },
+    { ...base, groupN: 999 },
+    { ...base, insulationId: "unknown" },
+  ]) {
+    const result = designCircuit(input);
+    assert.equal(result.valid, false);
+    assert.match(result.message ?? "", /valid installation and derating options/);
+  }
+});
+
+test("rejects protective-device overrides outside the supported ratings", () => {
+  for (const deviceOverride of [-1, 0, 7, 126]) {
+    const result = designCircuit({ ...base, deviceOverride });
+    assert.equal(result.valid, false);
+    assert.match(result.message ?? "", /supported protective-device rating/);
+  }
+});

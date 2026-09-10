@@ -27,6 +27,26 @@ test("search combobox exposes its active descendant", () => {
   assert.match(header, /id=\{`site-search-result-\$\{index\}`\}/);
 });
 
+test("home exposes a main landmark and complete keyboard tab semantics", () => {
+  const home = read("../app/page.tsx");
+  assert.match(home, /<main>/);
+  assert.match(home, /aria-controls="who-panel"/);
+  assert.match(home, /aria-labelledby=\{`who-tab-\$\{activeWho\}`\}/);
+  assert.match(home, /onKeyDown=\{\(event\) => selectWhoWithKeyboard\(event, i\)\}/);
+});
+
+test("major product areas and dynamic content expose route metadata", () => {
+  for (const path of ["../app/calculate/layout.tsx", "../app/design/layout.tsx", "../app/learn/layout.tsx", "../app/guides/layout.tsx"]) {
+    assert.match(read(path), /export const metadata: Metadata/);
+  }
+  assert.match(read("../app/learn/[slug]/page.tsx"), /generateMetadata/);
+  assert.match(read("../app/learn/[slug]/[lessonId]/page.tsx"), /generateMetadata/);
+  const guideLayout = read("../app/guides/[slug]/layout.tsx");
+  assert.match(guideLayout, /generateMetadata/);
+  assert.match(guideLayout, /export const dynamicParams = false/);
+  assert.match(guideLayout, /notFound\(\)/);
+});
+
 test("public designer copy stays within preliminary-screening scope", () => {
   const designer = read("../app/design/page.tsx");
   assert.match(designer, /Screen a preliminary cable size/);
