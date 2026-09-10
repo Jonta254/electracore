@@ -1,4 +1,5 @@
 import React from "react";
+import { ControlLadderDiagram, LightingWiringDiagram, SymbolSheet } from "./electrical-diagrams";
 
 /* ─────────────────────────────────────────────────────────────
    ElectraCore: Guide content
@@ -1009,6 +1010,50 @@ export const GUIDES: Guide[] = [
       },
     ],
     related: ["cable-colour-codes", "insulation-resistance-testing", "maximum-demand"],
+  },
+
+  {
+    slug: "electrical-symbols-diagrams",
+    title: "Electrical Symbols & Wiring Diagrams",
+    sub: "Read schematics, functional wiring views, terminal identifiers, and fault paths with confidence.",
+    level: "Beginner",
+    cat: "Wiring",
+    readMins: 12,
+    updated: "2026",
+    standards: ["IEC 60617", "IEC 60445", "IEC 61082-1"],
+    summary: "A practical, standards-informed reference for reading electrical drawings: symbols, conductor identification, functional wiring, control logic, and disciplined fault-finding.",
+    sections: [
+      { id: "symbols", heading: "A compact symbol sheet", blocks: [
+        { kind: "p", text: "IEC 60617 is the international database for graphical symbols used in electrotechnical diagrams. The redraws below are an original teaching set: they preserve the intent of common symbols without reproducing the licensed database artwork. A project drawing must use its approved symbol library and legend." },
+        { kind: "node", node: <SymbolSheet /> },
+        { kind: "callout", tone: "note", title: "Diagram symbols are not equipment labels", text: "A symbol communicates function; the equipment schedule identifies the actual device, rating, manufacturer, terminals, and reference designation. Never infer a device rating from a symbol alone." },
+      ] },
+      { id: "reading", heading: "How to read a drawing", blocks: [
+        { kind: "steps", items: [
+          { title: "Find the boundary", text: "Read the title block, supply system, voltage, frequency, drawing status, revision, and legend first. A schematic is a functional view; it is not automatically a physical route or installation method." },
+          { title: "Trace the energy path", text: "Follow line conductors from source through isolation and protective devices to the load. Follow neutral and protective-earth paths separately. A protective conductor is not a normal load-current return path." },
+          { title: "Read contact state correctly", text: "Normally open (NO) and normally closed (NC) describe the device at rest. In a control ladder, a STOP NC contact opens on operation; a START NO contact closes momentarily; an auxiliary NO contact can hold the coil energized." },
+          { title: "Cross-check identifiers", text: "Use the reference designation and terminal numbers to connect the schematic to the panel schedule, cable list, terminal plan, and physical equipment. IEC 60445 addresses identification of equipment terminals and designated conductors." },
+        ] },
+        { kind: "table", head: ["Identifier", "Typical meaning", "Verification rule"], rows: [
+          ["L / L1, L2, L3", "Line / phase conductor", "Confirm system and terminal marking; colour alone is not proof."], ["N", "Neutral conductor", "Do not assume every circuit has a neutral; trace the actual circuit."], ["PE / CPC", "Protective conductor", "Continuity and termination are safety-critical; never switch it as a normal conductor."], ["QF / FU", "Breaker / fuse reference", "Check the schedule and device data for rating and breaking capacity."], ["KM / K", "Contactor or relay", "Match coil voltage, contact arrangement, and auxiliary contact reference."], ["M / MOT", "Motor", "Confirm phase arrangement, overload setting, direction, and isolation points."],
+        ], caption: "Common IEC-style reference designations are conventions, not a substitute for the project legend." },
+      ] },
+      { id: "lighting", heading: "Worked view: one-way lighting", blocks: [
+        { kind: "node", node: <LightingWiringDiagram /> },
+        { kind: "p", text: "The diagnostic insight is simple: the switch interrupts the line conductor, while neutral remains continuous to the luminaire and the CPC/PE remains continuous to exposed-conductive-parts. If a lamp is dead, begin with safe isolation and a documented prove-dead process, then check supply, switch operation, terminations, neutral continuity, and the luminaire in that order." },
+        { kind: "callout", tone: "safety", title: "Safe isolation is a prerequisite", text: "HSE guidance says supplies should be made dead and proved dead before work starts, with isolation secured against inadvertent or deliberate re-energisation. Use a suitable test instrument and the local safe-isolation procedure; this page is not permission to work live." },
+      ] },
+      { id: "control", heading: "Worked view: motor-control logic", blocks: [
+        { kind: "node", node: <ControlLadderDiagram /> },
+        { kind: "list", items: ["No response to START: verify control supply, STOP NC, overload NC, START contact, coil voltage, and the coil itself.", "Contactor chatters: investigate control-voltage drop, loose terminals, incorrect coil voltage, mechanical wear, or an unstable supply; do not mask it by increasing protection.", "Motor trips on start: check overload setting against the motor nameplate and manufacturer guidance, phase loss, mechanical load, starting method, and fault current; do not simply fit a larger protective device.", "Unexpected restart risk: identify every energy source and stored energy, isolate, lock/tag, release or restrain stored energy, and prove the circuit dead before intervention."] },
+      ] },
+      { id: "limits", heading: "Accuracy boundaries", blocks: [
+        { kind: "callout", tone: "warn", title: "Jurisdiction and edition matter", text: "Cable sizes, disconnection times, RCD requirements, colour rules, inspection tests, and permitted wiring methods depend on the governing national standard, installation type, equipment instructions, and current edition. Treat the examples as learning aids; design, alteration, testing, and certification belong to a competent person under the applicable rules." },
+        { kind: "p", text: "For a real job, freeze the design basis before drawing: jurisdiction, supply characteristics, earthing arrangement, prospective fault current, environmental conditions, design current, protective-device data, installation method, voltage-drop limit, and inspection/testing plan. Then record assumptions and revisions on the drawing." },
+      ] },
+    ],
+    related: ["safe-isolation", "cable-colour-codes", "single-phase-socket-wiring", "loop-impedance-testing"],
   },
 ];
 

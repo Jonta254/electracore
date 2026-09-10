@@ -10,7 +10,7 @@
 | `/public/electracore-lab-multimeter.jpg` | Retained source asset; no longer the homepage hero | Aldestyo | [Wikimedia Commons: Multimeter Lab.jpg](https://commons.wikimedia.org/wiki/File:Multimeter_Lab.jpg) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | 2026-08-25 |
 # Source registry
 
-Registry review date: 2026-08-23.
+Registry review date: 2026-09-11.
 
 This registry records sources used to guide ElectraCore's product, accessibility, safety, diagram, and content decisions. A registry entry is not permission to reproduce protected standards text or assets.
 
@@ -32,6 +32,9 @@ This registry records sources used to guide ElectraCore's product, accessibility
 | IEC 62548-1:2023+AMD1:2025 — Photovoltaic arrays, design requirements | International Electrotechnical Commission | https://webstore.iec.ch/en/publication/64171 | International | Consolidated edition reviewed 2026-09-05 | PV array boundaries, DC wiring, switching, protection, earthing, and direct battery connection context | Paid standard. Catalogue scope supports system-boundary review only; product instructions and applicable national rules remain necessary. |
 | Time-Current Curves | Schneider Electric | https://www.se.com/us/en/work/support/resources-and-tools/calculators-and-online-tools/time-current-curves/ | Product/manufacturer guidance | Live technical library reviewed 2026-09-05 | Requirement to use the exact protective-device time-current curve rather than a decorative generic plot | Manufacturer-specific. Curves and settings must match the exact installed product and system study. |
 | Inspection and Testing FAQs | Institution of Engineering and Technology | https://electrical.theiet.org/bs-7671-18th-edition-wiring-regulations/faqs/inspection-and-testing-faqs/ | United Kingdom | Public BS 7671 guidance reviewed 2026-09-05 | Continuity measurement, insulation-test voltage qualification, vulnerable equipment, and condition coding | Does not reproduce the complete licensed requirements or replace instrument instructions and competent judgement. |
+| IEC 60617 — Graphical symbols for diagrams | International Electrotechnical Commission | https://tc3.iec.ch/standard-as-database/ | International | IEC TC 3 database description reviewed 2026-09-11 | Symbol-library scope, international status, and the decision to use original teaching redraws rather than reproduce licensed assets | The normative database requires access; ElectraCore's teaching symbols are not a conformance claim. |
+| IEC 60445:2021 — Identification of equipment terminals, conductor terminations and conductors | International Electrotechnical Commission | https://webstore.iec.ch/en/publication/66712 | International | 2021 edition reviewed 2026-09-11 | Terminal/conductor identification context and caution against inferring identity from colour alone | Paid standard; local rules and the project legend govern installation work. |
+| Electrical safety and safe isolation guidance | UK Health and Safety Executive | https://www.hse.gov.uk/electricity/faq.htm | Great Britain | Public guidance reviewed 2026-09-11 | Make dead, secure isolation, prove dead, release stored energy, and competence boundaries | GB guidance; use the applicable local legal and organisational procedure. |
 
 ## Photography acceptance gate
 
