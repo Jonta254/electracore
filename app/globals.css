@@ -516,8 +516,8 @@ html, body { max-width: 100%; overflow-x: clip; }
 
 /* Homepage instrument-led hero */
 .hero { min-height:min(860px,100svh); display:grid; align-items:end; padding:8rem max(1.25rem,calc((100vw - 1180px)/2)) 3.25rem; position:relative; overflow:hidden; }
-.hero-photo { object-fit:cover; object-position:62% 48%; }
-.hero-overlay { position:absolute; inset:0; background:linear-gradient(90deg,rgba(7,10,12,.97) 0%,rgba(7,10,12,.88) 42%,rgba(7,10,12,.35) 72%,rgba(7,10,12,.55) 100%),linear-gradient(0deg,rgba(7,10,12,.88),transparent 48%); }
+.hero-photo { object-fit:cover; object-position:64% 48%; filter:saturate(.82) contrast(1.06); }
+.hero-overlay { position:absolute; inset:0; background:linear-gradient(90deg,rgba(7,10,12,.98) 0%,rgba(7,10,12,.9) 42%,rgba(7,10,12,.16) 74%,rgba(7,10,12,.26) 100%),linear-gradient(0deg,rgba(7,10,12,.9),transparent 52%); }
 .hero-content { position:relative; width:min(720px,100%); }
 .hero .hero-badge { display:block; padding:0; border:0; border-radius:0; background:none; color:var(--core); font-size:.76rem; font-weight:750; text-align:left; text-transform:uppercase; letter-spacing:.1em; margin-bottom:1.25rem; }
 .hero .hero-title { font-size:clamp(2.65rem,6.5vw,5.8rem); font-weight:850; text-align:left; line-height:.98; letter-spacing:-.055em; margin-bottom:1.35rem; text-wrap:balance; }
