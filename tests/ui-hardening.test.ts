@@ -47,6 +47,17 @@ test("major product areas and dynamic content expose route metadata", () => {
   assert.match(guideLayout, /notFound\(\)/);
 });
 
+test("guide content stays server-rendered with a minimal print client boundary", () => {
+  const guide = read("../app/guides/[slug]/page.tsx");
+  const print = read("../app/guides/[slug]/PrintGuideButton.tsx");
+  assert.doesNotMatch(guide, /^"use client"/);
+  assert.match(guide, /export default async function GuidePage/);
+  assert.match(guide, /const \{ slug \} = await params/);
+  assert.match(guide, /<PrintGuideButton \/>/);
+  assert.match(print, /^"use client"/);
+  assert.match(print, /window\.print\(\)/);
+});
+
 test("public designer copy stays within preliminary-screening scope", () => {
   const designer = read("../app/design/page.tsx");
   assert.match(designer, /Screen a preliminary cable size/);
@@ -119,6 +130,20 @@ test("field toolkit covers the researched electrical work lifecycle", () => {
   assert.match(catalogue, /g\.summary, g\.cat, \.\.\.g\.standards/);
   assert.match(reviews, /"electrical-field-toolkit"/);
   assert.match(reviews, /ST0152 version 1\.2/);
+});
+
+test("field guides retain current RCD and fault-protection qualifications", () => {
+  const content = read("../app/guides/content.tsx");
+  assert.match(content, /AC test at IΔn/);
+  assert.match(content, /Operate within 300 ms under the stated BS 7671 verification conditions/);
+  assert.match(content, /legacy 2×\/5× routines/);
+  assert.match(content, /Loop\/electrode impedance still matters/);
+  assert.match(content, /never bypass protective devices merely to obtain a reading/);
+  assert.match(content, /The uncorrected diversified sum of about 118 A exceeds 100 A/);
+  assert.doesNotMatch(content, /trips &lt;300 ms/);
+  assert.doesNotMatch(content, /link out the RCD/);
+  assert.doesNotMatch(content, /disconnects regardless of (?:loop impedance|Zs)/);
+  assert.doesNotMatch(content, /comfortably fits a 100 A supply/);
 });
 
 test("lesson handouts support structured print and self-contained download", () => {

@@ -122,7 +122,7 @@ function RCDCoreBalanceDiagram() {
       <text x="330" y="100" fontFamily="monospace" fontSize="9" fill="#888" opacity="0.7">flux cancels → no trip</text>
       <text x="330" y="128" fontFamily="monospace" fontSize="9" fill="#FF4444" opacity="0.85">Fault:</text>
       <text x="330" y="144" fontFamily="monospace" fontSize="10" fill="#F0F0F0" opacity="0.75">I(L) − I(N) = ΔI</text>
-      <text x="330" y="158" fontFamily="monospace" fontSize="9" fill="#888" opacity="0.7">ΔI ≥ I∆n → trips &lt;300 ms</text>
+      <text x="330" y="158" fontFamily="monospace" fontSize="9" fill="#888" opacity="0.7">operation depends on type + test conditions</text>
     </svg>
   );
 }
@@ -529,18 +529,18 @@ export const GUIDES: Guide[] = [
     level: "Intermediate",
     cat: "Safety",
     readMins: 8,
-    updated: "2024",
+    updated: "2026",
     standards: ["BS 7671:2018+A4:2026", "BS EN 61008 / 61009", "BS EN 62423"],
     summary:
-      "An RCD measures the current going out against the current coming back. If they don't match, current is leaking to earth, possibly through a person, and the device trips. The catch is that modern electronics distort the residual current, and the cheapest RCD (Type AC) can be 'blinded' by it. Choosing the right type is a safety decision, not a cost one.",
+      "An RCD monitors the vector sum of current in the live conductors passing through its sensing core. A non-zero sum indicates current returning by another path or a wiring interaction. Device selection must match the possible residual-current waveform, protective purpose, equipment instructions, and coordination design; rated residual current alone is not enough.",
     sections: [
       {
         id: "how",
         heading: "How an RCD works",
         blocks: [
           { kind: "node", node: <RCDCoreBalanceDiagram /> },
-          { kind: "p", text: "Line and neutral both pass through a toroidal core. In a healthy circuit the two currents are equal and opposite, so their magnetic fields cancel. Any imbalance: current returning via the earth path instead of the neutral: leaves a net flux that induces a current in a sense winding and releases the trip mechanism." },
-          { kind: "formula", expr: "ΔI = | I(line) − I(neutral) |", where: "When ΔI reaches the rated residual current IΔn, the device operates." },
+          { kind: "p", text: "Line and neutral both pass through a toroidal core. In a healthy single-phase circuit their instantaneous currents are equal and opposite, so the vector sum is approximately zero. Current returning by a protective conductor, Earth, another circuit's neutral, or another unintended path creates residual flux that can operate the trip mechanism according to the device characteristic." },
+          { kind: "formula", expr: "ΔI = | I(line) − I(neutral) |", where: "A compliant device may operate above 0.5 × IΔn and is expected to operate by IΔn under its specified test conditions; consult the product standard and manufacturer data." },
         ],
       },
       {
@@ -550,22 +550,22 @@ export const GUIDES: Guide[] = [
           {
             kind: "keyvalues",
             items: [
-              { k: "10 mA", v: "Special locations, medical, high-risk fixed equipment" },
-              { k: "30 mA", v: "Additional protection against electric shock: socket outlets, most final circuits" },
-              { k: "100 mA", v: "Fire protection / larger sub-mains where 30 mA nuisance-trips" },
-              { k: "300–500 mA", v: "Fire protection on distribution circuits; not shock protection" },
+              { k: "IΔn", v: "Rated residual operating current. It is a device characteristic, not a guaranteed body-current limit." },
+              { k: "≤ 30 mA", v: "Sensitivity used where BS 7671 requires additional protection; the exact circuit and exceptions must be checked." },
+              { k: "> 30 mA", v: "May be selected for fault protection, selectivity, or specific fire-risk measures when the complete design supports it; it is not additional protection." },
+              { k: "Delay", v: "Time-delayed/selective devices require coordination and are not used to provide additional protection." },
             ],
           },
-          { kind: "p", text: "Only a 30 mA (or lower) device provides 'additional protection' against electric shock. BS 7671 requires it for socket outlets rated up to 32 A intended for general use, and for circuits in bathrooms and similar." },
+          { kind: "p", text: "Under BS 7671, additional protection is provided by an RCD with rated residual operating current not exceeding 30 mA where the relevant regulation requires it. The requirement depends on circuit, location, intended use, exceptions, and the current edition; an RCD supplements rather than replaces basic protection and fault protection." },
           {
             kind: "table",
-            head: ["Test current", "Maximum disconnection time (30 mA RCD)"],
+            head: ["Current field check", "General non-delay expectation"],
             rows: [
-              ["IΔn (30 mA)", "300 ms"],
-              ["2 × IΔn (60 mA)", "150 ms"],
-              ["5 × IΔn (150 mA)", "40 ms"],
+              ["AC test at IΔn", "Operate within 300 ms under the stated BS 7671 verification conditions"],
+              ["Integral test button", "Operate functionally; follow the device and installation instructions"],
+              ["Other tester sequences", "Use for diagnosis or where another applicable requirement calls for them; do not present legacy 2×/5× routines as universal current tests"],
             ],
-            caption: "General-type RCD to BS EN 61008/61009. 'S' (time-delayed) types allow longer times for selectivity.",
+            caption: "Current public IET guidance for BS 7671 verification. Selective S-type devices have different timing boundaries and are not applicable for additional protection.",
           },
         ],
       },
@@ -578,21 +578,21 @@ export const GUIDES: Guide[] = [
             kind: "table",
             head: ["Type", "Detects", "Typical use"],
             rows: [
-              ["AC", "Sinusoidal a.c. residual only", "Legacy resistive loads. No longer the default choice."],
-              ["A", "a.c. + pulsating d.c. residual", "Modern general use: anything with electronics/SMPS. The new baseline."],
-              ["F", "a.c. + pulsating d.c. + mixed frequencies", "Single-phase inverter loads, some washing machines, class-1 VSD equipment."],
-              ["B", "All of the above + smooth d.c. residual", "Three-phase EV chargers, PV inverters without isolation, three-phase VSDs."],
+              ["AC", "Sinusoidal a.c. residual current", "Only where the known load and current rules make this type suitable."],
+              ["A", "a.c. and specified pulsating d.c. residual current", "Many electronic loads, subject to equipment instructions and waveform assessment."],
+              ["F", "Type A capability plus specified composite/mixed-frequency residual currents", "Certain single-phase inverter loads where the equipment/design calls for Type F."],
+              ["B", "Broad waveform capability including specified smooth d.c. residual current", "Applications such as drives, PV, storage, or EV equipment only where required and fully coordinated."],
             ],
           },
           { kind: "callout", tone: "warn", title: "Type AC has a narrow scope", text: "Under BS 7671:2018+A2:2022, Type AC is limited to fixed equipment where the load current is known to contain no d.c. components. Select the RCD type from the expected residual-current waveform and manufacturer data; Type A is common for electronic loads, with Type F or B used where their additional capabilities are required. Confirm the applicable current or transition edition." },
-          { kind: "callout", tone: "note", title: "EV charging is the common decision point", text: "An EV charge point needs at least 30 mA Type A plus d.c. residual detection ≥ 6 mA. This can be provided either by a Type B RCD or by a Type A RCD combined with built-in 6 mA d.c. protection (RDC-DD) in the charger. Check the charger's data sheet before choosing the RCD." },
+          { kind: "callout", tone: "note", title: "EV charging is a common decision point", text: "Current BS 7671 arrangements can involve an individual Type A, F, or B RCD not exceeding 30 mA, together with the required d.c. fault-current protection unless that protection is provided by compliant charging equipment. The acceptable combination, switching of live conductors, product standards, upstream selectivity, and open-PEN protection all require current-rule and manufacturer verification." },
         ],
       },
       {
         id: "rcbo",
         heading: "RCD, RCBO or main-switch RCD?",
         blocks: [
-          { kind: "p", text: "A stand-alone RCD only does earth-fault protection; it must be paired with overcurrent protection. An RCBO combines a 30 mA RCD and an MCB in one module, so a fault on one circuit trips only that circuit: far better than a shared RCD taking out half the board. For new work, per-circuit RCBOs are usually the right answer for both safety and nuisance-trip resilience." },
+          { kind: "p", text: "An RCCB provides residual-current protection but not overload or short-circuit protection, so coordinated overcurrent protection is still required. An RCBO combines residual-current and overcurrent functions for one circuit. Individual RCBOs can improve circuit division and reduce cumulative leakage compared with a shared RCCB, but the final arrangement still depends on selectivity, fault rating, neutral switching, RCD type, continuity-of-service risks, and manufacturer compatibility." },
         ],
       },
     ],
@@ -606,7 +606,7 @@ export const GUIDES: Guide[] = [
     level: "Intermediate",
     cat: "Standards",
     readMins: 10,
-    updated: "2024",
+    updated: "2026",
     standards: ["BS 7671:2018+A4:2026 Section 312", "IET On-Site Guide"],
     summary:
       "The earthing system decides how a fault current gets back to the source, how low the earth-fault loop impedance is, and therefore what protection you can rely on. The first letter is the source earth, the second is the installation's exposed metalwork. Get the arrangement wrong in your head and every Zs limit and RCD decision that follows will be wrong too.",
@@ -631,9 +631,9 @@ export const GUIDES: Guide[] = [
         id: "tncs",
         heading: "TN-C-S (PME): combined then split",
         blocks: [
-          { kind: "p", text: "The supply uses a combined neutral-and-earth conductor (PEN) that is split into separate N and PE at the origin of the installation (the main earth terminal). This is Protective Multiple Earthing (PME) and it is now the most common arrangement for new domestic supplies." },
+          { kind: "p", text: "The supply uses a combined neutral-and-earth conductor (PEN) that is split into separate N and PE at the origin of the installation (the main earthing terminal). Where the network applies multiple earthing to the PEN, the arrangement is commonly described as PME. Confirm the actual supply arrangement with inspection and network information rather than assuming it from appearance." },
           { kind: "keyvalues", items: [{ k: "Typical Ze", v: "≤ 0.35 Ω" }, { k: "Earth source", v: "Supplier's PEN, split at the MET" }] },
-          { kind: "callout", tone: "warn", title: "PME has a catch", text: "If the supplier's PEN conductor goes open-circuit, exposed metalwork can rise to a dangerous potential. That's why PME earths are prohibited or restricted in some situations: notably caravans, boats and (unless specific conditions are met) EV charging points, where an open-PEN detection device or a TT island is used instead." },
+          { kind: "callout", tone: "warn", title: "PME has additional risks", text: "If the supply PEN conductor becomes open-circuit, connected metalwork can rise to a dangerous potential. PME use is prohibited or subject to additional conditions in particular installations. EV charging, caravans, marinas, agricultural premises, outbuildings, and exported earthing each require their own current-rule assessment; do not apply a generic open-PEN device or local electrode solution without a complete design." },
         ],
       },
       {
@@ -641,8 +641,8 @@ export const GUIDES: Guide[] = [
         heading: "TT: your own electrode",
         blocks: [
           { kind: "p", text: "There is no metallic earth back to the source. The installation makes its own connection to earth through a local electrode (a rod). The earth-fault loop is completed through the ground itself, so the loop impedance is high and often variable with weather." },
-          { kind: "keyvalues", items: [{ k: "Typical Ze", v: "Often 20–200 Ω+ (soil dependent)" }, { k: "Protection", v: "RCD is essentially mandatory: the loop is too high for overcurrent devices to disconnect in time" }] },
-          { kind: "callout", tone: "note", title: "Why TT relies on RCDs", text: "With a high loop impedance, a fault won't draw enough current to trip an MCB quickly. A 30 mA (or 100 mA S-type upstream) RCD detects the leakage directly and disconnects regardless of loop impedance." },
+          { kind: "keyvalues", items: [{ k: "Electrode result", v: "Site-specific and seasonally variable; measure RA rather than assuming a typical value" }, { k: "Protection", v: "RCD fault protection is commonly required because an overcurrent device alone may not achieve the required disconnection time" }] },
+          { kind: "callout", tone: "note", title: "Why TT commonly relies on RCDs", text: "A relatively high earth path may not produce enough current for an overcurrent device to disconnect in time. An RCD can provide fault protection when RA, IΔn, touch-voltage criteria, disconnection time, device type, and selectivity are correctly coordinated. Loop/electrode impedance still matters because sufficient residual current must flow." },
         ],
       },
       {
@@ -738,7 +738,7 @@ export const GUIDES: Guide[] = [
     level: "Intermediate",
     cat: "Testing",
     readMins: 11,
-    updated: "2024",
+    updated: "2026",
     standards: ["BS 7671:2018+A4:2026 Reg 411 & Table 41.3/41.4", "IET On-Site Guide"],
     summary:
       "Earth-fault loop impedance is the total resistance of the path a fault current takes from the point of fault, back through the earthing and the supply transformer, and out again to the point of fault. The lower it is, the bigger the fault current and the faster the protective device trips. Zs is what you measure to prove the disconnection times can actually be met.",
@@ -759,9 +759,9 @@ export const GUIDES: Guide[] = [
           {
             kind: "steps",
             items: [
-              { title: "Ze at the origin", text: "Safe-isolate, disconnect the main earthing conductor from the MET (so parallel paths don't lower the reading), and measure between the incoming line and earth. Reconnect immediately after." },
+              { title: "Establish Ze evidence", text: "Use declared network data or a competent, planned origin test appropriate to the earthing arrangement. Direct measurement can involve exposed live parts and temporary loss of protective paths, so it requires a specific safe system of work and restoration checks." },
               { title: "(R1 + R2) by measurement or calculation", text: "Either measure end-to-end continuity of line + cpc, or calculate from the cable's mΩ/m figures and length. This is a dead test." },
-              { title: "Zs live measurement", text: "With the circuit energised, use a loop tester at the furthest accessory. On RCD-protected circuits use the no-trip (low-current) function, or link out the RCD, so the test doesn't trip it." },
+              { title: "Confirm Zs by an approved method", text: "Prefer calculation or permitted dead-test evidence where suitable. If a live loop test is justified, use a compatible instrument/method at the safest suitable point, control the live-testing risk, and never bypass protective devices merely to obtain a reading." },
               { title: "Compare against the limit", text: "Check the measured Zs against the maximum for the protective device and disconnection time (0.4 s for most final circuits ≤ 63 A on TN, 5 s for distribution)." },
             ],
           },
@@ -796,7 +796,7 @@ export const GUIDES: Guide[] = [
             items: [
               "Increase the cpc size (lower R2): often the cheapest fix on a long run.",
               "Use a device with a lower trip multiple (Type B instead of C) if the load's inrush allows.",
-              "Fit an RCD: on TT systems, and where loop impedance can't meet the overcurrent limit, a 30 mA RCD provides the required disconnection regardless of Zs.",
+              "Redesign the protective measure: an appropriately selected RCD may provide fault protection where overcurrent operation cannot meet the required time, but Zs/RA, IΔn, device operation, continuity, and the governing touch-voltage relationship still require verification.",
               "Recheck Ze: a poor supply earth or a PME fault at the source can push every circuit's Zs over the limit.",
             ],
           },
@@ -876,7 +876,7 @@ export const GUIDES: Guide[] = [
     level: "Intermediate",
     cat: "Calculations",
     readMins: 10,
-    updated: "2024",
+    updated: "2026",
     standards: ["IET On-Site Guide (diversity allowances)", "BS 7671"],
     summary:
       "If you added up the rating of every circuit in a house you'd get a frightening number and specify a supply nobody needs. Diversity is the recognition that loads don't all run at full whack simultaneously. Applying the standard allowances gives a realistic maximum demand to size the main switch, tails and supply.",
@@ -925,7 +925,7 @@ export const GUIDES: Guide[] = [
               ["EV charger (7.4 kW ≈ 32 A)", "32 A", "32 A (100%)"],
               ["Maximum demand (sum)", "", "≈ 118 A"],
             ],
-            caption: "Illustrative. ~118 A comfortably fits a 100 A supply only if load management limits the EV charger: otherwise a supply upgrade or a load-limiting device is required.",
+            caption: "Illustrative only. The uncorrected diversified sum of about 118 A exceeds 100 A. A competent design must reassess the assumptions and use verified load control, load limiting, or a supply alteration where required.",
           },
           { kind: "callout", tone: "tip", title: "Always sanity-check against the cut-out", text: "Most UK domestic supplies are fused at 60–100 A. If your maximum demand approaches or exceeds the DNO fuse, you either apply load management or arrange an upgrade: you can't just fit a bigger main switch." },
         ],
@@ -941,7 +941,7 @@ export const GUIDES: Guide[] = [
     level: "Beginner",
     cat: "Wiring",
     readMins: 8,
-    updated: "2024",
+    updated: "2026",
     standards: ["BS 7671:2018+A4:2026", "IET On-Site Guide"],
     summary:
       "Socket circuits are the bread and butter of domestic work, and also where small mistakes: a loose cpc, a broken ring, an over-loaded spur: cause the most call-backs. This covers the two circuit types, how to terminate correctly, and the rules for spurs.",
@@ -955,12 +955,12 @@ export const GUIDES: Guide[] = [
             kind: "table",
             head: ["Circuit", "Cable", "Protective device", "Notes"],
             rows: [
-              ["Ring final", "2.5 mm² T&E", "32 A", "Both ends return to the same MCB. Floor area historically ≤ 100 m²."],
-              ["Radial (2.5 mm²)", "2.5 mm²", "20 A", "One cable out, no return. Simpler to fault-find."],
-              ["Radial (4 mm²)", "4 mm²", "32 A", "Larger radial for bigger areas; no unlimited length rule but volt drop applies."],
+              ["Common ring-final example", "2.5 mm² T&E", "32 A", "Both ends return to one protective device; the complete Appendix 15 conditions and actual installation factors must be checked."],
+              ["Common radial example", "2.5 mm²", "20 A", "One outgoing path; current capacity, voltage drop, fault protection, grouping, insulation, and route govern suitability."],
+              ["Larger radial example", "4 mm²", "32 A", "Not a universal prescription; verify every design factor and accessory/device rating."],
             ],
           },
-          { kind: "p", text: "A ring shares load across two paths, so 2.5 mm² can be protected at 32 A. That only holds while the ring is continuous: a break turns it into a long radial that's under-protected. This is exactly what ring continuity testing exists to catch." },
+          { kind: "p", text: "A correctly designed ring final provides two conductor paths back to one protective device. An open conductor changes current sharing and can leave part of the circuit carrying more current than intended without operating a 32 A device. Ring continuity and conductor-relationship tests are therefore essential before energization and after relevant alterations." },
         ],
       },
       {
@@ -976,7 +976,7 @@ export const GUIDES: Guide[] = [
               { title: "Dress and fit", text: "Fold conductors neatly into the box without trapping them behind the screws or the accessory. Check the earth tail to the box (metal boxes) is connected." },
             ],
           },
-          { kind: "callout", tone: "safety", title: "The cpc to a metal back box", text: "A metal back box needs an earth connection: a fly-lead from the socket's earth terminal to the box's earth terminal, or a fixed lug. A plastic accessory on a metal box with no earth to the box is a defect." },
+          { kind: "callout", tone: "safety", title: "Protective continuity to metalwork", text: "Exposed-conductive-parts require reliable protective continuity. For a metal back box, verify the approved connection arrangement, fixed-lug/contact path where applicable, accessory manufacturer instructions, and continuity. A separate protective fly-lead may be required or adopted by specification; do not infer continuity from fixing screws alone without verification." },
         ],
       },
       {
@@ -986,10 +986,10 @@ export const GUIDES: Guide[] = [
           {
             kind: "list",
             items: [
-              "A non-fused spur off a ring may supply one single or one double socket (or one fixed appliance). One spur per socket on the ring.",
-              "For more than that, use a fused connection unit (FCU): the fuse (usually 13 A) protects the thinner spur cable.",
-              "Don't spur off a spur. If you need to extend, take it from the ring or fit an FCU.",
-              "Kitchen appliances behind units are best on FCUs so they can be isolated without pulling the appliance out.",
+              "Use the current BS 7671 Appendix 15 arrangements and the circuit design when adding a spur; do not treat a remembered socket count as the complete rule.",
+              "A non-fused spur is limited by the connected accessory/load arrangement and conductor capacity. Confirm the point of connection and that the ring itself remains continuous and correctly loaded.",
+              "A suitably selected fused connection unit can limit the downstream load and protect the downstream cable, but its fuse rating, cable size, accessibility, and isolation function still require design.",
+              "Do not extend an unfused spur into an uncontrolled chain. Trace the existing circuit first because undocumented spurs, junctions, and broken rings are common alteration risks.",
             ],
           },
         ],

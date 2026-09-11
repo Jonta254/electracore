@@ -1,8 +1,7 @@
-"use client";
-import React, { use } from "react";
 import Link from "next/link";
-import { GUIDE_MAP, GUIDES, type Block } from "../content";
+import { GUIDE_MAP, type Block } from "../content";
 import { getGuideReview } from "../review";
+import { PrintGuideButton } from "./PrintGuideButton";
 
 const TONE = {
   safety: { c: "#FF4444", rgb: "255,68,68", label: "Safety" },
@@ -106,8 +105,8 @@ function BlockView({ block }: { block: Block }) {
   }
 }
 
-export default function GuidePage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
+export default async function GuidePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const guide = GUIDE_MAP[slug];
 
   if (!guide) {
@@ -150,7 +149,7 @@ export default function GuidePage({ params }: { params: Promise<{ slug: string }
               <strong>Review status:</strong> Professional electrical review pending. Confirm the current edition and local requirements before use.
             </aside>
             <div className="g-header-actions g-noprint">
-              <button className="g-print-btn" onClick={() => window.print()}>⎙ Print / save as PDF</button>
+              <PrintGuideButton />
             </div>
           </header>
 
