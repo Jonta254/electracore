@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import {
   designCircuit, DEVICE_RATINGS, METHODS, AMBIENT_OPTIONS, GROUPING_OPTIONS,
@@ -39,6 +39,10 @@ function CableCrossSection({ size, phase }: { size: number | null; phase: "singl
 
 export default function DesignPage() {
   const [inp, setInp] = useState<DesignInput>(DEFAULTS);
+  const [reportDate, setReportDate] = useState("");
+  useEffect(() => {
+    setReportDate(new Date().toLocaleString([], { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" }));
+  }, []);
   const set = <K extends keyof DesignInput>(k: K, v: DesignInput[K]) => setInp((p) => ({ ...p, [k]: v }));
 
   const result = useMemo(() => designCircuit(inp), [inp]);
@@ -46,8 +50,6 @@ export default function DesignPage() {
   const anyFail = result.valid && result.checks.some((c) => !c.ok);
 
   const method = METHOD_MAP[inp.method];
-  const reportDate = new Date().toLocaleString([], { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
-
   const summaryRows: [string, string][] = result.valid ? [
     ["Supply", `${inp.phase === "three" ? "Three-phase" : "Single-phase"} · ${inp.voltage} V`],
     ["Design current (Ib)", `${result.Ib.toFixed(1)} A`],

@@ -437,7 +437,9 @@ export default function CalculatePage() {
     if (typeof window !== "undefined") window.print();
   };
 
-  const reportDate = new Date().toLocaleString([], { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  const reportDate = mounted
+    ? new Date().toLocaleString([], { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" })
+    : "";
 
   return (
     <>
