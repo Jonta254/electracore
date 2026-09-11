@@ -96,7 +96,9 @@ body {
 .nav-cta:hover { opacity: 0.88; }
 @media (max-width: 768px) {
   .nav-links { display: none; }
-  .nav { padding: 0 1.25rem; }
+  .nav { padding: 0 1rem; }
+  .nav-hamburger { display: flex; }
+  .nav-saved, .nav-search { display: none; }
 }
 
 /* HERO */
@@ -402,15 +404,16 @@ body {
 }
 
 /* ── Mobile responsive ── */
-@media (max-width: 640px) {
-  .nav-hamburger { display: flex !important; }
-  .nav-links { display: none !important; }
-  .nav-saved, .nav-search { display: none; }
-}
 @media (max-width: 380px) { .nav-logo-text { font-size: 1rem; } }
 @media (max-width: 480px) {
   .hero-actions { flex-direction: column; }
   .hero-actions a, .hero-actions button { width: 100%; justify-content: center; text-align: center; }
+  .section, .section-full { padding-inline: 1rem; }
+  .feature-card, .calc-card { padding: 1.15rem; }
+  .search-overlay { padding: 0; place-items: stretch; }
+  .search-dialog { width: 100%; max-height: 100dvh; min-height: 100dvh; border: 0; border-radius: 0; }
+  .search-results { max-height: calc(100dvh - 112px); }
+  .search-result-type { display: none; }
 }
 
 html, body { max-width: 100%; overflow-x: clip; }
@@ -462,11 +465,6 @@ html, body { max-width: 100%; overflow-x: clip; }
 .lesson-meta-line { display: flex; flex-wrap: wrap; gap: .5rem 1rem; font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--text-mute); }
 .lesson-introduction { color: var(--text); font-size: 1rem; border-left: 2px solid var(--core); padding-left: 1rem; margin-top: 1.25rem; }
 .enhanced-diagram { width: 100%; min-width: 0; display: block; margin: 1.25rem 0; background: #0B0D11; border: 1px solid var(--border); border-radius: 8px; }
-.lesson-context-media { margin: 1.5rem 0 1.15rem; }
-.lesson-context-frame { position: relative; overflow: hidden; aspect-ratio: 3 / 2; border: 1px solid var(--border); border-radius: 12px; background: #0B0D11; }
-.lesson-context-frame img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; }
-.lesson-context-media figcaption { display: flex; gap: .55rem; align-items: baseline; margin-top: .65rem; color: var(--text-mute); font-size: .72rem; line-height: 1.55; }
-.lesson-context-media figcaption span { flex: none; color: var(--core); font: 700 .64rem 'JetBrains Mono',monospace; letter-spacing: .06em; text-transform: uppercase; }
 .diagram-kicker { fill: #F0A500; font: 10px 'JetBrains Mono', monospace; letter-spacing: 1px; }
 .diagram-value { fill: #F0F0F0; font: 700 15px 'JetBrains Mono', monospace; text-anchor: middle; }
 .diagram-note { fill: #888899; font: 11px 'JetBrains Mono', monospace; text-anchor: middle; }
@@ -568,9 +566,6 @@ html, body { max-width: 100%; overflow-x: clip; }
   .enhanced-lesson { font-size: .96rem; }
   .lesson-content-shell { margin-inline: 0 !important; border-inline: 0 !important; border-radius: 0 !important; }
   .lesson-reading-body { padding-inline: .75rem !important; }
-  .lesson-context-frame { border-radius: 8px; aspect-ratio: 4 / 3; }
-  .lesson-context-media figcaption { display: block; font-size: .7rem; }
-  .lesson-context-media figcaption span { display: block; margin-bottom: .2rem; }
   .lesson-mobile-tools { grid-template-columns: 1fr; }
   .lesson-mobile-actions { display: grid; grid-template-columns: 1fr 1fr; }
 }
@@ -595,12 +590,9 @@ html, body { max-width: 100%; overflow-x: clip; }
   .lesson-print-answer { display: block; margin: 2mm 0 4mm; padding: 3mm 4mm; border-left: 1mm solid #147d64; background: #f4f5f6; }
   .enhanced-lesson h3 { color: #111; font-size: 13pt; margin: 7mm 0 2mm; break-after: avoid-page; }
   .enhanced-lesson p,.enhanced-lesson li { orphans: 3; widows: 3; }
-  .lesson-formula,.lesson-callout,.enhanced-diagram,.lesson-context-media,.terms-table-wrap,.worked-steps { break-inside: avoid-page; }
+  .lesson-formula,.lesson-callout,.enhanced-diagram,.terms-table-wrap,.worked-steps { break-inside: avoid-page; }
   .lesson-callout { background: #f4f5f6 !important; color: #20242a; padding: 3mm 4mm; margin: 4mm 0; }
   .lesson-callout strong { color: #111; }
-  .lesson-context-frame { aspect-ratio: auto; background: #fff; border-color: #bbb; }
-  .lesson-context-frame img { height: auto; max-height: 105mm; object-fit: contain; }
-  .lesson-context-media figcaption { color: #4c5158; font-size: 8pt; }
   .enhanced-diagram { max-height: 105mm; border-color: #aaa; }
   .terms-table-wrap { overflow: visible; }
   .terms-table { min-width: 0; font-size: 8.5pt; }
@@ -622,11 +614,13 @@ html, body { max-width: 100%; overflow-x: clip; }
 .quick-access a { min-height:50px; display:flex; align-items:center; justify-content:space-between; gap:.7rem; padding:.7rem 1rem; border-left:1px solid var(--border); color:var(--text); text-decoration:none; font-size:.82rem; }
 .quick-access a:hover { background:rgba(var(--core-rgb),.06); color:var(--core); }
 @media (max-width:760px) {
-  .hero { min-height:780px; padding-top:7rem; }
-  .hero-photo { object-position:68% center; }
+  .hero { min-height:auto; padding:7rem 1rem 3rem; align-items:stretch; }
+  .hero-photo { object-position:center; }
   .hero-overlay { background:linear-gradient(0deg,rgba(7,10,12,.98) 12%,rgba(7,10,12,.86) 62%,rgba(7,10,12,.48)); }
-  .hero .hero-title { font-size:clamp(2.55rem,13vw,4rem); }
-  .hero .hero-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:.8rem; }
+  .hero-content { width:100%; }
+  .hero .hero-title { font-size:clamp(2.35rem,12vw,3.75rem); overflow-wrap:anywhere; }
+  .hero .hero-stats { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+  .hero .hero-stat { min-width:0; }
   .hero .hero-stat-label { font-size:.62rem; letter-spacing:.04em; }
   .quick-access { grid-template-columns:1fr; gap:1rem; }
   .quick-access > div { grid-template-columns:1fr 1fr; }
@@ -704,8 +698,6 @@ html, body { max-width: 100%; overflow-x: clip; }
   .lesson-route-reader { padding: 0; }
 }
 @media (max-width:380px) {
-  .hero { min-height:820px; }
-  .hero .hero-stats { grid-template-columns:1fr 1fr; }
   .quick-access > div { grid-template-columns:1fr; }
   .quick-access a { border-left:0; border-top:1px solid var(--border); }
 }

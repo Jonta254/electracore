@@ -2250,13 +2250,23 @@ export default function CoursePage({ slug }: { slug: string }) {
           .curriculum-controls { justify-content: flex-start; }
         }
         @media (max-width: 520px) {
+          .course-page-hero-inner { padding-inline: 1rem; }
+          .course-page-title { font-size: clamp(1.75rem, 9vw, 2.25rem); overflow-wrap: anywhere; }
           .course-primary-actions { align-items: stretch; flex-direction: column; gap: .55rem; }
           .course-primary-actions a { width: 100%; }
           .course-meta-row { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .65rem; }
           .curriculum-controls { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
+          .curriculum-controls button { min-height: 44px; }
           .curriculum-controls .curriculum-continue { grid-column: 1/-1; justify-content: center; }
-          .module-header { padding-inline: .9rem; }
+          .module-header { min-height: 56px; padding: .85rem .75rem; }
+          .module-header-left { gap: .65rem; min-width: 0; }
           .module-title { font-size: .86rem; }
+          .module-subtitle { overflow-wrap: anywhere; }
+          .lesson-item { padding: .6rem .75rem; gap: .55rem; }
+          .lesson-open { min-height: 44px; }
+          .lesson-left { gap: .55rem; }
+          .lesson-right .lesson-type-badge { display: none; }
+          .lesson-title { overflow-wrap: anywhere; }
         }
       `}</style>
     </>

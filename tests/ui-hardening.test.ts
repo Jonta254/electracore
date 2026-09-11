@@ -64,20 +64,45 @@ test("public designer copy stays within preliminary-screening scope", () => {
   assert.doesNotMatch(designer, /verified cable|Design passes|PASS: Design passes/);
 });
 
-test("every course maps to a disclosed responsive lesson context image", () => {
+test("customer-facing lessons use technical content instead of AI context art", () => {
   const lesson = read("../app/learn/EnhancedLessonView.tsx");
-  for (const slug of ["electrical-fundamentals", "domestic-wiring", "protection-fault-analysis", "three-phase-systems", "cable-sizing", "solar-pv", "industrial-control", "inspection-testing", "led-lighting"]) {
-    assert.match(lesson, new RegExp(`"${slug}"\\s*:`), `missing lesson media for ${slug}`);
-  }
-  assert.match(lesson, /AI-created editorial illustration; not installation or test guidance/);
-  assert.match(lesson, /sizes="\(max-width: 760px\) calc\(100vw - 1\.5rem\), 68ch"/);
-  assert.match(lesson, /<LessonContextImage courseSlug=\{courseSlug\}/);
+  assert.doesNotMatch(lesson, /LESSON_CONTEXT_MEDIA/);
+  assert.doesNotMatch(lesson, /LessonContextImage/);
+  assert.doesNotMatch(lesson, /AI-created editorial illustration/);
+  assert.match(lesson, /enhanced-diagram/);
 });
 
 test("all registered lesson context assets exist", () => {
   for (const name of ["measurement", "industrial", "solar", "lighting"]) {
     assert.equal(fs.existsSync(new URL(`../public/lesson-context-${name}-v1.png`, import.meta.url)), true, `missing ${name} context asset`);
   }
+});
+
+test("homepage uses registered real photography and current product counts", () => {
+  const home = read("../app/page.tsx");
+  assert.match(home, /src="\/electracore-lab-multimeter\.jpg"/);
+  assert.match(home, /CC0 public domain dedication/);
+  assert.match(home, />11<\/dt><dd className="hero-stat-label">References/);
+  assert.doesNotMatch(home, /electracore-training-bench-v2\.png/);
+});
+
+test("small-screen navigation and content layouts cover tablet and phone widths", () => {
+  const css = read("../app/globals.css");
+  const home = read("../app/page.tsx");
+  const guide = read("../app/guides/[slug]/page.tsx");
+  const course = read("../app/learn/[slug]/CourseExperience.tsx");
+  const calculator = read("../app/calculate/page.tsx");
+  const designer = read("../app/design/page.tsx");
+  assert.match(css, /@media \(max-width: 768px\)[\s\S]*?\.nav-hamburger \{ display: flex; \}/);
+  assert.match(css, /grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+  assert.match(css, /max-height: 100dvh/);
+  assert.match(home, /@media \(max-width: 520px\)[\s\S]*?\.who-tabs \{ display: grid; grid-template-columns: 1fr 1fr/);
+  assert.match(guide, /\.g-kv-row \{ grid-template-columns: 1fr/);
+  assert.match(guide, /\.g-table-wrap \{ margin-inline: -\.9rem/);
+  assert.match(course, /\.lesson-open \{ min-height: 44px/);
+  assert.match(course, /\.lesson-right \.lesson-type-badge \{ display: none/);
+  assert.match(calculator, /\.calc-report-val \{ white-space: normal/);
+  assert.match(designer, /\.dz-metrics \{ grid-template-columns: 1fr/);
 });
 
 test("instruction diagrams retain critical engineering qualifications", () => {

@@ -128,5 +128,5 @@ test("lesson visuals are technical, labelled, and topic-routed", () => {
   }
   assert.doesNotMatch(enhancedReaderSource, /lesson-field-visual/);
   assert.match(enhancedReaderSource, /<QuantityDiagram courseSlug=\{courseSlug\} lessonId=\{lessonId\}/);
-  assert.match(enhancedReaderSource, /Context image/);
+  assert.doesNotMatch(enhancedReaderSource, /LessonContextImage|Context image|AI-created editorial illustration/);
 });

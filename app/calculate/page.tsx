@@ -596,6 +596,15 @@ export default function CalculatePage() {
           .calc-side { position: static; }
           .hist-list { max-height: none; }
         }
+        @media (max-width: 520px) {
+          .calc-layout { padding: 1rem 1rem 3rem; }
+          .calc-column { gap: 1rem; }
+          .calc-result { align-items: flex-start; flex-wrap: wrap; padding: 1rem; }
+          .calc-result-value { font-size: 1.55rem; overflow-wrap: anywhere; }
+          .calc-report-row { align-items: flex-start; gap: .5rem; }
+          .calc-report-val { white-space: normal; text-align: right; overflow-wrap: anywhere; }
+          .hist-actions { flex-wrap: wrap; }
+        }
       `}</style>
     </>
   );

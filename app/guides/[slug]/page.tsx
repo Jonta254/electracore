@@ -289,6 +289,18 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
           .g-toc { display: none; }
         }
 
+        @media (max-width: 520px) {
+          .g-article { padding: 1.5rem .9rem 1rem; }
+          .g-header { margin-bottom: 1.5rem; }
+          .g-title { font-size: clamp(1.7rem, 10vw, 2.25rem); overflow-wrap: anywhere; }
+          .g-summary, .g-callout { padding: 1rem; }
+          .g-step { padding: .8rem; }
+          .g-kv-row { grid-template-columns: 1fr; gap: .25rem; }
+          .g-table { min-width: 520px; }
+          .g-table-wrap { margin-inline: -.9rem; padding-inline: .9rem; scrollbar-width: thin; }
+          .g-swatches { grid-template-columns: 1fr; }
+        }
+
         @media print {
           .g-noprint { display: none !important; }
           main { padding-top: 0 !important; }

@@ -344,6 +344,13 @@ export default function DesignPage() {
           .dz-layout { grid-template-columns: 1fr; }
           .dz-result { position: static; }
         }
+        @media (max-width: 520px) {
+          .dz-hero-inner { padding-inline: 1rem; }
+          .dz-layout { padding: 1.25rem 1rem 3rem; }
+          .dz-section { padding: 1rem; }
+          .dz-metrics { grid-template-columns: 1fr; }
+          .dz-hero-glow { width: 100%; right: 0; }
+        }
 
         /* Print: only the summary */
         .dz-report { display: none; }

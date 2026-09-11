@@ -2,12 +2,12 @@
 
 | Local asset | Use | Creator | Source | License | Reviewed |
 |---|---|---|---|---|---|
-| `/public/electracore-training-bench-v2.png` | Homepage editorial hero; de-energized training bench | OpenAI image generation, directed for ElectraCore | Original project asset | AI-created; disclosed beside the image | 2026-09-04 |
-| `/public/lesson-context-measurement-v1.png` | Measurement, domestic wiring, protection, and inspection lesson context | OpenAI image generation, directed for ElectraCore | Original project asset | AI-created; disclosed in every figure caption | 2026-09-04 |
-| `/public/lesson-context-industrial-v1.png` | Three-phase, cable-sizing, and industrial-control lesson context | OpenAI image generation, directed for ElectraCore | Original project asset | AI-created; disclosed in every figure caption | 2026-09-04 |
-| `/public/lesson-context-solar-v1.png` | Solar PV lesson context | OpenAI image generation, directed for ElectraCore | Original project asset | AI-created; disclosed in every figure caption | 2026-09-04 |
-| `/public/lesson-context-lighting-v1.png` | LED and emergency-lighting lesson context | OpenAI image generation, directed for ElectraCore | Original project asset | AI-created; disclosed in every figure caption | 2026-09-04 |
-| `/public/electracore-lab-multimeter.jpg` | Retained source asset; no longer the homepage hero | Aldestyo | [Wikimedia Commons: Multimeter Lab.jpg](https://commons.wikimedia.org/wiki/File:Multimeter_Lab.jpg) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | 2026-08-25 |
+| `/public/electracore-training-bench-v2.png` | Retired from customer-facing use | OpenAI image generation, directed for ElectraCore | Original project asset | AI-created; retained only for repository history | 2026-09-11 |
+| `/public/lesson-context-measurement-v1.png` | Retired from customer-facing use | OpenAI image generation, directed for ElectraCore | Original project asset | AI-created; retained only for repository history | 2026-09-11 |
+| `/public/lesson-context-industrial-v1.png` | Retired from customer-facing use | OpenAI image generation, directed for ElectraCore | Original project asset | AI-created; retained only for repository history | 2026-09-11 |
+| `/public/lesson-context-solar-v1.png` | Retired from customer-facing use | OpenAI image generation, directed for ElectraCore | Original project asset | AI-created; retained only for repository history | 2026-09-11 |
+| `/public/lesson-context-lighting-v1.png` | Retired from customer-facing use | OpenAI image generation, directed for ElectraCore | Original project asset | AI-created; retained only for repository history | 2026-09-11 |
+| `/public/electracore-lab-multimeter.jpg` | Homepage hero laboratory photograph | Aldestyo | [Wikimedia Commons: Multimeter Lab.jpg](https://commons.wikimedia.org/wiki/File:Multimeter_Lab.jpg) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | 2026-09-11 |
 # Source registry
 
 Registry review date: 2026-09-11.
