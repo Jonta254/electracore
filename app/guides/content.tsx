@@ -1,5 +1,6 @@
 import React from "react";
 import { ControlLadderDiagram, LightingWiringDiagram, SymbolSheet } from "./electrical-diagrams";
+import { FieldSources, FieldWorkflow, ToolkitLinks } from "./field-toolkit";
 
 /* ─────────────────────────────────────────────────────────────
    ElectraCore: Guide content
@@ -1054,6 +1055,88 @@ export const GUIDES: Guide[] = [
       ] },
     ],
     related: ["safe-isolation", "cable-colour-codes", "single-phase-socket-wiring", "loop-impedance-testing"],
+  },
+
+  {
+    slug: "electrical-field-toolkit",
+    title: "Electrical Field Toolkit",
+    sub: "A clear job workflow for planning, safe testing, fault diagnosis, recording results, and professional handover.",
+    level: "Intermediate",
+    cat: "Fieldwork",
+    readMins: 15,
+    updated: "2026",
+    standards: ["HSE HSG85", "HSE GS38", "Skills England ST0152 v1.2", "OSHA 29 CFR 1910"],
+    summary: "Electrical users need a reliable path from the first job brief to the final handover. This toolkit joins the information that is often scattered across drawings, safety procedures, instruments, calculations, test records, and customer communication.",
+    sections: [
+      { id: "workflow", heading: "The complete field workflow", blocks: [
+        { kind: "node", node: <FieldWorkflow /> },
+        { kind: "p", text: "Treat each stage as a gate. If the scope, supply, isolation boundary, test method, or acceptance criteria are uncertain, stop at that gate and resolve the uncertainty before progressing. Record changes as the work develops so the final documentation describes the installation actually delivered." },
+        { kind: "node", node: <ToolkitLinks /> },
+      ] },
+      { id: "before-work", heading: "Before tools touch the installation", blocks: [
+        { kind: "table", head: ["Confirm", "Questions to answer", "Record"], rows: [
+          ["Scope", "What is being installed, inspected, maintained, or diagnosed? What is excluded?", "Job brief, drawing revision, client constraints"],
+          ["Supply", "Voltage, phases, frequency, earthing arrangement, source capacity, alternative supplies?", "Observed labels, verified data, unresolved assumptions"],
+          ["Environment", "Wet, dusty, corrosive, hot, confined, explosive, public, or mechanically exposed?", "Hazards, required enclosure/IP suitability, access controls"],
+          ["Isolation", "Every source identified, including generation, batteries, UPS, controls, and stored energy?", "Isolation points, locks/tags, responsible person"],
+          ["Acceptance", "Which current standard, manufacturer instruction, design limit, and test result applies?", "Edition, device data, test plan, pass/fail basis"],
+        ], caption: "This is a preparation framework, not a substitute for a site-specific risk assessment, permit system, or governing standard." },
+        { kind: "callout", tone: "safety", title: "Stop conditions", text: "Do not proceed when the circuit cannot be positively identified, all sources cannot be isolated, the test equipment is unsuitable or damaged, the person is outside their competence, the environment creates uncontrolled risk, or the required design and device information is unavailable." },
+      ] },
+      { id: "test-kit", heading: "Select and check the test kit", blocks: [
+        { kind: "list", items: [
+          "Choose an instrument rated for the system, measurement category, maximum voltage, prospective fault conditions, and intended test. Read the manufacturer instructions.",
+          "Inspect the instrument, casing, leads, probes, fuses, connectors, batteries, and calibration or verification status before use. Withdraw damaged equipment from service.",
+          "Use a suitable voltage indicator and proving unit for safe isolation. Prove the indicator before and after proving the conductors dead under the applicable procedure.",
+          "Use accessories that reduce exposed conductive probe length and accidental bridging. Keep hands behind barriers and maintain controlled access to the test area.",
+          "Prefer dead tests where they can provide the required information. Live testing and fault-finding require specific justification, competence, precautions, and a safe system of work.",
+        ] },
+        { kind: "callout", tone: "note", title: "A reading needs context", text: "Record the instrument, function, range, connection points, circuit state, expected value, measured value, units, uncertainty or limitations, and the acceptance criterion. A number without those details is weak evidence." },
+      ] },
+      { id: "fault-finding", heading: "Fault-finding without guesswork", blocks: [
+        { kind: "steps", items: [
+          { title: "Confirm the symptom", text: "Separate what was reported from what you can reproduce. Note when, where, and under which load or operating state it occurs." },
+          { title: "Build the expected model", text: "Use the current drawing, supply data, control sequence, manufacturer information, and known-good values to state what should happen." },
+          { title: "Make safe and inspect", text: "Apply the safe system of work. Look for heat damage, loose or displaced conductors, contamination, mechanical damage, incorrect settings, missing labels, and recent alterations." },
+          { title: "Divide the system", text: "Select test points that split the possible fault area. Start with high-value checks that distinguish supply, protection, wiring, control, and load faults." },
+          { title: "Prove the root cause", text: "Do not stop at the first abnormal reading. Confirm why it is abnormal, account for parallel paths and connected equipment, and show that the proposed cause explains the symptom." },
+          { title: "Rectify and retest", text: "Use the correct component and method, then repeat relevant inspection, dead tests, justified live or functional tests, and safety checks before return to service." },
+        ] },
+        { kind: "table", head: ["Symptom", "First distinctions", "Avoid"], rows: [
+          ["Protective device trips", "Overload, short circuit, earth leakage, inrush, device coordination, damaged load", "Repeated resetting or increasing the rating without finding the cause"],
+          ["Intermittent operation", "Loose connection, thermal movement, vibration, control-voltage instability, environmental ingress", "Disturbing every connection before recording the original condition"],
+          ["Low voltage at load", "Source voltage, conductor drop, high-resistance joint, overload, phase imbalance", "Assuming cable size is the only cause"],
+          ["Motor will not start", "Control supply, permissives, STOP/overload path, coil, contactor, phase supply, mechanical load", "Bypassing interlocks or overload protection"],
+          ["RCD/RCBO operates", "Actual residual current, neutral-earth fault, shared/borrowed neutral, cumulative leakage, wrong device/application", "Treating nuisance operation as proof the RCD is defective"],
+        ] },
+      ] },
+      { id: "records", heading: "Minimum useful job record", blocks: [
+        { kind: "keyvalues", items: [
+          { k: "Identity", v: "Site, circuit, equipment reference, asset ID, location, date and time" },
+          { k: "Basis", v: "Scope, drawing revision, governing rules, manufacturer information and assumptions" },
+          { k: "Safety", v: "Hazards, isolation points, lock/tag control, stored-energy controls and authorisation" },
+          { k: "Evidence", v: "Visual observations, instrument details, test method, readings, units and acceptance limits" },
+          { k: "Outcome", v: "Fault cause, work completed, deviations, limitations, retest results and remaining actions" },
+          { k: "Handover", v: "Labels, updated drawings, certificates, operating information, client explanation and signatures" },
+        ] },
+        { kind: "p", text: "Write observations in factual language. Distinguish measured facts, reported symptoms, engineering interpretation, and recommendations. If access or shutdown limits prevented a test, state the limitation and its consequence rather than implying the installation was fully verified." },
+      ] },
+      { id: "user-needs", heading: "What ElectraCore should help users do", blocks: [
+        { kind: "table", head: ["User", "Immediate need", "ElectraCore path"], rows: [
+          ["Apprentice", "Understand drawings, sequence work, practise calculations, learn why tests are ordered", "Learning courses, symbol guide, worked examples, calculators"],
+          ["Installer", "Check scope, cable/protection assumptions, installation details, inspection and records", "Field workflow, design screener, wiring and testing guides"],
+          ["Maintenance technician", "Find faults efficiently while controlling electrical and stored-energy risk", "Fault workflow, control diagrams, test-equipment checks"],
+          ["Designer", "Document assumptions, coordinate protection, voltage drop, environment and verification", "Design screener, calculation history, standards-aware references"],
+          ["Supervisor", "Assess competence, review evidence, manage isolations, approve return to service", "Stop conditions, job-record structure, source and review disclosures"],
+          ["Client or learner", "Understand findings without unsafe instructions or unexplained jargon", "Plain-language summaries, limitations, handover checklist"],
+        ] },
+      ] },
+      { id: "sources", heading: "Sources and scope", blocks: [
+        { kind: "node", node: <FieldSources /> },
+        { kind: "callout", tone: "warn", title: "Use the rule that governs the job", text: "The workflow is internationally useful, but legal duties, permitted live work, test sequences, certification, conductor identification, and installation requirements vary by jurisdiction. Confirm the applicable current rules and organisational procedures." },
+      ] },
+    ],
+    related: ["safe-isolation", "electrical-symbols-diagrams", "insulation-resistance-testing", "loop-impedance-testing"],
   },
 ];
 

@@ -177,8 +177,8 @@ export default function GuidePage({ params }: { params: Promise<{ slug: string }
               ))}
 
               <div className="g-disclaimer">
-                Reference material for qualified electrical work. Figures follow BS 7671 and the IET On-Site Guide unless
-                stated; always confirm against the current edition and the standard that applies to your installation.
+                Reference material for competent electrical work. Use the sources and jurisdiction stated in this guide,
+                and always confirm the current rules, equipment instructions, and site conditions before relying on a value or procedure.
               </div>
 
               {related.length > 0 && (

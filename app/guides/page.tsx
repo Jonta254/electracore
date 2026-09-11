@@ -3,14 +3,16 @@ import { useState } from "react";
 import Link from "next/link";
 import { GUIDES } from "./content";
 
-const CATEGORIES = ["All", "Wiring", "Safety", "Testing", "Calculations", "Standards"];
+const CATEGORIES = ["All", "Fieldwork", "Wiring", "Safety", "Testing", "Calculations", "Standards"];
 
 export default function GuidesPage() {
   const [cat, setCat] = useState("All");
   const [search, setSearch] = useState("");
+  const query = search.trim().toLocaleLowerCase();
   const filtered = GUIDES.filter((g) => {
     const matchCat = cat === "All" || g.cat === cat;
-    const matchSearch = g.title.toLowerCase().includes(search.toLowerCase()) || g.sub.toLowerCase().includes(search.toLowerCase());
+    const searchable = [g.title, g.sub, g.summary, g.cat, ...g.standards].join(" ").toLocaleLowerCase();
+    const matchSearch = query.length === 0 || searchable.includes(query);
     return matchCat && matchSearch;
   });
 
@@ -21,7 +23,7 @@ export default function GuidesPage() {
           <p className="section-label">Reference Library</p>
           <h1 className="section-title">Wiring Guides & References</h1>
           <p className="section-sub">
-            Practical guides built around the work itself. Find installation methods, colour codes, test procedures and safety guidance without textbook filler.
+            Practical guides built around real work. Plan safely, read drawings, diagnose faults, check calculations, record results, and find installation references without textbook filler.
           </p>
 
           {/* SEARCH */}

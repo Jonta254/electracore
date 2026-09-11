@@ -102,6 +102,25 @@ test("electrical symbol guide keeps accessible responsive diagrams and safety bo
   assert.match(diagrams, /The start branch is momentary/);
 });
 
+test("field toolkit covers the researched electrical work lifecycle", () => {
+  const content = read("../app/guides/content.tsx");
+  const toolkit = read("../app/guides/field-toolkit.tsx");
+  const catalogue = read("../app/guides/page.tsx");
+  const reviews = read("../app/guides/review.ts");
+  assert.match(content, /slug: "electrical-field-toolkit"/);
+  for (const stage of ["Define", "Control", "Inspect", "Test", "Diagnose", "Close"]) {
+    assert.match(toolkit, new RegExp(`"${stage}"`));
+  }
+  assert.match(content, /Do not proceed when the circuit cannot be positively identified/);
+  assert.match(content, /Minimum useful job record/);
+  assert.match(toolkit, /grid-template-columns:repeat\(auto-fit,minmax\(min\(100%,180px\),1fr\)\)/);
+  assert.match(toolkit, /min-height:44px/);
+  assert.match(catalogue, /"Fieldwork"/);
+  assert.match(catalogue, /g\.summary, g\.cat, \.\.\.g\.standards/);
+  assert.match(reviews, /"electrical-field-toolkit"/);
+  assert.match(reviews, /ST0152 version 1\.2/);
+});
+
 test("lesson handouts support structured print and self-contained download", () => {
   const lesson = read("../app/learn/EnhancedLessonView.tsx");
   const course = read("../app/learn/[slug]/CourseExperience.tsx");
