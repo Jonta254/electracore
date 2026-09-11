@@ -87,6 +87,21 @@ test("instruction diagrams retain critical engineering qualifications", () => {
   assert.doesNotMatch(course, /30mA trips &lt;300 ms/);
 });
 
+test("electrical symbol guide keeps accessible responsive diagrams and safety boundaries", () => {
+  const content = read("../app/guides/content.tsx");
+  const diagrams = read("../app/guides/electrical-diagrams.tsx");
+  assert.match(content, /slug: "electrical-symbols-diagrams"/);
+  assert.match(content, /IEC 60617/);
+  assert.match(content, /this page is not permission to work live/i);
+  assert.match(content, /design, alteration, testing, and certification belong to a competent person/i);
+  assert.match(diagrams, /role="img"/);
+  assert.match(diagrams, /aria-label="IEC-style teaching symbol sheet/);
+  assert.match(diagrams, /width: "100%", height: "auto"/);
+  assert.match(diagrams, /START NO/);
+  assert.match(diagrams, /KM1 AUX NO/);
+  assert.match(diagrams, /The start branch is momentary/);
+});
+
 test("lesson handouts support structured print and self-contained download", () => {
   const lesson = read("../app/learn/EnhancedLessonView.tsx");
   const course = read("../app/learn/[slug]/CourseExperience.tsx");

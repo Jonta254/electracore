@@ -12,7 +12,7 @@ const text = { fontFamily: "monospace", fontSize: 9 };
 
 export function SymbolSheet() {
   const rows = [
-    ["Conductor / connection", "line"], ["Junction", "junction"], ["Switch, SPST", "switch"],
+    ["Conductor", "line"], ["Junction", "junction"], ["Switch, SPST", "switch"],
     ["Lamp / luminaire", "lamp"], ["Fuse", "fuse"], ["Protective device", "breaker"],
     ["Earth / PE", "earth"], ["Motor", "motor"], ["Transformer", "transformer"],
   ];
@@ -21,7 +21,7 @@ export function SymbolSheet() {
     {rows.map(([label, kind], i) => { const x = 28 + (i % 3) * 205; const y = 52 + Math.floor(i / 3) * 78; return <g key={kind} transform={`translate(${x} ${y})`}>
       <rect width="184" height="58" rx="5" fill="#12151A" stroke="#2A3038" />
       <text x="12" y="18" fill={ink} {...text}>{label}</text>
-      {kind === "line" && <><line x1="20" y1="38" x2="164" y2="38" stroke={line} strokeWidth="2"/><circle cx="92" cy="38" r="3" fill={line}/></>}
+      {kind === "line" && <line x1="20" y1="38" x2="164" y2="38" stroke={line} strokeWidth="2"/>}
       {kind === "junction" && <><line x1="20" y1="38" x2="164" y2="38" stroke={line} strokeWidth="2"/><line x1="92" y1="24" x2="92" y2="52" stroke={line} strokeWidth="2"/><circle cx="92" cy="38" r="4" fill={line}/></>}
       {kind === "switch" && <><line x1="20" y1="38" x2="76" y2="38" stroke={line} strokeWidth="2"/><line x1="108" y1="38" x2="164" y2="38" stroke={line} strokeWidth="2"/><line x1="76" y1="38" x2="104" y2="24" stroke={core} strokeWidth="2"/><circle cx="76" cy="38" r="3" fill={line}/><circle cx="108" cy="38" r="3" fill={line}/></>}
       {kind === "lamp" && <><line x1="20" y1="38" x2="64" y2="38" stroke={line} strokeWidth="2"/><circle cx="92" cy="38" r="20" fill="none" stroke={core} strokeWidth="2"/><path d="M78 24l28 28m0-28L78 52" stroke={core} strokeWidth="1.5"/><line x1="120" y1="38" x2="164" y2="38" stroke={line} strokeWidth="2"/></>}
@@ -54,11 +54,14 @@ export function ControlLadderDiagram() {
     <text x="18" y="22" fill={core} {...text} letterSpacing="1">DOL CONTROL · SIMPLIFIED LADDER LOGIC</text>
     <line x1="52" y1="48" x2="52" y2="170" stroke={line} strokeWidth="2"/><line x1="650" y1="48" x2="650" y2="170" stroke={line} strokeWidth="2"/>
     <text x="45" y="42" fill={line} {...text}>L control</text><text x="610" y="42" fill={line} {...text}>N control</text>
-    <line x1="52" y1="82" x2="130" y2="82" stroke={line} strokeWidth="2"/><line x1="172" y1="82" x2="236" y2="82" stroke={line} strokeWidth="2"/><line x1="280" y1="82" x2="390" y2="82" stroke={line} strokeWidth="2"/><line x1="450" y1="82" x2="650" y2="82" stroke={line} strokeWidth="2"/>
-    <text x="151" y="69" fill={ink} textAnchor="middle" {...text}>STOP NC</text><line x1="130" y1="94" x2="172" y2="70" stroke={core} strokeWidth="2"/><text x="258" y="69" fill={ink} textAnchor="middle" {...text}>OL NC</text><line x1="236" y1="94" x2="280" y2="70" stroke={core} strokeWidth="2"/>
-    <rect x="390" y="62" width="60" height="40" rx="20" fill="none" stroke={core} strokeWidth="2"/><text x="420" y="87" fill={core} textAnchor="middle" {...text}>KM1</text>
-    <line x1="52" y1="140" x2="130" y2="140" stroke={line} strokeWidth="2"/><line x1="172" y1="140" x2="236" y2="140" stroke={line} strokeWidth="2"/><line x1="280" y1="140" x2="650" y2="140" stroke={line} strokeWidth="2"/>
-    <text x="151" y="127" fill={ink} textAnchor="middle" {...text}>START NO</text><line x1="130" y1="152" x2="172" y2="128" stroke={core} strokeWidth="2"/><text x="236" y="127" fill={ink} textAnchor="middle" {...text}>KM1 AUX NO</text><line x1="236" y1="152" x2="280" y2="128" stroke={core} strokeWidth="2"/>
+    <line x1="52" y1="82" x2="112" y2="82" stroke={line} strokeWidth="2"/><line x1="154" y1="82" x2="204" y2="82" stroke={line} strokeWidth="2"/><line x1="246" y1="82" x2="310" y2="82" stroke={line} strokeWidth="2"/>
+    <text x="133" y="67" fill={ink} textAnchor="middle" {...text}>STOP NC</text><line x1="112" y1="70" x2="154" y2="94" stroke={core} strokeWidth="2"/><line x1="112" y1="82" x2="112" y2="70" stroke={line} strokeWidth="2"/><line x1="154" y1="94" x2="154" y2="82" stroke={line} strokeWidth="2"/>
+    <text x="225" y="67" fill={ink} textAnchor="middle" {...text}>OL NC</text><line x1="204" y1="70" x2="246" y2="94" stroke={core} strokeWidth="2"/><line x1="204" y1="82" x2="204" y2="70" stroke={line} strokeWidth="2"/><line x1="246" y1="94" x2="246" y2="82" stroke={line} strokeWidth="2"/>
+    <line x1="310" y1="82" x2="340" y2="82" stroke={line} strokeWidth="2"/><line x1="382" y1="82" x2="430" y2="82" stroke={line} strokeWidth="2"/>
+    <text x="361" y="67" fill={ink} textAnchor="middle" {...text}>START NO</text><line x1="340" y1="94" x2="382" y2="70" stroke={core} strokeWidth="2"/>
+    <line x1="310" y1="82" x2="310" y2="140" stroke={line} strokeWidth="2"/><line x1="310" y1="140" x2="340" y2="140" stroke={line} strokeWidth="2"/><line x1="382" y1="140" x2="430" y2="140" stroke={line} strokeWidth="2"/><line x1="430" y1="140" x2="430" y2="82" stroke={line} strokeWidth="2"/>
+    <text x="361" y="126" fill={ink} textAnchor="middle" {...text}>KM1 AUX NO</text><line x1="340" y1="152" x2="382" y2="128" stroke={core} strokeWidth="2"/>
+    <line x1="430" y1="82" x2="492" y2="82" stroke={line} strokeWidth="2"/><rect x="492" y="62" width="60" height="40" rx="20" fill="none" stroke={core} strokeWidth="2"/><text x="522" y="87" fill={core} textAnchor="middle" {...text}>KM1</text><line x1="552" y1="82" x2="650" y2="82" stroke={line} strokeWidth="2"/>
     <text x="18" y="194" fill={dim} {...text}>The start branch is momentary; the KM1 auxiliary contact seals the coil until STOP or overload opens.</text>
   </svg>;
 }
