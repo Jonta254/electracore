@@ -100,7 +100,7 @@ export default function DesignPage() {
             <h1 className="dz-title">Screen a preliminary cable size,<br /><span className="accent">with visible working.</span></h1>
             <p className="dz-sub">
               Enter the load and the installation conditions. ElectraCore chains the whole calculation: design current,
-              protective device, representative cable capacity with derating, and voltage drop. It does not verify fault
+              protective device, representative cable capacity after derating, and voltage drop. It does not verify fault
               protection, disconnection time, energy withstand, earthing, terminals, or manufacturer data.
             </p>
             <div className="dz-flow">
@@ -345,7 +345,10 @@ export default function DesignPage() {
           .dz-result { position: static; }
         }
         @media (max-width: 520px) {
+          .dz-hero { padding: 2.5rem 0 2rem; }
           .dz-hero-inner { padding-inline: 1rem; }
+          .dz-title { font-size: clamp(2rem, 10vw, 2.55rem); }
+          .dz-sub { font-size: 0.95rem; line-height: 1.65; margin-bottom: 1.25rem; }
           .dz-layout { padding: 1.25rem 1rem 3rem; }
           .dz-section { padding: 1rem; }
           .dz-metrics { grid-template-columns: 1fr; }

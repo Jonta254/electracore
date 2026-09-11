@@ -647,7 +647,7 @@ export default function LearnPage() {
       <header className="catalogue-intro">
         <p className="catalogue-eyebrow">Structured electrical learning</p>
         <h1>Choose a course with a clear purpose.</h1>
-        <p>Follow a pathway from first principles to installation concepts, measurement, machines, design, and renewable systems. Every course is available in open preview.</p>
+        <p>Follow a pathway from first principles to installation concepts, measurement, machines, design, and renewable systems. Every course is open access.</p>
         <dl className="catalogue-summary">
           <div><dt>9</dt><dd>Courses</dd></div>
           <div><dt>280</dt><dd>Lessons</dd></div>
@@ -700,7 +700,7 @@ export default function LearnPage() {
                 <div className="catalogue-progress"><div><span>{courseProgress === 0 ? "Not started" : courseProgress === 100 ? "Completed" : "In progress"}</span><strong>{courseProgress}%</strong></div><div className="catalogue-progress-track"><span style={{ width: courseProgress + "%" }} /></div></div>
               </div>
               <div className="catalogue-course-action">
-                <span>{access.allowed ? "Open preview" : "Access required"}</span>
+                <span>{access.allowed ? "Open access" : "Access required"}</span>
                 <Link href={"/learn/" + course.slug}>{action}<ArrowRight size={16} aria-hidden="true" /></Link>
                 <small>Progress stays on this device.</small>
               </div>

@@ -1960,7 +1960,7 @@ export default function CoursePage({ slug }: { slug: string }) {
                     { label: `${course.modules.length} modules` },
                     { label: `${totalLessons} lessons` },
                     { label: `${Math.round(totalMinutes / 60)}h ${totalMinutes % 60}min` },
-                    { label: "Open preview" },
+                    { label: "Open access" },
                   ].map(m => (
                     <span key={m.label} className="course-meta-item">
                       {m.label}
@@ -2153,7 +2153,7 @@ export default function CoursePage({ slug }: { slug: string }) {
                     { label: "Modules", val: course.modules.length },
                     { label: "Hours", val: `${Math.round(totalMinutes / 60)}h ${totalMinutes % 60}m` },
                     { label: "Level", val: course.level },
-                    { label: "Access", val: courseAccess.allowed ? "Open preview" : "Required" },
+                    { label: "Access", val: courseAccess.allowed ? "Open access" : "Required" },
                   ].map(s => (
                     <div key={s.label} className="progress-stat-row">
                       <span style={{ color: "var(--text-mute)", fontSize: "0.8rem" }}>{s.label}</span>

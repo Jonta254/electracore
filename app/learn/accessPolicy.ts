@@ -2,7 +2,7 @@
 export type LearningResourceKind = "course" | "lesson" | "quiz" | "exercise" | "diagram" | "reference" | "tool";
 
 export const LEARNING_ACCESS_MODE: LearningAccessMode = "open-preview";
-export const OPEN_PREVIEW_NOTICE = "Open learning preview: all current learning content is available while ElectraCore continues to develop.";
+export const OPEN_PREVIEW_NOTICE = "Open access: every current ElectraCore lesson is available without an account or payment.";
 
 export interface LearningAccessRequest {
   resource: LearningResourceKind;
