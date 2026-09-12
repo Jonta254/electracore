@@ -360,10 +360,11 @@ export default function DesignPage() {
         /* Print: only the summary */
         .dz-report { display: none; }
         @media print {
-          .nav, main, footer { display: none !important; }
-          .dz-report { display: block !important; color: #111; }
+          .global-header, .site-safety-notice, .dz-noprint { display: none !important; }
+          #main-content { display: block !important; }
+          .dz-report { display: block !important; position: static !important; width: auto; min-height: 1px; color: #111; background: #fff; }
           @page { margin: 16mm; }
-          body { background: #fff !important; }
+          html, body { background: #fff !important; color-scheme: light; }
           .dz-report-head { border-bottom: 2px solid #F0A500; padding-bottom: 10px; margin-bottom: 18px; }
           .dz-report-brand { font-size: 20px; font-weight: 900; color: #111; }
           .dz-report-title { font-size: 13px; color: #333; margin-top: 2px; }

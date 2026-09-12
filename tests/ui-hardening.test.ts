@@ -105,6 +105,22 @@ test("small-screen navigation and content layouts cover tablet and phone widths"
   assert.match(designer, /\.dz-metrics \{ grid-template-columns: 1fr/);
 });
 
+test("print reports hide explicit screen wrappers without hiding their report roots", () => {
+  const calculator = read("../app/calculate/page.tsx");
+  const designer = read("../app/design/page.tsx");
+
+  assert.match(calculator, /<main className="calc-screen"/);
+  assert.match(calculator, /\.global-header, \.site-safety-notice, \.calc-screen \{ display: none !important; \}/);
+  assert.match(calculator, /#main-content \{ display: block !important; \}/);
+  assert.match(calculator, /\.calc-report \{ display: block !important; position: static !important;/);
+  assert.doesNotMatch(calculator, /\.nav, main \{ display: none !important; \}/);
+
+  assert.match(designer, /\.global-header, \.site-safety-notice, \.dz-noprint \{ display: none !important; \}/);
+  assert.match(designer, /#main-content \{ display: block !important; \}/);
+  assert.match(designer, /\.dz-report \{ display: block !important; position: static !important;/);
+  assert.doesNotMatch(designer, /\.nav, main, footer \{ display: none !important; \}/);
+});
+
 test("instruction diagrams retain critical engineering qualifications", () => {
   const course = read("../app/learn/[slug]/CourseExperience.tsx");
   assert.match(course, /MCB OPERATING REGIONS · SCHEMATIC ONLY/);

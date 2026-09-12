@@ -472,7 +472,7 @@ export default function CalculatePage() {
         </div>
       </div>
 
-      <main style={{ paddingTop: "80px" }}>
+      <main className="calc-screen" style={{ paddingTop: "80px" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "3rem 1.5rem 1.5rem" }}>
           <p className="section-label">Calculators</p>
           <h1 className="section-title">Electrical Calculators</h1>
@@ -564,10 +564,11 @@ export default function CalculatePage() {
         /* ── Print report (screen: hidden; print: the only thing shown) ── */
         .calc-report { display: none; }
         @media print {
-          .nav, main { display: none !important; }
-          .calc-report { display: block !important; padding: 0; color: #111; }
+          .global-header, .site-safety-notice, .calc-screen { display: none !important; }
+          #main-content { display: block !important; }
+          .calc-report { display: block !important; position: static !important; width: auto; min-height: 1px; padding: 0; color: #111; background: #fff; }
           @page { margin: 16mm; }
-          body { background: #fff !important; }
+          html, body { background: #fff !important; color-scheme: light; }
           .calc-report-head { border-bottom: 2px solid #F0A500; padding-bottom: 10px; margin-bottom: 18px; }
           .calc-report-brand { font-size: 20px; font-weight: 900; letter-spacing: -0.02em; color: #111; }
           .calc-report-title { font-size: 13px; font-weight: 600; color: #333; margin-top: 2px; }
