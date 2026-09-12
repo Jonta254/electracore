@@ -81,25 +81,25 @@ export function GlobalHeader() {
         <div className="nav-links">{NAV_LINKS.map((link) => <Link key={link.href} href={link.href} className="nav-link" aria-current={pathname.startsWith(link.href) ? "page" : undefined}>{link.label}</Link>)}</div>
         <div className="nav-actions">
           <Link href="/calculate#saved-calculations" className="nav-saved">Saved</Link>
-          <button className="nav-search" onClick={() => setSearchOpen(true)} aria-label="Search ElectraCore"><span>Search</span><kbd>/</kbd></button>
-          <button ref={menuButton} className="nav-hamburger" onClick={() => setMenuOpen(true)} aria-expanded={menuOpen} aria-controls="mobile-navigation" aria-label="Open menu"><span /><span /><span /></button>
+          <button type="button" className="nav-search" onClick={() => setSearchOpen(true)} aria-label="Search ElectraCore"><span>Search</span><kbd>/</kbd></button>
+          <button type="button" ref={menuButton} className="nav-hamburger" onClick={() => setMenuOpen(true)} aria-expanded={menuOpen} aria-controls="mobile-navigation" aria-label="Open menu"><span /><span /><span /></button>
         </div>
       </nav>
     </header>
 
     {menuOpen ? <div className="nav-overlay" onMouseDown={(event) => { if (event.currentTarget === event.target) setMenuOpen(false); }}>
       <section id="mobile-navigation" className="mobile-nav-panel" role="dialog" aria-modal="true" aria-label="Site menu">
-        <div className="mobile-nav-head"><span>Navigate</span><button onClick={() => { setMenuOpen(false); menuButton.current?.focus(); }} aria-label="Close menu">Close</button></div>
-        <div className="mobile-nav-links">{NAV_LINKS.map((link) => <Link key={link.href} href={link.href}>{link.label}</Link>)}<Link href="/calculate#saved-calculations">Saved work</Link><button onClick={() => { setMenuOpen(false); setSearchOpen(true); }}>Search ElectraCore</button></div>
+        <div className="mobile-nav-head"><span>Navigate</span><button type="button" onClick={() => { setMenuOpen(false); menuButton.current?.focus(); }} aria-label="Close menu">Close</button></div>
+        <div className="mobile-nav-links">{NAV_LINKS.map((link) => <Link key={link.href} href={link.href}>{link.label}</Link>)}<Link href="/calculate#saved-calculations">Saved work</Link><button type="button" onClick={() => { setMenuOpen(false); setSearchOpen(true); }}>Search ElectraCore</button></div>
         <p className="mobile-nav-note">Saved work and learning progress stay on this device.</p>
       </section>
     </div> : null}
 
     {searchOpen ? <div className="search-overlay" onMouseDown={(event) => { if (event.currentTarget === event.target) setSearchOpen(false); }}>
       <section className="search-dialog" role="dialog" aria-modal="true" aria-label="Search ElectraCore">
-        <div className="search-field"><input ref={searchInput} role="combobox" aria-expanded="true" aria-autocomplete="list" aria-label="Search ElectraCore" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search courses, calculators and guides" aria-controls="site-search-results" aria-activedescendant={results[active] ? `site-search-result-${active}` : undefined} onKeyDown={(event) => { if (event.key === "ArrowDown") { event.preventDefault(); setActive((value) => Math.min(value + 1, results.length - 1)); } if (event.key === "ArrowUp") { event.preventDefault(); setActive((value) => Math.max(value - 1, 0)); } if (event.key === "Enter" && results[active]) { event.preventDefault(); navigate(results[active].href); } }} /><button onClick={() => setSearchOpen(false)} aria-label="Close search">Esc</button></div>
+        <div className="search-field"><input ref={searchInput} role="combobox" aria-expanded="true" aria-autocomplete="list" aria-label="Search ElectraCore" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search courses, calculators and guides" aria-controls="site-search-results" aria-activedescendant={results[active] ? `site-search-result-${active}` : undefined} onKeyDown={(event) => { if (event.key === "ArrowDown") { event.preventDefault(); setActive((value) => Math.min(value + 1, results.length - 1)); } if (event.key === "ArrowUp") { event.preventDefault(); setActive((value) => Math.max(value - 1, 0)); } if (event.key === "Enter" && results[active]) { event.preventDefault(); navigate(results[active].href); } }} /><button type="button" onClick={() => setSearchOpen(false)} aria-label="Close search">Esc</button></div>
         <p className="search-status" role="status">{query ? `${results.length} result${results.length === 1 ? "" : "s"}` : "Popular destinations"}</p>
-        <div id="site-search-results" className="search-results" role="listbox" aria-label="Search results">{results.map((item, index) => <button id={`site-search-result-${index}`} key={`${item.type}-${item.href}`} className={index === active ? "active" : ""} onMouseEnter={() => setActive(index)} onClick={() => navigate(item.href)} role="option" aria-selected={index === active}><span className="search-result-copy"><strong>{item.title}</strong><small>{item.description}</small></span><span className="search-result-type">{item.type}</span></button>)}{results.length === 0 ? <div className="search-empty">No matching destination. Try ?voltage drop?, ?testing?, or ?wiring?.</div> : null}</div>
+        <div id="site-search-results" className="search-results" role="listbox" aria-label="Search results">{results.map((item, index) => <button type="button" id={`site-search-result-${index}`} key={`${item.type}-${item.href}`} className={index === active ? "active" : ""} onMouseEnter={() => setActive(index)} onClick={() => navigate(item.href)} role="option" aria-selected={index === active}><span className="search-result-copy"><strong>{item.title}</strong><small>{item.description}</small></span><span className="search-result-type">{item.type}</span></button>)}{results.length === 0 ? <div className="search-empty">No matching destination. Try “voltage drop”, “testing”, or “wiring”.</div> : null}</div>
       </section>
     </div> : null}
   </>;
